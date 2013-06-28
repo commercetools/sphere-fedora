@@ -1,0 +1,357 @@
+@()
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Leisure Theme</title>
+    <!--CSS-->
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/styles.css")">
+    <!--Google Webfont -->
+    <link href='http://fonts.googleapis.com/css?family=Istok+Web' rel='stylesheet' type='text/css'>
+    <!--Javascript-->
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.7.2.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.flexslider.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.easing.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.jcarousel.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.jtweetsanywhere-1.3.1.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/simpletabs_1.3.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/form_elements.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/custom.js")"></script>
+    <!--[if lt IE 9]>
+    <script src="@routes.Assets.at("javascripts/html5.js")"></script>
+    <![endif]-->
+    <!-- mobile setting -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<div class="wrapper">
+<div class="header_container">
+    <!--Header Starts-->
+    <header>
+        <div class="top_bar clear">
+            <!--Language Switcher Starts-->
+            <div class="language_switch"> <a class="active" href="#" title="ENGLISH">EN</a> <a href="#" title="FRENCH">FR</a> </div>
+            <!--Language Switcher Ends-->
+            <!--Top Links Starts-->
+            <ul class="top_links">
+                <li><a href="#">My Account</a></li>
+                <li><a href="#">Wishlist</a></li>
+                <li><a href="#">Login</a></li>
+                <li class="highlight"><a href="#">Sign Up</a></li>
+            </ul>
+            <!--Top Links Ends-->
+        </div>
+        <!--Logo Starts-->
+        <h1 class="logo"> <a href="leisure_index.html"><img src="images/logo.png" /></a> </h1>
+        <!--Logo Ends-->
+        <!--Responsive NAV-->
+        <div class="responsive-nav" style="display:none;">
+            <select  onchange="if(this.options[this.selectedIndex].value != ''){window.top.location.href=this.options[this.selectedIndex].value}">
+                <option selected="" value="">Navigate...</option>
+                <option value="leisure_index.html"> Home</option>
+                <option value="leisure_listing.html"> -  Listing Page</option>
+                <option value="leisure_detail.html">Product Page</option>
+                <option value="leisure_cart.html"> -  Shopping Cart</option>
+                <option value="leisure_checkout.html"> -  Checkout</option>
+                <option value="leisure_contact.php">Contact</option>
+            </select>
+        </div>
+        <!--Responsive NAV-->
+        <!--Search Starts-->
+        <form class="header_search">
+            <div class="form-search">
+                <input id="search" type="text" name="q" value="" class="input-text" autocomplete="off" placeholder="Search">
+                <button type="submit" title="Search"></button>
+            </div>
+        </form>
+        <!--Search Ends-->
+    </header>
+    <!--Header Ends-->
+</div>
+<div class="navigation_container">
+    <!--Navigation Starts-->
+    <nav>
+        <ul class="primary_nav">
+            <li><a href="leisure_listing.html">Women</a>
+                <!--SUbmenu Starts-->
+                <ul class="sub_menu">
+                    <li> <a href="#">Dresses</a>
+                        <ul>
+                            <li><a href="#">Skirts</a></li>
+                            <li><a href="#">Shorts</a></li>
+                            <li><a href="#">Premium Pants</a></li>
+                            <li><a href="#">Khakis</a></li>
+                            <li><a href="#">Casual Pants</a></li>
+                            <li><a href="#">Jeans</a></li>
+                            <li><a href="#">Outerwear & Blazers</a></li>
+                        </ul>
+                    </li>
+                    <li> <a href="#">Accessories</a>
+                        <ul>
+                            <li><a href="#">Sunglasses</a></li>
+                            <li><a href="#">Scarves</a></li>
+                            <li><a href="#">Hair Accessories</a></li>
+                            <li><a href="#">Hats and Gloves</a></li>
+                            <li><a href="#">Lifestyle</a></li>
+                            <li><a href="#">Jeans</a></li>
+                            <li><a href="#">Outerwear & Blazers</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!--SUbmenu Ends-->
+            </li>
+            <li><a href="leisure_listing.html">Men</a>
+                <!--SUbmenu Starts-->
+                <ul class="sub_menu">
+                    <li> <a href="#">Men Summer Collection</a>
+                        <ul>
+                            <li><a href="#">Premium Pants</a></li>
+                            <li><a href="#">Khakis</a></li>
+                            <li><a href="#">Casual Pants</a></li>
+                            <li><a href="#">Jeans</a></li>
+                            <li><a href="#">Outerwear & Blazers</a></li>
+                        </ul>
+                    </li>
+                    <li> <a href="#">Accessories</a>
+                        <ul>
+                            <li><a href="#">Sunglasses</a></li>
+                            <li><a href="#">Scarves</a></li>
+                            <li><a href="#">Hair Accessories</a></li>
+                            <li><a href="#">Hats and Gloves</a></li>
+                            <li><a href="#">Jeans</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!--SUbmenu Ends-->
+            </li>
+            <li><a href="leisure_listing.html">Kids</a></li>
+            <li><a href="leisure_listing.html">Fashion</a></li>
+            <li><a href="#">Accessories</a></li>
+        </ul>
+        <div class="minicart"> <a href="#" class="minicart_link" > <span class="item"><b>2</b> ITEM /</span> <span class="price"><b>$69.20</b></span> </a>
+            <div class="cart_drop"> <span class="darw"></span>
+                <ul>
+                    <li><img src="images/mini_c_item1.png"><a href="#">Clogs Beach/Garden Clog</a> <span class="price">$49.90</span></li>
+                    <li><img src="images/mini_c_item2.png"><a href="#">Faded chambray shorts</a> <span class="price">$12.90</span></li>
+                    <div class="cart_bottom">
+                        <div class="subtotal_menu"><small>Subtotal:</small><big>$69.20</big></div>
+                        <a href="leisure_cart.html">Checkout</a></div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--Navigation Ends-->
+</div>
+<div class="section_container">
+    <!--Mid Section Starts-->
+    <section>
+    <div id="" class="full_page">
+        <h1>Shortcodes</h1>
+        <!--SHORTOCDES STARTS-->
+        <!--Buttons-->
+        <h4>Buttons</h4>
+        <p> <a href="" class="sc-button small grey round" target="_self"> Button </a> <a href="" class="sc-button small blue round" target="_self"> Button </a> <a href="" class="sc-button small red round" target="_self"> Button </a> <a href="" class="sc-button small orange round" target="_self"> Button </a> <a href="" class="sc-button small light-blue round" target="_self"> Button </a> <a href="" class="sc-button small purple round" target="_self"> Button </a> <a href="" class="sc-button small black round" target="_self"> Button </a> <a href="" class="sc-button small green round" target="_self"> Button </a> </p>
+        <p> <a href="" class="sc-button small grey" target="_self"> Button </a> <a href="" class="sc-button small blue" target="_self"> Button </a> <a href="" class="sc-button small red" target="_self"> Button </a> <a href="" class="sc-button small orange" target="_self"> Button </a> <a href="" class="sc-button small light-blue" target="_self"> Button </a> <a href="" class="sc-button small purple" target="_self"> Button </a> <a href="" class="sc-button small black" target="_self"> Button </a> <a href="" class="sc-button small green" target="_self"> Button </a> </p>
+        <p> <a href="" class="sc-button big grey round" target="_self"> Button </a> <a href="" class="sc-button big blue round" target="_self"> Button </a> <a href="" class="sc-button big red round" target="_self"> Button </a> <a href="" class="sc-button big orange round" target="_self"> Button </a> <a href="" class="sc-button big light-blue round" target="_self"> Button </a> <a href="" class="sc-button big purple round" target="_self"> Button </a> <a href="" class="sc-button big black round" target="_self"> Button </a> <a href="" class="sc-button big green round" target="_self"> Button </a> </p>
+        <p> <a href="" class="sc-button big grey" target="_self"> Button </a> <a href="" class="sc-button big blue" target="_self"> Button </a> <a href="" class="sc-button big red" target="_self"> Button </a> <a href="" class="sc-button big orange" target="_self"> Button </a> <a href="" class="sc-button big light-blue" target="_self"> Button </a> <a href="" class="sc-button big purple" target="_self"> Button </a> <a href="" class="sc-button big black" target="_self"> Button </a> <a href="" class="sc-button big green" target="_self"> Button </a> </p>
+        <!--TABS-->
+        <h4>Tabs</h4>
+        <div class="simpleTabs">
+            <ul class="simpleTabsNavigation">
+                <li><a href="#">Tab 1</a></li>
+                <li><a href="#">Tab 2</a></li>
+                <li><a href="#">Other tab</a></li>
+            </ul>
+            <div class="simpleTabsContent">
+                <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec turpis. Fusce aliquet lorem vitae est. In hac habitasse platea dictumst. Phasellus iaculis facilisis pede. Fusce vulputate elit non magna. Nunc commodo rhoncus dolor. Integer auctor. Aliquam tincidunt purus id mauris. Vivamus eros. Vestibulum velit libero, dapibus ac, consectetuer dignissim, adipiscing sed, libero. Ut mi metus, tempor eget, aliquet sit amet, euismod ut, est. Sed nec leo eu lacus laoreet venenatis. Praesent massa sem, facilisis quis, mollis non, consequat et, sapien. Vestibulum dui sapien, sollicitudin ut, hendrerit id, cursus sed, eros. Aliquam eu purus. Proin iaculis. Vestibulum elementum metus sed ipsum. Integer facilisis. Donec aliquam ligula eu neque. Etiam urna. </p>
+                <p> Cras pretium fringilla nibh. Duis posuere. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque semper. Ut quis arcu. Integer ac nulla. Ut auctor. Pellentesque scelerisque nisl in tortor. Integer eget purus. Ut volutpat, neque eu tincidunt tincidunt, justo tortor pretium elit, vitae varius mauris arcu a lectus. Phasellus bibendum pretium urna. Donec non quam in augue molestie congue. Aenean metus diam, volutpat vitae, tristique id, porttitor a, elit. Cras bibendum, augue non pulvinar aliquam, est nulla posuere nunc, gravida gravida magna leo nec arcu. Donec arcu mi, pellentesque quis, placerat quis, egestas id, leo. Morbi urna est, convallis eget, tristique at, egestas a, lectus.</p>
+            </div>
+            <div class="simpleTabsContent">
+                <div>
+                    <div>
+                        <div>
+                            <div>
+                                <p>Proin ullamcorper bibendum tellus. Donec vel ipsum sit amet mi convallis lacinia. Maecenas non nunc bibendum orci commodo aliquam. Integer vel justo. Sed vestibulum semper mi. Vestibulum tincidunt leo at augue. Morbi ut justo. Sed cursus, lorem nec lobortis blandit, urna nisl rhoncus erat, id vulputate dui sem sed erat. Sed velit diam, pretium in, hendrerit non, eleifend ut, nisi. Nullam at risus. Donec vitae tellus ut tellus dictum adipiscing. Sed nisi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam condimentum, odio at rhoncus cursus, dolor lacus malesuada est, in pulvinar arcu justo ultricies justo. Ut sagittis luctus dui. </p>
+                                <p> Maecenas fringilla diam fermentum ante. Vivamus tempor, sem vitae semper aliquam, arcu nunc pretium quam, vitae auctor sapien dolor ut lorem. Integer eros. Sed pulvinar mi eu tortor. Pellentesque faucibus neque eu erat. Nullam pulvinar, urna vitae elementum malesuada, tortor lectus consequat nulla, in pharetra augue lacus et odio. Donec enim nulla, lacinia sed, interdum non, laoreet ut, nisi. Quisque posuere, purus id pretium luctus, dui ligula porttitor neque, vitae consequat sem arcu posuere metus. Duis dictum convallis ipsum. Nulla mi. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="simpleTabsContent">
+                <p> Vestibulum sit amet arcu a leo dignissim lobortis. Quisque augue neque, adipiscing id, condimentum eu, congue at, pede. Vivamus rhoncus. Aliquam pulvinar justo et ligula. Pellentesque ligula elit, placerat vel, luctus ac, facilisis et, enim. Nulla malesuada venenatis metus. Etiam pellentesque tincidunt diam. Ut et pede. Cras ante. Maecenas sagittis mi vulputate neque. Aenean dignissim justo non lectus. Nulla facilisi. Maecenas enim lorem, lacinia non, bibendum at, varius consectetuer, ipsum. Fusce ut lacus in nulla rutrum pellentesque. Nunc velit. Vestibulum eleifend porta risus. Cras congue volutpat leo. Nam nec mi quis libero placerat ultrices. Nulla massa velit, scelerisque sed, rutrum in, sollicitudin nec, mi. Pellentesque imperdiet laoreet sapien. </p>
+            </div>
+        </div>
+        <!--Toggle Boxes-->
+        <h4>Toggle</h4>
+        <ul class="short-code toggle_box">
+            <li><a class="toggle_title" href="#">Title 1</a>
+                <div class="toggle_content short-code-column">Fusce ut lacus in nulla rutrum pellentesque. Nunc velit. Vestibulum eleifend porta risus. Cras congue volutpat leo. Nam nec mi quis libero placerat ultrices. Nulla massa velit, scelerisque sed, rutrum in, sollicitudin nec, mi. Pellentesque imperdiet laoreet sapien.</div>
+            </li>
+            <li><a class="toggle_title" href="#">Title 2</a>
+                <div  class="toggle_content short-code-column">Fusce ut lacus in nulla rutrum pellentesque. Nunc velit. Vestibulum eleifend porta risus. Cras congue volutpat leo. Nam nec mi quis libero placerat ultrices. Nulla massa velit, scelerisque sed, rutrum in, sollicitudin nec, mi. Pellentesque imperdiet laoreet sapien.</div>
+            </li>
+            <li><a class="toggle_title" href="#">Title 3</a>
+                <div  class="toggle_content short-code-column">Fusce ut lacus in nulla rutrum pellentesque. Nunc velit. Vestibulum eleifend porta risus. Cras congue volutpat leo. Nam nec mi quis libero placerat ultrices. Nulla massa velit, scelerisque sed, rutrum in, sollicitudin nec, mi. Pellentesque imperdiet laoreet sapien.</div>
+            </li>
+        </ul>
+        <!--List-->
+        <div class="short-code-column one-third">
+            <h4>List Style</h4>
+            <ul class="check_li">
+                <li>Check List - Lorem ipsum dolor sit amet</li>
+            </ul>
+            <ul class="arrow_li">
+                <li>Arrow List - Lorem ipsum dolor sit amet</li>
+            </ul>
+            <ul class="arrow2_li">
+                <li>Arrow 2 List - Lorem ipsum dolor sit amet</li>
+            </ul>
+            <ul class="plus_li">
+                <li>Plus List - Lorem ipsum dolor sit amet</li>
+            </ul>
+            <ul class="dash_li">
+                <li>Dash List - Lorem ipsum dolor sit amet</li>
+            </ul>
+            <ul class="circle_li">
+                <li>Circle List - Lorem ipsum dolor sit amet</li>
+            </ul>
+            <ul class="star_li">
+                <li>Star List - Lorem ipsum dolor sit amet</li>
+            </ul>            
+        </div>
+        <!--List-->
+        <div class="short-code-column one-third">
+            <h4>Blockquote</h4>
+			<blockquote>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+		</blockquote>
+        </div>        
+        <!--Alert-->
+        <div class="short-code-column one-third column-last">
+            <h4>Alert</h4>
+            <div class="short-code msg success"> <span>This is a success message on green background.</span> </div>
+            <div class="short-code msg error"> <span>This is a error message on red background.</span> </div>
+            <div class="short-code msg info"> <span>This is a info message on blue background.</span> </div>
+            <div class="short-code msg bookmark"> <span>This is a rating message on yellow background.</span> </div>
+        </div>
+        <div>
+        	<br class="clear"/>
+            <!--Columns-->
+            <h4>Columns</h4>
+            <div class="short-code-column one-half">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+            </div>
+            <div class="short-code-column one-half column-last">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+            </div>
+            <div class="clear"></div>
+            <div class="short-code-column one-third">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+            </div>
+            <div class="short-code-column one-third">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+            </div>
+            <div class="short-code-column one-third column-last">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+            </div>
+            <div class="clear"></div>
+            <div class="short-code-column one-fourth">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+            </div>
+            <div class="short-code-column one-fourth">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+            </div>
+            <div class="short-code-column one-fourth">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+            </div>
+            <div class="short-code-column one-fourth column-last">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+            </div>
+            <!--SHORTOCDES ENDS-->
+        </div>
+        <!--Newsletter_subscribe Starts-->
+        <div class="subscribe_block">
+            <div class="find_us">
+                <h3>Find us on</h3>
+                <a class="twitter" href="#"></a> <a class="facebook" href="#"></a> <a class="rss" href="#"></a> </div>
+            <div class="subscribe_nl">
+                <h3>Subscribe to our Newsletter</h3>
+                <small>Instant wardrobe updates, new arrivals, fashion news, don’t miss a beat – sign up to our newsletter now.</small>
+                <form id="newsletter" method="post" action="#">
+                    <input type="text" class="input-text" value="Enter your email" title="Enter your email" id="newsletter" name="email">
+                    <button class="button" title="" type="submit"></button>
+                </form>
+            </div>
+        </div>
+        <!--Newsletter_subscribe Ends-->
+        </section>
+        <!--Mid Section Ends-->
+    </div>
+    <div class="footer_container">
+        <!--Footer Starts-->
+        <footer>
+            <ul class="footer_links">
+                <li> <span>New Arrivals</span>
+                    <ul>
+                        <li><a href="#">Clothing</a></li>
+                        <li><a href="#">Shoes</a></li>
+                        <li><a href="#">Bags</a></li>
+                        <li><a href="#">Accessories</a></li>
+                        <li><a href="#">Zimmermann</a></li>
+                        <li><a href="#">Acne</a></li>
+                        <li><a href="#">Bassike</a></li>
+                        <li><a href="#">Camilla and Marc</a></li>
+                    </ul>
+                </li>
+                <li  class="seperator"> <span>Brands we sell</span>
+                    <ul>
+                        <li><a href="#">Elle</a></li>
+                        <li><a href="#">Reallxe</a></li>
+                        <li><a href="#">Fabric</a></li>
+                        <li><a href="#">Mayflower</a></li>
+                        <li><a href="#">Levis Strauss</a></li>
+                        <li><a href="#">Anzonica</a></li>
+                        <li><a href="#">Reallxe</a></li>
+                        <li><a href="#">Fabric</a></li>
+                    </ul>
+                </li>
+                <li> <span>Customer Service</span>
+                    <ul>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">Payment Options</a></li>
+                        <li><a href="#">Order Status & Tracking</a></li>
+                        <li><a href="#">Gift Wrap Options</a></li>
+                        <li><a href="#">International Orderse</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                    </ul>
+                </li>
+                <li> <span>My Account</span>
+                    <ul>
+                        <li><a href="#">My Account Information</a></li>
+                        <li><a href="#">My Password</a></li>
+                        <li><a href="#">My Order History</a></li>
+                        <li><a href="#">Payment Options</a></li>
+                        <li><a href="#">My Address Book</a></li>
+                        <li><a href="#">My Updates & Alerts</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="footer_customblock">
+                <div class="shipping_info"> <span>introducing </span><br>
+                    <big>FREE SHIPPING</big><br>
+                    <small>for purchases above $200</small> </div>
+                <div class="contact_info"> <big>1.800. (1.800.260.7890)</big> </div>
+            </div>
+            <address>
+            Copyright © 2012 Leisure. All Rights Reserved. <img src="images/payment_info.jpg"/>
+            </address>
+        </footer>
+        <!--Footer Ends-->
+    </div>
+</div>
+</body>
+</html>

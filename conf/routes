@@ -1,0 +1,47 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home
+GET     /                                                   controllers.Categories.home()
+
+GET     /product/list/                                      controllers.Categories.listProducts(category: String ?= "", page: Int ?= 1)
+
+# Cart
+GET     /cart                                               controllers.Carts.show()
+
+POST    /cart/add                                           controllers.Carts.add()
+POST    /cart/update                                        controllers.Carts.update()
+POST    /cart/remove                                        controllers.Carts.remove()
+
+# Checkout
+GET     /checkout                                           controllers.Checkouts.show()
+POST    /checkout                                           controllers.Checkouts.submit()
+
+GET     /checkout/shipping/address                          controllers.Checkouts.showShippingAddress()
+POST    /checkout/shipping/address                          controllers.Checkouts.setShippingAddress()
+
+GET     /checkout/payment/method                            controllers.Checkouts.showPaymentMethod()
+
+# Login
+GET     /user/login                                         controllers.Login.show()
+POST    /user/login                                         controllers.Login.logIn()
+GET     /user/logout                                        controllers.Login.logOut()
+
+GET     /user/register                                      controllers.Login.showSignUp()
+POST    /user/register                                      controllers.Login.signUp()
+
+# Customer
+GET     /user                                               controllers.Customers.show()
+
+POST    /user/update                                        controllers.Customers.update()
+POST    /user/update/password                               controllers.Customers.updatePassword()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                                       controllers.Assets.at(path="/public", file)
+
+# Product
+GET     /:product-$variant<[0-9]+>.html                     controllers.Products.select(product: String, variant: Int)
+
+# Category
+GET     /*categoryPath                                      controllers.Categories.select(categoryPath: String, page: Int ?= 1)
