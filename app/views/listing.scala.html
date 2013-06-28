@@ -27,7 +27,7 @@
                 </ul>
                 <ul class="category collection">
                     <li class="header">Collection</li>
-                    <li><a href="#">All Brands</a></li>
+                    <li><a href="#" class="active">All Brands</a></li>
                     <li><a href="#">Citizens of Humanity</a></li>
                     <li><a href="#">Crew Clothing</a></li>
                     <li><a href="#">Boutique</a></li>
@@ -37,9 +37,9 @@
                 <ul class="category price">
                     <li class="header">Price</li>
                     <li><a href="@getCategoryUrl(category)" class="@getActivePrice("")">All prices</a></li>
-                    <li><a href="@getCategoryUrl(category)@buildQuery("price", "20_60")" class="@getActivePrice("20_60")">20 to 60 €</a></li>
-                    <li><a href="@getCategoryUrl(category)@buildQuery("price", "60_100")" class="@getActivePrice("60_100")">60 to 100 €</a></li>
-                    <li><a href="@getCategoryUrl(category)@buildQuery("price", "100_500")" class="@getActivePrice("100_500")">100 to 500 €</a></li>
+                    <li><a href="@getCategoryUrl(category)?price=20_60" class="@getActivePrice("20_60")">20 to 60 €</a></li>
+                    <li><a href="@getCategoryUrl(category)?price=60_100" class="@getActivePrice("60_100")">60 to 100 €</a></li>
+                    <li><a href="@getCategoryUrl(category)?price=100_500" class="@getActivePrice("100_500")">100 to 500 €</a></li>
                 </ul>
             </div>
         </div>
