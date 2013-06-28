@@ -5,8 +5,6 @@
 # Home
 GET     /                                                   controllers.Categories.home()
 
-GET     /product/list/                                      controllers.Categories.listProducts(category: String ?= "", page: Int ?= 1)
-
 # Cart
 GET     /cart                                               controllers.Carts.show()
 
@@ -44,4 +42,4 @@ GET     /assets/*file                                       controllers.Assets.a
 GET     /:product-$variant<[0-9]+>.html                     controllers.Products.select(product: String, variant: Int)
 
 # Category
-GET     /*categoryPath                                      controllers.Categories.select(categoryPath: String, page: Int ?= 1)
+GET     /*categoryPath                                      controllers.Categories.select(categoryPath: String, page: Int ?= 1, show: Int ?= 12, sort: String ?= "")

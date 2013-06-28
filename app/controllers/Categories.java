@@ -24,7 +24,6 @@ import java.util.List;
 
 public class Categories extends ShopController {
 
-    public static int PAGE_SIZE = 12;
     public static String QUERY_COLOR = "color";
     public static String QUERY_PRICE = "price";
 
@@ -36,7 +35,7 @@ public class Categories extends ShopController {
     }
 
     @With(SaveContext.class)
-    public static Result select(String categoryPath, int page) {
+    public static Result select(String categoryPath, int page, int pageSize, String sort) {
         String[] categorySlugs = categoryPath.split("/");
         String categorySlug = categorySlugs[categorySlugs.length - 1];
         Category category = sphere().categories().getBySlug(categorySlug);
@@ -46,33 +45,13 @@ public class Categories extends ShopController {
         FilterExpression categoryFilter = new FilterExpressions.CategoriesOrSubcategories(category);
         SearchRequest <Product> searchRequest = sphere().products().filter(categoryFilter);
         searchRequest = filterBy(searchRequest);
-        searchRequest = sortBy(searchRequest);
-        searchRequest = paging(searchRequest, page);
+        searchRequest = sortBy(searchRequest, sort);
+        searchRequest = paging(searchRequest, page, pageSize);
         SearchResult<Product> searchResult = searchRequest.fetch();
         if (searchResult.getCount() < 1) {
             flash("info-listing", "No products found");
         }
         return ok(listing.render(category, searchResult));
-    }
-
-    public static Result listProducts(String categorySlug, int page) {
-        Category category;
-        SearchRequest<Product> searchRequest;
-        if (categorySlug.isEmpty()) {
-            searchRequest = sphere().products().all();
-        } else {
-            category = sphere().categories().getBySlug(categorySlug);
-            if (category == null) {
-                return notFound("Category not found: " + categorySlug);
-            }
-            FilterExpression categoryFilter = new FilterExpressions.CategoriesOrSubcategories(category);
-            searchRequest = sphere().products().filter(categoryFilter);
-        }
-        searchRequest = filterBy(searchRequest);
-        searchRequest = sortBy(searchRequest);
-        searchRequest = paging(searchRequest, page);
-        SearchResult<Product> searchResult = searchRequest.fetch();
-        return ok();
     }
 
     protected static SearchRequest<Product> filterBy(SearchRequest<Product> searchRequest) {
@@ -97,17 +76,24 @@ public class Categories extends ShopController {
         return searchRequest;
     }
 
-    protected static SearchRequest<Product> sortBy(SearchRequest<Product> searchRequest) {
+    protected static SearchRequest<Product> sortBy(SearchRequest<Product> searchRequest, String sort) {
+        switch (sort) {
+            case "desc":
+                searchRequest = searchRequest.sort(ProductSort.price.desc);
+                break;
+            case "asc":
+                searchRequest = searchRequest.sort(ProductSort.price.asc);
+                break;
+        }
         return searchRequest;
     }
 
-    protected static SearchRequest<Product> paging(SearchRequest<Product> searchRequest, int currentPage) {
-        if (currentPage < 1) {
-            currentPage = 1;
-        }
+    protected static SearchRequest<Product> paging(SearchRequest<Product> searchRequest, int currentPage, int pageSize) {
+        if (currentPage < 1) currentPage = 1;
+        if (pageSize != 24) pageSize = 12;
         // Convert page from 1..N to 0..N-1
         currentPage--;
-        return searchRequest.page(currentPage).pageSize(PAGE_SIZE);
+        return searchRequest.page(currentPage).pageSize(pageSize);
     }
 
 

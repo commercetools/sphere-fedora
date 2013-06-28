@@ -54,7 +54,8 @@
                     <label>Sort by :</label>
                     <select class="browse-url-selector">
                         <option data-url="@getCategoryUrl(category)@buildQuery("sort", "")">DEFAULT</option>
-                        <option data-url="@getCategoryUrl(category)@buildQuery("sort", "price")" @getActiveSort("price")>PRICE</option>
+                        <option data-url="@getCategoryUrl(category)@buildQuery("sort", "asc")" @getActiveSort("price")>PRICE ASC</option>
+                        <option data-url="@getCategoryUrl(category)@buildQuery("sort", "desc")" @getActiveSort("price")>PRICE DESC</option>
                     </select>
                 </div>
                 <div class="viewby">

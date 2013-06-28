@@ -163,29 +163,12 @@ public class ViewHelper {
         return new Money(BigDecimal.valueOf(10), "EUR");
     }
 
-    /**
-     * Returns
-     *
-     */
-    public static Call getListProductsUrl(SearchResult<Product> search, Category category) {
-        if (search.getCurrentPage() >= search.getTotalPages() - 1) {
-            return null;
-        }
-        // Convert from 0..N-1 to 1..N
-        int nextPage = search.getCurrentPage() + 2;
-        String categorySlug = "";
-        if (category != null) {
-            categorySlug = category.getSlug();
-        }
-        return routes.Categories.listProducts(categorySlug, nextPage);
-    }
-
     public static Call getCategoryUrl(Category category) {
         return getCategoryUrl(category, 1);
     }
 
     public static Call getCategoryUrl(Category category, int page) {
-        return routes.Categories.select(getCategoryPath(category), page);
+        return routes.Categories.select(getCategoryPath(category), page, 12, "");
     }
 
     public static Call getProductUrl(Product product, Variant variant) {
