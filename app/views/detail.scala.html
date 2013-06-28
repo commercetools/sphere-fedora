@@ -159,7 +159,9 @@
       <div id="product_detail">
         <!--Product Left Starts-->
         <div class="product_leftcol">
-          <span id="img-zoom"><img src="@product.getFeaturedImage.getSize(ImageSize.LARGE).getUrl"></span>
+          <span id="product-image-zoom" class="image-zoom">
+              <img src="@product.getFeaturedImage.getSize(ImageSize.ORIGINAL).getUrl">
+          </span>
           <span class="pr_info">ROLL OVER IMAGE TO ZOOM</span>
           <ul class="pr_gallery">
             @for(image <- product.getImages){

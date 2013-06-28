@@ -51,7 +51,9 @@ $(document).ready(function(){
 	});
 	
     //ZOOM
-    $('#img-zoom').zoom();
+    if ($ && $.fn.zoom) {
+        $('.image-zoom').zoom();
+    }
 
 
 });
