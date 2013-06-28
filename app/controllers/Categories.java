@@ -17,13 +17,14 @@ import play.mvc.With;
 import sphere.ShopController;
 import sphere.SearchRequest;
 import views.html.index;
+import views.html.listing;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Categories extends ShopController {
 
-    public static int PAGE_SIZE = 8;
+    public static int PAGE_SIZE = 12;
 
     @With(SaveContext.class)
     public static Result home() {
@@ -49,11 +50,11 @@ public class Categories extends ShopController {
         if (searchResult.getCount() < 1) {
             flash("info", "No products found");
         }
-        return ok();
+        return ok(listing.render(category, searchResult));
     }
 
     public static Result listProducts(String categorySlug, int page) {
-        Category category = null;
+        Category category;
         SearchRequest<Product> searchRequest;
         if (categorySlug.isEmpty()) {
             searchRequest = sphere().products().all();
