@@ -7,13 +7,8 @@
     @helpers.navigation()
 }{
     <section>
-      <ul class="breadcrumb">
-        <li><a href="@routes.Categories.home">Home</a></li>
-        @for(ancestor <- category.getPathInTree.init) {
-            <li><a href="@getCategoryUrl(ancestor)">@ancestor.getName</a></li>
-        }
-        <li class="active"><a href="@getCategoryUrl(category)">@category.getName</a></li>
-      </ul>
+      @helpers.breadcrumb(category)
+
       <!--PRODUCT DETAIL STARTS-->
       <div id="product_detail">
         <!--Product Left Starts-->
