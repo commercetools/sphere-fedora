@@ -42,4 +42,4 @@ GET     /assets/*file                                       controllers.Assets.a
 GET     /:product-$variant<[0-9]+>.html                     controllers.Products.select(product: String, variant: Int)
 
 # Category
-GET     /*categoryPath                                      controllers.Categories.select(categoryPath: String, page: Int ?= 1, show: Int ?= 12, sort: String ?= "")
+GET     /*categoryPath                                      controllers.Categories.select(categoryPath: String, page: Int ?= 1, show: Int ?= 12, sort: String ?= "", list: String ?= "")

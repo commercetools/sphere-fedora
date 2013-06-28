@@ -90,7 +90,7 @@ ul.sub_menu > li > ul{border-top: solid 1px #5f5a56; margin-top:10px;}
 .products_list_list li{width:100%;padding-bottom:15px;padding-top:15px; clear:both; display:inline-block; border-top:solid 1px #dedede;}
 .products_list_list li:first-child{border:none; padding-top:0px;}
 .products_list_list a.product_image{float:left;}
-.products_list_list a.product_image img{ border:solid 2px #fff; height:200px;}
+.products_list_list a.product_image img{ border:solid 2px #fff;}
 .products_list_list li:hover img{-moz-transition:all 0.3s ease-out 0s; -webkit-transition: all 0.3s ease-out;}
 .products_list_list .product_info{ margin-bottom:10px; padding-bottom:12px; border-bottom:solid 1px #EAEAEA; float:right; width:560px;}
 .products_list_list .price_info{float:right; width:560px;}

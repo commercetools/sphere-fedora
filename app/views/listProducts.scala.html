@@ -1,0 +1,60 @@
+@(category: Category, searchResult: SearchResult[Product])
+
+@main("Sphere Fedora"){
+    @helpers.navigation()
+}{
+    <section>
+        @helpers.filters(category)
+
+        <!--MAIN CONTENT STARTS-->
+        <div id="main_content">
+            <div class="category_banner"> <img src="@routes.Assets.at("images/promo_cat_banner.jpg")"/> </div>
+
+            @helpers.breadcrumb(category)
+            @helpers.toolbar(category)
+
+            <!--Product List Starts-->
+            <div class="products_list_list">
+                <ul>
+                    @if(flash.containsKey("info-listing")) {<div class="alert alert-info">@flash.get("info-listing")</div>}
+                    @for(product <- searchResult.getResults){
+                    <li> <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
+                        <img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/></a>
+                        <div class="product_info">
+                            <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName</a></h3>
+                            <small>@abbreviate(product.getDescription, 400)</small>
+                            <a class="black" href="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl">Learn more</a>
+                        </div>
+                        <div class="price_info"> <a href="#">+ Add to wishlist</a>
+                            <button class="price_add" title="" type="button"><span class="pr_price">@product.getPrice.getValue</span>
+                                <span class="pr_add">Add to Cart</span></button>
+                        </div>
+                    </li>
+                    }
+                </ul>
+            </div>
+            <!--Product List Ends-->
+
+            @helpers.toolbar(category)
+
+        </div>
+        <!--MAIN CONTENT ENDS-->
+        <!--Newsletter_subscribe Starts-->
+        <div class="subscribe_block">
+            <div class="find_us">
+                <h3>Find us on</h3>
+                <a class="twitter" href="#"></a> <a class="facebook" href="#"></a> <a class="rss" href="#"></a> </div>
+            <div class="subscribe_nl">
+                <h3>Subscribe to our Newsletter</h3>
+                <small>Instant wardrobe updates, new arrivals, fashion news, don’t miss a beat – sign up to our newsletter now.</small>
+                <form id="newsletter" method="post" action="#">
+                    <input type="text" class="input-text" value="Enter your email" title="Enter your email" id="newsletter" name="email">
+                    <button class="button" title="" type="submit"></button>
+                </form>
+            </div>
+        </div>
+        <!--Newsletter_subscribe Ends-->
+    </section>
+}{
+
+}

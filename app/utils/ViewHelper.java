@@ -168,7 +168,7 @@ public class ViewHelper {
     }
 
     public static Call getCategoryUrl(Category category, int page) {
-        return routes.Categories.select(getCategoryPath(category), page, 12, "");
+        return routes.Categories.select(getCategoryPath(category), page, 12, "", "");
     }
 
     public static Call getProductUrl(Product product, Variant variant) {
@@ -212,6 +212,10 @@ public class ViewHelper {
         String value = Http.Context.current().request().getQueryString(query);
         if (value == null) return "";
         return value;
+    }
+
+    public static String buildQuery() {
+        return buildQuery("", "");
     }
 
     public static String buildQuery(String key, String value) {

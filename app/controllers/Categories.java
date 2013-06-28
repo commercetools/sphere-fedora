@@ -17,7 +17,8 @@ import play.mvc.With;
 import sphere.ShopController;
 import sphere.SearchRequest;
 import views.html.index;
-import views.html.listing;
+import views.html.listProducts;
+import views.html.gridProducts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class Categories extends ShopController {
     }
 
     @With(SaveContext.class)
-    public static Result select(String categoryPath, int page, int pageSize, String sort) {
+    public static Result select(String categoryPath, int page, int pageSize, String sort, String list) {
         String[] categorySlugs = categoryPath.split("/");
         String categorySlug = categorySlugs[categorySlugs.length - 1];
         Category category = sphere().categories().getBySlug(categorySlug);
@@ -51,7 +52,10 @@ public class Categories extends ShopController {
         if (searchResult.getCount() < 1) {
             flash("info-listing", "No products found");
         }
-        return ok(listing.render(category, searchResult));
+        if (list.isEmpty()) {
+            return ok(gridProducts.render(category, searchResult));
+        }
+        return ok(listProducts.render(category, searchResult));
     }
 
     protected static SearchRequest<Product> filterBy(SearchRequest<Product> searchRequest) {
