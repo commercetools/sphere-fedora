@@ -204,7 +204,4 @@ public class ViewHelper {
         return matchingVariantList;
     }
 
-    public static String getPaymentUrl() {
-        return Play.application().configuration().getString("optile.chargeUrl");
-    }
 }

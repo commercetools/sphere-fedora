@@ -1,154 +1,11 @@
 @(product: Product, variant: Variant, category: Category, searchResultRelated: SearchResult[Product])
 
-<!DOCTYPE HTML>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Leisure Theme</title>
-    <!--CSS-->
-    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/styles.css")">
-    <!--Google Webfont -->
-    <link href='http://fonts.googleapis.com/css?family=Istok+Web' rel='stylesheet' type='text/css'>
-    <!--Javascript-->
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.7.2.min.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.flexslider.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.easing.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.jcarousel.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.jtweetsanywhere-1.3.1.min.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/simpletabs_1.3.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/form_elements.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/custom.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.zoom.js")"></script>
-    <!--[if lt IE 9]>
-    <script src="@routes.Assets.at("javascripts/html5.js")"></script>
-    <![endif]-->
-    <!-- mobile setting -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-</head>
-<body>
-<div class="wrapper">
-  <div class="header_container"> 
-    <!--Header Starts-->
-    <header>
-      <div class="top_bar clear"> 
-        <!--Language Switcher Starts-->
-        <div class="language_switch"> <a class="active" href="#" title="ENGLISH">EN</a> <a href="#" title="FRENCH">FR</a> </div>
-        <!--Language Switcher Ends--> 
-        
-        <!--Top Links Starts-->
-        <ul class="top_links">
-          <li><a href="#">My Account</a></li>
-          <li><a href="#">Wishlist</a></li>
-          <li><a href="#">Login</a></li>
-          <li class="highlight"><a href="#">Sign Up</a></li>
-        </ul>
-        <!--Top Links Ends--> 
-      </div>
-      <!--Logo Starts-->
-      <h1 class="logo"> <a href="@routes.Categories.home"><img src="@routes.Assets.at("images/logo.png")" /></a> </h1>
-      <!--Logo Ends--> 
-      <!--Responsive NAV-->
-      <div class="responsive-nav" style="display:none;">
-        <select  onchange="if(this.options[this.selectedIndex].value != ''){window.top.location.href=this.options[this.selectedIndex].value}">
-          <option selected="" value="">Navigate...</option>
-          <option value="leisure_index.html"> Home</option>
-          <option value="leisure_listing.html"> -  Listing Page</option>
-          <option value="leisure_detail.html">Product Page</option>
-          <option value="leisure_cart.html"> -  Shopping Cart</option>
-          <option value="leisure_checkout.html"> -  Checkout</option>
-          <option value="leisure_contact.php">Contact</option>
-        </select>
-      </div>
-      <!--Responsive NAV--> 
-      
-      <!--Search Starts-->
-      <form class="header_search">
-        <div class="form-search">
-          <input id="search" type="text" name="q" value="" class="input-text" autocomplete="off" placeholder="Search">
-          <button type="submit" title="Search"></button>
-        </div>
-      </form>
-      <!--Search Ends--> 
-      
-    </header>
-    <!--Header Ends--> 
-  </div>
-  <div class="navigation_container"> 
-    <!--Navigation Starts-->
-    <nav>
-      <ul class="primary_nav">
-        <li class="active"><a href="leisure_listing.html">Women</a> 
-          <!--SUbmenu Starts-->
-          <ul class="sub_menu">
-            <li> <a href="#">Dresses</a>
-              <ul>
-                <li><a href="#">Skirts</a></li>
-                <li><a href="#">Shorts</a></li>
-                <li><a href="#">Premium Pants</a></li>
-                <li><a href="#">Khakis</a></li>
-                <li><a href="#">Casual Pants</a></li>
-                <li><a href="#">Jeans</a></li>
-                <li><a href="#">Outerwear & Blazers</a></li>
-              </ul>
-            </li>
-            <li> <a href="#">Accessories</a>
-              <ul>
-                <li><a href="#">Sunglasses</a></li>
-                <li><a href="#">Scarves</a></li>
-                <li><a href="#">Hair Accessories</a></li>
-                <li><a href="#">Hats and Gloves</a></li>
-                <li><a href="#">Lifestyle</a></li>
-                <li><a href="#">Jeans</a></li>
-                <li><a href="#">Outerwear & Blazers</a></li>
-              </ul>
-            </li>
-          </ul>
-          <!--SUbmenu Ends--> 
-        </li>
-        <li><a href="leisure_listing.html">Men</a> 
-          <!--SUbmenu Starts-->
-          <ul class="sub_menu">
-            <li> <a href="#">Men Summer Collection</a>
-              <ul>
-                <li><a href="#">Premium Pants</a></li>
-                <li><a href="#">Khakis</a></li>
-                <li><a href="#">Casual Pants</a></li>
-                <li><a href="#">Jeans</a></li>
-                <li><a href="#">Outerwear & Blazers</a></li>
-              </ul>
-            </li>
-            <li> <a href="#">Accessories</a>
-              <ul>
-                <li><a href="#">Sunglasses</a></li>
-                <li><a href="#">Scarves</a></li>
-                <li><a href="#">Hair Accessories</a></li>
-                <li><a href="#">Hats and Gloves</a></li>
-                <li><a href="#">Jeans</a></li>
-              </ul>
-            </li>
-          </ul>
-          <!--SUbmenu Ends--> 
-        </li>
-        <li><a href="leisure_listing.html">Kids</a></li>
-        <li><a href="leisure_listing.html">Fashion</a></li>
-        <li><a href="#">Accessories</a></li>
-      </ul>
-      <div class="minicart"> <a href="#" class="minicart_link" > <span class="item"><b>2</b> ITEM /</span> <span class="price"><b>$69.20</b></span> </a>
-        <div class="cart_drop"> <span class="darw"></span>
-          <ul>
-            <li><img src="images/mini_c_item1.png"><a href="#">Clogs Beach/Garden Clog</a> <span class="price">$49.90</span></li>
-            <li><img src="images/mini_c_item2.png"><a href="#">Faded chambray shorts</a> <span class="price">$12.90</span></li>
-            <div class="cart_bottom">
-              <div class="subtotal_menu"><small>Subtotal:</small><big>$69.20</big></div>
-              <a href="leisure_cart.html">Checkout</a></div>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <!--Navigation Ends--> 
-  </div>
-  <div class="section_container"> 
-    <!--Mid Section Starts-->
+
+@scripts = {<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.zoom.js")"></script>}
+
+@main("Sphere Fedora", scripts){
+    @helpers.navigation()
+}{
     <section>
       <ul class="breadcrumb">
         <li><a href="@routes.Categories.home">Home</a></li>
@@ -175,14 +32,14 @@
           }
           </ul>
         </div>
-        <!--Product Left Ends--> 
+        <!--Product Left Ends-->
         <!--Product Right Starts-->
         <div class="product_rightcol">
           <span id="img-zoomed"></span>
             <small class="pr_type">@category.getName</small>
           <h1>@product.getName</h1>
           <p class="short_dc">@abbreviate(product.getDescription, 400)</p>
-          
+
           <div class="pr_price"> <big>@product.getPrice.getValue</big> <small>900.00 EUR</small> </div>
           @if(product.hasAttribute("size")) {
           <div class="size_info">
@@ -237,10 +94,10 @@
             </ul>
           </div>
         </div>
-        <!--Product Right Ends--> 
+        <!--Product Right Ends-->
 
       </div>
-      <!--PRODUCT DETAIL ENDS--> 
+      <!--PRODUCT DETAIL ENDS-->
       <!--Product List Starts-->
       <div class="products_list products_slider">
         <h2 class="sub_title">You might also like</h2>
@@ -257,8 +114,8 @@
           }
         </ul>
       </div>
-      <!--Product List Ends--> 
-      
+      <!--Product List Ends-->
+
       <!--Newsletter_subscribe Starts-->
       <div class="subscribe_block">
         <div class="find_us">
@@ -273,74 +130,9 @@
           </form>
         </div>
       </div>
-      <!--Newsletter_subscribe Ends--> 
-      
+      <!--Newsletter_subscribe Ends-->
+
     </section>
-    <!--Mid Section Ends--> 
-  </div>
-  <div class="footer_container"> 
-    <!--Footer Starts-->
-    <footer>
-      <ul class="footer_links">
-        <li> <span>New Arrivals</span>
-          <ul>
-            <li><a href="#">Clothing</a></li>
-            <li><a href="#">Shoes</a></li>
-            <li><a href="#">Bags</a></li>
-            <li><a href="#">Accessories</a></li>
-            <li><a href="#">Zimmermann</a></li>
-            <li><a href="#">Acne</a></li>
-            <li><a href="#">Bassike</a></li>
-            <li><a href="#">Camilla and Marc</a></li>
-          </ul>
-        </li>
-        <li  class="seperator"> <span>Brands we sell</span>
-          <ul>
-            <li><a href="#">Elle</a></li>
-            <li><a href="#">Reallxe</a></li>
-            <li><a href="#">Fabric</a></li>
-            <li><a href="#">Mayflower</a></li>
-            <li><a href="#">Levis Strauss</a></li>
-            <li><a href="#">Anzonica</a></li>
-            <li><a href="#">Reallxe</a></li>
-            <li><a href="#">Fabric</a></li>
-          </ul>
-        </li>
-        <li> <span>Customer Service</span>
-          <ul>
-            <li><a href="#">Help</a></li>
-            <li><a href="#">Shipping</a></li>
-            <li><a href="#">Returns & Exchanges</a></li>
-            <li><a href="#">Payment Options</a></li>
-            <li><a href="#">Order Status & Tracking</a></li>
-            <li><a href="#">Gift Wrap Options</a></li>
-            <li><a href="#">International Orderse</a></li>
-            <li><a href="#">Terms & Conditions</a></li>
-          </ul>
-        </li>
-        <li> <span>My Account</span>
-          <ul>
-            <li><a href="#">My Account Information</a></li>
-            <li><a href="#">My Password</a></li>
-            <li><a href="#">My Order History</a></li>
-            <li><a href="#">Payment Options</a></li>
-            <li><a href="#">My Address Book</a></li>
-            <li><a href="#">My Updates & Alerts</a></li>
-          </ul>
-        </li>
-      </ul>
-      <div class="footer_customblock">
-        <div class="shipping_info"> <span>introducing </span><br>
-          <big>FREE SHIPPING</big><br>
-          <small>for purchases above $200</small> </div>
-        <div class="contact_info"> <big>1.800. (1.800.260.7890)</big> </div>
-      </div>
-      <address>
-      Copyright © 2012 Leisure. All Rights Reserved. <img src="@routes.Assets.at("images/payment_info.jpg")"/>
-      </address>
-    </footer>
-    <!--Footer Ends--> 
-  </div>
-</div>
-</body>
-</html>
+}{
+
+}
