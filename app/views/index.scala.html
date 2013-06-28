@@ -174,9 +174,12 @@
                 <h2 class="sub_title">New Products</h2>
                 <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
                     @for(product <- searchResultNew.getResults) {
-                    <li> <a class="product_image"><img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/></a>
+                    <li>
+                        <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
+                            <img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/>
+                        </a>
                         <div class="product_info">
-                            <h3><a href="@routes.Products.select(product.getSlug, product.getMasterVariant.getId)">@product.getName</a></h3>
+                            <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName</a></h3>
                             <small>@abbreviate(product.getDescription, 100)</small> </div>
                         <div class="price_info"> <a href="#">+ Add to wishlist</a>
                             <button class="price_add" title="" type="button"><span class="pr_price">@product.getPrice.getValue</span><span class="pr_add">Add to Cart</span></button>
@@ -191,12 +194,16 @@
                 <h2 class="sub_title">Offer Products</h2>
                 <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
                     @for(product <- searchResultOffer.getResults) {
-                    <li> <a class="product_image"><img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/></a>
+                    <li>
+                        <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
+                            <img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/>
+                        </a>
                         <div class="product_info">
-                            <h3><a href="@routes.Products.select(product.getSlug, product.getMasterVariant.getId)">@product.getName</a></h3>
+                            <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName</a></h3>
                             <small>@abbreviate(product.getDescription, 100)</small> </div>
                         <div class="price_info"> <a href="#">+ Add to wishlist</a>
-                            <button class="price_add" title="" type="button"><span class="pr_price">@product.getPrice.getValue</span><span class="pr_add">Add to Cart</span></button>
+                            <button class="price_add" title="" type="button"><span class="pr_price">@product.getPrice.getValue</span>
+                                <span class="pr_add">Add to Cart</span></button>
                         </div>
                     </li>
                     }

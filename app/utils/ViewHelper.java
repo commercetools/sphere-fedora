@@ -167,6 +167,10 @@ public class ViewHelper {
         return routes.Categories.select(getCategoryPath(category), page);
     }
 
+    public static Call getProductUrl(Product product, Variant variant) {
+        return routes.Products.select(product.getSlug(), variant.getId());
+    }
+
     public static Call getProductUrl(Product product, Variant variant, Category category) {
         return routes.Products.select(product.getSlug(), variant.getId());
     }
