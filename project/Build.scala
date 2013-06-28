@@ -23,6 +23,7 @@ object ApplicationBuild extends Build {
                 "utils.ViewHelper._",
                 "forms._",
                 "io.sphere.client.model._",
+                "io.sphere.client.filters._",
                 "io.sphere.client.shop.model._"
             )
         ):_*

@@ -25,6 +25,8 @@ import java.util.List;
 public class Categories extends ShopController {
 
     public static int PAGE_SIZE = 12;
+    public static String QUERY_COLOR = "color";
+    public static String QUERY_PRICE = "price";
 
     @With(SaveContext.class)
     public static Result home() {
@@ -48,7 +50,7 @@ public class Categories extends ShopController {
         searchRequest = paging(searchRequest, page);
         SearchResult<Product> searchResult = searchRequest.fetch();
         if (searchResult.getCount() < 1) {
-            flash("info", "No products found");
+            flash("info-listing", "No products found");
         }
         return ok(listing.render(category, searchResult));
     }
@@ -77,7 +79,7 @@ public class Categories extends ShopController {
         // Filters
         List<Filter> filterList = new ArrayList<Filter>();
         // By price
-        Filters.Price.DynamicRange filterPrice = new Filters.Price.DynamicRange().setQueryParam("price");
+        Filters.Price.DynamicRange filterPrice = new Filters.Price.DynamicRange().setQueryParam(QUERY_PRICE);
         filterList.add(filterPrice);
         // Build request
         List<FilterExpression> filterExp = bindFiltersFromRequest(filterList);
@@ -86,7 +88,7 @@ public class Categories extends ShopController {
         // Facets
         List<Facet> facetList = new ArrayList<Facet>();
         // By color
-        Facets.StringAttribute.Terms facetColor = new Facets.StringAttribute.Terms("variants.attributes.color").setQueryParam("color");
+        Facets.StringAttribute.Terms facetColor = new Facets.StringAttribute.Terms("variants.attributes.color").setQueryParam(QUERY_COLOR);
         facetList.add(facetColor);
         // Build request
         List<FacetExpression> facetExp = bindFacetsFromRequest(facetList);

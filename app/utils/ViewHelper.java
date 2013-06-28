@@ -18,6 +18,8 @@ import play.mvc.Call;
 import play.mvc.Http;
 import sphere.Sphere;
 
+import static play.data.Form.form;
+
 public class ViewHelper {
 
 	/**
@@ -97,6 +99,12 @@ public class ViewHelper {
         }
 		return active;
 	}
+
+    public static String getActivePrice(String price) {
+        String selected = getQuery("price");
+        if (price.equals(selected)) return "active";
+        return "";
+    }
 
     public static BigDecimal getPercentage(double amount) {
         return BigDecimal.valueOf(amount * 100).stripTrailingZeros();
@@ -202,6 +210,12 @@ public class ViewHelper {
         }
         matchingVariantList.removeAll(Collections.singleton(null));
         return matchingVariantList;
+    }
+
+    public static String getQuery(String query) {
+        String value = Http.Context.current().request().getQueryString(query);
+        if (value == null) return "";
+        return value;
     }
 
 }
