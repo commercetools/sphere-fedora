@@ -51,7 +51,7 @@
             @if(product.hasAttribute("color")) {
             <div class="color_sel">
               <label>Color :</label>
-              <select id="product-color-selector">
+              <select class="browse-url-selector" id="product-color-selector">
                 @for(matchedVariant <- getPossibleVariants(product, variant, "color")) {
                 <option data-url="@getProductUrl(product, matchedVariant)" @if(matchedVariant.getString("color") == variant.getString("color")){selected}>
                     @matchedVariant.getString("color")

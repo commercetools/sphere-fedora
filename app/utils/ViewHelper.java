@@ -12,6 +12,7 @@ import io.sphere.client.model.SearchResult;
 import io.sphere.client.shop.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
+import play.Logger;
 import play.Play;
 import play.data.Form;
 import play.mvc.Call;
@@ -103,6 +104,18 @@ public class ViewHelper {
     public static String getActivePrice(String price) {
         String selected = getQuery("price");
         if (price.equals(selected)) return "active";
+        return "";
+    }
+
+    public static String getActiveSort(String sort) {
+        String selected = getQuery("sort");
+        if (sort.equals(selected)) return "selected";
+        return "";
+    }
+
+    public static String getActiveShow(int pageSize) {
+        String selected = getQuery("show");
+        if (selected.equals(String.valueOf(pageSize))) return "selected";
         return "";
     }
 
@@ -216,6 +229,20 @@ public class ViewHelper {
         String value = Http.Context.current().request().getQueryString(query);
         if (value == null) return "";
         return value;
+    }
+
+    public static String buildQuery(String key, String value) {
+        String queryString = "?";
+        if (!value.isEmpty()) {
+            queryString += key + "=" + value;
+        }
+        for (Map.Entry<String,String[]> entry : Http.Context.current().request().queryString().entrySet()) {
+            if (entry.getKey().equals(key)) continue;
+            for (String val : entry.getValue()) {
+                queryString += "&" + entry.getKey() + "=" + val;
+            }
+        }
+        return queryString;
     }
 
 }
