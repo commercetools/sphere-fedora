@@ -25,8 +25,9 @@ public class Products extends ShopController {
         }
         // Case valid select product
         Variant variant = product.getVariants().byId(variantId).or(product.getMasterVariant());
-        FilterExpression categoryFilter = new FilterExpressions.Categories(product.getCategories().get(0));
+        Category category = product.getCategories().get(0);
+        FilterExpression categoryFilter = new FilterExpressions.Categories(category);
         SearchResult<Product> searchResult = sphere().products().filter(categoryFilter).fetch();
-        return ok(detail.render(product, variant, searchResult));
+        return ok(detail.render(product, variant, category, searchResult));
     }
 }
