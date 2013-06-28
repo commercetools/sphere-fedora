@@ -55,5 +55,11 @@ $(document).ready(function(){
         $('.image-zoom').zoom();
     }
 
+    //LOAD VARIANTS
+    $('#product-color-selector').change(function () {
+        var url = $(this).find("option:selected").data("url");
+        window.location.href = url;
+    });
+
 
 });
