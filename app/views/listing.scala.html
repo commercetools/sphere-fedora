@@ -61,9 +61,9 @@
                 <div class="viewby">
                     <label>View as :</label>
                     <a class="list" href="#"></a> <a class="grid" href="#"></a> </div>
-                <div class="show_no browse-url-selector">
+                <div class="show_no">
                     <label>Show :</label>
-                    <select>
+                    <select class="browse-url-selector">
                         <option data-url="@getCategoryUrl(category)@buildQuery("show", "")">12 ITEMS</option>
                         <option data-url="@getCategoryUrl(category)@buildQuery("show", "24")" @getActiveShow(24)>24 ITEMS</option>
                     </select>
@@ -95,9 +95,10 @@
             <div class="toolbar">
                 <div class="sortby">
                     <label>Sort by :</label>
-                    <select>
-                        <option>PRICE</option>
-                        <option>NAME</option>
+                    <select class="browse-url-selector">
+                        <option data-url="@getCategoryUrl(category)@buildQuery("sort", "")">DEFAULT</option>
+                        <option data-url="@getCategoryUrl(category)@buildQuery("sort", "asc")" @getActiveSort("price")>PRICE ASC</option>
+                        <option data-url="@getCategoryUrl(category)@buildQuery("sort", "desc")" @getActiveSort("price")>PRICE DESC</option>
                     </select>
                 </div>
                 <div class="viewby">
@@ -105,9 +106,9 @@
                     <a class="list" href="#"></a> <a class="grid" href="#"></a> </div>
                 <div class="show_no">
                     <label>Show :</label>
-                    <select>
-                        <option>12 ITEMS</option>
-                        <option>24 ITEMS</option>
+                    <select class="browse-url-selector">
+                        <option data-url="@getCategoryUrl(category)@buildQuery("show", "")">12 ITEMS</option>
+                        <option data-url="@getCategoryUrl(category)@buildQuery("show", "24")" @getActiveShow(24)>24 ITEMS</option>
                     </select>
                 </div>
             </div>
