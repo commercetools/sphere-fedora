@@ -27,6 +27,8 @@ $(document).ready(function(){
 		$(this).removeClass('active');
 		$(this).siblings('.side_sub_menu').slideUp(300);
 	});
+
+	jQuery("ul.departments > li.menu_cont > a.active").siblings('.side_sub_menu').slideDown(300);
 	
 	//FORM ELEMENTS
 	jQuery("select").uniform(); 

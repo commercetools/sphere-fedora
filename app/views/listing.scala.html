@@ -11,16 +11,17 @@
                 <ul class="category departments">
                     <li class="header">Departments</li>
                     @for(root <- getRootCategories) {
-                    @if(root.getChildren.size > 0){
-                        <li class="menu_cont"><a href="@getCategoryUrl(root)">@root.getName</a>
-                        <ul class="side_sub_menu">
-                        @for(subcategory <- root.getChildren) {
-                            <li><a href="@getCategoryUrl(subcategory)">@subcategory.getName</a></li>
+                        @if(root.getChildren.size > 0){
+                        <li class="menu_cont">
+                            <a href="@getCategoryUrl(root)" class="@getActiveClass(root, category)">@root.getName</a>
+                            <ul class="side_sub_menu">
+                            @for(subcategory <- root.getChildren) {
+                                <li><a href="@getCategoryUrl(subcategory)" class="@getActiveClass(subcategory, category)">@subcategory.getName</a></li>
+                            }
+                            </ul>
+                        } else {
+                            <li><a href="@getCategoryUrl(root)" class="@getActiveClass(root, category)">@root.getName</a>
                         }
-                        </ul>
-                    } else {
-                        <li><a href="@getCategoryUrl(root)">@root.getName</a>
-                    }
                     </li>
                     }
                 </ul>
@@ -35,9 +36,10 @@
                 </ul>
                 <ul class="category price">
                     <li class="header">Price</li>
-                    <li><a href="@getCategoryUrl(category)?price=20_60">20€ to 60€</a></li>
-                    <li><a href="@getCategoryUrl(category)?price=60_100">60€ to 100€</a></li>
-                    <li><a href="@getCategoryUrl(category)?price=100_500">100€ to 500€</a></li>
+                    <li><a href="@getCategoryUrl(category)" class="@getActivePrice("")">All prices</a></li>
+                    <li><a href="@getCategoryUrl(category)?price=20_60" class="@getActivePrice("20_60")">20€ to 60€</a></li>
+                    <li><a href="@getCategoryUrl(category)?price=60_100" class="@getActivePrice("60_100")">60€ to 100€</a></li>
+                    <li><a href="@getCategoryUrl(category)?price=100_500" class="@getActivePrice("100_500")">100€ to 500€</a></li>
                 </ul>
             </div>
         </div>
@@ -70,6 +72,7 @@
             <!--Product List Starts-->
             <div class="products_list products_slider">
                 <ul>
+                    @if(flash.containsKey("info-listing")) {<div class="alert alert-info">@flash.get("info-listing")</div>}
                     @for(product <- searchResult.getResults){
                     <li>
                         <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
