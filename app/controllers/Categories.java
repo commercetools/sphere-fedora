@@ -36,7 +36,7 @@ public class Categories extends ShopController {
     }
 
     @With(SaveContext.class)
-    public static Result select(String categoryPath, int page, int pageSize, String sort, String list) {
+    public static Result select(String categoryPath, int page, int show, String sort, String list) {
         String[] categorySlugs = categoryPath.split("/");
         String categorySlug = categorySlugs[categorySlugs.length - 1];
         Category category = sphere().categories().getBySlug(categorySlug);
@@ -47,7 +47,7 @@ public class Categories extends ShopController {
         SearchRequest <Product> searchRequest = sphere().products().filter(categoryFilter);
         searchRequest = filterBy(searchRequest);
         searchRequest = sortBy(searchRequest, sort);
-        searchRequest = paging(searchRequest, page, pageSize);
+        searchRequest = paging(searchRequest, page, show);
         SearchResult<Product> searchResult = searchRequest.fetch();
         if (searchResult.getCount() < 1) {
             flash("product-list-info", "No products found");
