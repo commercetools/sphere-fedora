@@ -1,10 +1,10 @@
-@(title: String, scripts: Html = Html(""), styles: Html = Html(""))(header: Html)(content: Html)(footer: Html)(implicit lang: Lang)
+@(title: String = "", scripts: Html = Html(""), styles: Html = Html(""))(header: Html)(content: Html)(footer: Html)(implicit lang: Lang)
 
 <!DOCTYPE HTML>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>@title</title>
+    <title>1&1 demo shop by Sphere - @title</title>
     <!--CSS-->
     <link rel="stylesheet" href="@routes.Assets.at("stylesheets/styles.css")">
     @styles
@@ -77,6 +77,13 @@
 </div>
 
 @header
+
+<div id="messages">
+    @if(flash.containsKey("error")) {<div class="message error">@flash.get("error")</div>}
+    @if(flash.containsKey("warning")) {<div class="message alert">@flash.get("warning")</div>}
+    @if(flash.containsKey("success")) {<div class="message success">@flash.get("success")</div>}
+    @if(flash.containsKey("info")) {<div class="message info">@flash.get("info")</div>}
+</div>
 
 <div class="section_container">
     <!--Mid Section Starts-->

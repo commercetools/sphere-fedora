@@ -1,6 +1,6 @@
 @(category: Category, searchResult: SearchResult[Product])
 
-@main("Sphere Fedora"){
+@main(category.getName){
     @helpers.navigation()
 }{
     <section>
@@ -16,7 +16,7 @@
             <!--Product List Starts-->
             <div class="products_list_list">
                 <ul>
-                    @if(flash.containsKey("info-listing")) {<div class="alert alert-info">@flash.get("info-listing")</div>}
+                    @if(flash.containsKey("info-listing")) {<div class="message info">@flash.get("info-listing")</div>}
                     @for(product <- searchResult.getResults){
                     <li> <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
                         <img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/></a>
