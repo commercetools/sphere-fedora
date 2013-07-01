@@ -34,10 +34,15 @@
                                         <li>Fast and easy check out</li>
                                         <li>Easy access to your order history and status</li>
                                     </ul>
+                                    <br/>
+                                    <br/>
+                                    <div class="buttons-set">
+                                        <button  class="button brown_btn" type="button">Continue</button>
+                                    </div>
                                 </div>
                                 <div class="col-2">
                                     <h3>Login</h3>
-                                    <form method="post" id="login-form">
+                                    <form action="@routes.Login.logIn" method="post" id="login-form">
                                         <fieldset>
                                             <h4>Already registered?</h4>
                                             <p>Please log in below:</p>
@@ -45,32 +50,23 @@
                                                 <li>
                                                     <label class="required" for="login-email"><em>*</em>Email Address</label>
                                                     <div class="input-box">
-                                                        <input type="text" value="" id="login-email" class="input-text">
+                                                        <input type="email" name="email" id="login-email" class="input-text">
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <label class="required" for="login-password"><em>*</em>Password</label>
                                                     <div class="input-box">
-                                                        <input type="password" id="login-password" class="input-text">
+                                                        <input type="password" name="password" id="login-password" class="input-text">
                                                     </div>
                                                 </li>
                                             </ul>
                                             <br/>
                                             <br/>
                                         </fieldset>
+                                        <div class="buttons-set"> <a class="fl_right" href="#">Forgot your password?</a>
+                                            <button  class="button brown_btn" type="submit">Login</button>
+                                        </div>
                                     </form>
-                                </div>
-                            </div>
-                            <div class="col2-set">
-                                <div class="col-1">
-                                    <div class="buttons-set">
-                                        <button  class="button brown_btn" type="button">Continue</button>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="buttons-set"> <a class="fl_right" href="#">Forgot your password?</a>
-                                        <button  class="button brown_btn" type="button">Login</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
