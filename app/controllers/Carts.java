@@ -3,7 +3,6 @@ package controllers;
 import controllers.actions.CartNotEmpty;
 import io.sphere.client.shop.model.*;
 import forms.cartForm.AddToCart;
-import forms.cartForm.RemoveFromCart;
 import forms.cartForm.UpdateCart;
 import play.data.Form;
 import play.mvc.Result;
@@ -17,14 +16,12 @@ public class Carts extends ShopController {
 
     final static Form<AddToCart> addToCartForm = form(AddToCart.class);
     final static Form<UpdateCart> updateCartForm = form(UpdateCart.class);
-    final static Form<RemoveFromCart> removeFromCartForm = form(RemoveFromCart.class);
 
     @With(CartNotEmpty.class)
     public static Result show() {
         Cart cart = sphere().currentCart().fetch();
         return ok(carts.render(cart));
     }
-
 
     public static Result add() {
         Form<AddToCart> form = addToCartForm.bindFromRequest();
@@ -53,11 +50,10 @@ public class Carts extends ShopController {
 
     public static Result update() {
         Form<UpdateCart> form = updateCartForm.bindFromRequest();
-        Cart cart;
         // Case missing or invalid form data
         if (form.hasErrors()) {
-            cart = sphere().currentCart().fetch();
-            return badRequest();
+            flash("error", "The item could not be updated in your cart, please try again.");
+            return redirect(routes.Carts.show());
         }
         // Case valid cart update
         UpdateCart updateCart = form.get();

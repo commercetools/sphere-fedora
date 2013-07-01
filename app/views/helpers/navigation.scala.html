@@ -6,7 +6,7 @@
         <ul class="primary_nav">
             <li @if(selected){class="active"}>
                 <a href="#">SPORTS</a>
-                <!--SUbmenu Starts-->
+                <!--Submenu Starts-->
                 <ul class="sub_menu">
                     @for(category <- getRootCategories) {
                     <li> <a href="@getCategoryUrl(category)">@category.getName</a>
@@ -18,10 +18,10 @@
                     </li>
                     }
                 </ul>
-                <!--SUbmenu Ends-->
+                <!--Submenu Ends-->
             </li>
             <li><a href="@routes.Categories.select("womens")">Women</a>
-                <!--SUbmenu Starts-->
+                <!--Submenu Starts-->
                 <ul class="sub_menu">
                     <li> <a href="#">Dresses</a>
                         <ul>
@@ -70,22 +70,32 @@
                         </ul>
                     </li>
                 </ul>
-                <!--SUbmenu Ends-->
+                <!--Submenu Ends-->
             </li>
             <li><a href="@routes.Categories.select("boys")">Kids</a></li>
             <li><a href="#">Accessories</a></li>
         </ul>
-        <div class="minicart"> <a href="#" class="minicart_link" > <span class="item"><b>2</b> ITEM /</span> <span class="price"><b>$69.20</b></span> </a>
+        @defining(getCurrentCart) { cart =>
+        <div class="minicart">
+            <a href="@routes.Carts.show" class="minicart_link">
+                <span class="item"><b>@cart.getTotalQuantity</b> ITEM /</span> <span class="price"><b>@cart.getTotalPrice</b></span>
+            </a>
             <div class="cart_drop"> <span class="darw"></span>
                 <ul>
-                    <li><img src="@routes.Assets.at("images/mini_c_item1.png")"><a href="#">Clogs Beach/Garden Clog</a> <span class="price">$49.90</span></li>
-                    <li><img src="@routes.Assets.at("images/mini_c_item2.png")"><a href="#">Faded chambray shorts</a> <span class="price">$12.90</span></li>
+                    @for(item <- cart.getLineItems) {
+                    <li>
+                        <img src="@item.getVariant.getFeaturedImage.getSize(ImageSize.THUMBNAIL).getUrl">
+                        <a href="#">@item.getProductName</a> <span class="price">@item.getTotalPrice</span>
+                    </li>
+                    }
                     <div class="cart_bottom">
-                        <div class="subtotal_menu"><small>Subtotal:</small><big>$69.20</big></div>
-                        <a href="leisure_cart.html">Checkout</a></div>
+                        <div class="subtotal_menu"><small>Subtotal:</small><big>@cart.getTotalPrice</big></div>
+                        <a href="@routes.Checkouts.show">Checkout</a>
+                    </div>
                 </ul>
             </div>
         </div>
+        }
     </nav>
     <!--Navigation Ends-->
 </div>
