@@ -357,7 +357,7 @@ span.highlight_text{ display:inline-block; color:#fff; font-size:16px; font-styl
 
 /*GENERAL*/
 input, select, textarea, button{ font-size:12px;}
-.message{ padding:20px 85px; font-size:14px; line-height:100%; margin-bottom:15px;}
+.message{ padding:10px 85px; font-size:14px; line-height:100%; margin-bottom:15px; margin:25px;}
 .message.success{ color:#91a158; background:url(../images/message_cart.png) no-repeat 15px center #f9fff1; border:solid 1px #dcedbf;}
 .brown_btn{ color:#fff; font-size:14px; font-weight:bold; padding:8px 14px; background:#544F4B; border:0px; line-height:100%; cursor:pointer; vertical-align:middle;}
 img{ max-width:100%;}
