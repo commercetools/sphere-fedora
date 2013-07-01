@@ -1,343 +1,134 @@
 @()
 
-<!DOCTYPE HTML>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Leisure Theme</title>
-    <!--CSS-->
-    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/styles.css")">
-    <!--Google Webfont -->
-    <link href='http://fonts.googleapis.com/css?family=Istok+Web' rel='stylesheet' type='text/css'>
-    <!--Javascript-->
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.7.2.min.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.flexslider.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.easing.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.jcarousel.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.jtweetsanywhere-1.3.1.min.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/simpletabs_1.3.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/form_elements.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/custom.js")"></script>
-    <!--[if lt IE 9]>
-    <script src="@routes.Assets.at("javascripts/html5.js")"></script>
-    <![endif]-->
-    <!-- mobile setting -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-</head>
-<body>
-<div class="wrapper">
-    <div class="header_container"> 
-    <!--Header Starts-->
-    <header>
-      <div class="top_bar clear"> 
-        <!--Language Switcher Starts-->
-        <div class="language_switch"> <a class="active" href="#" title="ENGLISH">EN</a> <a href="#" title="FRENCH">FR</a> </div>
-        <!--Language Switcher Ends--> 
-        
-        <!--Top Links Starts-->
-        <ul class="top_links">
-          <li><a href="#">My Account</a></li>
-          <li><a href="#">Wishlist</a></li>
-          <li><a href="#">Login</a></li>
-          <li class="highlight"><a href="#">Sign Up</a></li>
-        </ul>
-        <!--Top Links Ends--> 
-      </div>
-      <!--Logo Starts-->
-      <h1 class="logo"> <a href="leisure_index.html"><img src="images/logo.png" /></a> </h1>
-      <!--Logo Ends--> 
-            <!--Responsive NAV-->            <div class="responsive-nav" style="display:none;">
-                <select  onchange="if(this.options[this.selectedIndex].value != ''){window.top.location.href=this.options[this.selectedIndex].value}">
-                    <option selected="" value="">Navigate...</option>
-                    <option value="leisure_index.html"> Home</option>
-                    <option value="leisure_listing.html"> -  Listing Page</option>
-                    <option value="leisure_detail.html">Product Page</option>
-                    <option value="leisure_cart.html"> -  Shopping Cart</option>
-                    <option value="leisure_checkout.html"> -  Checkout</option>
-                    <option value="leisure_contact.php">Contact</option>
-                </select>
-            </div>
-            <!--Responsive NAV-->
-      
-      <!--Search Starts-->
-      <form class="header_search">
-        <div class="form-search">
-          <input id="search" type="text" name="q" value="" class="input-text" autocomplete="off" placeholder="Search">
-          <button type="submit" title="Search"></button>
-        </div>
-      </form>
-      <!--Search Ends--> 
-      
-    </header>
-    <!--Header Ends--> 
-  </div>
-    <div class="navigation_container"> 
-    <!--Navigation Starts-->
-    <nav>
-      <ul class="primary_nav">
-        <li class="active"><a href="leisure_listing.html">Women</a> 
-          <!--SUbmenu Starts-->
-          <ul class="sub_menu">
-            <li> <a href="#">Dresses</a>
-              <ul>
-                <li><a href="#">Skirts</a></li>
-                <li><a href="#">Shorts</a></li>
-                <li><a href="#">Premium Pants</a></li>
-                <li><a href="#">Khakis</a></li>
-                <li><a href="#">Casual Pants</a></li>
-                <li><a href="#">Jeans</a></li>
-                <li><a href="#">Outerwear & Blazers</a></li>
-              </ul>
-            </li>
-            <li> <a href="#">Accessories</a>
-              <ul>
-                <li><a href="#">Sunglasses</a></li>
-                <li><a href="#">Scarves</a></li>
-                <li><a href="#">Hair Accessories</a></li>
-                <li><a href="#">Hats and Gloves</a></li>
-                <li><a href="#">Lifestyle</a></li>
-                <li><a href="#">Jeans</a></li>
-                <li><a href="#">Outerwear & Blazers</a></li>
-              </ul>
-            </li>
-          </ul>
-          <!--SUbmenu Ends--> 
-        </li>
-        <li><a href="leisure_listing.html">Men</a> 
-          <!--SUbmenu Starts-->
-          <ul class="sub_menu">
-            <li> <a href="#">Men Summer Collection</a>
-              <ul>
-                <li><a href="#">Premium Pants</a></li>
-                <li><a href="#">Khakis</a></li>
-                <li><a href="#">Casual Pants</a></li>
-                <li><a href="#">Jeans</a></li>
-                <li><a href="#">Outerwear & Blazers</a></li>
-              </ul>
-            </li>
-            <li> <a href="#">Accessories</a>
-              <ul>
-                <li><a href="#">Sunglasses</a></li>
-                <li><a href="#">Scarves</a></li>
-                <li><a href="#">Hair Accessories</a></li>
-                <li><a href="#">Hats and Gloves</a></li>
-                <li><a href="#">Jeans</a></li>
-              </ul>
-            </li>
-          </ul>
-          <!--SUbmenu Ends--> 
-        </li>
-        <li><a href="leisure_listing.html">Kids</a></li>
-        <li><a href="leisure_listing.html">Fashion</a></li>
-        <li><a href="#">Accessories</a></li>
-      </ul>
-      <div class="minicart"> <a href="#" class="minicart_link" > <span class="item"><b>2</b> ITEM /</span> <span class="price"><b>$69.20</b></span> </a>
-        <div class="cart_drop"> <span class="darw"></span>
-          <ul>
-            <li><img src="images/mini_c_item1.png"><a href="#">Clogs Beach/Garden Clog</a> <span class="price">$49.90</span></li>
-            <li><img src="images/mini_c_item2.png"><a href="#">Faded chambray shorts</a> <span class="price">$12.90</span></li>
-            <div class="cart_bottom">
-              <div class="subtotal_menu"><small>Subtotal:</small><big>$69.20</big></div>
-              <a href="leisure_cart.html">Checkout</a></div>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <!--Navigation Ends--> 
-  </div>
-    <div class="section_container">
-        <!--Mid Section Starts-->
-        <section>
-            <div class="full_page">
-                <h1>Checkout</h1>
-                <!--CHECKOUT STEPS STARTS-->
-                <div class="checkout_steps">
-                    <ol id="checkoutSteps">
-                        <li class="section allow active" id="opc-login">
-                            <div class="step-title"> <span class="number">1</span>
-                                <h2>Checkout Method</h2>
+@main("Checkout"){
+    @helpers.navigation()
+}{
+    <section>
+        <div class="full_page">
+            <h1>Checkout</h1>
+            <!--CHECKOUT STEPS STARTS-->
+            <div class="checkout_steps">
+                <ol id="checkoutSteps">
+                    <li class="section allow active" id="opc-login">
+                        <div class="step-title"> <span class="number">1</span>
+                            <h2>Checkout Method</h2>
+                        </div>
+                        <div id="checkout-step-login">
+                            <div class="col2-set">
+                                <div class="col-1">
+                                    <h3>Checkout as a Guest or Register</h3>
+                                    <p>Register with us for future convenience:</p>
+                                    <ul class="form-list">
+                                        <li class="control">
+                                            <input type="radio" class="radio" value="guest" id="login:guest" name="checkout_method">
+                                            <label>Checkout as Guest</label>
+                                        </li>
+                                        <li class="control">
+                                            <input type="radio" class="radio" value="register" id="login:register" name="checkout_method">
+                                            <label>Register</label>
+                                        </li>
+                                    </ul>
+                                    <h4>Register and save time!</h4>
+                                    <p>Register with us for future convenience:</p>
+                                    <ul class="ul">
+                                        <li>Fast and easy check out</li>
+                                        <li>Easy access to your order history and status</li>
+                                    </ul>
+                                </div>
+                                <div class="col-2">
+                                    <h3>Login</h3>
+                                    <form method="post" id="login-form">
+                                        <fieldset>
+                                            <h4>Already registered?</h4>
+                                            <p>Please log in below:</p>
+                                            <ul class="form-list">
+                                                <li>
+                                                    <label class="required" for="login-email"><em>*</em>Email Address</label>
+                                                    <div class="input-box">
+                                                        <input type="text" value="" id="login-email" class="input-text">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label class="required" for="login-password"><em>*</em>Password</label>
+                                                    <div class="input-box">
+                                                        <input type="password" id="login-password" class="input-text">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <br/>
+                                            <br/>
+                                        </fieldset>
+                                    </form>
+                                </div>
                             </div>
-                            <div id="checkout-step-login">
-                                <div class="col2-set">
-                                    <div class="col-1">
-                                        <h3>Checkout as a Guest or Register</h3>
-                                        <p>Register with us for future convenience:</p>
-                                        <ul class="form-list">
-                                            <li class="control">
-                                                <input type="radio" class="radio" value="guest" id="login:guest" name="checkout_method">
-                                                <label>Checkout as Guest</label>
-                                            </li>
-                                            <li class="control">
-                                                <input type="radio" class="radio" value="register" id="login:register" name="checkout_method">
-                                                <label>Register</label>
-                                            </li>
-                                        </ul>
-                                        <h4>Register and save time!</h4>
-                                        <p>Register with us for future convenience:</p>
-                                        <ul class="ul">
-                                            <li>Fast and easy check out</li>
-                                            <li>Easy access to your order history and status</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-2">
-                                        <h3>Login</h3>
-                                        <form method="post" id="login-form">
-                                            <fieldset>
-                                                <h4>Already registered?</h4>
-                                                <p>Please log in below:</p>
-                                                <ul class="form-list">
-                                                    <li>
-                                                        <label class="required" for="login-email"><em>*</em>Email Address</label>
-                                                        <div class="input-box">
-                                                            <input type="text" value=""  class="input-text">
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <label class="required" for="login-password"><em>*</em>Password</label>
-                                                        <div class="input-box">
-                                                            <input type="password"  class="input-text">
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                                <br/>
-                                                <br/>
-                                            </fieldset>
-                                        </form>
+                            <div class="col2-set">
+                                <div class="col-1">
+                                    <div class="buttons-set">
+                                        <button  class="button brown_btn" type="button">Continue</button>
                                     </div>
                                 </div>
-                                <div class="col2-set">
-                                    <div class="col-1">
-                                        <div class="buttons-set">
-                                            <button  class="button brown_btn" type="button">Continue</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <div class="buttons-set"> <a class="fl_right" href="#">Forgot your password?</a>
-                                            <button  class="button brown_btn" type="button">Login</button>
-                                        </div>
+                                <div class="col-2">
+                                    <div class="buttons-set"> <a class="fl_right" href="#">Forgot your password?</a>
+                                        <button  class="button brown_btn" type="button">Login</button>
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                        <li>
-                            <div class="step-title"> <span class="number">2</span>
-                                <h2>Billing Information</h2>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="step-title"> <span class="number">3</span>
-                                <h2>Shipping Information</h2>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="step-title"> <span class="number">4</span>
-                                <h2>Shipping Method</h2>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="step-title"> <span class="number">5</span>
-                                <h2>Order Preview</h2>
-                            </div>
-                        </li>
-                    </ol>
-                </div>
-                <!--CHECKOUT STEPS ENDS-->
-                <div class="col_right">
-                    <div class="block-progress">
-                        <div class="block-title">Your Checkout Progress</div>
-                            <ul>
-                                <li>Billing Address</li>
-                                <li>Shipping Address</li>
-                                <li>Shipping Method</li>
-                                <li>Payment Method</li>
-                            </ul>
-                    </div>
-                    <div class="right_promo">
-                    <img src="images/side_promo_banner.jpg">
-                    </div>
-                </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="step-title"> <span class="number">2</span>
+                            <h2>Billing Information</h2>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="step-title"> <span class="number">3</span>
+                            <h2>Shipping Information</h2>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="step-title"> <span class="number">4</span>
+                            <h2>Shipping Method</h2>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="step-title"> <span class="number">5</span>
+                            <h2>Order Preview</h2>
+                        </div>
+                    </li>
+                </ol>
             </div>
-            <!--Newsletter_subscribe Starts-->
-            <div class="subscribe_block">
-                <div class="find_us">
-                    <h3>Find us on</h3>
-                    <a class="twitter" href="#"></a> <a class="facebook" href="#"></a> <a class="rss" href="#"></a> </div>
-                <div class="subscribe_nl">
-                    <h3>Subscribe to our Newsletter</h3>
-                    <small>Instant wardrobe updates, new arrivals, fashion news, don’t miss a beat – sign up to our newsletter now.</small>
-                    <form id="newsletter" method="post" action="#">
-                        <input type="text" class="input-text" value="Enter your email" title="Enter your email" id="newsletter" name="email">
-                        <button class="button" title="" type="submit"></button>
-                    </form>
+            <!--CHECKOUT STEPS ENDS-->
+            <div class="col_right">
+                <div class="block-progress">
+                    <div class="block-title">Your Checkout Progress</div>
+                        <ul>
+                            <li>Billing Address</li>
+                            <li>Shipping Address</li>
+                            <li>Shipping Method</li>
+                            <li>Payment Method</li>
+                        </ul>
+                </div>
+                <div class="right_promo">
+                <img src="@routes.Assets.at("images/side_promo_banner.jpg")">
                 </div>
             </div>
-            <!--Newsletter_subscribe Ends-->
-        </section>
-        <!--Mid Section Ends-->
-    </div>
-    <div class="footer_container">
-        <!--Footer Starts-->
-        <footer>
-            <ul class="footer_links">
-                <li> <span>New Arrivals</span>
-                    <ul>
-                        <li><a href="#">Clothing</a></li>
-                        <li><a href="#">Shoes</a></li>
-                        <li><a href="#">Bags</a></li>
-                        <li><a href="#">Accessories</a></li>
-                        <li><a href="#">Zimmermann</a></li>
-                        <li><a href="#">Acne</a></li>
-                        <li><a href="#">Bassike</a></li>
-                        <li><a href="#">Camilla and Marc</a></li>
-                    </ul>
-                </li>
-                <li  class="seperator"> <span>Brands we sell</span>
-                    <ul>
-                        <li><a href="#">Elle</a></li>
-                        <li><a href="#">Reallxe</a></li>
-                        <li><a href="#">Fabric</a></li>
-                        <li><a href="#">Mayflower</a></li>
-                        <li><a href="#">Levis Strauss</a></li>
-                        <li><a href="#">Anzonica</a></li>
-                        <li><a href="#">Reallxe</a></li>
-                        <li><a href="#">Fabric</a></li>
-                    </ul>
-                </li>
-                <li> <span>Customer Service</span>
-                    <ul>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Shipping</a></li>
-                        <li><a href="#">Returns & Exchanges</a></li>
-                        <li><a href="#">Payment Options</a></li>
-                        <li><a href="#">Order Status & Tracking</a></li>
-                        <li><a href="#">Gift Wrap Options</a></li>
-                        <li><a href="#">International Orderse</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
-                    </ul>
-                </li>
-                <li> <span>My Account</span>
-                    <ul>
-                        <li><a href="#">My Account Information</a></li>
-                        <li><a href="#">My Password</a></li>
-                        <li><a href="#">My Order History</a></li>
-                        <li><a href="#">Payment Options</a></li>
-                        <li><a href="#">My Address Book</a></li>
-                        <li><a href="#">My Updates & Alerts</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <div class="footer_customblock">
-                <div class="shipping_info"> <span>introducing </span><br>
-                    <big>FREE SHIPPING</big><br>
-                    <small>for purchases above $200</small> </div>
-                <div class="contact_info"> <big>1.800. (1.800.260.7890)</big> </div>
+        </div>
+        <!--Newsletter_subscribe Starts-->
+        <div class="subscribe_block">
+            <div class="find_us">
+                <h3>Find us on</h3>
+                <a class="twitter" href="#"></a> <a class="facebook" href="#"></a> <a class="rss" href="#"></a> </div>
+            <div class="subscribe_nl">
+                <h3>Subscribe to our Newsletter</h3>
+                <small>Instant wardrobe updates, new arrivals, fashion news, don’t miss a beat – sign up to our newsletter now.</small>
+                <form id="newsletter" method="post" action="#">
+                    <input type="text" class="input-text" value="Enter your email" title="Enter your email" id="newsletter" name="email">
+                    <button class="button" title="" type="submit"></button>
+                </form>
             </div>
-            <address>
-            Copyright © 2012 Leisure. All Rights Reserved. <img src="images/payment_info.jpg"/>
-            </address>
-        </footer>
-        <!--Footer Ends-->
-    </div>
-</div>
-</body>
-</html>
+        </div>
+        <!--Newsletter_subscribe Ends-->
+    </section>
+}{
+
+}

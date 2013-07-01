@@ -7,6 +7,7 @@ import play.data.Form;
 import play.mvc.Result;
 import play.mvc.With;
 import sphere.ShopController;
+import views.html.checkout;
 
 import static play.data.Form.form;
 
@@ -32,7 +33,7 @@ public class Checkouts extends ShopController {
     protected static Result showPage(int page) {
         Cart cart = sphere().currentCart().fetch();
         Form<SetAddress> addressForm = setAddressForm.fill(new SetAddress(cart.getShippingAddress()));
-        return ok();
+        return ok(checkout.render());
     }
 
     public static Result setShippingAddress() {
