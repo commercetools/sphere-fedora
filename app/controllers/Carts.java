@@ -9,6 +9,7 @@ import play.data.Form;
 import play.mvc.Result;
 import play.mvc.With;
 import sphere.ShopController;
+import views.html.carts;
 
 import static play.data.Form.form;
 
@@ -21,7 +22,7 @@ public class Carts extends ShopController {
     @With(CartNotEmpty.class)
     public static Result show() {
         Cart cart = sphere().currentCart().fetch();
-        return ok();
+        return ok(carts.render(cart));
     }
 
 
@@ -29,7 +30,8 @@ public class Carts extends ShopController {
         Form<AddToCart> form = addToCartForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
-            return badRequest(); // TODO Decide where to return to
+            flash("error", "The item could not be added to your cart, please try again.");
+            return redirect(session("returnUrl"));
         }
         // Case invalid product
         AddToCart addToCart = form.get();
@@ -44,8 +46,9 @@ public class Carts extends ShopController {
         }
         // Case valid product to add to cart
         int variantId = getMatchedSizeVariant(product, variant, addToCart.size);
-        Cart cart = sphere().currentCart().addLineItem(addToCart.productId, variantId, addToCart.quantity);
-        return ok();
+        sphere().currentCart().addLineItem(addToCart.productId, variantId, addToCart.quantity);
+        flash("cart-success", product.getName() + " was added to your shopping cart.");
+        return redirect(routes.Carts.show());
     }
 
     public static Result update() {
@@ -60,22 +63,16 @@ public class Carts extends ShopController {
         UpdateCart updateCart = form.get();
         CartUpdate cartUpdate = new CartUpdate()
                 .setLineItemQuantity(updateCart.lineItemId, updateCart.quantity);
-        cart = sphere().currentCart().update(cartUpdate);
-        return ok();
+        sphere().currentCart().update(cartUpdate);
+        flash("cart-success", "Quantity updated.");
+        return redirect(routes.Carts.show());
     }
 
-    public static Result remove() {
-        Form<RemoveFromCart> form = removeFromCartForm.bindFromRequest();
-        Cart cart;
-        // Case missing or invalid form data
-        if (form.hasErrors()) {
-            cart = sphere().currentCart().fetch();
-            return badRequest();
-        }
+    public static Result remove(String item) {
         // Case valid cart update
-        RemoveFromCart removeFromCart = form.get();
-        cart = sphere().currentCart().removeLineItem(removeFromCart.lineItemId);
-        return ok();
+        sphere().currentCart().removeLineItem(item);
+        flash("cart-success", "Product removed from your shopping cart.");
+        return redirect(routes.Carts.show());
     }
 
     protected static int getMatchedSizeVariant(Product product, Variant variant, String size) {

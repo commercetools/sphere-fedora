@@ -10,7 +10,7 @@ GET     /cart                                               controllers.Carts.sh
 
 POST    /cart/add                                           controllers.Carts.add()
 POST    /cart/update                                        controllers.Carts.update()
-POST    /cart/remove                                        controllers.Carts.remove()
+GET     /cart/remove                                        controllers.Carts.remove(item: String)
 
 # Checkout
 GET     /checkout                                           controllers.Checkouts.show()

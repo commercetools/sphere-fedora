@@ -265,7 +265,7 @@ ul.breadcrumb li a{ color:#bdbdbd; text-decoration:none;}
 #shopping-cart-table tr td a.edit{color:#544F4B;}
 
 .totals{ float:right; display:inline-block; width:100%; padding:17px 0px; margin-right:20px;}
-#totals-table{ width:24%; float:right; font-size:14px; color:#544f4b;}
+#totals-table{ width:31%; float:right; font-size:14px; color:#544f4b;}
 #totals-table td{padding: 8px 0px;}
 #totals-table td strong{ font-weight:bold;}
 #totals-table .total{ font-size:16px; font-weight:bold;}
@@ -431,3 +431,5 @@ ul.primary_nav > li > a, .minicart span, h1, h2, h3, h4, h5, .product_info, .pri
 }
 
 .product_leftcol{ width:360px; float:left;}
+.action_buttonbar form {display:inline-block;}
+.action_buttonbar form:last-child {float:right;}
