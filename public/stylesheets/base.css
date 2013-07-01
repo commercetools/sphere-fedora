@@ -73,7 +73,7 @@ ul.sub_menu > li > ul{border-top: solid 1px #5f5a56; margin-top:10px;}
 .products_list li{width:221px; margin-left:31px; float:left; padding-bottom:15px;}
 .products_list li:first-child{ margin-left:0px;}
 .products_list a.product_image{display:block;}
-.products_list a.product_image img{ border:solid 2px #fff;}
+.products_list a.product_image img{ border:solid 2px #fff; padding:30px;}
 .products_list li:hover img{-moz-transition:all 0.3s ease-out 0s; -webkit-transition: all 0.3s ease-out;}
 .products_list .product_info{ margin-bottom:10px; padding-bottom:12px; border-bottom:solid 1px;}
 .products_list .product_info h3{ font-size:14px; font-weight:normal; padding:12px 0px;}
@@ -429,3 +429,5 @@ ul.primary_nav > li > a, .minicart span, h1, h2, h3, h4, h5, .product_info, .pri
 .category.price a.active, .category.collection a.active {
     margin-left:-7px; padding-left:15px; display:block; color:#2d2b29; font-weight:bold; background:url(../images/sub_arw.png) no-repeat left center;
 }
+
+.product_leftcol{ width:360px; float:left;}
