@@ -16,9 +16,9 @@
             <!--Product List Starts-->
             <div class="products_list products_slider">
                 <ul>
-                    @if(flash.containsKey("info-listing")) {<div class="alert alert-info">@flash.get("info-listing")</div>}
+                    @if(flash.containsKey("product-list-info")) {<div class="message info">@flash.get("product-list-info")</div>}
                     @for(product <- searchResult.getResults){
-                    <li>
+                    <li class="product-item">
                         <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
                             <img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/>
                         </a>

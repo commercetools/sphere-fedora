@@ -3,23 +3,15 @@ import io.sphere.client.shop.model.Category;
 import io.sphere.client.shop.model.Product;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import org.mockito.Mockito;
 import play.mvc.Result;
-import sphere.SearchRequest;
 import utils.SphereTestable;
-import views.html.products;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static play.test.Helpers.*;
 import static utils.TestHelper.*;
 
@@ -107,10 +99,11 @@ public class CategoriesTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 mockProductRequest(15, 0, 10);
-                Result result = callAction(routes.ref.Categories.home(1));
+                Result result = callAction(routes.ref.Categories.home());
                 assertOK(result);
                 Document body = contentAsDocument(result);
-                assertThat(body.select("#product-list .product-item").size()).isEqualTo(10);
+                assertThat(body.select("#first-carousel .product-item").size()).isGreaterThan(0);
+                assertThat(body.select("#second-carousel .product-item").size()).isGreaterThan(0);
             }
         });
     }
@@ -121,10 +114,10 @@ public class CategoriesTest {
             public void run() {
                 mockCategoryRequest(1);
                 mockProductRequest(15, 0, 10);
-                Result result = callAction(routes.ref.Categories.select("cat1", 1));
+                Result result = callAction(routes.ref.Categories.select("cat1", 1, 10, "", ""));
                 assertOK(result);
                 Document body = contentAsDocument(result);
-                assertThat(body.select("#product-list .product-item").size()).isEqualTo(10);
+                assertThat(body.select(".products_list .product-item").size()).isEqualTo(10);
             }
         });
 	}
@@ -135,10 +128,10 @@ public class CategoriesTest {
             public void run() {
                 mockCategoryRequest(3);
                 mockProductRequest(15, 0, 10);
-                Result result = callAction(routes.ref.Categories.select("cat1-cat2/cat3", 1));
+                Result result = callAction(routes.ref.Categories.select("cat1-cat2/cat3", 1, 10, "", ""));
                 assertOK(result);
                 Document body = contentAsDocument(result);
-                assertThat(body.select("#product-list .product-item").size()).isEqualTo(10);
+                assertThat(body.select(".products_list .product-item").size()).isEqualTo(10);
             }
         });
 	}
@@ -147,7 +140,7 @@ public class CategoriesTest {
 	public void showInvalidCategory() {
         running(fakeApplication(), new Runnable() {
             public void run() {
-                Result result = callAction(routes.ref.Categories.select("non-existing-category", 1));
+                Result result = callAction(routes.ref.Categories.select("non-existing-category", 1, 10, "", ""));
                 assertNotFound(result);
             }
         });
@@ -159,10 +152,10 @@ public class CategoriesTest {
             public void run() {
                 mockCategoryRequest(3);
                 mockProductRequest(15, 0, 10);
-                Result result = callAction(routes.ref.Categories.select("non-existing-category/cat3", 1));
+                Result result = callAction(routes.ref.Categories.select("non-existing-category/cat3", 1, 10, "", ""));
                 assertOK(result);
                 Document body = contentAsDocument(result);
-                assertThat(body.select("#product-list .product-item").size()).isEqualTo(10);
+                assertThat(body.select(".products_list .product-item").size()).isEqualTo(10);
             }
         });
 	}
@@ -173,10 +166,10 @@ public class CategoriesTest {
             public void run() {
                 mockCategoryRequest(3);
                 mockProductRequest(15, 1, 10);
-                Result result = callAction(routes.ref.Categories.select("cat1-cat2/cat3", 2));
+                Result result = callAction(routes.ref.Categories.select("cat1-cat2/cat3", 2, 10, "", ""));
                 assertOK(result);
                 Document body = contentAsDocument(result);
-                assertThat(body.select("#product-list .product-item").size()).isEqualTo(5);
+                assertThat(body.select(".products_list .product-item").size()).isEqualTo(5);
             }
         });
 	}
@@ -187,11 +180,11 @@ public class CategoriesTest {
             public void run() {
                 mockCategoryRequest(3);
                 mockProductRequest(15, 99, 10);
-                Result result = callAction(routes.ref.Categories.select("cat1/cat2", 100));
+                Result result = callAction(routes.ref.Categories.select("cat1/cat2", 100, 10, "", ""));
                 assertOK(result);
                 Document body = contentAsDocument(result);
-                assertThat(body.select("#product-list .product-item").size()).isEqualTo(0);
-                assertThat(body.select("#messages .alert-info").hasText()).isTrue();
+                assertThat(body.select(".products_list .product-item").size()).isEqualTo(0);
+                assertThat(body.select(".products_list .message").hasText()).isTrue();
             }
         });
 	}
@@ -202,10 +195,10 @@ public class CategoriesTest {
             public void run() {
                 mockCategoryRequest(3);
                 mockProductRequest(15, -3, 10);
-                Result result = callAction(routes.ref.Categories.select("cat1/cat2", -2));
+                Result result = callAction(routes.ref.Categories.select("cat1/cat2", -2, 10, "", ""));
                 assertOK(result);
                 Document body = contentAsDocument(result);
-                assertThat(body.select("#product-list .product-item").size()).isEqualTo(10);
+                assertThat(body.select(".products_list .product-item").size()).isEqualTo(10);
             }
         });
 	}
@@ -216,10 +209,11 @@ public class CategoriesTest {
             public void run() {
                 mockCategoryRequest(3);
                 mockProductRequest(15, 0, 10);
-                Result result = callAction(routes.ref.Categories.select("cat1/cat2", 1), fakeRequest("GET", "?price=10_20"));
+                Result result = callAction(routes.ref.Categories.select("cat1/cat2", 1, 10, "", ""),
+                        fakeRequest("GET", "?price=10_20"));
                 assertOK(result);
                 Document body = contentAsDocument(result);
-                assertThat(body.select("#product-list .product-item").size()).isEqualTo(10);
+                assertThat(body.select(".products_list .product-item").size()).isEqualTo(10);
             }
         });
 	}
@@ -230,10 +224,11 @@ public class CategoriesTest {
             public void run() {
                 mockCategoryRequest(3);
                 mockProductRequest(15, 0, 10);
-                Result result = callAction(routes.ref.Categories.select("cat1/cat2", 1), fakeRequest("GET", "?color=schwarz"));
+                Result result = callAction(routes.ref.Categories.select("cat1/cat2", 1, 10, "", ""),
+                        fakeRequest("GET", "?color=schwarz"));
                 assertOK(result);
                 Document body = contentAsDocument(result);
-                assertThat(body.select("#product-list .product-item").size()).isEqualTo(10);
+                assertThat(body.select(".products_list .product-item").size()).isEqualTo(10);
                 // TODO SDK: Use title or id instead of text
                 // assertThat(body.select("#filter-color > ul > li > a.selected").text()).isEqualTo("schwarz");
             }

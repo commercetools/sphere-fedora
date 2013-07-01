@@ -18,7 +18,7 @@
                 <ul>
                     @if(flash.containsKey("product-list-info")) {<div class="message info">@flash.get("product-list-info")</div>}
                     @for(product <- searchResult.getResults){
-                    <li> <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
+                    <li class="product-item"> <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
                         <img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/></a>
                         <div class="product_info">
                             <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName</a></h3>

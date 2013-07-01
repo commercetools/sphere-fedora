@@ -33,7 +33,7 @@
             <h2 class="sub_title">New Products</h2>
             <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
                 @for(product <- searchResultNew.getResults) {
-                <li>
+                <li class="product-item">
                     <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
                         <img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/>
                     </a>
@@ -51,9 +51,9 @@
         <!--Product List Starts-->
         <div class="products_list products_slider">
             <h2 class="sub_title">Offer Products</h2>
-            <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
+            <ul id="second-carousel" class="first-and-second-carousel jcarousel-skin-tango">
                 @for(product <- searchResultOffer.getResults) {
-                <li>
+                <li class="product-item">
                     <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
                         <img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/>
                     </a>
