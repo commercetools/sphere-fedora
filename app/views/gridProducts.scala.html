@@ -26,8 +26,15 @@
                             <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName</a></h3>
                             <small>@abbreviate(product.getDescription, 100)</small> </div>
                         <div class="price_info"> <a href="#">+ Add to wishlist</a>
-                            <button class="price_add" title="" type="button"><span class="pr_price">@product.getPrice.getValue</span>
-                                <span class="pr_add">Add to Cart</span></button>
+                            <form action="@routes.Carts.add" method="post">
+                                <input type="hidden" name="productId" value="@product.getId"/>
+                                <input type="hidden" name="variantId" value="@product.getMasterVariant.getId"/>
+                                <input type="hidden" name="quantity" value="1"/>
+                                <button class="price_add" title="" type="submit">
+                                    <span class="pr_price">@product.getPrice.getValue</span>
+                                    <span class="pr_add">Add to Cart</span>
+                                </button>
+                            </form>
                         </div>
                     </li>
                     }
