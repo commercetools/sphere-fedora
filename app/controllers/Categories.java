@@ -50,7 +50,7 @@ public class Categories extends ShopController {
         searchRequest = paging(searchRequest, page, pageSize);
         SearchResult<Product> searchResult = searchRequest.fetch();
         if (searchResult.getCount() < 1) {
-            flash("info-listing", "No products found");
+            flash("product-list-info", "No products found");
         }
         if (list.isEmpty()) {
             return ok(gridProducts.render(category, searchResult));
