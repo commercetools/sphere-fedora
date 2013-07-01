@@ -1,0 +1,104 @@
+@(cart: Cart)
+
+@main("Cart"){
+    @helpers.navigation()
+}{
+    <section> 
+      <!--CART STARTS-->
+      <div id="shopping_cart" class="full_page">
+        <h1>Shopping Cart</h1>
+        @if(flash.containsKey("success-cart")) {<div class="message success">@flash.get("success-cart")</div>}
+        <div class="action_buttonbar">
+          <a href="@getReturnUrl" class="continue">Continue Shopping</a>
+          <button type="button" onClick="parent.location='leisure_checkout.html'" title="" class="checkout">Checkout</button>
+        </div>
+        <div class="cart_table">
+          <table class="data-table cart-table" id="shopping-cart-table" cellpadding="0" cellspacing="0">
+            <tr>
+              <th colspan="2">Products</th>
+              <th class="align_center" width="6%"></th>
+              <th class="align_center" width="12%">Unit Price</th>
+              <th class="align_center" width="10%">Qty</th>
+              <th class="align_center" width="12%">Subtotal</th>
+              <th class="align_center" width="6%"></th>
+            </tr>
+            <tr>
+              <td width="10%"><img src="images/cart1.jpg"></td>
+              <td class="align_left" width="44%"><a class="pr_name" href="#">Notch-collar shirt</a><span class="pr_info">Proin gravida </span></td>
+              <td class="align_center"><a href="#" class="edit">Edit</a></td>
+              <td class="align_center vline"><span class="price">$49.90</span></td>
+              <td class="align_center vline"><input class="qty_box" type="text"></td>
+              <td class="align_center vline"><span class="price">$49.90</span></td>
+              <td class="align_center vline"><a href="#" class="remove"></a></td>
+            </tr>
+            <tr>
+              <td><img src="images/cart2.jpg"></td>
+              <td class="align_left" width="44%"><a class="pr_name" href="#">Notch-collar shirt</a><span class="pr_info">Proin gravida </span></td>
+              <td class="align_center"><a href="#" class="edit">Edit</a></td>
+              <td class="align_center vline"><span class="price">$49.90</span></td>
+              <td class="align_center vline"><input class="qty_box" type="text"></td>
+              <td class="align_center vline"><span class="price">$49.90</span></td>
+              <td class="align_center vline"><a href="#" class="remove"></a></td>
+            </tr>
+          </table>
+          <div class="totals">
+            <table id="totals-table">
+                <tr>
+                  <td width="60%" colspan="1" class="align_left" ><strong>Subtotal</strong></td>
+                  <td class="align_right" style=""><strong><span class="price">$109.00</span></strong></td>
+                </tr>
+                <tr>
+                  <td width="60%" colspan="1" class="align_left" >Shipping cost</td>
+                  <td class="align_right" style=""><span class="price">$0.00</span></td>
+                </tr>
+                <tr>
+                  <td width="60%" colspan="1" class="align_left total" >Grand Total</td>
+                  <td class="align_right" style=""><span class="total">$109.00</span></td>
+                </tr>                
+            </table>
+          </div>
+        </div>
+        <div class="action_buttonbar">
+          <button type="button" title="" class="continue">Continue Shopping</button>
+          <button type="button"  onClick="parent.location='leisure_checkout.html'" title="" class="checkout">Checkout</button>
+        </div>
+      </div>
+      <!--CART ENDS--> 
+      
+      <div class="checkout_tax">
+      	<div class="shipping_tax">
+        	<h4>Estimate Shipping and Tax</h4>
+            <p>Enter your destination to get a shipping estimate.</p>
+            <label>Country</label><select><option>Canada</option></select><label>Postal code</label><input type="text">
+            <br class="clear"/>
+            <label>State</label><select><option>Vancouver</option></select>
+            <button type="button" title="" class="brown_btn">Get a Quote</button>
+        </div>
+        <div class="checkout_discount">
+        	<h4>Discount codes</h4>
+            <p>Enter your coupon code if you have one.</p>
+            <input type="text">
+            <button type="button" title="" class="brown_btn">Apply Coupon</button>
+        </div>
+      </div>
+      
+      
+      <!--Newsletter_subscribe Starts-->
+      <div class="subscribe_block">
+        <div class="find_us">
+          <h3>Find us on</h3>
+          <a class="twitter" href="#"></a> <a class="facebook" href="#"></a> <a class="rss" href="#"></a> </div>
+        <div class="subscribe_nl">
+          <h3>Subscribe to our Newsletter</h3>
+          <small>Instant wardrobe updates, new arrivals, fashion news, don’t miss a beat – sign up to our newsletter now.</small>
+          <form id="newsletter" method="post" action="#">
+            <input type="text" class="input-text" value="Enter your email" title="Enter your email" id="newsletter" name="email">
+            <button class="button" title="" type="submit"></button>
+          </form>
+        </div>
+      </div>
+      <!--Newsletter_subscribe Ends--> 
+    </section>
+}{
+
+}

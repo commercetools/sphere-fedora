@@ -11,7 +11,7 @@ import play.mvc.Result;
 import play.mvc.With;
 import sphere.SearchRequest;
 import sphere.ShopController;
-import views.html.detail;
+import views.html.productDetail;
 
 
 @With(SaveContext.class)
@@ -28,6 +28,6 @@ public class Products extends ShopController {
         Category category = product.getCategories().get(0);
         FilterExpression categoryFilter = new FilterExpressions.Categories(category);
         SearchResult<Product> searchResult = sphere().products().filter(categoryFilter).fetch();
-        return ok(detail.render(product, variant, category, searchResult));
+        return ok(productDetail.render(product, variant, category, searchResult));
     }
 }

@@ -3,7 +3,7 @@
 
 @scripts = {<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.zoom.js")"></script>}
 
-@main("Sphere Fedora", scripts){
+@main(product.getName, scripts){
     @helpers.navigation()
 }{
     <section>
@@ -35,15 +35,18 @@
           <h1>@product.getName</h1>
           <p class="short_dc">@abbreviate(product.getDescription, 400)</p>
 
+        <form action="@routes.Carts.add" method="post">
+          <input type="hidden" name="productId" value="@product.getId"/>
+          <input type="hidden" name="variantId" value="@variant.getId"/>
           <div class="pr_price"> <big>@product.getPrice.getValue</big> <small>900.00 EUR</small> </div>
           @if(product.hasAttribute("size")) {
           <div class="size_info">
             <div class="size_sel">
               <label>Available Size :</label>
-              <select>
+              <select name="size">
                 <option>SELECT</option>
                   @for(size <- getPossibleSizes(product, variant)) {
-                    <option>@size</option>
+                    <option value="@size">@size</option>
                   }
               </select>
             </div>
@@ -64,20 +67,21 @@
           <div class="qty_info">
             <div class="quantity">
               <label>Quantity :</label>
-              <select>
-                @for(i <- 1 to 5) {
-                    <option>@i</option>
+              <select name="quantity">
+                @for(quantity <- 1 to 5) {
+                    <option value="@quantity">@quantity</option>
                 }
               </select>
             </div>
           </div>
           <div class="add_to_buttons">
-            <button onClick="parent.location='leisure_cart.html'" class="add_cart">Add to Cart</button>
+            <button type="submit" class="add_cart">Add to Cart</button>
             <span>or</span>
             <ul>
               <li><a href="#">Add to Wishlist</a></li>
             </ul>
           </div>
+        </form>
           <div class="product_overview">
             <h4>Quick Overview</h4>
             <ul>
