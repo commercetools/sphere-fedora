@@ -21,6 +21,8 @@ import views.html.listProducts;
 import views.html.gridProducts;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Categories extends ShopController {
@@ -43,7 +45,7 @@ public class Categories extends ShopController {
         if (category == null) {
             return notFound("Category not found: " + categorySlug);
         }
-        FilterExpression categoryFilter = new FilterExpressions.CategoriesOrSubcategories(category);
+        FilterExpression categoryFilter = new FilterExpressions.CategoriesOrSubcategories(Collections.singletonList(category));
         SearchRequest <Product> searchRequest = sphere().products().filter(categoryFilter);
         searchRequest = filterBy(searchRequest);
         searchRequest = sortBy(searchRequest, sort);

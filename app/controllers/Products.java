@@ -13,6 +13,8 @@ import sphere.SearchRequest;
 import sphere.ShopController;
 import views.html.productDetail;
 
+import java.util.Collections;
+
 
 @With(SaveContext.class)
 public class Products extends ShopController {
@@ -26,7 +28,7 @@ public class Products extends ShopController {
         // Case valid select product
         Variant variant = product.getVariants().byId(variantId).or(product.getMasterVariant());
         Category category = product.getCategories().get(0);
-        FilterExpression categoryFilter = new FilterExpressions.Categories(category);
+        FilterExpression categoryFilter = new FilterExpressions.Categories(Collections.singletonList(category));
         SearchResult<Product> searchResult = sphere().products().filter(categoryFilter).fetch();
         return ok(productDetail.render(product, variant, category, searchResult));
     }
