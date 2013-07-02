@@ -1,8 +1,26 @@
+---
 language: scala
 scala:
-   - 2.10.0
+- 2.10.0
 script: sbt test
 notifications:
   email:
     on_success: never
     on_failure: change
+after_success:
+- sudo gem install heroku
+- git remote add heroku git@heroku.com:sphere-fedora.git
+- echo "Host heroku.com" >> ~/.ssh/config
+- echo "   StrictHostKeyChecking no" >> ~/.ssh/config
+- echo "   CheckHostIP no" >> ~/.ssh/config
+- echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
+- heroku keys:clear
+- yes | heroku keys:add
+- yes | git push heroku master
+env:
+  global:
+    secure: ! 'doZr9K1kih9ijuhwujW/Awa8XbLxv2/PUlcTC9B5xu2ynAXlUzY2iLrnaAjF
+
+      THvyYvsw2hYJDRrSOKjdVobqcL4PzpEkGm/4cVCYXL0hghcqr3lUoREQT6Ur
+
+      gwlpXCdYnAvPH1ESO+KDGzBBG+gdK2BweiJfh+tYtktASQAMsH0='
