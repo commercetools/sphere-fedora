@@ -38,7 +38,7 @@
         <form action="@routes.Carts.add" method="post">
           <input type="hidden" name="productId" value="@product.getId"/>
           <input type="hidden" name="variantId" value="@variant.getId"/>
-          <div class="pr_price"> <big>@product.getPrice.getValue</big> <small>900.00 EUR</small> </div>
+          <div class="pr_price"> <big>@product.getPrice.getValue</big> <small></small> </div>
           @if(product.hasAttribute("size")) {
           <div class="size_info">
             <div class="size_sel">
