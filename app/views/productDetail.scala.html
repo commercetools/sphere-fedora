@@ -33,7 +33,7 @@
           <span id="img-zoomed"></span>
             <small class="pr_type">@category.getName</small>
           <h1>@product.getName</h1>
-          <p class="short_dc">@abbreviate(product.getDescription, 400)</p>
+          <p class="short_dc">@Html(abbreviate(product.getDescription, 400))</p>
 
         <form action="@routes.Carts.add" method="post">
           <input type="hidden" name="productId" value="@product.getId"/>

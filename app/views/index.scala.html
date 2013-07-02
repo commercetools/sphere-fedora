@@ -38,7 +38,7 @@
                     </a>
                     <div class="product_info">
                         <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName</a></h3>
-                        <small>@abbreviate(product.getDescription, 100)</small> </div>
+                        <small>@Html(abbreviate(product.getDescription, 90))</small> </div>
                     <div class="price_info"> <a href="#">+ Add to wishlist</a>
                         <form action="@routes.Carts.add" method="post">
                             <input type="hidden" name="productId" value="@product.getId"/>
@@ -66,7 +66,7 @@
                     </a>
                     <div class="product_info">
                         <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName</a></h3>
-                        <small>@abbreviate(product.getDescription, 100)</small> </div>
+                        <small>@Html(abbreviate(product.getDescription, 90))</small> </div>
                     <div class="price_info"> <a href="#">+ Add to wishlist</a>
                         <form action="@routes.Carts.add" method="post">
                             <input type="hidden" name="productId" value="@product.getId"/>
