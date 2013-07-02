@@ -75,6 +75,7 @@ public class ViewHelper {
     }
 
     public static String abbreviate(String text, int maxWidth) {
+        if (text == null) return "";
         return StringUtils.abbreviate(text, maxWidth);
     }
 
