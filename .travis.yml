@@ -8,7 +8,7 @@ notifications:
     on_success: never
     on_failure: change
 after_success:
-- sudo gem install heroku
+- wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 - git remote add heroku git@heroku.com:sphere-fedora.git
 - echo "Host heroku.com" >> ~/.ssh/config
 - echo "   StrictHostKeyChecking no" >> ~/.ssh/config
