@@ -86,6 +86,10 @@ public class ViewHelper {
         }
     }
 
+    public static Category getAncestor(Category category) {
+        return category.getPathInTree().get(0);
+    }
+
 	/**
 	 * Compares the categories and returns the 'active' class if are the same.
 	 * 

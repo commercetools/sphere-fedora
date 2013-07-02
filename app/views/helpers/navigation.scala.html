@@ -1,15 +1,18 @@
-@(selected: Boolean = true)
+@(current: Category = null)
 
 <div class="navigation_container">
     <!--Navigation Starts-->
     <nav>
         <ul class="primary_nav">
-            <li @if(selected){class="active"}>
-                <a href="#">SPORTS</a>
+            @for(root <- getRootCategories) {
+            <li class="@getActiveClass(root, current)">
+                <a href="@getCategoryUrl(root)">@root.getName</a>
+                @if(root.getChildren.size > 0) {
                 <!--Submenu Starts-->
                 <ul class="sub_menu">
-                    @for(category <- getRootCategories) {
-                    <li> <a href="@getCategoryUrl(category)">@category.getName</a>
+                    @for(category <- root.getChildren) {
+                    <li>
+                        <a href="@getCategoryUrl(category)">@category.getName</a>
                         <ul>
                             @for(subcategory <- category.getChildren) {
                             <li><a href="@getCategoryUrl(subcategory)">@subcategory.getName</a></li>
@@ -19,62 +22,11 @@
                     }
                 </ul>
                 <!--Submenu Ends-->
+                }
             </li>
-            <li><a href="@routes.Categories.select("womens")">Women</a>
-                <!--Submenu Starts-->
-                <ul class="sub_menu">
-                    <li> <a href="#">Dresses</a>
-                        <ul>
-                            <li><a href="#">Skirts</a></li>
-                            <li><a href="#">Shorts</a></li>
-                            <li><a href="#">Premium Pants</a></li>
-                            <li><a href="#">Khakis</a></li>
-                            <li><a href="#">Casual Pants</a></li>
-                            <li><a href="#">Jeans</a></li>
-                            <li><a href="#">Outerwear & Blazers</a></li>
-                        </ul>
-                    </li>
-                    <li> <a href="#">Accessories</a>
-                        <ul>
-                            <li><a href="#">Sunglasses</a></li>
-                            <li><a href="#">Scarves</a></li>
-                            <li><a href="#">Hair Accessories</a></li>
-                            <li><a href="#">Hats and Gloves</a></li>
-                            <li><a href="#">Lifestyle</a></li>
-                            <li><a href="#">Jeans</a></li>
-                            <li><a href="#">Outerwear & Blazers</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <!--SUbmenu Ends-->
-            </li>
-            <li><a href="@routes.Categories.select("mens")">Men</a>
-                <!--SUbmenu Starts-->
-                <ul class="sub_menu">
-                    <li> <a href="#">Men Summer Collection</a>
-                        <ul>
-                            <li><a href="#">Premium Pants</a></li>
-                            <li><a href="#">Khakis</a></li>
-                            <li><a href="#">Casual Pants</a></li>
-                            <li><a href="#">Jeans</a></li>
-                            <li><a href="#">Outerwear & Blazers</a></li>
-                        </ul>
-                    </li>
-                    <li> <a href="#">Accessories</a>
-                        <ul>
-                            <li><a href="#">Sunglasses</a></li>
-                            <li><a href="#">Scarves</a></li>
-                            <li><a href="#">Hair Accessories</a></li>
-                            <li><a href="#">Hats and Gloves</a></li>
-                            <li><a href="#">Jeans</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <!--Submenu Ends-->
-            </li>
-            <li><a href="@routes.Categories.select("boys")">Kids</a></li>
-            <li><a href="#">Accessories</a></li>
+            }
         </ul>
+
         @defining(getCurrentCart) { cart =>
         <div class="minicart">
             <a href="@routes.Carts.show" class="minicart_link">

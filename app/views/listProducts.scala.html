@@ -1,7 +1,7 @@
 @(category: Category, searchResult: SearchResult[Product])
 
 @main(category.getName){
-    @helpers.navigation()
+    @helpers.navigation(category)
 }{
     <section>
         @helpers.filters(category)
