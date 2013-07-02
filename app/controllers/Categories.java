@@ -17,16 +17,16 @@ import play.mvc.With;
 import sphere.ShopController;
 import sphere.SearchRequest;
 import views.html.index;
-import views.html.listProducts;
-import views.html.gridProducts;
+import views.html.products;
+import views.html.productSearch;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class Categories extends ShopController {
 
+    public static String QUERY_NAME = "q";
     public static String QUERY_COLOR = "color";
     public static String QUERY_PRICE = "price";
 
@@ -54,10 +54,20 @@ public class Categories extends ShopController {
         if (searchResult.getCount() < 1) {
             flash("product-list-info", "No products found");
         }
-        if (list.isEmpty()) {
-            return ok(gridProducts.render(category, searchResult));
+        return ok(products.render(category, searchResult, list.isEmpty()));
+    }
+
+    @With(SaveContext.class)
+    public static Result search(int page, int show, String sort, String list) {
+        SearchRequest <Product> searchRequest = sphere().products().all();
+        searchRequest = filterBy(searchRequest);
+        searchRequest = sortBy(searchRequest, sort);
+        searchRequest = paging(searchRequest, page, show);
+        SearchResult<Product> searchResult = searchRequest.fetch();
+        if (searchResult.getCount() < 1) {
+            flash("product-list-info", "No products found");
         }
-        return ok(listProducts.render(category, searchResult));
+        return ok(productSearch.render(searchResult, list.isEmpty()));
     }
 
     protected static SearchRequest<Product> filterBy(SearchRequest<Product> searchRequest) {
@@ -66,6 +76,9 @@ public class Categories extends ShopController {
         // By price
         Filters.Price.DynamicRange filterPrice = new Filters.Price.DynamicRange().setQueryParam(QUERY_PRICE);
         filterList.add(filterPrice);
+        // By name
+        Filters.Fulltext filterName = new Filters.Fulltext().setQueryParam(QUERY_NAME);
+        filterList.add(filterName);
         // Build request
         List<FilterExpression> filterExp = bindFiltersFromRequest(filterList);
         searchRequest = searchRequest.filter(filterExp);

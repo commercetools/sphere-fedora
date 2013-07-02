@@ -1,25 +1,25 @@
-@(category: Category)
+@()
 
 <!--Toolbar-->
 <div class="toolbar">
     <div class="sortby">
         <label>Sort by :</label>
         <select class="browse-url-selector">
-            <option data-url="@getCategoryUrl(category)@buildQuery("sort", "")">DEFAULT</option>
-            <option data-url="@getCategoryUrl(category)@buildQuery("sort", "asc")" @getActiveSort("price")>PRICE ASC</option>
-            <option data-url="@getCategoryUrl(category)@buildQuery("sort", "desc")" @getActiveSort("price")>PRICE DESC</option>
+            <option data-url="@buildQuery("sort", "")">DEFAULT</option>
+            <option data-url="@buildQuery("sort", "asc")" @getActiveSort("asc")>PRICE ASC</option>
+            <option data-url="@buildQuery("sort", "desc")" @getActiveSort("desc")>PRICE DESC</option>
         </select>
     </div>
     <div class="viewby">
         <label>View as :</label>
-        <a class="list" href="@getCategoryUrl(category)@buildQuery("list", "yes")"></a>
-        <a class="grid" href="@getCategoryUrl(category)@buildQuery("list", "")"></a>
+        <a class="list" href="@buildQuery("list", "yes")"></a>
+        <a class="grid" href="@buildQuery("list", "")"></a>
     </div>
     <div class="show_no">
         <label>Show :</label>
         <select class="browse-url-selector">
-            <option data-url="@getCategoryUrl(category)@buildQuery("show", "")">12 ITEMS</option>
-            <option data-url="@getCategoryUrl(category)@buildQuery("show", "24")" @getActiveShow(24)>24 ITEMS</option>
+            <option data-url="@buildQuery("show", "")">12 ITEMS</option>
+            <option data-url="@buildQuery("show", "24")" @getActiveShow(24)>24 ITEMS</option>
         </select>
     </div>
 </div>

@@ -1,0 +1,32 @@
+@(category: Category, searchResult: SearchResult[Product], isGrid: Boolean = true)
+
+@main(category.getName){
+    @helpers.navigation(category)
+}{
+    <section>
+        @helpers.filters(category)
+
+        <!--MAIN CONTENT STARTS-->
+        <div id="main_content">
+            <div class="category_banner"> <img src="@routes.Assets.at("images/promo_cat_banner.jpg")"/> </div>
+
+            @helpers.breadcrumb(category)
+            @helpers.toolbar()
+
+            @if(isGrid) {
+                @helpers.productGrid(searchResult)
+            } else {
+                @helpers.productList(searchResult)
+            }
+
+            @helpers.toolbar()
+
+        </div>
+        <!--MAIN CONTENT ENDS-->
+
+        @helpers.newsletter()
+
+    </section>
+}{
+
+}
