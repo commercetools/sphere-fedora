@@ -5,6 +5,8 @@ This is a template web store for [SPHERE.IO](http://sphere.io).
 
 Have fun!
 
+Build status [![Build Status](https://travis-ci.org/commercetools/sphere-fedora.png?branch=master)](https://travis-ci.org/commercetools/sphere-fedora)
+
 ## Deployment
 
 ### CloudBees
