@@ -83,17 +83,17 @@ public class SphereTestable {
 
         // Mock get all
         SearchRequest<Product> searchRequest = mockSearchRequest(products, page, pageSize);
-        when(productService.all()).thenReturn(searchRequest);
+        when(productService.all(any(Locale.class))).thenReturn(searchRequest);
         // Mock filter
-        when(productService.filter(Mockito.any(FilterExpression.class))).thenReturn(searchRequest);
-        when(productService.filter(Mockito.any(Iterable.class))).thenReturn(searchRequest);
+        when(productService.filter(any(Locale.class), any(FilterExpression.class))).thenReturn(searchRequest);
+        when(productService.filter(any(Locale.class), any(Iterable.class))).thenReturn(searchRequest);
         // Mock get by id/slug
         //when(productService.byId(Mockito.anyString())).thenReturn(mockFetchRequest(null));
         //when(productService.bySlug(Mockito.anyString())).thenReturn(mockFetchRequest(null));
         for (Product p : products) {
             FetchRequest<Product> fetchRequest = mockFetchRequest(p);
             when(productService.byId(p.getId())).thenReturn(fetchRequest);
-            when(productService.bySlug(p.getSlug())).thenReturn(fetchRequest);
+            when(productService.bySlug(p.getSlug(), any(Locale.class))).thenReturn(fetchRequest);
         }
 
         when(sphere.products()).thenReturn(productService);

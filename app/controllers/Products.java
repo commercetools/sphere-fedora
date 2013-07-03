@@ -14,6 +14,7 @@ import sphere.ShopController;
 import views.html.productDetail;
 
 import java.util.Collections;
+import java.util.Locale;
 
 
 @With(SaveContext.class)
@@ -21,7 +22,7 @@ public class Products extends ShopController {
 
     public static Result select(String productSlug, int variantId) {
         // Case invalid product
-        Product product = sphere().products().bySlug(productSlug).fetch().orNull();
+        Product product = sphere().products().bySlug(productSlug, Locale.ENGLISH).fetch().orNull();
         if (product == null) {
             return notFound("Product not found: " + productSlug);
         }
@@ -29,7 +30,7 @@ public class Products extends ShopController {
         Variant variant = product.getVariants().byId(variantId).or(product.getMasterVariant());
         Category category = product.getCategories().get(0);
         FilterExpression categoryFilter = new FilterExpressions.Categories(Collections.singletonList(category));
-        SearchResult<Product> searchResult = sphere().products().filter(categoryFilter).fetch();
+        SearchResult<Product> searchResult = sphere().products().filter(Locale.ENGLISH, categoryFilter).fetch();
         return ok(productDetail.render(product, variant, category, searchResult));
     }
 }

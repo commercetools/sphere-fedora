@@ -23,6 +23,7 @@ import views.html.productSearch;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class Categories extends ShopController {
 
@@ -32,8 +33,8 @@ public class Categories extends ShopController {
 
     @With(SaveContext.class)
     public static Result home() {
-        SearchResult<Product> searchResultNew = sphere().products().all().sort(ProductSort.price.desc).fetch();
-        SearchResult<Product> searchResultOffer = sphere().products().all().sort(ProductSort.price.asc).fetch();
+        SearchResult<Product> searchResultNew = sphere().products().all(Locale.ENGLISH).sort(ProductSort.price.desc).fetch();
+        SearchResult<Product> searchResultOffer = sphere().products().all(Locale.ENGLISH).sort(ProductSort.price.asc).fetch();
         return ok(index.render(searchResultNew, searchResultOffer));
     }
 
@@ -46,7 +47,7 @@ public class Categories extends ShopController {
             return notFound("Category not found: " + categorySlug);
         }
         FilterExpression categoryFilter = new FilterExpressions.CategoriesOrSubcategories(Collections.singletonList(category));
-        SearchRequest <Product> searchRequest = sphere().products().filter(categoryFilter);
+        SearchRequest <Product> searchRequest = sphere().products().filter(Locale.ENGLISH, categoryFilter);
         searchRequest = filterBy(searchRequest);
         searchRequest = sortBy(searchRequest, sort);
         searchRequest = paging(searchRequest, page, show);
@@ -59,7 +60,7 @@ public class Categories extends ShopController {
 
     @With(SaveContext.class)
     public static Result search(int page, int show, String sort, String list) {
-        SearchRequest <Product> searchRequest = sphere().products().all();
+        SearchRequest <Product> searchRequest = sphere().products().all(Locale.ENGLISH);
         searchRequest = filterBy(searchRequest);
         searchRequest = sortBy(searchRequest, sort);
         searchRequest = paging(searchRequest, page, show);
