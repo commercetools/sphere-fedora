@@ -3,6 +3,7 @@ import io.sphere.client.shop.model.Category;
 import io.sphere.client.shop.model.Product;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import play.mvc.Result;
