@@ -10,7 +10,7 @@
             <div class="product_info">
                 <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName</a></h3>
                 <small>@Html(abbreviate(product.getDescription, 400))</small>
-                <a class="black" href="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl">Learn more</a>
+                <a class="black" href="@getProductUrl(product, product.getMasterVariant)">Learn more</a>
             </div>
             <div class="price_info"> <a href="#">+ Add to wishlist</a>
                 <form action="@routes.Carts.add" method="post">
