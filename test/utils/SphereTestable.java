@@ -93,7 +93,7 @@ public class SphereTestable {
         for (Product p : products) {
             FetchRequest<Product> fetchRequest = mockFetchRequest(p);
             when(productService.byId(p.getId())).thenReturn(fetchRequest);
-            when(productService.bySlug(p.getSlug(), any(Locale.class))).thenReturn(fetchRequest);
+            when(productService.bySlug(any(Locale.class), p.getSlug())).thenReturn(fetchRequest);
         }
 
         when(sphere.products()).thenReturn(productService);

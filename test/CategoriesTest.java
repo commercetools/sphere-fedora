@@ -101,7 +101,7 @@ public class CategoriesTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 mockProductRequest(15, 0, 10);
-                Result result = callAction(routes.ref.Categories.home());
+                Result result = callAction(routes.ref.Application.home());
                 assertOK(result);
                 Document body = contentAsDocument(result);
                 assertThat(body.select("#first-carousel .product-item").size()).isGreaterThan(0);
