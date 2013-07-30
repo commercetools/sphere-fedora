@@ -1,7 +1,7 @@
 @(current: Category = null)
 
 <ul class="breadcrumb">
-    <li><a href="@routes.Categories.home">Home</a></li>
+    <li><a href="@routes.Application.home">Home</a></li>
     @if(isSet(current)) {
         @for(ancestor <- current.getPathInTree.init) {
         <li><a href="@getCategoryUrl(ancestor)">@ancestor.getName</a></li>

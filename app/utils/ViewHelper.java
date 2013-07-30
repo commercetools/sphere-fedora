@@ -91,6 +91,11 @@ public class ViewHelper {
         return category.getPathInTree().get(0);
     }
 
+    public static String getActive(String selected, String current) {
+        if (selected.equals(current)) return "active";
+        return "";
+    }
+
 	/**
 	 * Compares the categories and returns the 'active' class if are the same.
 	 * 

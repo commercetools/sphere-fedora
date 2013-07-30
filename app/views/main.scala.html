@@ -34,7 +34,10 @@
     <header>
         <div class="top_bar clear">
             <!--Language Switcher Starts-->
-            <div class="language_switch"> <a class="active" href="#" title="ENGLISH">EN</a> <a href="#" title="FRENCH">FR</a> </div>
+            <div class="language_switch">
+                <a class="@getActive("en", lang.language)" href="@routes.Application.selectLang("en")" title="ENGLISH">EN</a>
+                <a class="@getActive("de", lang.language)" href="@routes.Application.selectLang("de")" title="DEUTSCH">DE</a>
+            </div>
             <!--Language Switcher Ends-->
 
             <!--Top Links Starts-->
@@ -47,7 +50,7 @@
             <!--Top Links Ends-->
         </div>
         <!--Logo Starts-->
-        <h1 class="logo"> <a href="@routes.Categories.home"><img src="@routes.Assets.at("images/logosphere.png")" /></a> </h1>
+        <h1 class="logo"> <a href="@routes.Application.home"><img src="@routes.Assets.at("images/logosphere.png")" /></a> </h1>
         <!--Logo Ends-->
 
         <!--Search Starts-->

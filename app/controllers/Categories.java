@@ -16,27 +16,18 @@ import play.mvc.Result;
 import play.mvc.With;
 import sphere.ShopController;
 import sphere.SearchRequest;
-import views.html.index;
 import views.html.products;
 import views.html.productSearch;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 public class Categories extends ShopController {
 
     public static String QUERY_NAME = "q";
     public static String QUERY_COLOR = "color";
     public static String QUERY_PRICE = "price";
-
-    @With(SaveContext.class)
-    public static Result home() {
-        SearchResult<Product> searchResultNew = sphere().products().all(Locale.ENGLISH).sort(ProductSort.price.desc).fetch();
-        SearchResult<Product> searchResultOffer = sphere().products().all(Locale.ENGLISH).sort(ProductSort.price.asc).fetch();
-        return ok(index.render(searchResultNew, searchResultOffer));
-    }
 
     @With(SaveContext.class)
     public static Result select(String categoryPath, int page, int show, String sort, String list) {
@@ -47,7 +38,7 @@ public class Categories extends ShopController {
             return notFound("Category not found: " + categorySlug);
         }
         FilterExpression categoryFilter = new FilterExpressions.CategoriesOrSubcategories(Collections.singletonList(category));
-        SearchRequest <Product> searchRequest = sphere().products().filter(Locale.ENGLISH, categoryFilter);
+        SearchRequest <Product> searchRequest = sphere().products().filter(lang().toLocale(), categoryFilter);
         searchRequest = filterBy(searchRequest);
         searchRequest = sortBy(searchRequest, sort);
         searchRequest = paging(searchRequest, page, show);
@@ -60,7 +51,7 @@ public class Categories extends ShopController {
 
     @With(SaveContext.class)
     public static Result search(int page, int show, String sort, String list) {
-        SearchRequest <Product> searchRequest = sphere().products().all(Locale.ENGLISH);
+        SearchRequest <Product> searchRequest = sphere().products().all(lang().toLocale());
         searchRequest = filterBy(searchRequest);
         searchRequest = sortBy(searchRequest, sort);
         searchRequest = paging(searchRequest, page, show);
