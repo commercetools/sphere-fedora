@@ -17,20 +17,25 @@ $ ->
     shippingAddress = new Form $('#form-shipping-address')
     billingMethod = new Form $('#form-billing-method')
 
+
     # Method to be called each time a change has been triggered
     updateCheckout = ->
         loadPaymentMethod $('#payment-networks')
         orderSummary.load()
 
+    # Load shipping address form
+    loadShippingAddress = ->
+        url = shippingAddressForm.data("url")
+        if url?
+            shippingAddressForm.find('.loading-ajax').show()
+            $.getJSON(url, (data) ->
+                replaceShippingAddress data
+                shippingAddressForm.find('.loading-ajax').hide()
+            )
+
     # Load and replace shipping address form with new data
     replaceShippingAddress = (data) ->
         shippingAddressForm.empty().append(template.address data)
-
-    # Load shipping address form
-    loadShippingAddress = ->
-        $.getJSON(shippingAddressForm.data("url"), (data) ->
-            replaceShippingAddress data
-        )
 
     # Load payment method list
     loadPaymentMethod = (listElement) ->
@@ -164,10 +169,13 @@ $ ->
         nextStep(checkoutBilling)
     )
 
-    $("#shipping-address-list .address-item").click( ->
-        $.getJSON($(this).data("url"), (data) ->
-            replaceShippingAddress data
-        )
-    )
+    $("#shipping-address-list .address-item").click ->
+        url = $(this).data("url")
+        if url?
+            $(this).find('.loading-ajax').show()
+            $.getJSON(url, (data) ->
+                replaceShippingAddress data
+                $(this).find('.loading-ajax').hide()
+            )
 
     loadShippingAddress()
