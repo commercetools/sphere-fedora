@@ -32,8 +32,8 @@
         <div class="product_rightcol">
           <span id="img-zoomed"></span>
             <small class="pr_type">@category.getName</small>
-          <h1>@product.getName</h1>
-          <p class="short_dc">@Html(abbreviate(product.getDescription, 400))</p>
+          <h1>@product.getName(lang.toLocale)</h1>
+          <p class="short_dc">@Html(abbreviate(product.getDescription(lang.toLocale), 400))</p>
 
         <form action="@routes.Carts.add" method="post">
           <input type="hidden" name="productId" value="@product.getId"/>
@@ -104,8 +104,8 @@
           @for(related <- searchResultRelated.getResults) {
           <li> <a href="@getProductUrl(related, related.getMasterVariant)" class="product_image"><img src="@related.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/></a>
             <div class="product_info">
-              <h3><a href="@getProductUrl(related, related.getMasterVariant)">@related.getName</a></h3>
-              <small>@abbreviate(related.getDescription, 100)</small> </div>
+              <h3><a href="@getProductUrl(related, related.getMasterVariant)">@related.getName(lang.toLocale)</a></h3>
+              <small>@abbreviate(related.getDescription(lang.toLocale), 100)</small> </div>
             <div class="price_info"> <a href="#">+ Add to wishlist</a>
               <button class="price_add" title="" type="button"><span class="pr_price">@related.getPrice.getValue</span><span class="pr_add">Add to Cart</span></button>
             </div>
