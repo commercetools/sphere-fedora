@@ -1,0 +1,23 @@
+header.account=My Account
+header.wishlist=Wishlist
+header.login=Login
+header.signup=Sign Up
+
+button.cart=Add to cart
+button.wishlist=Add to wishlist
+
+list.new=New Products
+list.offers=Special Offers
+list.related=You might also like
+
+product.zoom=Roll over image to zoom
+product.size=Available size
+product.color=Color
+product.overview=Quick overview
+
+cart.item=item
+cart.quantity=quantity
+
+or=or
+
+
