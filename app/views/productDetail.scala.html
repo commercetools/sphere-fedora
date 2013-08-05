@@ -105,7 +105,7 @@
           <li> <a href="@getProductUrl(related, related.getMasterVariant)" class="product_image"><img src="@related.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/></a>
             <div class="product_info">
               <h3><a href="@getProductUrl(related, related.getMasterVariant)">@related.getName(lang.toLocale)</a></h3>
-              <small>@abbreviate(related.getDescription(lang.toLocale), 100)</small>
+              <small>@Html(abbreviate(related.getDescription(lang.toLocale), 100))</small>
             </div>
             <div class="price_info"> <a href="#">+ @Messages("button.wishlist")</a>
               <button class="price_add" title="" type="button"><span class="pr_price">@related.getPrice.getValue</span>
