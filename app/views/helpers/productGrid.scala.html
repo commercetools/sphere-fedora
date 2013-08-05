@@ -12,14 +12,14 @@
             <div class="product_info">
                 <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName(lang.toLocale)</a></h3>
                 <small>@Html(abbreviate(product.getDescription(lang.toLocale), 90))</small> </div>
-            <div class="price_info"> <a href="#">+ Add to wishlist</a>
+            <div class="price_info"> <a href="#">+ @Messages("button.wishlist")</a>
                 <form action="@routes.Carts.add" method="post">
                     <input type="hidden" name="productId" value="@product.getId"/>
                     <input type="hidden" name="variantId" value="@product.getMasterVariant.getId"/>
                     <input type="hidden" name="quantity" value="1"/>
                     <button class="price_add" title="" type="submit">
                         <span class="pr_price">@product.getPrice.getValue</span>
-                        <span class="pr_add">Add to Cart</span>
+                        <span class="pr_add">@Messages("button.cart")</span>
                     </button>
                 </form>
             </div>

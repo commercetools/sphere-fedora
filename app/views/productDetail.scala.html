@@ -16,7 +16,7 @@
           <span id="product-image-zoom" class="image-zoom">
               <img height="360" width="360" src="@variant.getFeaturedImage.getSize(ImageSize.ORIGINAL).getUrl">
           </span>
-          <span class="pr_info">ROLL OVER IMAGE TO ZOOM</span>
+          <span class="pr_info">@Messages("product.zoom")</span>
           <ul class="pr_gallery">
           @for(matchedVariant <- getPossibleVariants(product, variant, "color")) {
             <li>
@@ -42,7 +42,7 @@
           @if(product.hasAttribute("size")) {
           <div class="size_info">
             <div class="size_sel">
-              <label>Available Size :</label>
+              <label>@Messages("product.size") :</label>
               <select name="size">
                 <option>SELECT</option>
                   @for(size <- getPossibleSizes(product, variant)) {
@@ -53,7 +53,7 @@
             }
             @if(product.hasAttribute("color")) {
             <div class="color_sel">
-              <label>Color :</label>
+              <label>@Messages("product.color") :</label>
               <select class="browse-url-selector" id="product-color-selector">
                 @for(matchedVariant <- getPossibleVariants(product, variant, "color")) {
                 <option data-url="@getProductUrl(product, matchedVariant)" @if(matchedVariant.getString("color") == variant.getString("color")){selected}>
@@ -66,7 +66,7 @@
           }
           <div class="qty_info">
             <div class="quantity">
-              <label>Quantity :</label>
+              <label>@Messages("cart.quantity") :</label>
               <select name="quantity">
                 @for(quantity <- 1 to 5) {
                     <option value="@quantity">@quantity</option>
@@ -75,15 +75,15 @@
             </div>
           </div>
           <div class="add_to_buttons">
-            <button type="submit" class="add_cart">Add to Cart</button>
-            <span>or</span>
+            <button type="submit" class="add_cart">@Messages("button.cart")</button>
+            <span>@Messages("or")</span>
             <ul>
-              <li><a href="#">Add to Wishlist</a></li>
+              <li><a href="#">@Messages("button.wishlist")</a></li>
             </ul>
           </div>
         </form>
           <div class="product_overview">
-            <h4>Quick Overview</h4>
+            <h4>@Messages("product.overview")</h4>
             <ul>
               <li>Long sleeves with single button cuffs.</li>
               <li>Cuffs can be rolled up and secured with button-tabs.</li>
@@ -99,15 +99,17 @@
       <!--PRODUCT DETAIL ENDS-->
       <!--Product List Starts-->
       <div class="products_list products_slider">
-        <h2 class="sub_title">You might also like</h2>
+        <h2 class="sub_title">@Messages("list.related")</h2>
         <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
           @for(related <- searchResultRelated.getResults) {
           <li> <a href="@getProductUrl(related, related.getMasterVariant)" class="product_image"><img src="@related.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/></a>
             <div class="product_info">
               <h3><a href="@getProductUrl(related, related.getMasterVariant)">@related.getName(lang.toLocale)</a></h3>
-              <small>@abbreviate(related.getDescription(lang.toLocale), 100)</small> </div>
-            <div class="price_info"> <a href="#">+ Add to wishlist</a>
-              <button class="price_add" title="" type="button"><span class="pr_price">@related.getPrice.getValue</span><span class="pr_add">Add to Cart</span></button>
+              <small>@abbreviate(related.getDescription(lang.toLocale), 100)</small>
+            </div>
+            <div class="price_info"> <a href="#">+ @Messages("button.wishlist")</a>
+              <button class="price_add" title="" type="button"><span class="pr_price">@related.getPrice.getValue</span>
+                  <span class="pr_add">@Messages("button.cart")</span></button>
             </div>
           </li>
           }
