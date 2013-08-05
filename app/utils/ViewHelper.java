@@ -15,6 +15,8 @@ import org.apache.commons.lang3.text.WordUtils;
 import play.Logger;
 import play.Play;
 import play.data.Form;
+import play.i18n.Lang;
+import play.i18n.Messages;
 import play.mvc.Call;
 import play.mvc.Http;
 import sphere.Sphere;
@@ -68,6 +70,10 @@ public class ViewHelper {
 
     public static String getReturnUrl() {
         return Http.Context.current().session().get("returnUrl");
+    }
+
+    public static List<Lang> getLanguages() {
+        return Lang.availables();
     }
 
     public static String capitalizeInitials(String text) {

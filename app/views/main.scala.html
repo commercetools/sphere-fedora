@@ -1,4 +1,4 @@
-@(title: String = "", scripts: Html = Html(""), styles: Html = Html(""))(header: Html)(content: Html)(footer: Html)(implicit lang: Lang)
+@(title: String = "", scripts: Html = Html(""), styles: Html = Html(""))(header: Html)(content: Html)(footer: Html)
 
 <!DOCTYPE HTML>
 <html>
@@ -35,17 +35,20 @@
         <div class="top_bar clear">
             <!--Language Switcher Starts-->
             <div class="language_switch">
-                <a class="@getActive("en", lang.language)" href="@routes.Application.selectLang("en")" title="ENGLISH">EN</a>
-                <a class="@getActive("de", lang.language)" href="@routes.Application.selectLang("de")" title="DEUTSCH">DE</a>
+                @for(language <-  getLanguages) {
+                <a class="@getActive(language.language, lang.language)" href="@routes.Application.selectLang(language.language)" title="@language.toLocale.getDisplayName">
+                    @language.toLocale.getDisplayName
+                </a>
+                }
             </div>
             <!--Language Switcher Ends-->
 
             <!--Top Links Starts-->
             <ul class="top_links">
-                <li><a href="#">My Account</a></li>
-                <li><a href="#">Wishlist</a></li>
-                <li><a href="#">Login</a></li>
-                <li class="highlight"><a href="#">Sign Up</a></li>
+                <li><a href="#">@Messages("header.account")</a></li>
+                <li><a href="#">@Messages("header.wishlist")</a></li>
+                <li><a href="#">@Messages("header.login")</a></li>
+                <li class="highlight"><a href="#">@Messages("header.signup")</a></li>
             </ul>
             <!--Top Links Ends-->
         </div>
