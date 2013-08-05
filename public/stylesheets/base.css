@@ -131,7 +131,7 @@ ul.sub_menu > li > ul{border-top: solid 1px #5f5a56; margin-top:10px;}
 .product_rightcol div.color_sel div.selector select{ width:174px!important;}
 
 .product_rightcol .add_to_buttons{ display:inline-block; width:100%; padding:25px 0px;}
-.product_rightcol .add_to_buttons button.add_cart{ padding:17px 50px 17px 25px; font-size:13px; font-weight:bold!important; color:#fff; text-transform:uppercase; border:0px; cursor:pointer; background:url(../images/addtocart.png) no-repeat 137px center;}
+.product_rightcol .add_to_buttons button.add_cart{ padding:17px 50px 17px 25px; font-size:13px; font-weight:bold!important; color:#fff; text-transform:uppercase; border:0px; cursor:pointer; background:url(../images/addtocart.png) no-repeat right center;}
 .product_rightcol .add_to_buttons button.add_cart:hover{ background-color:#544f4b;-moz-transition:all 0.2s ease-out 0s; -webkit-transition: all 0.2s ease-out;}
 .product_rightcol .add_to_buttons span{ color:#aea8a3; font-style:italic; width:65px; display:inline-block; text-align:center; font-size:15px;}
 .product_rightcol .add_to_buttons ul{ display:inline-block;}
