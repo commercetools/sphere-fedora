@@ -293,9 +293,10 @@ ul.breadcrumb li a{ color:#bdbdbd; text-decoration:none;}
 .checkout_steps > ol > li{border-top:solid 1px #e7ded5; margin-top:-1px;}
 .checkout_steps > ol > li:first-child{ border:none;}
 .checkout_steps > ol > li.active .step-title{ color:#fff; background:#544f4b;}
-.checkout_steps #checkout-step-login{ padding:17px; border:solid 1px #e7ded5; display:inline-block; width:95.2%;}
-#checkout-step-login label{ font-size:13px; display:inline-block; padding:10px 0px;}
-#checkout-step-login .col-2 input{ border:1px solid #D7D7D7; padding:4px; width:230px;}
+.checkout_steps .step-body{ padding:17px; border:solid 1px #e7ded5; display:inline-block; width:95.2%;}
+.checkout_steps .step-body label{ font-size:13px; display:inline-block; padding:10px 0px;}
+.checkout_steps .step-body input{ border:1px solid #D7D7D7; padding:4px; width:230px;}
+.checkout_steps .step-body input[type=radio]{ width:auto;}
 .checkout_steps h3{ font-size:18px; padding-bottom:20px;}
 .checkout_steps h4{ color:#312e2b; font-size:13px; font-weight:bold;}
 .checkout_steps p{ padding-bottom:12px;}
@@ -356,11 +357,18 @@ span.highlight_text{ display:inline-block; color:#fff; font-size:16px; font-styl
 .twitter_feed{ padding:50px 15px 20px 15px; background:url(../images/twitter_top.jpg) repeat-x center top #ebebeb; line-height:20px; font-size:13px; font-style:italic; border-bottom:solid 2px}
 
 /*GENERAL*/
-input, select, textarea, button{ font-size:12px;}
+input, select, textarea,  button{ font-size:12px;}
 .message{ padding:10px 85px; font-size:14px; line-height:100%; margin-bottom:15px; margin:25px;}
 .message.success{ color:#91a158; background:url(../images/message_cart.png) no-repeat 15px center #f9fff1; border:solid 1px #dcedbf;}
-.brown_btn{ color:#fff; font-size:14px; font-weight:bold; padding:8px 14px; background:#544F4B; border:0px; line-height:100%; cursor:pointer; vertical-align:middle;}
+.brown_btn,.white_btn, a.button{ color:#fff; font-size:14px; font-weight:bold; padding:8px 14px; border:0px; background:#C0C0C0; line-height:100%; cursor:pointer; vertical-align:middle;}
+.brown_btn{ background:#544F4B;}
+a.button{text-decoration: none;}
 img{ max-width:100%;}
+.pull-left{float:left;}
+.pull-right{float:right;}
+.clearfix:before, .clearfix:after {content: " "; display: table;}
+.clearfix:after {clear: both;}
+
 
 /*Forms*/
 div.selector {

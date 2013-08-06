@@ -18,10 +18,11 @@ GET     /cart/remove                                        controllers.Carts.re
 GET     /checkout                                           controllers.Checkouts.show()
 POST    /checkout                                           controllers.Checkouts.submit()
 
-GET     /checkout/shipping/address                          controllers.Checkouts.showShippingAddress()
-POST    /checkout/shipping/address                          controllers.Checkouts.setShippingAddress()
+GET     /checkout/billing                                   controllers.Checkouts.showBilling()
+POST    /checkout/billing                                   controllers.Checkouts.setBilling()
 
-GET     /checkout/payment/method                            controllers.Checkouts.showPaymentMethod()
+GET     /checkout/shipping                                  controllers.Checkouts.showShipping()
+POST    /checkout/shipping                                  controllers.Checkouts.setShipping()
 
 # Login
 GET     /user/login                                         controllers.Login.show()

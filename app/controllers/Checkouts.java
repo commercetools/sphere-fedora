@@ -2,6 +2,8 @@ package controllers;
 
 import controllers.actions.CartNotEmpty;
 import forms.addressForm.SetAddress;
+import forms.checkoutForm.SetBilling;
+import forms.checkoutForm.SetShipping;
 import io.sphere.client.shop.model.Cart;
 import play.data.Form;
 import play.mvc.Result;
@@ -13,7 +15,8 @@ import static play.data.Form.form;
 
 public class Checkouts extends ShopController {
 
-    final static Form<SetAddress> setAddressForm = form(SetAddress.class);
+    final static Form<SetShipping> setShippingForm = form(SetShipping.class);
+    final static Form<SetBilling> setBillingForm = form(SetBilling.class);
 
     @With(CartNotEmpty.class)
     public static Result show() {
@@ -21,36 +24,52 @@ public class Checkouts extends ShopController {
     }
 
     @With(CartNotEmpty.class)
-    public static Result showShippingAddress() {
+    public static Result showShipping() {
         return showPage(2);
     }
 
     @With(CartNotEmpty.class)
-    public static Result showPaymentMethod() {
+    public static Result showBilling() {
         return showPage(3);
     }
 
     protected static Result showPage(int page) {
         Cart cart = sphere().currentCart().fetch();
-        Form<SetAddress> addressForm = setAddressForm.fill(new SetAddress(cart.getShippingAddress()));
-        return ok(checkout.render());
+        Form<SetShipping> shippingForm = setShippingForm.fill(new SetShipping(cart.getShippingAddress()));
+        Form<SetBilling> billingForm = setBillingForm.fill(new SetBilling(cart.getBillingAddress()));
+        return ok(checkout.render(page));
     }
 
-    public static Result setShippingAddress() {
-        Cart cart;
-        Form<SetAddress> form = setAddressForm.bindFromRequest();
+    public static Result setShipping() {
+        Form<SetShipping> form = setShippingForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
-            cart = sphere().currentCart().fetch();
-            return badRequest();
+            flash("error", "Shipping information has errors");
+            return showPage(2);
         }
         // Case valid shipping address
-        SetAddress setAddress = form.get();
-        if (setAddress.email != null) {
-            sphere().currentCart().setCustomerEmail(setAddress.email);
+        SetShipping setShipping = form.get();
+        if (setShipping.email != null) {
+            sphere().currentCart().setCustomerEmail(setShipping.email);
         }
-        cart = sphere().currentCart().setShippingAddress(setAddress.getAddress());
-        return ok();
+        sphere().currentCart().setShippingAddress(setShipping.getAddress());
+        return showPage(2);
+    }
+
+    public static Result setBilling() {
+        Form<SetBilling> form = setBillingForm.bindFromRequest();
+        // Case missing or invalid form data
+        if (form.hasErrors()) {
+            flash("error", "Billing information has errors");
+            return showPage(3);
+        }
+        // Case valid shipping address
+        SetBilling setBilling = form.get();
+        if (setBilling.email != null) {
+            sphere().currentCart().setCustomerEmail(setBilling.email);
+        }
+        sphere().currentCart().setShippingAddress(setBilling.getAddress());
+        return showPage(3);
     }
 
     public static Result submit() {

@@ -1,4 +1,4 @@
-@()
+@(step: Int = 1)
 
 @main("Checkout"){
     @helpers.navigation()
@@ -13,7 +13,7 @@
                         <div class="step-title"> <span class="number">1</span>
                             <h2>Checkout Method</h2>
                         </div>
-                        <div id="checkout-step-login">
+                        <div class="step-body" id="checkout-step-login">
                             <div class="col2-set">
                                 <div class="col-1">
                                     <h3>Checkout as a Guest or Register</h3>
@@ -71,19 +71,158 @@
                             </div>
                         </div>
                     </li>
-                    <li>
+                    <li class="section allow active">
                         <div class="step-title"> <span class="number">2</span>
-                            <h2>Billing Information</h2>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="step-title"> <span class="number">3</span>
                             <h2>Shipping Information</h2>
                         </div>
+                        <div class="step-body" id="checkout-step-shipping">
+                            <form action="@routes.Checkouts.setShipping" method="post" id="shipping-form">
+                            <div class="col2-set">
+                                <div class="col-1">
+                                    <h3>Choose shipping method</h3>
+                                    <fieldset>
+                                        <ul class="form-list">
+                                            <li class="control">
+                                                <input type="radio" class="radio" value="dhl" id="shipping-method:dhl" name="method">
+                                                <label>DHL</label>
+                                            </li>
+                                            <li class="control">
+                                                <input type="radio" class="radio" value="fedex" id="shipping-method:fedex" name="method">
+                                                <label>FedEx</label>
+                                            </li>
+                                            <li class="control">
+                                                <input type="radio" class="radio" value="ups" id="shipping-method:ups" name="method">
+                                                <label>UPS</label>
+                                            </li>
+                                        </ul>
+                                    </fieldset>
+                                </div>
+                                <div class="col-2">
+                                    <h3>Provide shipping address</h3>
+                                    <fieldset>
+                                        <ul class="form-list">
+                                            <li>
+                                                <label class="required" for="shipping-firstName"><em>*</em>Name</label>
+                                                <div class="input-box">
+                                                    <input type="text" name="firstName" id="shipping-firstName" class="input-text" placeholder="First name" value="John" required>
+                                                </div>
+                                                <div class="input-box">
+                                                    <input type="text" name="lastName" id="shipping-lastName" class="input-text" placeholder="Last name" value="Doe" required>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <label class="required" for="shipping-address"><em>*</em>Address</label>
+                                                <div class="input-box">
+                                                    <input type="text" name="address" id="shipping-address" class="input-text" placeholder="First address line" value="Somewhere str." required>
+                                                </div>
+                                                <div class="input-box">
+                                                    <input type="text" name="address2" id="shipping-address2" class="input-text" placeholder="Second address line (optional)">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <label class="required" for="shipping-city"><em>*</em>City</label>
+                                                <div class="input-box">
+                                                    <input type="text" name="city" id="shipping-city" class="input-text" placeholder="City" value="Berlin" required>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <label class="required" for="shipping-zip"><em>*</em>Postal code</label>
+                                                <div class="input-box">
+                                                    <input type="text" name="zip" id="shipping-zip" class="input-text" placeholder="Postal code" value="13445" required>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <label class="required" for="shipping-zip"><em>*</em>E-mail</label>
+                                                <div class="input-box">
+                                                    <input type="email" name="email" id="shipping-email" class="input-text" placeholder="Email address" required>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="buttons-set clearfix">
+                                <a href="@routes.Checkouts.show" class="button white_btn pull-left">Back</a>
+                                <button class="button brown_btn pull-right" type="submit">Next</button>
+                            </div>
+                            </form>
+                        </div>
                     </li>
-                    <li>
-                        <div class="step-title"> <span class="number">4</span>
-                            <h2>Shipping Method</h2>
+                    <li class="section allow active">
+                        <div class="step-title"> <span class="number">3</span>
+                            <h2>Billing Information</h2>
+                        </div>
+                        <div class="step-body" id="checkout-step-billing">
+                            <form action="@routes.Checkouts.setBilling" method="post" id="billing-form">
+                                <div class="col2-set">
+                                    <div class="col-1">
+                                        <h3>Choose payment method</h3>
+                                        <fieldset>
+                                            <ul class="form-list">
+                                                <li class="control">
+                                                    <input type="radio" class="radio" value="visa" id="billing-method:visa" name="method">
+                                                    <label>VISA</label>
+                                                </li>
+                                                <li class="control">
+                                                    <input type="radio" class="radio" value="mastercard" id="billing-method:mastercard" name="method">
+                                                    <label>Mastercard</label>
+                                                </li>
+                                                <li class="control">
+                                                    <input type="radio" class="radio" value="paypal" id="billing-method:paypal" name="method">
+                                                    <label>PayPal</label>
+                                                </li>
+                                            </ul>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-2">
+                                        <h3>Provide billing address</h3>
+                                    <fieldset>
+                                        <ul class="form-list">
+                                            <li>
+                                                <label class="required" for="billing-firstName"><em>*</em>Name</label>
+                                                <div class="input-box">
+                                                    <input type="text" name="firstName" id="billing-firstName" class="input-text" placeholder="First name" value="Jane" required>
+                                                </div>
+                                                <div class="input-box">
+                                                    <input type="text" name="lastName" id="billing-lastName" class="input-text" placeholder="Last name" value="Doe" required>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <label class="required" for="billing-address"><em>*</em>Address</label>
+                                                <div class="input-box">
+                                                    <input type="text" name="address" id="billing-address" class="input-text" placeholder="First address line" value="Elsewhere str." required>
+                                                </div>
+                                                <div class="input-box">
+                                                    <input type="text" name="address2" id="billing-address2" class="input-text" placeholder="Second address line (optional)">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <label class="required" for="billing-city"><em>*</em>City</label>
+                                                <div class="input-box">
+                                                    <input type="text" name="city" id="billing-city" class="input-text" placeholder="City" value="Berlin" required>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <label class="required" for="billing-zip"><em>*</em>Postal code</label>
+                                                <div class="input-box">
+                                                    <input type="text" name="zip" id="billing-zip" class="input-text" placeholder="Postal code" value="17555" required>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <br/>
+                                        <br/>
+                                    </fieldset>
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <div class="buttons-set clearfix">
+                                    <a href="@routes.Checkouts.showShipping" class="button white_btn pull-left">Back</a>
+                                    <button class="button brown_btn pull-right" type="submit">Next</button>
+                                </div>
+                            </form>
                         </div>
                     </li>
                     <li>
