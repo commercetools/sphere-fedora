@@ -291,8 +291,10 @@ ul.breadcrumb li a{ color:#bdbdbd; text-decoration:none;}
 .checkout_steps .step-title h2{font-size:16px; text-transform:uppercase; display:inline-block; }
 .checkout_steps .step-title span{ display:inline-block; width:20px; text-align:center; padding-right:12px;}
 .checkout_steps > ol > li{border-top:solid 1px #e7ded5; margin-top:-1px;}
+.checkout_steps > ol > li .step-body{ display:none;}
 .checkout_steps > ol > li:first-child{ border:none;}
 .checkout_steps > ol > li.active .step-title{ color:#fff; background:#544f4b;}
+.checkout_steps > ol > li.active .step-body{ display:inline-block;}
 .checkout_steps .step-body{ padding:17px; border:solid 1px #e7ded5; display:inline-block; width:95.2%;}
 .checkout_steps .step-body label{ font-size:13px; display:inline-block; padding:10px 0px;}
 .checkout_steps .step-body input{ border:1px solid #D7D7D7; padding:4px; width:230px;}
@@ -361,7 +363,7 @@ input, select, textarea,  button{ font-size:12px;}
 .message{ padding:10px 85px; font-size:14px; line-height:100%; margin-bottom:15px; margin:25px;}
 .message.success{ color:#91a158; background:url(../images/message_cart.png) no-repeat 15px center #f9fff1; border:solid 1px #dcedbf;}
 .brown_btn,.white_btn, a.button{ color:#fff; font-size:14px; font-weight:bold; padding:8px 14px; border:0px; background:#C0C0C0; line-height:100%; cursor:pointer; vertical-align:middle;}
-.brown_btn{ background:#544F4B;}
+.brown_btn{ background:#544F4B !important;}
 a.button{text-decoration: none;}
 img{ max-width:100%;}
 .pull-left{float:left;}

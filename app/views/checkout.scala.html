@@ -1,4 +1,4 @@
-@(step: Int = 1)
+@(cart: Cart, cartSnapshot: String, shippingMethods: List[ShippingMethod], step: Int = 1)
 
 @main("Checkout"){
     @helpers.navigation()
@@ -9,7 +9,7 @@
             <!--CHECKOUT STEPS STARTS-->
             <div class="checkout_steps">
                 <ol id="checkoutSteps">
-                    <li class="section allow active" id="opc-login">
+                    <li class="section clearfix allow @if(step == 1){active}" id="opc-login">
                         <div class="step-title"> <span class="number">1</span>
                             <h2>Checkout Method</h2>
                         </div>
@@ -37,7 +37,7 @@
                                     <br/>
                                     <br/>
                                     <div class="buttons-set">
-                                        <button  class="button brown_btn" type="button">Continue</button>
+                                        <a href="@routes.Checkouts.showShipping" class="button brown_btn">Continue</a>
                                     </div>
                                 </div>
                                 <div class="col-2">
@@ -71,91 +71,88 @@
                             </div>
                         </div>
                     </li>
-                    <li class="section allow active">
+                    <li class="section clearfix allow @if(step == 2){active}">
                         <div class="step-title"> <span class="number">2</span>
                             <h2>Shipping Information</h2>
                         </div>
                         <div class="step-body" id="checkout-step-shipping">
                             <form action="@routes.Checkouts.setShipping" method="post" id="shipping-form">
-                            <div class="col2-set">
-                                <div class="col-1">
-                                    <h3>Choose shipping method</h3>
-                                    <fieldset>
-                                        <ul class="form-list">
-                                            <li class="control">
-                                                <input type="radio" class="radio" value="dhl" id="shipping-method:dhl" name="method">
-                                                <label>DHL</label>
-                                            </li>
-                                            <li class="control">
-                                                <input type="radio" class="radio" value="fedex" id="shipping-method:fedex" name="method">
-                                                <label>FedEx</label>
-                                            </li>
-                                            <li class="control">
-                                                <input type="radio" class="radio" value="ups" id="shipping-method:ups" name="method">
-                                                <label>UPS</label>
-                                            </li>
-                                        </ul>
-                                    </fieldset>
+                                <input type="hidden" name="country" value="DE">
+                                <div class="col2-set">
+                                    <div class="col-1">
+                                        <h3>Choose shipping method</h3>
+                                        <fieldset>
+                                            <ul class="form-list">
+                                                @for(shippingMethod <- shippingMethods) {
+                                                <li class="control">
+                                                    <input type="radio" class="radio" value="@shippingMethod.getId" id="shipping-method:@shippingMethod.getId" name="method">
+                                                    <label><b>@shippingMethod.getName</b> @shippingMethod.getDescription</label>
+                                                </li>
+                                                }
+                                            </ul>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-2">
+                                        <h3>Provide shipping address</h3>
+                                        <fieldset>
+                                            <ul class="form-list">
+                                                <li>
+                                                    <label class="required" for="shipping-firstName"><em>*</em>Name</label>
+                                                    <div class="input-box">
+                                                        <input type="text" name="firstName" id="shipping-firstName" class="input-text" placeholder="First name" value="John" required>
+                                                    </div>
+                                                    <div class="input-box">
+                                                        <input type="text" name="lastName" id="shipping-lastName" class="input-text" placeholder="Last name" value="Doe" required>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label class="required" for="shipping-street"><em>*</em>Address</label>
+                                                    <div class="input-box">
+                                                        <input type="text" name="street" id="shipping-street" class="input-text" placeholder="First address line" value="Somewhere str." required>
+                                                    </div>
+                                                    <div class="input-box">
+                                                        <input type="text" name="street2" id="shipping-street2" class="input-text" placeholder="Second address line (optional)">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label class="required" for="shipping-city"><em>*</em>City</label>
+                                                    <div class="input-box">
+                                                        <input type="text" name="city" id="shipping-city" class="input-text" placeholder="City" value="Berlin" required>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label class="required" for="shipping-postalCode"><em>*</em>Postal code</label>
+                                                    <div class="input-box">
+                                                        <input type="text" name="postalCode" id="shipping-postalCode" class="input-text" placeholder="Postal code" value="13445" required>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label class="required" for="shipping-email"><em>*</em>E-mail</label>
+                                                    <div class="input-box">
+                                                        <input type="email" name="email" id="shipping-email" class="input-text" placeholder="Email address" required>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </fieldset>
+                                    </div>
                                 </div>
-                                <div class="col-2">
-                                    <h3>Provide shipping address</h3>
-                                    <fieldset>
-                                        <ul class="form-list">
-                                            <li>
-                                                <label class="required" for="shipping-firstName"><em>*</em>Name</label>
-                                                <div class="input-box">
-                                                    <input type="text" name="firstName" id="shipping-firstName" class="input-text" placeholder="First name" value="John" required>
-                                                </div>
-                                                <div class="input-box">
-                                                    <input type="text" name="lastName" id="shipping-lastName" class="input-text" placeholder="Last name" value="Doe" required>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <label class="required" for="shipping-address"><em>*</em>Address</label>
-                                                <div class="input-box">
-                                                    <input type="text" name="address" id="shipping-address" class="input-text" placeholder="First address line" value="Somewhere str." required>
-                                                </div>
-                                                <div class="input-box">
-                                                    <input type="text" name="address2" id="shipping-address2" class="input-text" placeholder="Second address line (optional)">
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <label class="required" for="shipping-city"><em>*</em>City</label>
-                                                <div class="input-box">
-                                                    <input type="text" name="city" id="shipping-city" class="input-text" placeholder="City" value="Berlin" required>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <label class="required" for="shipping-zip"><em>*</em>Postal code</label>
-                                                <div class="input-box">
-                                                    <input type="text" name="zip" id="shipping-zip" class="input-text" placeholder="Postal code" value="13445" required>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <label class="required" for="shipping-zip"><em>*</em>E-mail</label>
-                                                <div class="input-box">
-                                                    <input type="email" name="email" id="shipping-email" class="input-text" placeholder="Email address" required>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </fieldset>
-                                </div>
-                            </div>
-                            <br>
-                            <br>
-                            <div class="buttons-set clearfix">
-                                <a href="@routes.Checkouts.show" class="button white_btn pull-left">Back</a>
-                                <button class="button brown_btn pull-right" type="submit">Next</button>
-                            </div>
+                                <br>
+                                <br>
+                                <div class="buttons-set clearfix">
+                                    <a href="@routes.Checkouts.show" class="button white_btn pull-left">Back</a>
+                                    <button class="button brown_btn pull-right" type="submit">Continue</button>
+                               </div>
                             </form>
                         </div>
                     </li>
-                    <li class="section allow active">
+                    <li class="section clearfix allow @if(step == 3){active}">
                         <div class="step-title"> <span class="number">3</span>
                             <h2>Billing Information</h2>
                         </div>
                         <div class="step-body" id="checkout-step-billing">
                             <form action="@routes.Checkouts.setBilling" method="post" id="billing-form">
+                                <input type="hidden" name="country" value="DE">
+
                                 <div class="col2-set">
                                     <div class="col-1">
                                         <h3>Choose payment method</h3>
@@ -178,56 +175,106 @@
                                     </div>
                                     <div class="col-2">
                                         <h3>Provide billing address</h3>
-                                    <fieldset>
-                                        <ul class="form-list">
-                                            <li>
-                                                <label class="required" for="billing-firstName"><em>*</em>Name</label>
-                                                <div class="input-box">
-                                                    <input type="text" name="firstName" id="billing-firstName" class="input-text" placeholder="First name" value="Jane" required>
-                                                </div>
-                                                <div class="input-box">
-                                                    <input type="text" name="lastName" id="billing-lastName" class="input-text" placeholder="Last name" value="Doe" required>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <label class="required" for="billing-address"><em>*</em>Address</label>
-                                                <div class="input-box">
-                                                    <input type="text" name="address" id="billing-address" class="input-text" placeholder="First address line" value="Elsewhere str." required>
-                                                </div>
-                                                <div class="input-box">
-                                                    <input type="text" name="address2" id="billing-address2" class="input-text" placeholder="Second address line (optional)">
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <label class="required" for="billing-city"><em>*</em>City</label>
-                                                <div class="input-box">
-                                                    <input type="text" name="city" id="billing-city" class="input-text" placeholder="City" value="Berlin" required>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <label class="required" for="billing-zip"><em>*</em>Postal code</label>
-                                                <div class="input-box">
-                                                    <input type="text" name="zip" id="billing-zip" class="input-text" placeholder="Postal code" value="17555" required>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <br/>
-                                        <br/>
-                                    </fieldset>
+                                        <fieldset>
+                                            <ul class="form-list">
+                                                <li>
+                                                    <label class="required" for="billing-firstName"><em>*</em>Name</label>
+                                                    <div class="input-box">
+                                                        <input type="text" name="firstName" id="billing-firstName" class="input-text" placeholder="First name" value="Jane" required>
+                                                    </div>
+                                                    <div class="input-box">
+                                                        <input type="text" name="lastName" id="billing-lastName" class="input-text" placeholder="Last name" value="Doe" required>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label class="required" for="billing-street"><em>*</em>Address</label>
+                                                    <div class="input-box">
+                                                        <input type="text" name="street" id="billing-street" class="input-text" placeholder="First address line" value="Elsewhere str." required>
+                                                    </div>
+                                                    <div class="input-box">
+                                                        <input type="text" name="street2" id="billing-street2" class="input-text" placeholder="Second address line (optional)">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label class="required" for="billing-city"><em>*</em>City</label>
+                                                    <div class="input-box">
+                                                        <input type="text" name="city" id="billing-city" class="input-text" placeholder="City" value="Berlin" required>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label class="required" for="billing-postalCode"><em>*</em>Postal code</label>
+                                                    <div class="input-box">
+                                                        <input type="text" name="postalCode" id="billing-postalCode" class="input-text" placeholder="Postal code" value="17555" required>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <br/>
+                                            <br/>
+                                        </fieldset>
                                     </div>
                                 </div>
                                 <br>
                                 <br>
                                 <div class="buttons-set clearfix">
                                     <a href="@routes.Checkouts.showShipping" class="button white_btn pull-left">Back</a>
-                                    <button class="button brown_btn pull-right" type="submit">Next</button>
+                                    <button class="button brown_btn pull-right" type="submit">Continue</button>
                                 </div>
                             </form>
                         </div>
                     </li>
-                    <li>
-                        <div class="step-title"> <span class="number">5</span>
+                    <li class="section clearfix allow @if(step == 4){active}">
+                        <div class="step-title"> <span class="number">4</span>
                             <h2>Order Preview</h2>
+                        </div>
+                        <div class="step-body" id="checkout-step-submit">
+                            <form action="@routes.Checkouts.submit" method="post" id="checkout-form">
+                                <input type="hidden" name="cartSnapshot" value="@cartSnapshot">
+                                <div class="col2-set">
+                                    <div class="col-1">
+                                        <h3>Shipping information</h3>
+                                        <fieldset>
+                                        @defining(cart.getShippingAddress){ address =>
+                                            @if(isSet(address)) {
+                                            <ul class="form-list">
+                                                <li class="control">
+                                                    @address.getFirstName @address.getLastName<br>
+                                                    @address.getEmail
+                                                </li>
+                                                <li class="control">
+                                                    @address.getStreetName @address.getStreetNumber<br>
+                                                    @address.getPostalCode (@address.getCity)
+                                                </li>
+                                            </ul>
+                                            }
+                                        }
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-2">
+                                        <h3>Billing information</h3>
+                                        <fieldset>
+                                            @defining(cart.getBillingAddress){ address =>
+                                            @if(isSet(address)) {
+                                            <ul class="form-list">
+                                                <li class="control">
+                                                    @address.getFirstName @address.getLastName<br>
+                                                </li>
+                                                <li class="control">
+                                                    @address.getStreetName @address.getStreetNumber<br>
+                                                    @address.getPostalCode (@address.getCity)
+                                                </li>
+                                            </ul>
+                                            }
+                                            }
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <div class="buttons-set clearfix">
+                                    <a href="@routes.Checkouts.showBilling" class="button white_btn pull-left">Back</a>
+                                    <button class="button brown_btn pull-right" type="submit">Buy now</button>
+                                </div>
+                            </form>
                         </div>
                     </li>
                 </ol>
@@ -236,12 +283,12 @@
             <div class="col_right">
                 <div class="block-progress">
                     <div class="block-title">Your Checkout Progress</div>
-                        <ul>
-                            <li>Billing Address</li>
-                            <li>Shipping Address</li>
-                            <li>Shipping Method</li>
-                            <li>Payment Method</li>
-                        </ul>
+                    <ul>
+                        <li>Billing Address</li>
+                        <li>Shipping Address</li>
+                        <li>Shipping Method</li>
+                        <li>Payment Method</li>
+                    </ul>
                 </div>
                 <div class="right_promo">
                 <img src="@routes.Assets.at("images/side_promo_banner.jpg")">

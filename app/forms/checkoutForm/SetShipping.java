@@ -8,7 +8,6 @@ import play.data.validation.Constraints;
 public class SetShipping {
 
     @Constraints.Required(message = "Shipping method required")
-    @Constraints.Pattern(value = "dhl|fedex|ups", message = "Invalid value for shipping method")
     public String method;
 
     @Constraints.Required(message = "First name required")
