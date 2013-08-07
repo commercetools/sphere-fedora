@@ -4,7 +4,7 @@
     "source": "git://github.com/commercetools/sphere-fedora.git",
     "description": "Get started with Sphere.IO by building your own web store based on our fedora example.",
     "doc-url": "https://github.com/commercetools/sphere-fedora/blob/master/README.md",    
-    "icon" : "http://sphere.io/img/sphere.beta_logo.png", 
+    "icon" : "http://commercetools.de/assets/img/ct_logo_farbe.jpg", 
     "disabled": false,
     "supported-by" : "commercetools", 
     "order" : 1,
