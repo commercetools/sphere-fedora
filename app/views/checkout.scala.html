@@ -349,6 +349,14 @@
                                                 <td width="60%" colspan="1" class="align_left" ><strong>Subtotal</strong></td>
                                                 <td class="align_right" style=""><strong><span class="price">@cart.getTotalPrice</span></strong></td>
                                             </tr>
+                                            @if(isSet(cart.getTaxedPrice)){
+                                            <tr>
+                                                @for(taxPortion <- cart.getTaxedPrice.getTaxPortions) {
+                                                <td width="60%" colspan="1" class="align_left">Tax @getPercentage(taxPortion.getRate)%</td>
+                                                <td class="align_right" style=""><span class="">@taxPortion.getAmount</span></td>
+                                                }
+                                            </tr>
+                                            }
                                             @if(isSet(cart.getShippingInfo)) {
                                             <tr>
                                                 <td width="60%" colspan="1" class="align_left" >Shipping cost</td>
