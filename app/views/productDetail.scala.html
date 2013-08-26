@@ -35,54 +35,54 @@
           <h1>@product.getName(lang.toLocale)</h1>
           <p class="short_dc">@Html(abbreviate(product.getDescription(lang.toLocale), 400))</p>
 
-        <form action="@routes.Carts.add" method="post">
-          <input type="hidden" name="productId" value="@product.getId"/>
-          <input type="hidden" name="variantId" value="@variant.getId"/>
-          <div class="pr_price"> <big>@product.getPrice.getValue</big> <small></small> </div>
-          @if(product.hasAttribute("size")) {
-          <div class="size_info">
-            <div class="size_sel">
-              <label>@Messages("product.size") :</label>
-              <select name="size">
-                <option>SELECT</option>
-                  @for(size <- getPossibleSizes(product, variant)) {
-                    <option value="@size">@size</option>
-                  }
-              </select>
-            </div>
-            }
-            @if(product.hasAttribute("color")) {
-            <div class="color_sel">
-              <label>@Messages("product.color") :</label>
-              <select class="browse-url-selector" id="product-color-selector">
-                @for(matchedVariant <- getPossibleVariants(product, variant, "color")) {
-                <option data-url="@getProductUrl(product, matchedVariant)" @if(matchedVariant.getString("color") == variant.getString("color")){selected}>
-                    @matchedVariant.getString("color")
-                </option>
+            <form action="@routes.Carts.add" method="post">
+              <input type="hidden" name="productId" value="@product.getId"/>
+              <input type="hidden" name="variantId" value="@variant.getId"/>
+              <div class="pr_price"> <big>@product.getPrice.getValue</big> <small></small> </div>
+              @if(product.hasAttribute("size")) {
+              <div class="size_info">
+                <div class="size_sel">
+                  <label>@Messages("product.size") :</label>
+                  <select name="size">
+                    <option>SELECT</option>
+                      @for(size <- getPossibleSizes(product, variant)) {
+                        <option value="@size">@size</option>
+                      }
+                  </select>
+                </div>
                 }
-              </select>
-            </div>
-          </div>
-          }
-          <div class="qty_info">
-            <div class="quantity">
-              <label>@Messages("cart.quantity") :</label>
-              <select name="quantity">
-                @for(quantity <- 1 to 5) {
-                    <option value="@quantity">@quantity</option>
-                }
-              </select>
-            </div>
-          </div>
-          <div class="add_to_buttons">
-            <button type="submit" class="add_cart">@Messages("button.cart")</button>
-            <span>@Messages("or")</span>
-            <ul>
-              <li><a href="#">@Messages("button.wishlist")</a></li>
-            </ul>
-          </div>
-        </form>
-          <div class="product_overview">
+                @if(product.hasAttribute("color")) {
+                <div class="color_sel">
+                  <label>@Messages("product.color") :</label>
+                  <select class="browse-url-selector" id="product-color-selector">
+                    @for(matchedVariant <- getPossibleVariants(product, variant, "color")) {
+                    <option data-url="@getProductUrl(product, matchedVariant)" @if(matchedVariant.getString("color") == variant.getString("color")){selected}>
+                        @matchedVariant.getString("color")
+                    </option>
+                    }
+                  </select>
+                </div>
+              </div>
+              }
+              <div class="qty_info">
+                <div class="quantity">
+                  <label>@Messages("cart.quantity") :</label>
+                  <select name="quantity">
+                    @for(quantity <- 1 to 5) {
+                        <option value="@quantity">@quantity</option>
+                    }
+                  </select>
+                </div>
+              </div>
+              <div class="add_to_buttons">
+                <button type="submit" class="add_cart">@Messages("button.cart")</button>
+                <!--span>@Messages("or")</span>
+                <ul>
+                  <li><a href="#">@Messages("button.wishlist")</a></li>
+                </ul-->
+              </div>
+            </form>
+          <!--div class="product_overview">
             <h4>@Messages("product.overview")</h4>
             <ul>
               <li>Long sleeves with single button cuffs.</li>
@@ -91,7 +91,7 @@
               <li>Front button placket.</li>
               <li>Hem is longer in back.</li>
             </ul>
-          </div>
+          </div-->
         </div>
         <!--Product Right Ends-->
 
