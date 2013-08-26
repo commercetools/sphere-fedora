@@ -1,0 +1,23 @@
+@(product: Product)
+
+<li class="product-item">
+    <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
+        <img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/>
+    </a>
+    <div class="product_info">
+        <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName(lang.toLocale)</a></h3>
+        <small class="description">@Html(product.getDescription(lang.toLocale))</small>
+    </div>
+    <div class="price_info">
+        <!--a href="#">+ @Messages("button.wishlist")</a-->
+        <form action="@routes.Carts.add" method="post">
+            <input type="hidden" name="productId" value="@product.getId"/>
+            <input type="hidden" name="variantId" value="@product.getMasterVariant.getId"/>
+            <input type="hidden" name="quantity" value="1"/>
+            <button class="price_add" title="" type="submit">
+                <span class="pr_price">@product.getPrice.getValue</span>
+                <span class="pr_add">@Messages("button.cart")</span>
+            </button>
+        </form>
+    </div>
+</li>

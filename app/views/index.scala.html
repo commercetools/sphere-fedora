@@ -37,25 +37,7 @@
             <h2 class="sub_title">@Messages("list.new")</h2>
             <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
                 @for(product <- searchResultNew.getResults) {
-                <li class="product-item">
-                    <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
-                        <img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/>
-                    </a>
-                    <div class="product_info">
-                        <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName(lang.toLocale)</a></h3>
-                        <small>@Html(abbreviate(product.getDescription(lang.toLocale), 90))</small> </div>
-                    <div class="price_info"> <a href="#">+ @Messages("button.wishlist")</a>
-                        <form action="@routes.Carts.add" method="post">
-                            <input type="hidden" name="productId" value="@product.getId"/>
-                            <input type="hidden" name="variantId" value="@product.getMasterVariant.getId"/>
-                            <input type="hidden" name="quantity" value="1"/>
-                            <button class="price_add" title="" type="submit">
-                                <span class="pr_price">@product.getPrice.getValue</span>
-                                <span class="pr_add">@Messages("button.cart")</span>
-                            </button>
-                        </form>
-                    </div>
-                </li>
+                    @helpers.productItem(product)
                 }
             </ul>
         </div>
@@ -65,25 +47,7 @@
             <h2 class="sub_title">@Messages("list.offers")</h2>
             <ul id="second-carousel" class="first-and-second-carousel jcarousel-skin-tango">
                 @for(product <- searchResultOffer.getResults) {
-                <li class="product-item">
-                    <a href="@getProductUrl(product, product.getMasterVariant)" class="product_image">
-                        <img src="@product.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/>
-                    </a>
-                    <div class="product_info">
-                        <h3><a href="@getProductUrl(product, product.getMasterVariant)">@product.getName(lang.toLocale)</a></h3>
-                        <small>@Html(abbreviate(product.getDescription(lang.toLocale), 90))</small> </div>
-                    <div class="price_info"> <a href="#">+ @Messages("button.wishlist")</a>
-                        <form action="@routes.Carts.add" method="post">
-                            <input type="hidden" name="productId" value="@product.getId"/>
-                            <input type="hidden" name="variantId" value="@product.getMasterVariant.getId"/>
-                            <input type="hidden" name="quantity" value="1"/>
-                            <button class="price_add" title="" type="submit">
-                                <span class="pr_price">@product.getPrice.getValue</span>
-                                <span class="pr_add">@Messages("button.cart")</span>
-                            </button>
-                        </form>
-                    </div>
-                </li>
+                    @helpers.productItem(product)
                 }
             </ul>
         </div>
