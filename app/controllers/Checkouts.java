@@ -3,6 +3,9 @@ package controllers;
 import controllers.actions.CartNotEmpty;
 import forms.checkoutForm.SetBilling;
 import forms.checkoutForm.SetShipping;
+import forms.customerForm.LogIn;
+import forms.customerForm.SignUp;
+import io.sphere.client.exceptions.EmailAlreadyInUseException;
 import io.sphere.client.shop.model.Cart;
 import io.sphere.client.shop.model.PaymentState;
 import io.sphere.client.shop.model.ShippingMethod;
@@ -21,9 +24,14 @@ public class Checkouts extends ShopController {
 
     final static Form<SetShipping> setShippingForm = form(SetShipping.class);
     final static Form<SetBilling> setBillingForm = form(SetBilling.class);
+    final static Form<SignUp> signUpForm = form(SignUp.class);
+    final static Form<LogIn> logInForm = form(LogIn.class);
 
     @With(CartNotEmpty.class)
     public static Result show() {
+        if (sphere().isLoggedIn()) {
+            return ok(showPage(2));
+        }
         return ok(showPage(1));
     }
 
@@ -46,6 +54,50 @@ public class Checkouts extends ShopController {
         return checkout.render(cart, cartSnapshot, shippingMethods, page);
     }
 
+    public static Result signUp() {
+        Form<SignUp> form = signUpForm.bindFromRequest();
+        // Case missing or invalid form data
+        if (form.hasErrors()) {
+            flash("error", "Login form contains missing or invalid data");
+            return badRequest(showPage(1));
+        }
+        // Case already signed up
+        SignUp signUp = form.get();
+        if (sphere().login(signUp.email, signUp.password)) {
+            return redirect(routes.Checkouts.showShipping());
+        }
+        // Case already registered email
+        try {
+            sphere().signup(signUp.email, signUp.password, signUp.getCustomerName());
+        } catch (EmailAlreadyInUseException e) {
+            flash("error", "Provided email is already in use");
+            return badRequest(showPage(1));
+        }
+        // Case valid sign up
+        return redirect(routes.Checkouts.showShipping());
+    }
+
+    public static Result logIn() {
+        Form<LogIn> form = logInForm.bindFromRequest();
+        // Case missing or invalid form data
+        if (form.hasErrors()) {
+            flash("error", "Login form contains missing or invalid data");
+            return badRequest(showPage(1));
+        }
+        // Case already logged in
+        LogIn logIn = form.get();
+        if (sphere().isLoggedIn()) {
+            return ok(showPage(2));
+        }
+        // Case invalid credentials
+        if (!sphere().login(logIn.email, logIn.password)) {
+            flash("error", "Invalid username or password");
+            return badRequest(showPage(1));
+        }
+        // Case valid log in
+        return ok(showPage(2));
+    }
+
     public static Result setShipping() {
         Form<SetShipping> form = setShippingForm.bindFromRequest();
         // Case missing or invalid form data
@@ -63,7 +115,7 @@ public class Checkouts extends ShopController {
         // Case valid shipping data
         sphere().currentCart().setCustomerEmail(setShipping.email);
         sphere().currentCart().setShippingAddress(setShipping.getAddress());
-        //sphere().currentCart().setShippingMethod(shippingMethod);
+        sphere().currentCart().setShippingMethod(ShippingMethod.reference(shippingMethod.getId()));
         return ok(showPage(3));
     }
 
@@ -85,7 +137,6 @@ public class Checkouts extends ShopController {
 
     public static Result submit() {
         String cartSnapshot = form().bindFromRequest().field("cartSnapshot").valueOr("");
-        System.out.println("CART!" + cartSnapshot);
         if (!sphere().currentCart().isSafeToCreateOrder(cartSnapshot)) {
             flash("error", "Your cart has changed, check everything is correct");
             return badRequest(showPage(4));

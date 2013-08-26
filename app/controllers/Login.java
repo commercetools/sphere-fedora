@@ -3,7 +3,6 @@ package controllers;
 import forms.customerForm.LogIn;
 import forms.customerForm.SignUp;
 import io.sphere.client.exceptions.EmailAlreadyInUseException;
-import io.sphere.client.shop.model.Customer;
 import play.data.Form;
 import play.mvc.Result;
 import sphere.ShopController;
@@ -52,21 +51,21 @@ public class Login extends ShopController {
         Form<LogIn> form = logInForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
+            flash("error", "Login form contains missing or invalid data");
             return badRequest();
         }
         // Case already logged in
         LogIn logIn = form.get();
         if (sphere().isLoggedIn()) {
-            Customer customer = sphere().currentCustomer().fetch();
-            return redirect(routes.Customers.show());
+            return ok();
         }
         // Case invalid credentials
         if (!sphere().login(logIn.email, logIn.password)) {
+            flash("error", "Invalid username or password");
             return badRequest();
         }
         // Case valid log in
-        Customer customer = sphere().currentCustomer().fetch();
-        return redirect(routes.Customers.show());
+        return ok();
     }
 
     public static Result logOut() {

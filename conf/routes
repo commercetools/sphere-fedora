@@ -18,6 +18,12 @@ GET     /cart/remove                                        controllers.Carts.re
 GET     /checkout                                           controllers.Checkouts.show()
 POST    /checkout                                           controllers.Checkouts.submit()
 
+GET     /checkout/register                                  controllers.Checkouts.show()
+POST    /checkout/register                                  controllers.Checkouts.signUp()
+
+GET     /checkout/login                                     controllers.Checkouts.show()
+POST    /checkout/login                                     controllers.Checkouts.logIn()
+
 GET     /checkout/billing                                   controllers.Checkouts.showBilling()
 POST    /checkout/billing                                   controllers.Checkouts.setBilling()
 

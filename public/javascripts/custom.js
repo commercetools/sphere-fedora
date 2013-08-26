@@ -66,4 +66,10 @@ $(document).ready(function(){
     //ABBREVIATE DESCRIPTION
     $('.product-item .product_info .description').ellipsis();
 
+    //TOGGLE REGISTRATION FORM IN CHECKOUT PAGE
+    $('#checkout-step-login input[name=checkout_method]').change(function() {
+        $('.checkout_steps .checkout-step-register').slideToggle(300);
+        $('.checkout_steps .checkout-step-guest').slideToggle(500);
+    });
+
 });

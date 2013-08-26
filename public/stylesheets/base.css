@@ -304,6 +304,7 @@ ul.breadcrumb li a{ color:#bdbdbd; text-decoration:none;}
 .checkout_steps h4{ color:#312e2b; font-size:13px; font-weight:bold;}
 .checkout_steps p{ padding-bottom:12px;}
 .checkout_steps a{ text-decoration:underline; color:#312e2b;}
+.checkout_steps .checkout-step-register { display:none; }
 .col2-set{ clear:both; display:block;}
 .col2-set .col-1{ width:49%; float:left;}
 .checkout_steps .button-set{ padding-top:15px;}
