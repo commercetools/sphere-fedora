@@ -63,5 +63,7 @@ $(document).ready(function(){
         window.location.href = url;
     });
 
+    //ABBREVIATE DESCRIPTION
+    $('.product-item .product_info .description').ellipsis();
 
 });
