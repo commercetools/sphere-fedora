@@ -85,9 +85,13 @@ header{ position:relative;}
 .responsive-nav .selector span{ width:239px;}
 .responsive-nav .selector select{ width:246px;}
 
-header .language_switch a{ padding:3px 4px;}
+header .language_switch { width: 60px; position:absolute; }
+header .language_switch li{ display:none; float:none; }
+header .language_switch li.active{ display:block; }
+header .language_switch #language_more{ display:block; float:right; }
+
 header .top_links > li a{ padding:16px 4px; font-size:11px;}
-header h1.logo { width:145px; margin:auto; float:none; padding:0px;}
+header h1.logo { width:145px; margin:auto; float:none; padding:15px 0px 0px;}
 nav .primary_nav{ display:none;}
 .header_container{ padding-bottom:20px;}
 header .header_search{ margin:auto;}

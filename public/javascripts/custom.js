@@ -72,4 +72,10 @@ $(document).ready(function(){
         $('.checkout_steps .checkout-step-guest').slideToggle(500);
     });
 
+    //TOGGLE LANGUAGE LIST
+    $('#language_more').on('click', function(e) {
+        e.preventDefault();
+        $('header .language_switch li').slideToggle();
+    });
+
 });

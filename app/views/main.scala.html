@@ -34,16 +34,6 @@
     <!--Header Starts-->
     <header>
         <div class="top_bar clear">
-            <!--Language Switcher Starts-->
-            <div class="language_switch">
-                @for(language <-  getLanguages) {
-                <a class="@getActive(language.language, lang.language)" href="@routes.Application.selectLang(language.language)" title="@language.toLocale.getDisplayName">
-                    @language.toLocale.getDisplayName
-                </a>
-                }
-            </div>
-            <!--Language Switcher Ends-->
-
             <!--Top Links Starts-->
             <ul class="top_links">
                 <li><a href="#">@Messages("header.account")</a></li>
@@ -52,6 +42,23 @@
                 <li class="highlight"><a href="#">@Messages("header.signup")</a></li>
             </ul>
             <!--Top Links Ends-->
+
+            <!--Language Switcher Starts-->
+            <div class="language_switch">
+                <div id="language_more">
+                    <a href="#"><img src="@routes.Assets.at("images/shortcodes/list-plus.png")"/></a>
+                </div>
+                <ul>
+                    @for(language <-  getLanguages) {
+                    <li class="@getActive(language.language, lang.language)">
+                        <a href="@routes.Application.selectLang(language.language)" title="@language.toLocale.getDisplayName">
+                            @language.toLocale.getLanguage
+                        </a>
+                    </li>
+                    }
+                </ul>
+            </div>
+            <!--Language Switcher Ends-->
         </div>
         <!--Logo Starts-->
         <h1 class="logo"> <a href="@routes.Application.home"><img src="@routes.Assets.at("images/logo.png")" /></a> </h1>
