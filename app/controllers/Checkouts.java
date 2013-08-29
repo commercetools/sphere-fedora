@@ -30,8 +30,13 @@ public class Checkouts extends ShopController {
     @With(CartNotEmpty.class)
     public static Result show() {
         if (sphere().isLoggedIn()) {
-            return ok(showPage(2));
+            return showShipping();
         }
+        return showLogin();
+    }
+
+    @With(CartNotEmpty.class)
+    public static Result showLogin() {
         return ok(showPage(1));
     }
 
