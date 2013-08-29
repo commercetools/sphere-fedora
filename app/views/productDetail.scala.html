@@ -102,16 +102,7 @@
         <h2 class="sub_title">@Messages("list.related")</h2>
         <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
           @for(related <- searchResultRelated.getResults) {
-          <li> <a href="@getProductUrl(related, related.getMasterVariant)" class="product_image"><img src="@related.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"/></a>
-            <div class="product_info">
-              <h3><a href="@getProductUrl(related, related.getMasterVariant)">@related.getName(lang.toLocale)</a></h3>
-              <small>@Html(abbreviate(related.getDescription(lang.toLocale), 100))</small>
-            </div>
-            <div class="price_info"> <a href="#">+ @Messages("button.wishlist")</a>
-              <button class="price_add" title="" type="button"><span class="pr_price">@related.getPrice.getValue</span>
-                  <span class="pr_add">@Messages("button.cart")</span></button>
-            </div>
-          </li>
+          @helpers.productItem(related)
           }
         </ul>
       </div>
