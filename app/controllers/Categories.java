@@ -88,13 +88,12 @@ public class Categories extends ShopController {
     }
 
     protected static SearchRequest<Product> sortBy(SearchRequest<Product> searchRequest, String sort) {
-        switch (sort) {
-            case "desc":
-                searchRequest = searchRequest.sort(ProductSort.price.desc);
-                break;
-            case "asc":
-                searchRequest = searchRequest.sort(ProductSort.price.asc);
-                break;
+        if (sort.equals("desc")) {
+            searchRequest = searchRequest.sort(ProductSort.price.desc);
+        } else if (sort.equals("asc")) {
+            searchRequest = searchRequest.sort(ProductSort.price.asc);
+        } else {
+            searchRequest = searchRequest.sort(ProductSort.name.asc);
         }
         return searchRequest;
     }
