@@ -432,8 +432,13 @@ ul.primary_nav > li > a, .minicart span, h1, h2, h3, h4, h5, .product_info, .pri
 {font-family: 'Istok Web', sans-serif; font-weight:400;}
 
 
+img.product-image {
+    max-height: 360px; max-width: 360px;
+}
+
 .image-zoom {
     display:inline-block;
+    width: 360px; height: 360px;
 }
 
 .alert {
