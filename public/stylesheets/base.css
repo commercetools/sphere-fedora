@@ -441,6 +441,10 @@ img.product-image {
     width: 360px; height: 360px;
 }
 
+.product-attributes { margin: 10px 0; }
+.product-attributes li { padding: 5px 0; }
+.product-attributes span { font-weight: bold; }
+
 .alert {
     text-align: center;
 }

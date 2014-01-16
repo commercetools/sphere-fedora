@@ -34,6 +34,11 @@
             <small class="pr_type">@category.getName</small>
           <h1>@product.getName(lang.toLocale)</h1>
           <p class="short_dc">@Html(abbreviate(product.getDescription(lang.toLocale), 400))</p>
+          <ul class="product-attributes">
+          @for(attribute <- variant.getAttributes) {
+            <li><span>@attribute.getName</span>: @attribute.getValue</li>
+          }
+          </ul>
 
             <form action="@routes.Carts.add" method="post">
               <input type="hidden" name="productId" value="@product.getId"/>
