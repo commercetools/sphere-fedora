@@ -78,4 +78,10 @@ $(document).ready(function(){
         $('header .language_switch li').slideToggle();
     });
 
+    // CHANGE PRODUCT PICTURE
+    $('.product-image-small').click(function(e) {
+        e.preventDefault();
+        $('#product-image-zoom img').attr("src", $(this).data("pic"));
+    });
+
 });

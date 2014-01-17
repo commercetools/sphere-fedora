@@ -14,16 +14,29 @@
         <!--Product Left Starts-->
         <div class="product_leftcol">
           <span id="product-image-zoom" class="image-zoom">
-              <img height="360" width="360" src="@variant.getFeaturedImage.getSize(ImageSize.ORIGINAL).getUrl">
+              <img src="@variant.getFeaturedImage.getSize(ImageSize.ORIGINAL).getUrl" class="small">
           </span>
           <span class="pr_info">@Messages("product.zoom")</span>
           <ul class="pr_gallery">
-          @for(matchedVariant <- getPossibleVariants(product, variant, "color")) {
+          @for(image <- variant.getImages) {
             <li>
-                <a href="@getProductUrl(product, matchedVariant)">
-                    <img src="@matchedVariant.getFeaturedImage.getSize(ImageSize.THUMBNAIL).getUrl">
+                <a href="#" class="product-image-small" data-pic="@image.getSize(ImageSize.ORIGINAL).getUrl">
+                    <div class="product-detail-thumbnail">
+                        <img src="@image.getSize(ImageSize.THUMBNAIL).getUrl"/>
+                    </div>
                 </a>
             </li>
+          }
+          @for(matchedVariant <- getPossibleVariants(product, variant, "color")) {
+            @if(matchedVariant.getId != variant.getId){
+            <li>
+                <a href="@getProductUrl(product, matchedVariant)">
+                    <div class="product-detail-thumbnail">
+                        <img src="@matchedVariant.getFeaturedImage.getSize(ImageSize.THUMBNAIL).getUrl">
+                    </div>
+                </a>
+            </li>
+            }
           }
           </ul>
         </div>
