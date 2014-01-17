@@ -227,6 +227,7 @@ public class ViewHelper {
         return routes.Products.select(product.getSlug(), variant.getId());
     }
 
+    /* Get possible variant sizes for a particular variant */
     public static List<String> getPossibleSizes(Product product, Variant variant) {
         List<Variant> variants = getPossibleVariants(product, variant, "size");
         List<String> sizes = new ArrayList<String>();
@@ -236,14 +237,18 @@ public class ViewHelper {
         return sizes;
     }
 
+    /* Get variants with matching attributes but with different selected attribute
+    * This method can be simplified if fixed and variable attributes are known beforehand */
     public static List<Variant> getPossibleVariants(Product product, Variant variant, String selectedAttribute) {
         List<Variant> matchingVariantList = new ArrayList<Variant>();
         List<Attribute> desiredAttributes = new ArrayList<Attribute>();
+        // Get all other attributes with more than one different value
         for (Attribute attribute : variant.getAttributes()) {
             if (!selectedAttribute.equals(attribute.getName()) && hasMoreAttributeValues(product, attribute.getName())) {
                 desiredAttributes.add(attribute);
             }
         }
+        // Get variants matching all these other attributes but different selected attribute
         VariantList variantList = product.getVariants().byAttributes(desiredAttributes);
         for (Attribute attr : product.getVariants().getAvailableAttributes(selectedAttribute)) {
             if (variantList.byAttributes(attr).size() < 1) {
