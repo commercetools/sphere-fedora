@@ -12,14 +12,14 @@
                     @for(category <- root.getChildren) {
                     @if(category.getChildren.size > 0){
                     <li class="menu_cont">
-                        <a href="@getCategoryUrl(category)" class="@getActiveClass(category, current)">@category.getName</a>
+                        <a href="@getCategoryUrl(category)" class="@getActiveClass(category, current)">@category.getName(lang.toLocale)</a>
                         <ul class="side_sub_menu">
                             @for(subcategory <- category.getChildren) {
-                            <li><a href="@getCategoryUrl(subcategory)" class="@getActiveClass(subcategory, current)">@subcategory.getName</a></li>
+                            <li><a href="@getCategoryUrl(subcategory)" class="@getActiveClass(subcategory, current)">@subcategory.getName(lang.toLocale)</a></li>
                             }
                         </ul>
                         } else {
-                    <li><a href="@getCategoryUrl(category)" class="@getActiveClass(category, current)">@category.getName</a>
+                    <li><a href="@getCategoryUrl(category)" class="@getActiveClass(category, current)">@category.getName(lang.toLocale)</a>
                         }
                     </li>
                     }

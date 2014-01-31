@@ -4,8 +4,8 @@
     <li><a href="@routes.Application.home">Home</a></li>
     @if(isSet(current)) {
         @for(ancestor <- current.getPathInTree.init) {
-        <li><a href="@getCategoryUrl(ancestor)">@ancestor.getName</a></li>
+        <li><a href="@getCategoryUrl(ancestor)">@ancestor.getName(lang.toLocale)</a></li>
         }
-        <li class="active"><a href="@getCategoryUrl(current)">@current.getName</a></li>
+        <li class="active"><a href="@getCategoryUrl(current)">@current.getName(lang.toLocale)</a></li>
     }
 </ul>
