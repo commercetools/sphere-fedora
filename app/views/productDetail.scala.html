@@ -1,6 +1,5 @@
 @(product: Product, variant: Variant, category: Category, searchResultRelated: SearchResult[Product])
 
-
 @scripts = {<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.zoom.js")"></script>}
 
 @main(product.getName, scripts){
@@ -57,8 +56,8 @@
               <input type="hidden" name="productId" value="@product.getId"/>
               <input type="hidden" name="variantId" value="@variant.getId"/>
               <div class="pr_price"> <big>@product.getPrice.getValue</big> <small></small> </div>
-              @if(product.hasAttribute("size")) {
               <div class="size_info">
+                @if(product.hasAttribute("size")) {
                 <div class="size_sel">
                   <label>@Messages("product.size") :</label>
                   <select name="size">
@@ -80,8 +79,8 @@
                     }
                   </select>
                 </div>
+                }
               </div>
-              }
               <div class="qty_info">
                 <div class="quantity">
                   <label>@Messages("cart.quantity") :</label>
