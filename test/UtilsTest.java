@@ -1,6 +1,7 @@
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
+import static utils.TestHelper.setContext;
 
 import io.sphere.client.shop.model.Category;
 import io.sphere.client.shop.model.Product;
@@ -33,33 +34,6 @@ public class UtilsTest {
         return sphere.mockProduct("prod", 1, 1, 1);
     }
 
-	@Test
-	public void UrlWithOneCategory() {
-        Category category = createCategory(1);
-		String path = ViewHelper.getCategoryUrl(category).url();
-		assertThat(path).isEqualTo("/cat1");
-	}
-
-	@Test
-	public void UrlWithTwoCategories() {
-        Category category = createCategory(2);
-        String path = ViewHelper.getCategoryUrl(category).url();
-        assertThat(path).isEqualTo("/cat1/cat2");
-	}
-
-    @Test
-    public void UrlWithThreeCategories() {
-        Category category = createCategory(3);
-        String path = ViewHelper.getCategoryUrl(category).url();
-        assertThat(path).isEqualTo("/cat1-cat2/cat3");
-    }
-
-    @Test
-    public void UrlWithMoreThanThreeCategories() {
-        Category category = createCategory(4);
-        String path = ViewHelper.getCategoryUrl(category).url();
-        assertThat(path).isEqualTo("/cat1-cat2/cat4");
-    }
 
     @Test
     public void UrlWithProduct() {

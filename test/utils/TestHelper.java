@@ -1,6 +1,8 @@
 package utils;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static play.mvc.Http.Status.BAD_REQUEST;
 import static play.mvc.Http.Status.NOT_FOUND;
 import static play.mvc.Http.Status.OK;
@@ -10,20 +12,34 @@ import static play.test.Helpers.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import play.api.mvc.RequestHeader;
+import play.i18n.Lang;
+import play.mvc.Http;
 import play.mvc.Result;
 
 public class TestHelper {
 
 	public static final String CONTENT_TYPE = "text/html";
 	public static final String CHARSET = "utf-8";
+
+    public static void setContext() {
+        Http.Request request = mock(Http.Request.class);
+        when(request.acceptLanguages()).thenReturn(Arrays.asList(Lang.forCode("en")));
+
+        Http.Context.current.set(new Http.Context(
+                Long.MIN_VALUE,
+                mock(RequestHeader.class),
+                request,
+                new HashMap<String, String>(),
+                new HashMap<String, String>(),
+                new HashMap<String, Object>()
+        ));
+    }
 
 	public static Document contentAsDocument(Result result) {
 		return Jsoup.parse(contentAsString(result), "UTF-8");
