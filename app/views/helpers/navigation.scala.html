@@ -6,16 +6,16 @@
         <ul class="primary_nav">
             @for(root <- getRootCategories) {
             <li class="@getActiveClass(root, current)">
-                <a href="@getCategoryUrl(root)">@root.getName</a>
+                <a href="@getCategoryUrl(root)">@root.getName(lang.toLocale)</a>
                 @if(root.getChildren.size > 0) {
                 <!--Submenu Starts-->
                 <ul class="sub_menu">
                     @for(category <- root.getChildren) {
                     <li>
-                        <a href="@getCategoryUrl(category)">@category.getName</a>
+                        <a href="@getCategoryUrl(category)">@category.getName(lang.toLocale)</a>
                         <ul>
                             @for(subcategory <- category.getChildren) {
-                            <li><a href="@getCategoryUrl(subcategory)">@subcategory.getName</a></li>
+                            <li><a href="@getCategoryUrl(subcategory)">@subcategory.getName(lang.toLocale)</a></li>
                             }
                         </ul>
                     </li>
