@@ -217,7 +217,7 @@ public class ViewHelper {
     }
 
     public static Call getCategoryUrl(Category category, int page) {
-        return routes.Categories.select(getCategoryPath(category), page, 12, "", "");
+        return routes.Categories.select(category.getSlug(lang().toLocale()), page, 12, "", "");
     }
 
     public static Call getProductUrl(Product product, Variant variant) {
