@@ -1,6 +1,6 @@
 @(category: Category, searchResult: SearchResult[Product], isGrid: Boolean = true)
 
-@main(category.getName){
+@main(category.getName(lang.toLocale)){
     @helpers.navigation(category)
 }{
     <section>

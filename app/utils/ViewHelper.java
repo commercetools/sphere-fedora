@@ -22,6 +22,7 @@ import play.mvc.Http;
 import sphere.Sphere;
 
 import static play.data.Form.form;
+import static play.mvc.Http.Context.Implicit.lang;
 
 public class ViewHelper {
 
@@ -89,14 +90,14 @@ public class ViewHelper {
         if (level > 1) {
             // Add first 2 oldest ancestors separated by '-'
             List<Category> ancestors = category.getPathInTree().subList(0, level - 1);
-            String ancestorsPath = ancestors.get(0).getSlug();
+            String ancestorsPath = ancestors.get(0).getSlug(lang().toLocale());
             if (ancestors.size() > 1) {
-                ancestorsPath += "-" + ancestors.get(1).getSlug();
+                ancestorsPath += "-" + ancestors.get(1).getSlug(lang().toLocale());
             }
             path += ancestorsPath + "/";
         }
         // Add current category
-        path += category.getPathInTree().get(level - 1).getSlug();
+        path += category.getPathInTree().get(level - 1).getSlug(lang().toLocale());
         return path;
     }
 

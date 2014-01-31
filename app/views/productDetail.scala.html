@@ -44,7 +44,7 @@
         <!--Product Right Starts-->
         <div class="product_rightcol">
           <span id="img-zoomed"></span>
-            <small class="pr_type">@category.getName</small>
+            <small class="pr_type">@category.getName(lang.toLocale)</small>
           <h1>@product.getName(lang.toLocale)</h1>
           <p class="short_dc">@Html(abbreviate(product.getDescription(lang.toLocale), 400))</p>
           <ul class="product-attributes">
