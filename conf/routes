@@ -4,7 +4,6 @@
 
 # Application
 GET     /                                                   controllers.Application.home()
-GET     /lang                                               controllers.Application.selectLang(l: String ?= "en")
 GET     /search                                             controllers.Categories.search(page: Int ?= 1, show: Int ?= 12, sort: String ?= "", list: String ?= "")
 
 # Cart

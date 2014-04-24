@@ -17,21 +17,4 @@ public class Application extends ShopController {
         SearchResult<Product> searchResultOffer = sphere().products().all(lang().toLocale()).sort(ProductSort.price.asc).fetch();
         return ok(index.render(searchResultNew, searchResultOffer));
     }
-
-    public static Result selectLang(String lang) {
-        // Case url not defined
-        String url = request().getHeader("referer");
-        if (url == null) {
-            url = "/";
-        }
-        // Case invalid language selected
-        if (!changeLang(lang)) {
-            flash("error", "Language cannot be changed to " + lang);
-            return redirect(url);
-        }
-        // Case change language successfully
-        return redirect(url);
-    }
-
-
 }
