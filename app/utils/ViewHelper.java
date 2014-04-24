@@ -5,24 +5,15 @@ import java.util.*;
 
 import com.neovisionaries.i18n.CountryCode;
 import controllers.routes;
-import forms.cartForm.AddToCart;
-import forms.customerForm.UpdateCustomer;
 import io.sphere.client.model.Money;
-import io.sphere.client.model.SearchResult;
 import io.sphere.client.shop.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
-import play.Logger;
-import play.Play;
-import play.data.Form;
 import play.i18n.Lang;
-import play.i18n.Messages;
-import play.mvc.Call;
-import play.mvc.Http;
 import sphere.Sphere;
 
-import static play.data.Form.form;
 import static play.mvc.Http.Context.Implicit.lang;
+import static play.mvc.Http.Context.current;
 
 public class ViewHelper {
 
@@ -84,25 +75,9 @@ public class ViewHelper {
         return Sphere.getInstance().categories().getRoots();
 	}
 
-    public static String getCategoryPath(Category category) {
-        String path = "";
-        int level = category.getPathInTree().size();
-        if (level > 1) {
-            // Add first 2 oldest ancestors separated by '-'
-            List<Category> ancestors = category.getPathInTree().subList(0, level - 1);
-            String ancestorsPath = ancestors.get(0).getSlug(lang().toLocale());
-            if (ancestors.size() > 1) {
-                ancestorsPath += "-" + ancestors.get(1).getSlug(lang().toLocale());
-            }
-            path += ancestorsPath + "/";
-        }
-        // Add current category
-        path += category.getPathInTree().get(level - 1).getSlug(lang().toLocale());
-        return path;
-    }
 
     public static String getReturnUrl() {
-        return Http.Context.current().session().get("returnUrl");
+        return current().session().get("returnUrl");
     }
 
     public static List<Lang> getLanguages() {
@@ -212,20 +187,61 @@ public class ViewHelper {
         return new Money(BigDecimal.valueOf(10), "EUR");
     }
 
-    public static Call getCategoryUrl(Category category) {
-        return getCategoryUrl(category, 1);
+    public static String getCategoryUrl(Category category) {
+        return getCategoryUrl(category, 1, lang());
     }
 
-    public static Call getCategoryUrl(Category category, int page) {
-        return routes.Categories.select(category.getSlug(lang().toLocale()), page, 12, "", "");
+    public static String getCategoryUrl(Category category, int page, Lang lang) {
+        return routes.Categories.select(category.getSlug(lang.toLocale()), page, 12, "", "").url();
     }
 
-    public static Call getProductUrl(Product product, Variant variant) {
-        return routes.Products.select(product.getSlug(), variant.getId());
+    public static String getProductUrl(Product product, Variant variant) {
+        return getProductUrl(product, variant, null, lang());
     }
 
-    public static Call getProductUrl(Product product, Variant variant, Category category) {
-        return routes.Products.select(product.getSlug(), variant.getId());
+    public static String getProductUrl(Product product, Variant variant, Category category, Lang lang) {
+        return routes.Products.select(product.getSlug(lang.toLocale()), variant.getId()).url();
+    }
+
+    public static Map<Lang, String> getLocalizedCategoryUrls(Category category) {
+        Map<Lang, String> localizedUrls = new HashMap<Lang, String>();
+        for (Lang language : getLanguages()) {
+            String url = getCategoryUrl(category, 1, language);
+            if (!language.equals(lang())) url = buildQuery(url, "lang", language.language());
+            localizedUrls.put(language, url);
+        }
+        return localizedUrls;
+    }
+
+    public static Map<Lang, String> getLocalizedProductUrls(Product product, Variant variant, Category category) {
+        Map<Lang, String> localizedUrls = new HashMap<Lang, String>();
+        for (Lang language : getLanguages()) {
+            String url = getProductUrl(product, variant, category, language);
+            if (!language.equals(lang())) url = buildQuery(url, "lang", language.language());
+            localizedUrls.put(language, url);
+        }
+        return localizedUrls;
+    }
+
+    public static Map<Lang, String> getLocalizedUrls() {
+        Map<Lang, String> localizedUrls = new HashMap<Lang, String>();
+        for (Lang language : getLanguages()) {
+            String url = "";
+            if (!language.equals(lang())) url = buildQuery("lang", language.language());
+            localizedUrls.put(language, url);
+        }
+        return localizedUrls;
+    }
+
+    public static String getLocalizedUrl(Map<Lang, String> urls) {
+        return getLocalizedUrl(urls, lang());
+    }
+
+    public static String getLocalizedUrl(Map<Lang, String> urls, Lang lang) {
+        if (urls.containsKey(lang)) {
+            return urls.get(lang);
+        }
+        return null;
     }
 
     /* Get possible variant sizes for a particular variant */
@@ -263,7 +279,7 @@ public class ViewHelper {
     }
 
     public static String getQuery(String query) {
-        String value = Http.Context.current().request().getQueryString(query);
+        String value = current().request().getQueryString(query);
         if (value == null) return "";
         return value;
     }
@@ -277,7 +293,7 @@ public class ViewHelper {
         if (!value.isEmpty()) {
             queryString += key + "=" + value;
         }
-        for (Map.Entry<String,String[]> entry : Http.Context.current().request().queryString().entrySet()) {
+        for (Map.Entry<String,String[]> entry : current().request().queryString().entrySet()) {
             if (entry.getKey().equals(key)) continue;
             for (String val : entry.getValue()) {
                 queryString += "&" + entry.getKey() + "=" + val;
@@ -286,4 +302,9 @@ public class ViewHelper {
         return queryString;
     }
 
+    public static String buildQuery(String url, String key, String value) {
+        String queryString = key + "=" + value;
+        if (!url.contains("?")) url += "?";
+        return url + queryString;
+    }
 }
