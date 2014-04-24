@@ -31,7 +31,7 @@ public class Categories extends ShopController {
 
     @With(SaveContext.class)
     public static Result select(String categorySlug, int page, int show, String sort, String list) {
-        Category category = sphere().categories().getBySlug(categorySlug);
+        Category category = sphere().categories().getBySlug(categorySlug, lang().toLocale());
         if (category == null) {
             return notFound("Category not found: " + categorySlug);
         }
