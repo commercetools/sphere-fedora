@@ -1,7 +1,8 @@
 @(searchResultNew: SearchResult[Product], searchResultOffer: SearchResult[Product])
 
 @main(){
-    @helpers.navigation()
+    @helpers.navigationTop(getLocalizedUrls)
+    @helpers.navigationMenu()
 }{
     <section>
         <!--Banner Starts-->

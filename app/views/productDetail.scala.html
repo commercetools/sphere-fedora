@@ -3,7 +3,8 @@
 @scripts = {<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.zoom.js")"></script>}
 
 @main(product.getName, scripts){
-    @helpers.navigation(category)
+    @helpers.navigationTop(getLocalizedProductUrls(product, variant, category))
+    @helpers.navigationMenu(category)
 }{
     <section>
       @helpers.breadcrumb(category)

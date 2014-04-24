@@ -1,7 +1,8 @@
 @(category: Category, searchResult: SearchResult[Product], isGrid: Boolean = true)
 
 @main(category.getName(lang.toLocale)){
-    @helpers.navigation(category)
+    @helpers.navigationTop(getLocalizedCategoryUrls(category))
+    @helpers.navigationMenu(category)
 }{
     <section>
         @helpers.filters(category)

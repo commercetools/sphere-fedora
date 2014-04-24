@@ -1,7 +1,8 @@
 @(searchResult: SearchResult[Product], isGrid: Boolean = true)
 
 @main(){
-    @helpers.navigation()
+    @helpers.navigationTop(getLocalizedUrls)
+    @helpers.navigationMenu()
 }{
     <section>
         @helpers.filters()
