@@ -5,7 +5,6 @@ import static play.test.Helpers.running;
 import io.sphere.client.shop.model.Category;
 import io.sphere.client.shop.model.Product;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import play.i18n.Lang;
 import utils.SphereTestable;
@@ -35,12 +34,9 @@ public class UtilsTest {
         return sphere.mockProduct("prod", 1, 1, 1);
     }
 
-
-    @Ignore
     @Test
     public void UrlWithProduct() {
-        Lang lang = new Lang(Lang.forCode("en"));
-        System.out.println(lang);
+        Lang lang = Lang.forCode("en-US");
         Category category = createCategory(1);
         Product product = createProduct();
         String path = ViewHelper.getProductUrl(product, product.getMasterVariant(), category, lang);

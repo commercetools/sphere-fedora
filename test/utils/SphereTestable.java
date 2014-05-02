@@ -67,6 +67,7 @@ public class SphereTestable {
         List<Category> roots = new ArrayList<Category>();
         for (Category c : categories) {
             when(categoryTree.getBySlug(c.getSlug())).thenReturn(c);
+            when(categoryTree.getBySlug(c.getSlug(any(Locale.class)))).thenReturn(c);
             when(categoryTree.getById(c.getId())).thenReturn(c);
             if (c.isRoot()) roots.add(c);
         }
@@ -119,6 +120,7 @@ public class SphereTestable {
         when(product.getId()).thenReturn(name);
         when(product.getIdAndVersion()).thenReturn(VersionedId.create(name, 1));
         when(product.getSlug()).thenReturn(name);
+        when(product.getSlug(any(Locale.class))).thenReturn(name);
         when(product.getName()).thenReturn(name);
         // Mock price
         when(product.getPrice()).thenReturn(mockPrice(10));
