@@ -244,12 +244,41 @@ public class ViewHelper {
         return null;
     }
 
+    public static String displayAttributeId(Attribute attribute) {
+        if (isEnumAttribute(attribute)) {
+            return attribute.getEnum().key;
+        } else if (isNumberAttribute(attribute)) {
+            return String.valueOf(attribute.getInt());
+        } else {
+            return attribute.getString();
+        }
+    }
+
+    public static String displayAttributeName(Attribute attribute) {
+        if (isEnumAttribute(attribute)) {
+            return attribute.getEnum().label;
+        } else if (isNumberAttribute(attribute)) {
+            return String.valueOf(attribute.getInt());
+        } else {
+            return attribute.getString();
+        }
+    }
+
+    public static boolean isEnumAttribute(Attribute attribute) {
+        String key = attribute.getEnum().key;
+        return key != null && !key.isEmpty();
+    }
+
+    public static boolean isNumberAttribute(Attribute attribute) {
+        return attribute.getValue().getClass().equals(java.lang.Integer.class);
+    }
+
     /* Get possible variant sizes for a particular variant */
-    public static List<String> getPossibleSizes(Product product, Variant variant) {
+    public static List<Attribute> getPossibleSizes(Product product, Variant variant) {
         List<Variant> variants = getPossibleVariants(product, variant, "size");
-        List<String> sizes = new ArrayList<String>();
+        List<Attribute> sizes = new ArrayList<Attribute>();
         for (Variant matchedVariant : variants) {
-            sizes.add(matchedVariant.getString("size"));
+            sizes.add(matchedVariant.getAttribute("size"));
         }
         return sizes;
     }
