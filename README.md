@@ -7,6 +7,10 @@ Have fun!
 
 Build status [![Build Status](https://travis-ci.org/commercetools/sphere-fedora.png?branch=master)](https://travis-ci.org/commercetools/sphere-fedora)
 
+## Run me
+
+just execute `./sbt run` and open your browser at [http://localhost:9000](http://localhost:9000)
+
 ## Deployment
 
 ### CloudBees
