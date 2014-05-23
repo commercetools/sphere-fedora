@@ -132,6 +132,10 @@ ul.sub_menu > li > ul{border-top: solid 1px #5f5a56; margin-top:10px;}
 .product_rightcol div.color_sel div.selector { width:160px;}
 .product_rightcol div.color_sel div.selector span{ width:165px;}
 .product_rightcol div.color_sel div.selector select{ width:174px!important;}
+.product_rightcol div.sku_sel { margin-top: 10px; }
+.product_rightcol div.sku_sel div.selector { width:110px;}
+.product_rightcol div.sku_sel div.selector span{ width:115px;}
+.product_rightcol div.sku_sel div.selector select{ width:124px!important;}
 
 .product_rightcol .add_to_buttons{ display:inline-block; width:100%; padding:25px 0px;}
 .product_rightcol .add_to_buttons button.add_cart{ padding:17px 50px 17px 25px; font-size:13px; font-weight:bold!important; color:#fff; text-transform:uppercase; border:0px; cursor:pointer; background:url(../images/addtocart.png) no-repeat right center;}

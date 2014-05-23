@@ -81,6 +81,16 @@
                   </select>
                 </div>
                 }
+                <div class="sku_sel">
+                  <label>@Messages("product.sku") :</label>
+                  <select class="browse-url-selector" id="product-sku-selector">
+                    @for(matchedVariant <- product.getVariants.asList) {
+                    <option data-url="@getProductUrl(product, matchedVariant)" @if(matchedVariant.getSKU == variant.getSKU){selected}>
+                        @matchedVariant.getSKU
+                    </option>
+                    }
+                  </select>
+                </div>
               </div>
               <div class="qty_info">
                 <div class="quantity">

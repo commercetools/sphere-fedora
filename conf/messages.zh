@@ -13,6 +13,7 @@ list.related=您可能也喜欢
 product.zoom=滚动缩放图像
 product.size=可供尺寸
 product.color=颜色
+product.sku=Product SKU
 product.overview=快速概览
 
 cart.item=商品

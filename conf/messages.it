@@ -13,6 +13,7 @@ list.related=You might also like
 product.zoom=Roll over image to zoom
 product.size=Available size
 product.color=Color
+product.sku=Product SKU
 product.overview=Quick overview
 
 cart.item=item

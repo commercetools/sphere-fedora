@@ -13,6 +13,7 @@ list.related=ВАМ ВОЗМОЖНО ПОНРАВИТСЯ
 product.zoom=Первернуть изображение и масштабировать
 product.size=ДОСТУПНЫЙ РАЗМЕР
 product.color=ЦВЕТ
+product.sku=Product SKU
 product.overview=БЫСТРЫЙ ОБЗОР
 
 cart.item=Позиция
