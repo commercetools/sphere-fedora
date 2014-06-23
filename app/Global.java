@@ -1,7 +1,8 @@
 import play.GlobalSettings;
+import play.libs.F;
 import play.mvc.Action;
 import play.mvc.Http;
-import play.mvc.Result;
+import play.mvc.SimpleResult;
 
 import java.lang.reflect.Method;
 
@@ -12,18 +13,19 @@ public class Global extends GlobalSettings {
         return new Action.Simple() {
             final static String LANG_QUERY = "lang";
 
-            public Result call(Http.Context ctx) throws Throwable {
+            public F.Promise<SimpleResult> call(Http.Context ctx) throws Throwable {
                 if (ctx.request().queryString().containsKey(LANG_QUERY)) {
                     String lang = ctx.request().getQueryString(LANG_QUERY);
-                    if (!ctx.changeLang(lang)) return toPrevPage(ctx);
+                    if (!ctx.changeLang(lang))
+                        return toPrevPage(ctx);
                 }
                 return delegate.call(ctx);
             }
 
-            private Result toPrevPage(Http.Context ctx) {
+            private F.Promise<SimpleResult> toPrevPage(Http.Context ctx) {
                 String url = ctx.request().getHeader("referer");
                 if (url == null) url = "/";
-                return redirect(url);
+                return F.Promise.pure(redirect(url));
             }
         };
     }
