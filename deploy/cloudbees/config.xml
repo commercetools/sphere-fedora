@@ -119,7 +119,9 @@ sed -i "s;^sphere.defaultLocale=.*;sphere.defaultLocale="${SPHERE_LANGUAGE}";g" 
           <com.cloudbees.plugins.deployer.deployables.WildcardMatchingDeployable>
             <applicationId>${applicationName}</applicationId>
             <applicationEnvironment></applicationEnvironment>
-            <applicationConfig/>
+            <applicationConfig>
+              <param name="containerType" value="play2"/>
+            </applicationConfig>
             <apiEndPoint>https://api.cloudbees.com/api</apiEndPoint>
             <filePattern>target/universal/*.zip</filePattern>
           </com.cloudbees.plugins.deployer.deployables.WildcardMatchingDeployable>
