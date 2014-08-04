@@ -49,7 +49,7 @@
           <p class="short_dc">@Html(abbreviate(product.getDescription(lang.toLocale), 400))</p>
           <ul class="product-attributes">
           @for(attribute <- variant.getAttributes) {
-            <li><span>@attribute.getName</span>: @displayAttributeName(attribute)</li>
+            <li><span>@attribute.getName</span>: @displayAttributeValue(attribute, lang.toLocale)</li>
           }
           </ul>
 
@@ -64,7 +64,7 @@
                   <select name="size">
                     <option>SELECT</option>
                       @for(size <- getPossibleSizes(product, variant)) {
-                        <option value="@displayAttributeId(size)">@displayAttributeName(size)</option>
+                        <option value="@displayAttributeId(size)">@displayAttributeValue(size, lang.toLocale)</option>
                       }
                   </select>
                 </div>

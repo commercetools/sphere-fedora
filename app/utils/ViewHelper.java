@@ -5,6 +5,7 @@ import java.util.*;
 
 import com.neovisionaries.i18n.CountryCode;
 import controllers.routes;
+import io.sphere.client.model.LocalizedString;
 import io.sphere.client.model.Money;
 import io.sphere.client.shop.model.*;
 import org.apache.commons.lang3.StringUtils;
@@ -254,11 +255,15 @@ public class ViewHelper {
         }
     }
 
-    public static String displayAttributeName(Attribute attribute) {
+    public static String displayAttributeValue(Attribute attribute, Locale locale) {
         if (isEnumAttribute(attribute)) {
             return attribute.getEnum().label;
         } else if (isNumberAttribute(attribute)) {
             return String.valueOf(attribute.getInt());
+        } else if (isLocalizedStringAttribute(attribute)) {
+            return attribute.getLocalizedString().get(locale);
+        } else if (isLocalizedEnumAttribute(attribute)) {
+            return attribute.getLocalizableEnum().getLabel().get(locale);
         } else {
             return attribute.getString();
         }
@@ -267,6 +272,14 @@ public class ViewHelper {
     public static boolean isEnumAttribute(Attribute attribute) {
         String key = attribute.getEnum().key;
         return key != null && !key.isEmpty();
+    }
+
+    public static boolean isLocalizedStringAttribute(Attribute attribute) {
+        return attribute.getValue().getClass().equals(LocalizedString.class);
+    }
+
+    public static boolean isLocalizedEnumAttribute(Attribute attribute) {
+        return attribute.getValue().getClass().equals(LocalizableEnum.class);
     }
 
     public static boolean isNumberAttribute(Attribute attribute) {
