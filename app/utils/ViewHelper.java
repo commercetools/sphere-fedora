@@ -3,11 +3,13 @@ package utils;
 import java.math.BigDecimal;
 import java.util.*;
 
+import com.google.common.collect.Maps;
 import com.neovisionaries.i18n.CountryCode;
 import controllers.routes;
 import io.sphere.client.model.LocalizedString;
 import io.sphere.client.model.Money;
 import io.sphere.client.shop.model.*;
+import io.sphere.internal.util.Util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import play.i18n.Lang;
@@ -256,17 +258,43 @@ public class ViewHelper {
     }
 
     public static String displayAttributeValue(Attribute attribute, Locale locale) {
-        if (isEnumAttribute(attribute)) {
-            return attribute.getEnum().label;
+        if (attribute == null) {
+            return "";
         } else if (isNumberAttribute(attribute)) {
             return String.valueOf(attribute.getInt());
-        } else if (isLocalizedStringAttribute(attribute)) {
-            return attribute.getLocalizedString().get(locale);
-        } else if (isLocalizedEnumAttribute(attribute)) {
-            return attribute.getLocalizableEnum().getLabel().get(locale);
+        } else if (isEnumAttribute(attribute)) {
+            if (isLocalizedEnumAttribute(attribute)) {
+                return attribute.getLocalizableEnum().getLabel().get(locale);
+            } else {
+                return attribute.getEnum().label;
+            }
         } else {
-            return attribute.getString();
+            String localizedString = getLocalizedString(attribute).get(locale);
+            if (localizedString.isEmpty()) {
+                return attribute.getString();
+            } else {
+                return localizedString;
+            }
         }
+    }
+
+    public static LocalizedString getLocalizedString(Attribute attribute) {
+        LocalizedString result = Attribute.defaultLocalizedString;
+        if (attribute.getValue() instanceof Map) {
+            final Map data = (Map) attribute.getValue();
+            result = extractLocalizedString(data);
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")//since object has no type information it needs to be casted
+    private static LocalizedString extractLocalizedString(Map data) {
+        final Map<Locale, String> stringMap = Maps.newHashMap();
+        Map<String, String> localeMap = (Map<String, String>)data;
+        for (Map.Entry<String, String> entry : localeMap.entrySet()) {
+            stringMap.put(Util.fromLanguageTag(entry.getKey()), entry.getValue());
+        }
+        return new LocalizedString(stringMap);
     }
 
     public static boolean isEnumAttribute(Attribute attribute) {
@@ -274,12 +302,8 @@ public class ViewHelper {
         return key != null && !key.isEmpty();
     }
 
-    public static boolean isLocalizedStringAttribute(Attribute attribute) {
-        return attribute.getValue().getClass().equals(LocalizedString.class);
-    }
-
     public static boolean isLocalizedEnumAttribute(Attribute attribute) {
-        return attribute.getValue().getClass().equals(LocalizableEnum.class);
+        return !attribute.getLocalizableEnum().getKey().isEmpty();
     }
 
     public static boolean isNumberAttribute(Attribute attribute) {
