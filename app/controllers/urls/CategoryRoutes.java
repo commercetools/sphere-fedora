@@ -1,10 +1,14 @@
 package controllers.urls;
 
 import controllers.routes;
+import models.ShopCategory;
 import play.i18n.Lang;
 import play.mvc.Call;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CategoryRoutes {
     private final List<Lang> availableLang;
@@ -13,8 +17,7 @@ public class CategoryRoutes {
         this.availableLang = availableLang;
     }
 
-    /*
-    public Map<Lang, Call> get(CustomCategory currentCategory) {
+    public Map<Lang, Call> get(ShopCategory currentCategory) {
         Map<Lang, Call> localizedUrls = new HashMap<>();
         for (Lang lang : availableLang) {
             Call call = byCategory(lang.toLocale(), currentCategory);
@@ -24,10 +27,9 @@ public class CategoryRoutes {
         return localizedUrls;
     }
 
-    public Call byCategory(Locale locale, CustomCategory category) {
+    public Call byCategory(Locale locale, ShopCategory category) {
         return bySlug(category.getSlug(locale));
     }
-    */
 
     /**
      * Gets the category URL call for the provided slug.

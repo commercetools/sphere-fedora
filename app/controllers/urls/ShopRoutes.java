@@ -1,8 +1,14 @@
 package controllers.urls;
 
+import com.google.common.base.Optional;
+import models.ShopCategory;
+import models.ShopProduct;
 import play.i18n.Lang;
+import play.mvc.Call;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ShopRoutes {
     private final List<Lang> availableLang;
@@ -23,10 +29,9 @@ public class ShopRoutes {
         return new ProductRoutes(availableLang);
     }
 
-    /*
-    public Map<Lang, Call> get(Optional<CustomCategory> currentCategory, Optional<CustomVariant> currentVariant) {
-        if (currentVariant.isPresent()) {
-            return products().get(currentVariant.get(), currentCategory);
+    public Map<Lang, Call> get(Optional<ShopCategory> currentCategory, Optional<ShopProduct> currentProduct) {
+        if (currentProduct.isPresent()) {
+            return products().get(currentProduct.get(), currentCategory);
         } else if (currentCategory.isPresent()) {
             return categories().get(currentCategory.get());
         } else {
@@ -34,5 +39,4 @@ public class ShopRoutes {
             return new HashMap<>();
         }
     }
-    */
 }

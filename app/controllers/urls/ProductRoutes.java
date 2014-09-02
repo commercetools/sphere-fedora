@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.google.common.base.Optional;
+import models.ShopCategory;
 import models.ShopProduct;
 import play.i18n.Lang;
 import play.mvc.Call;
@@ -18,20 +19,20 @@ public class ProductRoutes {
         this.availableLang = availableLang;
     }
 
-    public Map<Lang, Call> get(ShopProduct product/*, Optional<CustomCategory> category*/) {
+    public Map<Lang, Call> get(ShopProduct product, Optional<ShopCategory> category) {
         Map<Lang, Call> localizedUrls = new HashMap<>();
         for (Lang lang : availableLang) {
-            Call call = byVariant(lang.toLocale(), product/*, category*/);
+            Call call = byVariant(lang.toLocale(), product, category);
             localizedUrls.put(lang, call);
         }
         return localizedUrls;
     }
 
-    public Call byVariant(Locale locale, ShopProduct product/*, Optional<CustomCategory> category*/) {
+    public Call byVariant(Locale locale, ShopProduct product, Optional<ShopCategory> category) {
         Optional<String> categorySlug = Optional.absent();
-        /*if (category.isPresent()) {
+        if (category.isPresent()) {
             categorySlug = Optional.of(category.get().getSlug(locale));
-        } */
+        }
         return bySlug(product.getSlug(locale), product.getSelectedVariant().getId(), categorySlug);
     }
 
