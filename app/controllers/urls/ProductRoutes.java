@@ -1,8 +1,12 @@
 package controllers.urls;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import com.google.common.base.Optional;
+import models.ShopProduct;
 import play.i18n.Lang;
 import play.mvc.Call;
 import controllers.routes;
@@ -14,23 +18,22 @@ public class ProductRoutes {
         this.availableLang = availableLang;
     }
 
-    /*
-    public Map<Lang, Call> get(CustomVariant variant, Optional<CustomCategory> category) {
+    public Map<Lang, Call> get(ShopProduct product/*, Optional<CustomCategory> category*/) {
         Map<Lang, Call> localizedUrls = new HashMap<>();
         for (Lang lang : availableLang) {
-            Call call = byVariant(lang.toLocale(), variant, category);
+            Call call = byVariant(lang.toLocale(), product/*, category*/);
             localizedUrls.put(lang, call);
         }
         return localizedUrls;
     }
 
-    public Call byVariant(Locale locale, CustomVariant variant, Optional<CustomCategory> category) {
+    public Call byVariant(Locale locale, ShopProduct product/*, Optional<CustomCategory> category*/) {
         Optional<String> categorySlug = Optional.absent();
-        if (category.isPresent()) {
+        /*if (category.isPresent()) {
             categorySlug = Optional.of(category.get().getSlug(locale));
-        }
-        return bySlug(variant.getSlug(locale), variant.getId(), categorySlug);
-    }*/
+        } */
+        return bySlug(product.getSlug(locale), product.getSelectedVariant().getId(), categorySlug);
+    }
 
     /**
      * Gets the product URL call for the provided slug and variant ID.
