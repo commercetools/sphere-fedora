@@ -17,14 +17,14 @@ public interface OrderService {
     /**
      * Fetches the order with the provided ID.
      * @param id internal identifier of the order.
-     * @return the promise of the order with this ID, or absent if it does not exists.
+     * @return the promise of the order with this ID, or absent if it does not exist.
      */
     F.Promise<Optional<ShopOrder>> fetchById(String id);
 
     /**
      * Fetches the order with the provided ID.
      * @param orderNumber external identifier of the order.
-     * @return the promise of the order with this order number, or absent if it does not exists.
+     * @return the promise of the order with this order number, or absent if it does not exist.
      */
     F.Promise<Optional<ShopOrder>> fetchByOrderNumber(String orderNumber);
 
