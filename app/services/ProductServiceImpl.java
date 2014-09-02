@@ -13,6 +13,7 @@ import sphere.Sphere;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductServiceImpl implements ProductService {
     public static final String FILTER_ATTRIBUTE_SKU = "variants.sku";
@@ -24,8 +25,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public F.Promise<Optional<ShopProduct>> fetchBySlug(final String productSlug, final int variantId) {
-        return sphere.products().bySlug(productSlug).fetchAsync()
+    public F.Promise<Optional<ShopProduct>> fetchById(final String productId, final int variantId) {
+        return sphere.products().byId(productId).fetchAsync()
+                .map(new F.Function<Optional<Product>, Optional<ShopProduct>>() {
+                    @Override
+                    public Optional<ShopProduct> apply(Optional<Product> product) throws Throwable {
+                        if (product.isPresent()) {
+                            ShopProduct fetchedProduct = ShopProduct.of(product.get(), variantId);
+                            return Optional.of(fetchedProduct);
+                        } else {
+                            return Optional.absent();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public F.Promise<Optional<ShopProduct>> fetchBySlug(final Locale locale, final String productSlug, final int variantId) {
+        return sphere.products().bySlug(locale, productSlug).fetchAsync()
                 .map(new F.Function<Optional<Product>, Optional<ShopProduct>>() {
                     @Override
                     public Optional<ShopProduct> apply(Optional<Product> product) throws Throwable {
