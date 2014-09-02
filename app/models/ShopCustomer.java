@@ -129,4 +129,36 @@ public class ShopCustomer {
     public static CustomerName getCustomerName(Address address) {
         return new CustomerName(address.getTitle(), address.getFirstName(), "", address.getLastName());
     }
+
+    @Override
+    public String toString() {
+        return "ShopCustomer{" +
+                "customer=" + customer +
+                ", customerType=" + customerType +
+                ", customerGroup=" + customerGroup +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ShopCustomer that = (ShopCustomer) o;
+
+        if (customer != null ? !customer.equals(that.customer) : that.customer != null) return false;
+        if (customerGroup != null ? !customerGroup.equals(that.customerGroup) : that.customerGroup != null)
+            return false;
+        if (customerType != that.customerType) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = customer != null ? customer.hashCode() : 0;
+        result = 31 * result + (customerType != null ? customerType.hashCode() : 0);
+        result = 31 * result + (customerGroup != null ? customerGroup.hashCode() : 0);
+        return result;
+    }
 }

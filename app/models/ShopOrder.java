@@ -186,4 +186,28 @@ public class ShopOrder {
         }
         return Optional.absent();
     }
+
+    @Override
+    public String toString() {
+        return "ShopOrder{" +
+                "order=" + order +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ShopOrder shopOrder = (ShopOrder) o;
+
+        if (order != null ? !order.equals(shopOrder.order) : shopOrder.order != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return order != null ? order.hashCode() : 0;
+    }
 }

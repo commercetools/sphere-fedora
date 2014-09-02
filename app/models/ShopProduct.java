@@ -142,4 +142,36 @@ public class ShopProduct {
         }
         return shopVariants;
     }
+
+    @Override
+    public String toString() {
+        return "ShopProduct{" +
+                "product=" + product +
+                ", variants=" + variants +
+                ", selectedVariant=" + selectedVariant +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ShopProduct that = (ShopProduct) o;
+
+        if (product != null ? !product.equals(that.product) : that.product != null) return false;
+        if (selectedVariant != null ? !selectedVariant.equals(that.selectedVariant) : that.selectedVariant != null)
+            return false;
+        if (variants != null ? !variants.equals(that.variants) : that.variants != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = product != null ? product.hashCode() : 0;
+        result = 31 * result + (variants != null ? variants.hashCode() : 0);
+        result = 31 * result + (selectedVariant != null ? selectedVariant.hashCode() : 0);
+        return result;
+    }
 }
