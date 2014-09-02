@@ -16,6 +16,7 @@ import io.sphere.client.shop.model.*;
 import models.ShopCart;
 import models.ShopOrder;
 
+import models.ShopProduct;
 import org.apache.commons.lang3.StringUtils;
 
 import play.Logger;
@@ -126,12 +127,11 @@ public class CartServiceImpl implements CartService {
         return updateCart(cart, cartUpdate);
     }
 
-    /*
     @Override
-    public F.Promise<CustomCart> addItem(final CustomCart cart, final CustomVariant variant, final int quantity) {
-        CartUpdate cartUpdate = new CartUpdate().addLineItem(quantity, variant.getProductId(), variant.getId());
+    public F.Promise<ShopCart> addItem(final ShopCart cart, final ShopProduct product, final int quantity) {
+        CartUpdate cartUpdate = new CartUpdate().addLineItem(quantity, product.getId(), product.getSelectedVariant().getId());
         return updateCart(cart, cartUpdate);
-    } */
+    }
 
     @Override
     public F.Promise<ShopCart> updateItem(final ShopCart cart, final String lineItemId, final int quantity) {

@@ -2,6 +2,7 @@ package services;
 
 import models.ShopCart;
 import models.ShopOrder;
+import models.ShopProduct;
 import play.libs.F;
 
 import com.google.common.base.Optional;
@@ -74,11 +75,11 @@ public interface CartService {
     /**
      * Adds an item to the provided cart.
      * @param cart the cart to be updated.
-     * @param variant to be added to the cart.
+     * @param product to be added to the cart.
      * @param quantity the amount of units to be added.
      * @return the promise of the updated cart with the provided item.
      */
-    //F.Promise<CustomCart> addItem(CustomCart cart, CustomVariant variant, int quantity);
+    F.Promise<ShopCart> addItem(ShopCart cart, ShopProduct product, int quantity);
 
     /**
      * Updates the quantity of the provided line item in the cart.
