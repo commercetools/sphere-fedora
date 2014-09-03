@@ -1,39 +1,18 @@
-@(current: Category = null)
+@(data: CommonData)
 
 <!--SIDE NAV STARTS-->
 <div id="side_nav">
     <div class="sideNavCategories">
-        @if(isSet(current)) {
-            @defining(getAncestor(current)) { root =>
-            <h1>@root.getName</h1>
-                @if(root.getChildren.size > 0) {
-                <ul class="category departments">
-                    <li class="header">Departments</li>
-                    @for(category <- root.getChildren) {
-                    @if(category.getChildren.size > 0){
-                    <li class="menu_cont">
-                        <a href="@getCategoryUrl(category)" class="@getActiveClass(category, current)">@category.getName(lang.toLocale)</a>
-                        <ul class="side_sub_menu">
-                            @for(subcategory <- category.getChildren) {
-                            <li><a href="@getCategoryUrl(subcategory)" class="@getActiveClass(subcategory, current)">@subcategory.getName(lang.toLocale)</a></li>
-                            }
-                        </ul>
-                        } else {
-                    <li><a href="@getCategoryUrl(category)" class="@getActiveClass(category, current)">@category.getName(lang.toLocale)</a>
-                        }
-                    </li>
-                    }
-                </ul>
-                }
-            }
-            <ul class="category price">
-                <li class="header">Price</li>
-                <li><a href="?" class="@getActivePrice("")">All prices</a></li>
-                <li><a href="?price=20_60" class="@getActivePrice("20_60")">20 to 60 €</a></li>
-                <li><a href="?price=60_100" class="@getActivePrice("60_100")">60 to 100 €</a></li>
-                <li><a href="?price=100_500" class="@getActivePrice("100_500")">100 to 500 €</a></li>
-            </ul>
+        @if(data.currentCategory.isPresent) {
+            @helpers.categoryFilter(data, data.currentCategory.get)
         }
+        <ul class="category price">
+            <li class="header">Price</li>
+            <li><a href="?" class="@getActivePrice("")">All prices</a></li>
+            <li><a href="?price=20_60" class="@getActivePrice("20_60")">20 to 60 €</a></li>
+            <li><a href="?price=60_100" class="@getActivePrice("60_100")">60 to 100 €</a></li>
+            <li><a href="?price=100_500" class="@getActivePrice("100_500")">100 to 500 €</a></li>
+        </ul>
     </div>
 </div>
 <!--SIDE NAV ENDS-->
