@@ -1,7 +1,7 @@
 @(searchResultNew: SearchResult[Product], searchResultOffer: SearchResult[Product])
 
 @main(){
-    @helpers.navigationTop(getLocalizedUrls)
+    @**helpers.navigationTop(getLocalizedUrls)**@
     @helpers.navigationMenu()
 }{
     <section>
@@ -38,7 +38,7 @@
             <h2 class="sub_title">@Messages("list.new")</h2>
             <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
                 @for(product <- searchResultNew.getResults) {
-                    @helpers.productItem(product)
+                    @**helpers.productItem(product)**@
                 }
             </ul>
         </div>
@@ -48,7 +48,7 @@
             <h2 class="sub_title">@Messages("list.offers")</h2>
             <ul id="second-carousel" class="first-and-second-carousel jcarousel-skin-tango">
                 @for(product <- searchResultOffer.getResults) {
-                    @helpers.productItem(product)
+                    @**helpers.productItem(product)**@
                 }
             </ul>
         </div>
