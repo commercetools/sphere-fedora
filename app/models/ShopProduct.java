@@ -22,19 +22,23 @@ public class ShopProduct {
     public static ShopProduct of(Product product, int masterVariantId) {
         List<ShopVariant> variants = new ArrayList<>();
         for (Variant variant : product.getVariants()) {
-            variants.add(new ShopVariant(variant));
+            variants.add(new ShopVariant(variant, product.getTaxCategory()));
         }
         Variant masterVariant = product.getVariants().byId(masterVariantId).or(product.getMasterVariant());
-        return new ShopProduct(product, variants, new ShopVariant(masterVariant));
+        return new ShopProduct(product, variants, new ShopVariant(masterVariant, product.getTaxCategory()));
+    }
+
+    public static ShopProduct of(Product product) {
+        return of(product, product.getMasterVariant().getId());
     }
 
     public static ShopProduct of(Product product, String masterVariantSku) {
         List<ShopVariant> variants = new ArrayList<>();
         for (Variant variant : product.getVariants()) {
-            variants.add(new ShopVariant(variant));
+            variants.add(new ShopVariant(variant, product.getTaxCategory()));
         }
         Variant masterVariant = product.getVariants().bySKU(masterVariantSku).or(product.getMasterVariant());
-        return new ShopProduct(product, variants, new ShopVariant(masterVariant));
+        return new ShopProduct(product, variants, new ShopVariant(masterVariant, product.getTaxCategory()));
     }
 
     public Product get() {
@@ -138,7 +142,7 @@ public class ShopProduct {
     private List<ShopVariant> convertToList(final VariantList variantList) {
         List<ShopVariant> shopVariants =  new ArrayList<>();
         for (Variant variant : variantList) {
-            shopVariants.add(new ShopVariant(variant));
+            shopVariants.add(new ShopVariant(variant, product.getTaxCategory()));
         }
         return shopVariants;
     }
@@ -159,7 +163,12 @@ public class ShopProduct {
 
         ShopProduct that = (ShopProduct) o;
 
-        if (product != null ? !product.equals(that.product) : that.product != null) return false;
+        VersionedId versionedId = product.getIdAndVersion();
+        VersionedId thatVersionedId = that.get().getIdAndVersion();
+
+        if (!versionedId.getId().equals(thatVersionedId.getId())) return false;
+        if (versionedId.getVersion() != thatVersionedId.getVersion()) return false;
+
         if (selectedVariant != null ? !selectedVariant.equals(that.selectedVariant) : that.selectedVariant != null)
             return false;
         if (variants != null ? !variants.equals(that.variants) : that.variants != null) return false;
@@ -169,7 +178,7 @@ public class ShopProduct {
 
     @Override
     public int hashCode() {
-        int result = product != null ? product.hashCode() : 0;
+        int result = product.getId().hashCode();
         result = 31 * result + (variants != null ? variants.hashCode() : 0);
         result = 31 * result + (selectedVariant != null ? selectedVariant.hashCode() : 0);
         return result;

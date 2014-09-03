@@ -1,5 +1,6 @@
 package models;
 
+import io.sphere.client.model.VersionedId;
 import io.sphere.client.shop.model.Category;
 
 import java.util.ArrayList;
@@ -25,6 +26,10 @@ public class ShopCategory {
         return category.getId();
     }
 
+    public VersionedId getVersionedId() {
+        return category.getIdAndVersion();
+    }
+
     public String getName(Locale locale) {
         return category.getName(locale);
     }
@@ -41,12 +46,25 @@ public class ShopCategory {
         return category.getLevel();
     }
 
+    public boolean hasChildren() {
+        return !category.getChildren().isEmpty();
+    }
+
     public List<ShopCategory> getPath() {
         List<ShopCategory> categoriesInPath = new ArrayList<>();
         for (Category categoryInPath : category.getPathInTree()) {
             categoriesInPath.add(new ShopCategory(categoryInPath));
         }
         return categoriesInPath;
+    }
+
+    public ShopCategory getRootAncestor() {
+        List<ShopCategory> categoriesInPath = getPath();
+        if (categoriesInPath.isEmpty()) {
+            return this;
+        } else {
+            return getPath().get(0);
+        }
     }
 
     public List<ShopCategory> getChildren() {
@@ -70,14 +88,17 @@ public class ShopCategory {
         if (o == null || getClass() != o.getClass()) return false;
 
         ShopCategory that = (ShopCategory) o;
+        VersionedId versionedId = this.getVersionedId();
+        VersionedId thatVersionedId = that.getVersionedId();
 
-        if (category != null ? !category.equals(that.category) : that.category != null) return false;
+        if (!versionedId.getId().equals(thatVersionedId.getId())) return false;
+        if (versionedId.getVersion() != thatVersionedId.getVersion()) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return category != null ? category.hashCode() : 0;
+        return category.getIdAndVersion().getId().hashCode();
     }
 }
