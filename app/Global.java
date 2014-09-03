@@ -1,9 +1,13 @@
+import controllers.BaseController;
 import play.GlobalSettings;
 import play.libs.F;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.SimpleResult;
+import services.*;
+import sphere.Sphere;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 public class Global extends GlobalSettings {
@@ -30,4 +34,50 @@ public class Global extends GlobalSettings {
         };
     }
 
+    protected CategoryService createCategoryService() {
+        return new CategoryServiceImpl(Sphere.getInstance());
+    }
+
+    protected ProductService createProductService() {
+        return new ProductServiceImpl(Sphere.getInstance());
+    }
+
+    protected CustomerService createCustomerService() {
+        Sphere sphere = Sphere.getInstance();
+        CustomObjectService customObjectService = new CustomObjectServiceImpl(sphere);
+        CheckoutService checkoutService = new CheckoutServiceImpl(sphere, customObjectService);
+        CartService cartService = new CartServiceImpl(sphere, checkoutService);
+        return new CustomerServiceImpl(sphere, cartService, customObjectService);
+    }
+
+    protected CartService createCartService() {
+        Sphere sphere = Sphere.getInstance();
+        CustomObjectService customObjectService = new CustomObjectServiceImpl(sphere);
+        CheckoutService checkoutService = new CheckoutServiceImpl(sphere, customObjectService);
+        return new CartServiceImpl(sphere, checkoutService);
+    }
+
+    protected OrderService createOrderService() {
+        return new OrderServiceImpl(Sphere.getInstance());
+    }
+
+    protected CheckoutService createCheckoutService() {
+        Sphere sphere = Sphere.getInstance();
+        CustomObjectService customObjectService = new CustomObjectServiceImpl(sphere);
+        return new CheckoutServiceImpl(sphere, customObjectService);
+    }
+
+    @Override
+    public <A> A getControllerInstance(final Class<A> controllerClass) throws Exception {
+        final A result;
+        if (BaseController.class.isAssignableFrom(controllerClass)) {
+            Constructor<A> constructor = controllerClass.getConstructor(CategoryService.class, ProductService.class,
+                    CartService.class, CustomerService.class);
+            result = constructor.newInstance(createCategoryService(), createProductService(), createCartService(),
+                    createCustomerService());
+        } else {
+            result = super.getControllerInstance(controllerClass);
+        }
+        return result;
+    }
 }
