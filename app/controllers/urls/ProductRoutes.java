@@ -13,22 +13,28 @@ import play.mvc.Call;
 import controllers.routes;
 
 public class ProductRoutes {
+    private final Locale currentLocale;
     private final List<Lang> availableLang;
 
-    ProductRoutes(List<Lang> availableLang) {
+    ProductRoutes(Locale currentLocale, List<Lang> availableLang) {
+        this.currentLocale = currentLocale;
         this.availableLang = availableLang;
     }
 
-    public Map<Lang, Call> get(ShopProduct product, Optional<ShopCategory> category) {
+    public Map<Lang, Call> all(ShopProduct product, Optional<ShopCategory> category) {
         Map<Lang, Call> localizedUrls = new HashMap<>();
         for (Lang lang : availableLang) {
-            Call call = byVariant(lang.toLocale(), product, category);
+            Call call = get(lang.toLocale(), product, category);
             localizedUrls.put(lang, call);
         }
         return localizedUrls;
     }
 
-    public Call byVariant(Locale locale, ShopProduct product, Optional<ShopCategory> category) {
+    public Call get(ShopProduct product, Optional<ShopCategory> category) {
+        return get(currentLocale, product, category);
+    }
+
+    public Call get(Locale locale, ShopProduct product, Optional<ShopCategory> category) {
         Optional<String> categorySlug = Optional.absent();
         if (category.isPresent()) {
             categorySlug = Optional.of(category.get().getSlug(locale));

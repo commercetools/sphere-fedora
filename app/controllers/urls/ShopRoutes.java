@@ -8,32 +8,35 @@ import play.mvc.Call;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ShopRoutes {
+    private final Locale currentLocale;
     private final List<Lang> availableLang;
 
-    private ShopRoutes(List<Lang> availableLang) {
+    private ShopRoutes(Locale currentLocale, List<Lang> availableLang) {
+        this.currentLocale = currentLocale;
         this.availableLang = availableLang;
     }
 
-    public static ShopRoutes of(List<Lang> availableLang) {
-        return new ShopRoutes(availableLang);
+    public static ShopRoutes of(Locale currentLocale, List<Lang> availableLang) {
+        return new ShopRoutes(currentLocale, availableLang);
     }
 
     public CategoryRoutes categories() {
-        return new CategoryRoutes(availableLang);
+        return new CategoryRoutes(currentLocale, availableLang);
     }
 
     public ProductRoutes products() {
-        return new ProductRoutes(availableLang);
+        return new ProductRoutes(currentLocale, availableLang);
     }
 
-    public Map<Lang, Call> get(Optional<ShopCategory> currentCategory, Optional<ShopProduct> currentProduct) {
+    public Map<Lang, Call> all(Optional<ShopCategory> currentCategory, Optional<ShopProduct> currentProduct) {
         if (currentProduct.isPresent()) {
-            return products().get(currentProduct.get(), currentCategory);
+            return products().all(currentProduct.get(), currentCategory);
         } else if (currentCategory.isPresent()) {
-            return categories().get(currentCategory.get());
+            return categories().all(currentCategory.get());
         } else {
             // TODO implement other page case
             return new HashMap<>();

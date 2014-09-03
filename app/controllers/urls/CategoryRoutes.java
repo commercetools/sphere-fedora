@@ -11,23 +11,29 @@ import java.util.Locale;
 import java.util.Map;
 
 public class CategoryRoutes {
+    private final Locale currentLocale;
     private final List<Lang> availableLang;
 
-    CategoryRoutes(List<Lang> availableLang) {
+    CategoryRoutes(Locale currentLocale, List<Lang> availableLang) {
+        this.currentLocale = currentLocale;
         this.availableLang = availableLang;
     }
 
-    public Map<Lang, Call> get(ShopCategory currentCategory) {
+    public Map<Lang, Call> all(ShopCategory currentCategory) {
         Map<Lang, Call> localizedUrls = new HashMap<>();
         for (Lang lang : availableLang) {
-            Call call = byCategory(lang.toLocale(), currentCategory);
+            Call call = get(lang.toLocale(), currentCategory);
             // TODO build query facets
             localizedUrls.put(lang, call);
         }
         return localizedUrls;
     }
 
-    public Call byCategory(Locale locale, ShopCategory category) {
+    public Call get(ShopCategory category) {
+        return get(currentLocale, category);
+    }
+
+    public Call get(Locale locale, ShopCategory category) {
         return bySlug(category.getSlug(locale));
     }
 
@@ -37,6 +43,6 @@ public class CategoryRoutes {
      * @return the URL call for the category.
      */
     public Call bySlug(String categorySlug) {
-        return routes.Categories.select(categorySlug, 1, 24, "", "");
+        return routes.ProductListController.categoryProducts(categorySlug, 1, 24, "", "");
     }
 }
