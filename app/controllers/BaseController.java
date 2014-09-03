@@ -1,77 +1,85 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.base.Optional;
-import models.CommonDataBuilder;
-import models.ShopCart;
-import models.ShopCustomer;
-import models.UserContext;
+import com.neovisionaries.i18n.CountryCode;
+import models.*;
 import play.Configuration;
 import play.Logger;
 import play.Play;
 import play.i18n.Lang;
-import play.libs.F;
+import play.mvc.Content;
 import play.mvc.Http;
-
-import com.neovisionaries.i18n.CountryCode;
 import services.CartService;
-import services.CheckoutService;
+import services.CategoryService;
 import services.CustomerService;
-import services.OrderService;
+import services.ProductService;
 import sphere.ShopController;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import utils.AsyncUtils;
+import views.html.notFoundView;
+
 /**
- * An application specific controller.
- * Since we want to show a standard web shop it contains categories.
+ * The common functionality for all the shop controllers.
  */
-public class FedoraController extends ShopController {
+public class BaseController extends ShopController {
+    private final CategoryService categoryService;
+    private final ProductService productService;
+    private final CartService cartService;
+    private final CustomerService customerService;
+
     private CountryCode country;
 
-    private final CustomerService customerService;
-    private final CartService cartService;
-    private final OrderService orderService;
-    private final CheckoutService checkoutService;
-
-    protected FedoraController(final CustomerService customerService, final CartService cartService,
-                               final OrderService orderService, final CheckoutService checkoutService) {
-        this.customerService = customerService;
+    protected BaseController(final CategoryService categoryService, final ProductService productService,
+                             final CartService cartService, final CustomerService customerService) {
+        this.categoryService = categoryService;
+        this.productService = productService;
         this.cartService = cartService;
-        this.orderService = orderService;
-        this.checkoutService = checkoutService;
+        this.customerService = customerService;
     }
 
-    public CustomerService customerService() {
-        return customerService;
+    protected CategoryService categoryService() {
+        return categoryService;
     }
 
-    public CartService cartService() {
+    protected ProductService productService() {
+        return productService;
+    }
+
+    protected CartService cartService() {
         return cartService;
     }
 
-    public OrderService orderService() {
-        return orderService;
-    }
-
-    public CheckoutService checkoutService() {
-        return checkoutService;
+    protected CustomerService customerService() {
+        return customerService;
     }
 
     protected final CommonDataBuilder data(UserContext userContext) {
-       return CommonDataBuilder.of(userContext, Lang.availables());
+        return CommonDataBuilder.of(userContext, Lang.availables());
     }
 
     protected final UserContext userContext(ShopCart currentCart, Optional<ShopCustomer> registeredCustomer) {
         return UserContext.of(lang(), country(), currentCart, registeredCustomer);
     }
 
-    protected final F.Promise<ShopCart> cart() {
-        return cartService.fetchCurrent();
+    protected final ShopCart cart() {
+        return cartService.fetchCurrent().get(AsyncUtils.defaultTimeout());
     }
 
-    protected final F.Promise<Optional<ShopCustomer>> customer() {
-        return customerService.fetchCurrent();
+    protected final Optional<ShopCustomer> customer() {
+        return customerService.fetchCurrent().get(AsyncUtils.defaultTimeout());
+    }
+
+    protected final Map<String, String[]> queryString() {
+        return request().queryString();
+    }
+
+    protected final Locale locale() {
+        return lang().toLocale();
     }
 
     protected final CountryCode country() {
@@ -176,5 +184,9 @@ public class FedoraController extends ShopController {
             Logger.warn("Invalid country " + countryCodeAsString, e);
             return Optional.absent();
         }
+    }
+
+    static Content showNotFoundPage(CommonDataBuilder data) {
+        return notFoundView.render(data.build());
     }
 }
