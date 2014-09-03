@@ -50,6 +50,10 @@ public class UserContext {
         return locales;
     }
 
+    public String currency() {
+        return cart.getCurrencyCode();
+    }
+
     public CountryCode country() {
         return countryCode;
     }
