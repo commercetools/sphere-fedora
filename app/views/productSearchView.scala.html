@@ -1,11 +1,11 @@
-@(searchResult: SearchResult[Product], isGrid: Boolean = true)
+@(data: CommonData, productList: ProductList)
 
 @main(){
-    @helpers.navigationTop(getLocalizedUrls)
+    @helpers.navigationTop(data)
     @helpers.navigationMenu()
 }{
     <section>
-        @helpers.filters()
+        @helpers.filters(data)
 
         <!--MAIN CONTENT STARTS-->
         <div id="main_content">
@@ -14,10 +14,10 @@
             @helpers.breadcrumb()
             @helpers.toolbar()
 
-            @if(isGrid) {
-                @helpers.productGrid(searchResult)
+            @if(productList.getParameters.isGrid) {
+                @helpers.productGrid(data, productList)
             } else {
-                @helpers.productList(searchResult)
+                @helpers.productList(data, productList)
             }
 
             @helpers.toolbar()

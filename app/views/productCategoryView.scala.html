@@ -1,0 +1,33 @@
+@(data: CommonData, productList: ProductList, category: ShopCategory)
+
+@main(category.getName(data.context.locale)){
+    @helpers.navigationTop(data)
+    @**helpers.navigationMenu(category)**@
+}{
+    <section>
+        @helpers.filters(data)
+
+        <!--MAIN CONTENT STARTS-->
+        <div id="main_content">
+            <div class="category_banner"> <img src="@routes.Assets.at("images/promo_cat_banner.jpg")"/> </div>
+
+            @**helpers.breadcrumb(category)**@
+            @helpers.toolbar()
+
+            @if(productList.getParameters.isGrid) {
+                @helpers.productGrid(data, productList)
+            } else {
+                @helpers.productList(data, productList)
+            }
+
+            @helpers.toolbar()
+
+        </div>
+        <!--MAIN CONTENT ENDS-->
+
+        @helpers.newsletter()
+
+    </section>
+}{
+
+}
