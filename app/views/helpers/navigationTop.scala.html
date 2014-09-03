@@ -1,4 +1,4 @@
-@(localizedUrls: Map[play.i18n.Lang, String])
+@(data: CommonData)
 
 <div class="header_container">
     <!--Header Starts-->
@@ -19,9 +19,9 @@
                     <a href="#"><img src="@routes.Assets.at("images/shortcodes/list-plus.png")"/></a>
                 </div>
                 <ul>
-                    @for((language, url) <- localizedUrls) {
-                    <li class="@getActive(language.language, lang.language)">
-                        <a href="@url" title="@language.toLocale.getDisplayName">
+                    @for((language, call) <- data.localizedRoutes) {
+                    <li class="@if(language.toLocale == data.context.locale){active}">
+                        <a href="@call.url" title="@language.toLocale.getDisplayName">
                             @language.toLocale.getLanguage
                         </a>
                     </li>
@@ -35,7 +35,7 @@
         <!--Logo Ends-->
 
         <!--Search Starts-->
-        <form action="@routes.Categories.search(1, 12, "", "")" class="header_search">
+        <form action="@routes.ProductListController.searchProducts(1, 12, "", "")" class="header_search">
         <div class="form-search">
             <input id="search" type="text" name="q" class="input-text" autocomplete="off" placeholder="Search">
             <button type="submit" title="Search"></button>
