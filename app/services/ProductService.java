@@ -2,11 +2,11 @@ package services;
 
 import com.google.common.base.Optional;
 import io.sphere.client.shop.model.LineItem;
-import models.ShopLineItem;
-import models.ShopProduct;
+import models.*;
 import play.libs.F;
 
 import java.util.Locale;
+import java.util.Map;
 
 public interface ProductService {
 
@@ -40,4 +40,23 @@ public interface ProductService {
      * @return the promise of the line item with the product information, or absent if it does not exist.
      */
     F.Promise<Optional<ShopLineItem>> fetchByLineItem(LineItem lineItem);
+
+    /**
+     * Searches products matching the search input text and the facets specified in the query string of the request.
+     * @param locale the selected locale corresponding to the search request.
+     * @param queryString the query string of the request.
+     * @param parameters the parameters associated with the request.
+     * @return the promise of the product list matching the request.
+     */
+    F.Promise<ProductList> fetchSearchedProducts(Locale locale, Map<String, String[]> queryString, RequestParameters parameters);
+
+    /**
+     * Searches products belonging to the provided category and matching the facets specified in the query string of the request.
+     * @param locale the selected locale corresponding to the search request.
+     * @param queryString the query string of the request.
+     * @param category the requested category.
+     * @param parameters the parameters associated with the request.
+     * @return the promise of the product list matching the request.
+     */
+    F.Promise<ProductList> fetchCategoryProducts(Locale locale, Map<String, String[]> queryString, ShopCategory category, RequestParameters parameters);
 }
