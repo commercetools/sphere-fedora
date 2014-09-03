@@ -7,6 +7,7 @@ import sphere.Sphere;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CategoryServiceImpl implements CategoryService {
     private final Sphere sphere;
@@ -27,8 +28,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<ShopCategory> getBySlug(final String categorySlug) {
-        Category category = sphere.categories().getBySlug(categorySlug);
+    public Optional<ShopCategory> getBySlug(final Locale locale, final String categorySlug) {
+        Category category = sphere.categories().getBySlug(categorySlug, locale);
         if (category != null) {
             ShopCategory fetchedCategory = ShopCategory.of(category);
             return Optional.of(fetchedCategory);
