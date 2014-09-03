@@ -195,7 +195,7 @@ public class ViewHelper {
     }
 
     public static String getCategoryUrl(Category category, int page, Lang lang) {
-        return routes.Categories.select(category.getSlug(lang.toLocale()), page, 12, "", "").url();
+        return routes.ProductListController.categoryProducts(category.getSlug(lang.toLocale()), page, 12, "", "").url();
     }
 
     public static String getProductUrl(Product product, Variant variant) {
