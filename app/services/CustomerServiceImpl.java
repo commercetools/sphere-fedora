@@ -20,14 +20,14 @@ import io.sphere.client.shop.SignInResult;
 import io.sphere.client.shop.SignUpBuilder;
 
 public class CustomerServiceImpl implements CustomerService {
-    protected static int INITIAL_CUSTOMER_NUMBER = 1000;
+    protected static final int INITIAL_CUSTOMER_NUMBER = 1000;
 
-    protected static String GLOBAL_CONTAINER = "globalInfo";
-    protected static String GLOBAL_CUSTOMER_NUMBER_KEY = "lastCustomerNumber";
+    protected static final String GLOBAL_CONTAINER = "globalInfo";
+    protected static final String GLOBAL_CUSTOMER_NUMBER_KEY = "lastCustomerNumber";
 
-    protected static String CUSTOMER_GROUP_ID = "customerGroup";
+    protected static final String CUSTOMER_GROUP_ID = "customerGroup";
 
-    protected static int TOKEN_EXPIRATION_TIME = 60 * 24;
+    protected static final int TOKEN_EXPIRATION_TIME = 60 * 24;
 
     private final Sphere sphere;
     private final CartService cartService;

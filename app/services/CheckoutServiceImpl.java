@@ -23,16 +23,16 @@ import io.sphere.client.model.CustomObject;
 import java.util.List;
 
 public class CheckoutServiceImpl implements CheckoutService {
-    protected static int INITIAL_ORDER_NUMBER = 10000;
+    protected static final int INITIAL_ORDER_NUMBER = 10000;
 
-    protected static String GLOBAL_CONTAINER = "globalInfo";
-    protected static String GLOBAL_ORDER_NUMBER_KEY = "lastOrderNumber";
+    protected static final String GLOBAL_CONTAINER = "globalInfo";
+    protected static final String GLOBAL_ORDER_NUMBER_KEY = "lastOrderNumber";
 
-    protected static String CHECKOUT_CONTAINER = "checkoutInfo";
-    protected static String CHECKOUT_PAYMENT_METHOD_KEY = "paymentMethod";
-    protected static String CHECKOUT_PAYMENT_TRANSACTION_KEY = "paymentTransaction";
-    protected static String CHECKOUT_PAYMENT_TIMESTAMP_KEY = "paymentTimestamp";
-    protected static String CHECKOUT_ORDER_NUMBER_KEY = "orderNumber";
+    protected static final String CHECKOUT_CONTAINER = "checkoutInfo";
+    protected static final String CHECKOUT_PAYMENT_METHOD_KEY = "paymentMethod";
+    protected static final String CHECKOUT_PAYMENT_TRANSACTION_KEY = "paymentTransaction";
+    protected static final String CHECKOUT_PAYMENT_TIMESTAMP_KEY = "paymentTimestamp";
+    protected static final String CHECKOUT_ORDER_NUMBER_KEY = "orderNumber";
 
     protected final Sphere sphere;
     private final CustomObjectService customObjectService;
