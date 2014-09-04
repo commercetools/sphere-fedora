@@ -10,18 +10,24 @@ import io.sphere.client.shop.model.Order;
 import play.data.Form;
 import play.mvc.Result;
 import play.mvc.With;
-import sphere.ShopController;
+import services.CartService;
+import services.CategoryService;
+import services.CustomerService;
+import services.ProductService;
 
 import java.util.List;
 
 import static play.data.Form.form;
 
 @With(Authorization.class)
-public class Customers extends ShopController {
-
+public class Customers extends BaseController {
     final static Form<UpdateCustomer> updateCustomerForm = form(UpdateCustomer.class);
     final static Form<UpdatePassword> updatePasswordForm = form(UpdatePassword.class);
 
+    public Customers(final CategoryService categoryService, final ProductService productService,
+                     final CartService cartService, final CustomerService customerService) {
+        super(categoryService, productService, cartService, customerService);
+    }
 
     public static Result show() {
         Customer customer = sphere().currentCustomer().fetch();
