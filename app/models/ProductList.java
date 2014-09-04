@@ -44,10 +44,6 @@ public class ProductList {
         return !parameters.getPriceParameter().isPresent();
     }
 
-    public boolean hasNoSortSelected() {
-        return !parameters.getSortParameter().isPresent();
-    }
-
     public boolean hasNoDisplaySelected() {
         return !parameters.getDisplayParameter().isPresent();
     }
