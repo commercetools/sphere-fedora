@@ -23,12 +23,12 @@ import static utils.AsyncUtils.asPromise;
 
 public class CartController extends BaseController {
 
+    final static Form<AddToCart> addToCartForm = form(AddToCart.class);
+    final static Form<UpdateCart> updateCartForm = form(UpdateCart.class);
+
     public CartController(CategoryService categoryService, ProductService productService, CartService cartService, CustomerService customerService) {
         super(categoryService, productService, cartService, customerService);
     }
-
-    final static Form<AddToCart> addToCartForm = form(AddToCart.class);
-    final static Form<UpdateCart> updateCartForm = form(UpdateCart.class);
 
     @With(CartNotEmpty.class)
     public static Result show() {
@@ -65,16 +65,6 @@ public class CartController extends BaseController {
         return result;
     }
 
-    private F.Promise<Result> addProductToCart(final ShopProduct shopProduct, int quantity) {
-        return cartService().addItem(cart(), shopProduct, quantity).map(new F.Function<ShopCart, Result>() {
-            @Override
-            public Result apply(ShopCart shopCart) throws Throwable {
-                flash("cart-success", shopProduct.getName(locale()) + " was added to your shopping cart.");
-                return redirect(routes.CartController.show());
-            }
-        });
-    }
-
     public static Result update() {
         Form<UpdateCart> form = updateCartForm.bindFromRequest();
         // Case missing or invalid form data
@@ -96,5 +86,15 @@ public class CartController extends BaseController {
         sphere().currentCart().removeLineItem(item);
         flash("cart-success", "Product removed from your shopping cart.");
         return Results.redirect(routes.CartController.show());
+    }
+
+    private F.Promise<Result> addProductToCart(final ShopProduct shopProduct, int quantity) {
+        return cartService().addItem(cart(), shopProduct, quantity).map(new F.Function<ShopCart, Result>() {
+            @Override
+            public Result apply(ShopCart shopCart) throws Throwable {
+                flash("cart-success", shopProduct.getName(locale()) + " was added to your shopping cart.");
+                return redirect(routes.CartController.show());
+            }
+        });
     }
 }
