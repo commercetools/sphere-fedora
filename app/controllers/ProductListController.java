@@ -23,13 +23,13 @@ public class ProductListController extends BaseController {
         final Optional<ShopCategory> category = categoryService().getBySlug(locale(), categorySlug);
         final UserContext context = userContext(cart(), customer());
         if (category.isPresent()) {
-            RequestParameters parameters = RequestParameters.of(page, show, sort, list);
-            return productService().fetchCategoryProducts(locale(), queryString(), category.get(), parameters)
+            RequestParameters parameters = RequestParameters.of(queryString(), page, show, sort, list);
+            return productService().fetchCategoryProducts(locale(), category.get(), parameters)
                     .map(new F.Function<ProductList, Result>() {
                         @Override
                         public Result apply(ProductList productList) throws Throwable {
                             if (productList.isEmpty()) {
-                                flash("info", "No products found");
+                                flash("info-product-list", "No products found");
                             }
                             CommonDataBuilder data = data(context).withCategory(category.get());
                             return ok(showProductCategoryPage(data, productList, category.get()));
@@ -42,13 +42,13 @@ public class ProductListController extends BaseController {
 
     public F.Promise<Result> searchProducts(int page, int show, String sort, String list) {
         final UserContext context = userContext(cart(), customer());
-        final RequestParameters parameters = RequestParameters.of(page, show, sort, list);
-        return productService().fetchSearchedProducts(locale(), queryString(), parameters)
+        final RequestParameters parameters = RequestParameters.of(queryString(), page, show, sort, list);
+        return productService().fetchSearchedProducts(locale(), parameters)
                 .map(new F.Function<ProductList, Result>() {
                     @Override
                     public Result apply(ProductList productList) throws Throwable {
                         if (productList.isEmpty()) {
-                            flash("info", "No products found");
+                            flash("info-product-list", "No products found");
                         }
                         return ok(showProductSearchPage(data(context), productList));
                     }

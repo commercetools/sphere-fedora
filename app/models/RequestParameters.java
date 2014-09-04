@@ -1,40 +1,51 @@
 package models;
 
+import com.google.common.collect.Range;
 import io.sphere.client.ProductSort;
+import io.sphere.client.facets.Facet;
+import io.sphere.client.facets.FacetParser;
+import io.sphere.client.facets.Facets;
 import io.sphere.client.facets.expressions.FacetExpression;
+import io.sphere.client.filters.Filter;
+import io.sphere.client.filters.FilterParser;
+import io.sphere.client.filters.Filters;
 import io.sphere.client.filters.expressions.FilterExpression;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 public class RequestParameters {
-    public static final String FILTER_SEARCH_QUERY_PARAM = "q";
-    public static final String FILTER_PRICE_QUERY_PARAM = "price";
-    public static final String SORT_PRICE_DESC_QUERY_PARAM = "price_desc";
-    public static final String SORT_PRICE_ASC_QUERY_PARAM = "price_asc";
-    public static final String DISPLAY_GRID_QUERY_PARAM = "grid";
+    protected static final String QUERY_PARAM_SEARCH = "query";
+    protected static final String QUERY_PARAM_PRICE = "price";
 
+    protected static final String QUERY_SORT_PRICE_DESC = "price_desc";
+    protected static final String QUERY_SORT_PRICE_ASC = "price_asc";
+    protected static final String QUERY_DISPLAY_GRID = "grid";
+
+    private final Map<String, String[]> queryString;
     private final int page;
     private final int pageSize;
     private final ProductSort sort;
     private final boolean grid;
-    private List<FilterExpression> filters = new ArrayList<FilterExpression>();
-    private List<FacetExpression> facets = new ArrayList<FacetExpression>();
 
-    RequestParameters(int page, int pageSize, ProductSort sort, boolean grid) {
+    public final Filters.Fulltext filterSearch = buildSearchFilter();
+    public final Facets.MoneyAttribute.Ranges facetPrice = buildPriceFacet();
+
+    RequestParameters(Map<String, String[]> queryString, int page, int pageSize, ProductSort sort, boolean grid) {
+        this.queryString = queryString;
         this.page = page;
         this.pageSize = pageSize;
         this.sort = sort;
         this.grid = grid;
     }
 
-    public static RequestParameters of(int pageParameter, int pageSizeParameter, String sortParameter,
-                                       String displayParameter) {
+    public static RequestParameters of(Map<String, String[]> queryString, int pageParameter, int pageSizeParameter,
+                                       String sortParameter, String displayParameter) {
         ProductSort sort = parseSortParameter(sortParameter);
         int page = parsePageParameter(pageParameter);
         int pageSize = parsePageSizeParameter(pageSizeParameter);
         boolean grid = parseGridParameter(displayParameter);
-        return new RequestParameters(page, pageSize, sort, grid);
+        return new RequestParameters(queryString, page, pageSize, sort, grid);
     }
 
     private static int parsePageSizeParameter(final int pageSizeParameter) {
@@ -57,9 +68,9 @@ public class RequestParameters {
     }
 
     private static ProductSort parseSortParameter(final String sortParameter) {
-        if (sortParameter.equals(SORT_PRICE_ASC_QUERY_PARAM)) {
+        if (sortParameter.equals(QUERY_SORT_PRICE_ASC)) {
             return ProductSort.price.asc;
-        } else if (sortParameter.equals(SORT_PRICE_DESC_QUERY_PARAM)) {
+        } else if (sortParameter.equals(QUERY_SORT_PRICE_DESC)) {
             return ProductSort.price.desc;
         } else {
             return ProductSort.name.asc;
@@ -67,7 +78,11 @@ public class RequestParameters {
     }
 
     private static boolean parseGridParameter(final String displayParameter) {
-        return displayParameter.equals(DISPLAY_GRID_QUERY_PARAM);
+        return displayParameter.equals(QUERY_DISPLAY_GRID);
+    }
+
+    public Map<String, String[]> getQueryString() {
+        return queryString;
     }
 
     public int getPage() {
@@ -86,22 +101,39 @@ public class RequestParameters {
         return grid;
     }
 
+    public Filters.Fulltext getFilterSearch() {
+        return filterSearch;
+    }
+
+    public Facets.MoneyAttribute.Ranges getFacetPrice() {
+        return facetPrice;
+    }
+
+    public List<String> getSelectedPriceFilter() {
+        List<String> selectedPrices = new ArrayList<String>();
+        if (queryString.containsKey(QUERY_PARAM_PRICE)) {
+            selectedPrices = Arrays.asList(queryString.get(QUERY_PARAM_PRICE));
+        }
+        return selectedPrices;
+    }
+
     public List<FilterExpression> getFilters() {
-        return filters;
+        final List<Filter> usedFilters = Arrays.<Filter>asList(filterSearch);
+        return FilterParser.parse(queryString, usedFilters);
     }
 
     public List<FacetExpression> getFacets() {
-        return facets;
+        final List<Facet> usedFacets = Arrays.<Facet>asList(facetPrice);
+        return FacetParser.parse(queryString, usedFacets);
     }
 
-    public RequestParameters withFilters(List<FilterExpression> filters) {
-        this.filters = filters;
-        return this;
+    protected static Facets.MoneyAttribute.Ranges buildPriceFacet() {
+        List<Range<BigDecimal>> ranges = Collections.singletonList(Range.greaterThan(BigDecimal.ZERO));
+        return new Facets.MoneyAttribute.Ranges("variants.price", ranges).setQueryParam(QUERY_PARAM_PRICE);
     }
 
-    public RequestParameters withFacets(List<FacetExpression> facets) {
-        this.facets = facets;
-        return this;
+    protected static Filters.Fulltext buildSearchFilter() {
+        return new Filters.Fulltext().setQueryParam(QUERY_PARAM_SEARCH);
     }
 
     @Override
@@ -111,8 +143,6 @@ public class RequestParameters {
                 ", pageSize=" + pageSize +
                 ", sort=" + sort +
                 ", grid=" + grid +
-                ", filters=" + filters +
-                ", facets=" + facets +
                 '}';
     }
 
@@ -126,8 +156,6 @@ public class RequestParameters {
         if (grid != that.grid) return false;
         if (page != that.page) return false;
         if (pageSize != that.pageSize) return false;
-        if (facets != null ? !facets.equals(that.facets) : that.facets != null) return false;
-        if (filters != null ? !filters.equals(that.filters) : that.filters != null) return false;
         if (sort != null ? !sort.equals(that.sort) : that.sort != null) return false;
 
         return true;
@@ -139,8 +167,6 @@ public class RequestParameters {
         result = 31 * result + pageSize;
         result = 31 * result + (sort != null ? sort.hashCode() : 0);
         result = 31 * result + (grid ? 1 : 0);
-        result = 31 * result + (filters != null ? filters.hashCode() : 0);
-        result = 31 * result + (facets != null ? facets.hashCode() : 0);
         return result;
     }
 }
