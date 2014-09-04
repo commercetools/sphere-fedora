@@ -1,11 +1,20 @@
-@(current: Category = null)
+@(data: CommonData)
 
 <ul class="breadcrumb">
     <li><a href="@routes.Application.home">Home</a></li>
-    @if(isSet(current)) {
-        @for(ancestor <- current.getPathInTree.init) {
-        <li><a href="@getCategoryUrl(ancestor)">@ancestor.getName(lang.toLocale)</a></li>
+    @if(data.currentCategory.isPresent){
+        @defining(data.currentCategory.get){ category =>
+        @for(ancestor <- category.getPath.init) {
+        <li><a href="@data.routes.categories.get(ancestor)">@ancestor.getName(data.context.locale)</a></li>
         }
-        <li class="active"><a href="@getCategoryUrl(current)">@current.getName(lang.toLocale)</a></li>
+        <li class="@if(!data.currentProduct.isPresent){active}">
+            <a href="@data.routes.categories.get(category)">@category.getName(data.context.locale)</a>
+        </li>
+       }
+    }
+    @if(data.currentProduct.isPresent){
+        @defining(data.currentProduct.get){ product =>
+        <li><a href="@data.routes.products.get(product, data.currentCategory)">@product.getName(data.context.locale)</a></li>
+        }
     }
 </ul>

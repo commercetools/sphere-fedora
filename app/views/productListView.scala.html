@@ -11,7 +11,7 @@
         <div id="main_content">
             <div class="category_banner"> <img src="@routes.Assets.at("images/promo_cat_banner.jpg")"/> </div>
 
-            @helpers.breadcrumb()
+            @helpers.breadcrumb(data)
 
             @defining(productListHelper.toolbar(data, productList)){ toolbar =>
                 @toolbar
