@@ -11,7 +11,7 @@ GET     /search                                             @controllers.Product
 GET     /cart                                               controllers.CartController.show()
 
 POST    /cart/add                                           @controllers.CartController.add()
-POST    /cart/update                                        controllers.CartController.update()
+POST    /cart/update                                        @controllers.CartController.update()
 GET     /cart/remove                                        controllers.CartController.remove(item: String)
 
 # Checkout

@@ -11,7 +11,6 @@ import play.data.Form;
 import play.libs.F;
 import play.mvc.Result;
 import play.mvc.Results;
-import play.mvc.SimpleResult;
 import play.mvc.With;
 import services.CartService;
 import services.CategoryService;
@@ -66,18 +65,26 @@ public class CartController extends BaseController {
         return result;
     }
 
-    public static F.Promise<Result> update() {
-        final Form<UpdateCart> form = updateCartForm.bindFromRequest();
+    /**
+     * Changes the quantity of a line item in a cart.
+     *
+     * @return In success case the cart detail page.
+     */
+    public F.Promise<Result> update() {
+        final Form<UpdateCart> filledForm = updateCartForm.bindFromRequest();
         final F.Promise<Result> result;
-        if (form.hasErrors()) {
+        if (filledForm.hasErrors()) {
             flash("error", "The item could not be updated in your cart, please try again.");
             result = asPromise(redirectToCartDetailPage());
         } else {
-            final UpdateCart updateCart = form.get();
-            final CartUpdate cartUpdate = new CartUpdate().setLineItemQuantity(updateCart.lineItemId, updateCart.quantity);
-            sphere().currentCart().update(cartUpdate);
-            flash("cart-success", "Quantity updated.");
-            result = asPromise(redirectToCartDetailPage());
+            final UpdateCart updateCart = filledForm.get();
+            result = cartService().updateItem(cart(), updateCart.lineItemId, updateCart.quantity).map(new F.Function<ShopCart, Result>() {
+                @Override
+                public Result apply(final ShopCart shopCart) throws Throwable {
+                    flash("cart-success", "Quantity updated.");
+                    return redirectToCartDetailPage();
+                }
+            });
         }
         return result;
     }
@@ -86,7 +93,7 @@ public class CartController extends BaseController {
         // Case valid cart update
         sphere().currentCart().removeLineItem(item);
         flash("cart-success", "Product removed from your shopping cart.");
-        return Results.redirect(routes.CartController.show());
+        return redirectToCartDetailPage();
     }
 
     private F.Promise<Result> addProductToCart(final ShopProduct shopProduct, int quantity) {
