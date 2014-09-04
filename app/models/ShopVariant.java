@@ -41,13 +41,10 @@ public class ShopVariant {
         } else {
             price = variant.getPrice(context.currency(), context.country());
         }
-        if (price == null) {
-            return Optional.absent();
-        } else {
-            return Optional.of(price);
-        }
+        return Optional.fromNullable(price);
     }
 
+    // TODO return optional
     public Money getPriceAmount(UserContext context) {
         Optional<Price> price = getPrice(context);
         if (price.isPresent()) {

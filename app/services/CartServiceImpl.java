@@ -40,11 +40,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public Optional<VersionedId> currentVersionedId() {
         VersionedId versionedId = Session.current().getCartId();
-        if (versionedId == null) {
-            return Optional.absent();
-        } else {
-            return Optional.of(versionedId);
-        }
+        return Optional.fromNullable(versionedId);
     }
 
     @Override
