@@ -11,7 +11,7 @@
     </div>
     <div class="price_info">
         <!--a href="#">+ @Messages("button.wishlist")</a-->
-        <form action="@routes.Carts.add" method="post">
+        <form action="@routes.CartController.add" method="post">
             <input type="hidden" name="productId" value="@product.getId"/>
             <input type="hidden" name="variantId" value="@product.getMasterVariant.getId"/>
             <input type="hidden" name="quantity" value="1"/>

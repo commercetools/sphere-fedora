@@ -7,11 +7,11 @@ GET     /                                                   controllers.Applicat
 GET     /search                                             controllers.Categories.search(page: Int ?= 1, show: Int ?= 12, sort: String ?= "", list: String ?= "")
 
 # Cart
-GET     /cart                                               controllers.Carts.show()
+GET     /cart                                               controllers.CartController.show()
 
-POST    /cart/add                                           controllers.Carts.add()
-POST    /cart/update                                        controllers.Carts.update()
-GET     /cart/remove                                        controllers.Carts.remove(item: String)
+POST    /cart/add                                           controllers.CartController.add()
+POST    /cart/update                                        controllers.CartController.update()
+GET     /cart/remove                                        controllers.CartController.remove(item: String)
 
 # Checkout
 GET     /checkout                                           controllers.Checkouts.show()

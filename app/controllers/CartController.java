@@ -6,13 +6,14 @@ import forms.cartForm.AddToCart;
 import forms.cartForm.UpdateCart;
 import play.data.Form;
 import play.mvc.Result;
+import play.mvc.Results;
 import play.mvc.With;
 import sphere.ShopController;
 import views.html.carts;
 
 import static play.data.Form.form;
 
-public class Carts extends ShopController {
+public class CartController extends ShopController {
 
     final static Form<AddToCart> addToCartForm = form(AddToCart.class);
     final static Form<UpdateCart> updateCartForm = form(UpdateCart.class);
@@ -45,7 +46,7 @@ public class Carts extends ShopController {
         int variantId = getMatchedSizeVariant(product, variant, addToCart.size);
         sphere().currentCart().addLineItem(addToCart.productId, variantId, addToCart.quantity);
         flash("cart-success", product.getName() + " was added to your shopping cart.");
-        return redirect(routes.Carts.show());
+        return Results.redirect(routes.CartController.show());
     }
 
     public static Result update() {
@@ -53,7 +54,7 @@ public class Carts extends ShopController {
         // Case missing or invalid form data
         if (form.hasErrors()) {
             flash("error", "The item could not be updated in your cart, please try again.");
-            return redirect(routes.Carts.show());
+            return Results.redirect(routes.CartController.show());
         }
         // Case valid cart update
         UpdateCart updateCart = form.get();
@@ -61,14 +62,14 @@ public class Carts extends ShopController {
                 .setLineItemQuantity(updateCart.lineItemId, updateCart.quantity);
         sphere().currentCart().update(cartUpdate);
         flash("cart-success", "Quantity updated.");
-        return redirect(routes.Carts.show());
+        return Results.redirect(routes.CartController.show());
     }
 
     public static Result remove(String item) {
         // Case valid cart update
         sphere().currentCart().removeLineItem(item);
         flash("cart-success", "Product removed from your shopping cart.");
-        return redirect(routes.Carts.show());
+        return Results.redirect(routes.CartController.show());
     }
 
     protected static int getMatchedSizeVariant(Product product, Variant variant, String size) {

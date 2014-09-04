@@ -29,7 +29,7 @@
 
         @defining(getCurrentCart) { cart =>
         <div class="minicart">
-            <a href="@routes.Carts.show" class="minicart_link">
+            <a href="@routes.CartController.show" class="minicart_link">
                 <span class="item"><b>@cart.getTotalQuantity</b> @Messages("cart.item") /</span> <span class="price"><b>@cart.getTotalPrice</b></span>
             </a>
             <div class="cart_drop"> <span class="darw"></span>
