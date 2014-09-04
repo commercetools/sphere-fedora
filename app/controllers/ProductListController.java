@@ -29,8 +29,7 @@ public class ProductListController extends BaseController {
                             if (productList.isEmpty()) {
                                 flash("info-product-list", "No products found");
                             }
-                            CommonDataBuilder data = data(context).withCategory(category.get());
-                            return ok(showProductCategoryPage(data, productList, category.get()));
+                            return ok(showProductCategoryPage(data(context), productList, category.get()));
                         }
                     });
         } else {
