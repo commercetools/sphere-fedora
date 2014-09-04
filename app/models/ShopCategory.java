@@ -75,6 +75,14 @@ public class ShopCategory {
         return children;
     }
 
+    public boolean hasAsAncestor(ShopCategory otherCategory) {
+        return !this.equals(otherCategory) && getPath().contains(otherCategory);
+    }
+
+    public boolean hasInPath(ShopCategory otherCategory) {
+        return getPath().contains(otherCategory);
+    }
+
     @Override
     public String toString() {
         return "ShopCategory{" +

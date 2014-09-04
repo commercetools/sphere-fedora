@@ -8,15 +8,15 @@
         @for(mainCategory <- rootCategory.getChildren) {
             @if(mainCategory.hasChildren){
                 <li class="menu_cont">
-                    <a href="@data.routes.categories.get(mainCategory)" class="@if(mainCategory == currentCategory){active}">@mainCategory.getName(data.context.locale)</a>
+                    <a href="@data.routes.categories.get(mainCategory)" class="@if(currentCategory.hasInPath(mainCategory)){active}">@mainCategory.getName(data.context.locale)</a>
                     <ul class="side_sub_menu">
                         @for(subcategory <- mainCategory.getChildren) {
-                        <li><a href="@data.routes.categories.get(subcategory)" class="@if(subcategory == currentCategory){active}">@subcategory.getName(data.context.locale)</a></li>
+                        <li><a href="@data.routes.categories.get(subcategory)" class="@if(currentCategory.hasInPath(subcategory)){active}">@subcategory.getName(data.context.locale)</a></li>
                         }
                     </ul>
                 </li>
             } else {
-                <li><a href="@data.routes.categories.get(mainCategory)" class="@if(mainCategory == currentCategory){active}">@mainCategory.getName(data.context.locale)</a></li>
+                <li><a href="@data.routes.categories.get(mainCategory)" class="@if(currentCategory.hasInPath(mainCategory)){active}">@mainCategory.getName(data.context.locale)</a></li>
             }
         }
     </ul>
