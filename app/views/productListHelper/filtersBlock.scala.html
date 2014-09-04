@@ -1,0 +1,12 @@
+@(data: CommonData, productList: ProductList)
+
+<!--SIDE NAV STARTS-->
+<div id="side_nav">
+    <div class="sideNavCategories">
+        @if(data.currentCategory.isPresent) {
+            @productListHelper.categoryFilterBlock(data, data.currentCategory.get)
+        }
+        @productListHelper.priceFacetBlock(data, productList)
+    </div>
+</div>
+<!--SIDE NAV ENDS-->

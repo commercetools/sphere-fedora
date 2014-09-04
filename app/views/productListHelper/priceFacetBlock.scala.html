@@ -1,0 +1,9 @@
+@(data: CommonData, productList: ProductList)
+
+<ul class="category price">
+    <li class="header">Price</li>
+    <li><a href="?" class="@if(productList.hasNoPriceSelected){active}">All prices</a></li>
+    <li><a href="?price=20_60" class="@if(productList.hasPriceSelected("20_60")){active}">20 to 60 €</a></li>
+    <li><a href="?price=60_100" class="@if(productList.hasPriceSelected("60_100")){active}">60 to 100 €</a></li>
+    <li><a href="?price=100_500" class="@if(productList.hasPriceSelected("100_500")){active}">100 to 500 €</a></li>
+</ul>
