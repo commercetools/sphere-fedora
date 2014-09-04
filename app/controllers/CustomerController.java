@@ -20,12 +20,12 @@ import java.util.List;
 import static play.data.Form.form;
 
 @With(Authorization.class)
-public class Customers extends BaseController {
+public class CustomerController extends BaseController {
     final static Form<UpdateCustomer> updateCustomerForm = form(UpdateCustomer.class);
     final static Form<UpdatePassword> updatePasswordForm = form(UpdatePassword.class);
 
-    public Customers(final CategoryService categoryService, final ProductService productService,
-                     final CartService cartService, final CustomerService customerService) {
+    public CustomerController(final CategoryService categoryService, final ProductService productService,
+                              final CartService cartService, final CustomerService customerService) {
         super(categoryService, productService, cartService, customerService);
     }
 

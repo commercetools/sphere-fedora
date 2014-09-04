@@ -35,7 +35,7 @@ public class Login extends ShopController {
         // Case already signed up
         SignUp signUp = form.get();
         if (sphere().login(signUp.email, signUp.password)) {
-            return redirect(routes.Customers.show());
+            return redirect(routes.CustomerController.show());
         }
         // Case already registered email
         try {
@@ -44,7 +44,7 @@ public class Login extends ShopController {
             return badRequest();
         }
         // Case valid sign up
-        return redirect(routes.Customers.show());
+        return redirect(routes.CustomerController.show());
     }
 
     public static Result logIn() {
