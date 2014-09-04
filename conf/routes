@@ -10,7 +10,7 @@ GET     /search                                             @controllers.Product
 # Cart
 GET     /cart                                               controllers.CartController.show()
 
-POST    /cart/add                                           controllers.CartController.add()
+POST    /cart/add                                           @controllers.CartController.add()
 POST    /cart/update                                        controllers.CartController.update()
 GET     /cart/remove                                        controllers.CartController.remove(item: String)
 

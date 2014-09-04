@@ -8,12 +8,19 @@ import play.data.Form;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.With;
-import sphere.ShopController;
+import services.CartService;
+import services.CategoryService;
+import services.CustomerService;
+import services.ProductService;
 import views.html.carts;
 
 import static play.data.Form.form;
 
-public class CartController extends ShopController {
+public class CartController extends BaseController {
+
+    public CartController(CategoryService categoryService, ProductService productService, CartService cartService, CustomerService customerService) {
+        super(categoryService, productService, cartService, customerService);
+    }
 
     final static Form<AddToCart> addToCartForm = form(AddToCart.class);
     final static Form<UpdateCart> updateCartForm = form(UpdateCart.class);
@@ -29,7 +36,7 @@ public class CartController extends ShopController {
      *
      * @return In success case the cart overview page.
      */
-    public static Result add() {
+    public Result add() {
         Form<AddToCart> form = addToCartForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
