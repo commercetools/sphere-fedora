@@ -1,21 +1,21 @@
-@(current: Category = null)
+@(data: CommonData)
 
 <div class="navigation_container">
     <!--Navigation Starts-->
     <nav>
         <ul class="primary_nav">
-            @for(root <- getRootCategories) {
-            <li class="@getActiveClass(root, current)">
-                <a href="@getCategoryUrl(root)">@root.getName(lang.toLocale)</a>
-                @if(root.getChildren.size > 0) {
+            @for(rootCategory <- data.rootCategories) {
+            <li class="@if(data.isInCategoryPath(rootCategory)){active}">
+                <a href="@data.routes.categories.get(rootCategory)">@rootCategory.getName(data.context.locale)</a>
+                @if(rootCategory.hasChildren) {
                 <!--Submenu Starts-->
                 <ul class="sub_menu">
-                    @for(category <- root.getChildren) {
+                    @for(mainCategory <- rootCategory.getChildren) {
                     <li>
-                        <a href="@getCategoryUrl(category)">@category.getName(lang.toLocale)</a>
+                        <a href="@data.routes.categories.get(mainCategory)">@mainCategory.getName(data.context.locale)</a>
                         <ul>
-                            @for(subcategory <- category.getChildren) {
-                            <li><a href="@getCategoryUrl(subcategory)">@subcategory.getName(lang.toLocale)</a></li>
+                            @for(subcategory <- mainCategory.getChildren) {
+                            <li><a href="@data.routes.categories.get(subcategory)">@subcategory.getName(data.context.locale)</a></li>
                             }
                         </ul>
                     </li>

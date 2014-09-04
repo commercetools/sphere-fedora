@@ -14,14 +14,16 @@ import play.mvc.Call;
 public class CommonData {
     private final UserContext userContext;
     private final List<Lang> availableLang;
+    private final List<ShopCategory> rootCategories;
     private final Optional<ShopCategory> currentCategory;
     private final Optional<ShopProduct> currentProduct;
     private final ShopRoutes shopRoutes;
 
-    CommonData(UserContext userContext, List<Lang> availableLang, ShopRoutes shopRoutes,
+    CommonData(UserContext userContext, List<Lang> availableLang, ShopRoutes shopRoutes, List<ShopCategory> rootCategories,
                Optional<ShopCategory> currentCategory, Optional<ShopProduct> currentProduct) {
         this.userContext = userContext;
         this.availableLang = availableLang;
+        this.rootCategories = rootCategories;
         this.currentCategory = currentCategory;
         this.currentProduct = currentProduct;
         this.shopRoutes = shopRoutes;
@@ -49,5 +51,17 @@ public class CommonData {
 
     public Optional<ShopProduct> currentProduct() {
         return currentProduct;
+    }
+
+    public List<ShopCategory> rootCategories() {
+        return rootCategories;
+    }
+
+    public boolean isInCategory(ShopCategory category) {
+        return currentCategory.isPresent() && currentCategory.get().equals(category);
+    }
+
+    public boolean isInCategoryPath(ShopCategory category) {
+        return currentCategory.isPresent() && currentCategory.get().hasInPath(category);
     }
 }
