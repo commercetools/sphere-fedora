@@ -128,6 +128,6 @@ public class CartController extends BaseController {
     }
 
     private static Result redirectToCartDetailPage() {
-        return redirect(routes.CartController.show());
+        return redirect(controllers.routes.CartController.show());
     }
 }

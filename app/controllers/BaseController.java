@@ -22,7 +22,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import utils.AsyncUtils;
-import views.html.notFoundView;
 
 /**
  * The common functionality for all the shop controllers.
@@ -124,7 +123,7 @@ public class BaseController extends ShopController {
      */
     protected List<CountryCode> availableCountries(Configuration config) {
         List<String> configCountries = config.getStringList("sphere.countries");
-        List<CountryCode> countries = new ArrayList<>();
+        List<CountryCode> countries = new ArrayList<CountryCode>();
         for (String configCountry : configCountries) {
             Optional<CountryCode> country = parseCountryCode(configCountry);
             if (country.isPresent()) {
@@ -188,7 +187,7 @@ public class BaseController extends ShopController {
     }
 
     static Content showNotFoundPage(CommonDataBuilder data) {
-        return notFoundView.render(data.build());
+        return views.html.notFoundView.render(data.build());
     }
 
     protected Result redirectToReturnUrl() {
