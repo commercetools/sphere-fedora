@@ -9,6 +9,7 @@ import play.Play;
 import play.i18n.Lang;
 import play.mvc.Content;
 import play.mvc.Http;
+import play.mvc.Result;
 import services.CartService;
 import services.CategoryService;
 import services.CustomerService;
@@ -188,5 +189,9 @@ public class BaseController extends ShopController {
 
     static Content showNotFoundPage(CommonDataBuilder data) {
         return notFoundView.render(data.build());
+    }
+
+    protected Result redirectToReturnUrl() {
+        return redirect(session("returnUrl"));
     }
 }

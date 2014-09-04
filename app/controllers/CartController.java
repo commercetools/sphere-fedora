@@ -1,10 +1,14 @@
 package controllers;
 
+import com.google.common.base.Optional;
 import controllers.actions.CartNotEmpty;
 import io.sphere.client.shop.model.*;
 import forms.cartForm.AddToCart;
 import forms.cartForm.UpdateCart;
+import models.ShopCart;
+import models.ShopProduct;
 import play.data.Form;
+import play.libs.F;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.With;
@@ -15,6 +19,7 @@ import services.ProductService;
 import views.html.carts;
 
 import static play.data.Form.form;
+import static utils.AsyncUtils.asPromise;
 
 public class CartController extends BaseController {
 
@@ -34,32 +39,40 @@ public class CartController extends BaseController {
     /**
      * Adds a product of a specified quantity to a cart.
      *
-     * @return In success case the cart overview page.
+     * @return In success case the cart detail page.
      */
-    public Result add() {
+    public F.Promise<Result> add() {
         final Form<AddToCart> filledForm = addToCartForm.bindFromRequest();
-        final Result result;
+        final F.Promise<Result> result;
         if (filledForm.hasErrors()) {
             flash("error", "The item could not be added to your cart, please try again.");
-            result = redirect(session("returnUrl"));
+            result = asPromise(redirectToReturnUrl());
         } else {
             final AddToCart addToCart = filledForm.get();
-            final Product product = sphere().products().byId(addToCart.productId).fetch().orNull();
-            if (product == null) {
-                result = notFound("Product not found");
-            } else {
-                final Variant variant = product.getVariants().byId(addToCart.variantId).orNull();
-                if (variant == null) {
-                    result = notFound("Product variant not found");
-                } else {
-                    final int variantId = getMatchedSizeVariant(product, variant, addToCart.size);
-                    sphere().currentCart().addLineItem(addToCart.productId, variantId, addToCart.quantity);
-                    flash("cart-success", product.getName() + " was added to your shopping cart.");
-                    result = Results.redirect(routes.CartController.show());
+            final int quantity = addToCart.quantity;
+            final F.Promise<Optional<ShopProduct>> shopProductPromise = productService().fetchById(addToCart.productId, addToCart.variantId);
+            result = shopProductPromise.flatMap(new F.Function<Optional<ShopProduct>, F.Promise<Result>>() {
+                @Override
+                public F.Promise<Result> apply(Optional<ShopProduct> shopProductOptional) throws Throwable {
+                    if (!shopProductOptional.isPresent()) {
+                        return asPromise(notFound("Product or product variant not found."));
+                    } else {
+                        return addProductToCart(shopProductOptional.get(), quantity);
+                    }
                 }
-            }
+            });
         }
         return result;
+    }
+
+    private F.Promise<Result> addProductToCart(final ShopProduct shopProduct, int quantity) {
+        return cartService().addItem(cart(), shopProduct, quantity).map(new F.Function<ShopCart, Result>() {
+            @Override
+            public Result apply(ShopCart shopCart) throws Throwable {
+                flash("cart-success", shopProduct.getName(locale()) + " was added to your shopping cart.");
+                return redirect(routes.CartController.show());
+            }
+        });
     }
 
     public static Result update() {
@@ -84,19 +97,4 @@ public class CartController extends BaseController {
         flash("cart-success", "Product removed from your shopping cart.");
         return Results.redirect(routes.CartController.show());
     }
-
-    protected static int getMatchedSizeVariant(Product product, Variant variant, String size) {
-        // When size not defined return selected variant ID
-        if (size == null) return variant.getId();
-        // Otherwise fetch all variants
-        VariantList variants = product.getVariants();
-        // Filter them by selected color, if any
-        if (variant.hasAttribute("color")) {
-            variants = variants.byAttributes(variant.getAttribute("color"));
-        }
-        // And filter them by selected size, return matching variant ID
-        Attribute sizeAttr = new Attribute("size", size);
-        return variants.byAttributes(sizeAttr).first().or(variant).getId();
-    }
-
 }

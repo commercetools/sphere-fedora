@@ -1,5 +1,10 @@
 package utils;
 
+import play.libs.F;
+import play.mvc.Result;
+import play.mvc.Results;
+import play.mvc.SimpleResult;
+
 public final class AsyncUtils {
 
     private AsyncUtils() {
@@ -13,5 +18,17 @@ public final class AsyncUtils {
      */
     public static long defaultTimeout() {
         return 100000;
+    }
+
+    public static <T> F.Promise<T> asPromise(final T thing) {
+        return F.Promise.<T>pure(thing);
+    }
+
+    public static F.Promise<Result> asPromise(final Results.Status status) {
+        return F.Promise.<Result>pure(status);
+    }
+
+    public static F.Promise<Result> asPromise(final SimpleResult simpleResult) {
+        return F.Promise.<Result>pure(simpleResult);
     }
 }
