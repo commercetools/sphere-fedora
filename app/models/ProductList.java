@@ -1,5 +1,6 @@
 package models;
 
+import com.google.common.base.Optional;
 import io.sphere.client.model.SearchResult;
 import io.sphere.client.shop.model.Product;
 
@@ -40,10 +41,34 @@ public class ProductList {
     }
 
     public boolean hasNoPriceSelected() {
-        return parameters.getSelectedPriceFilter().isEmpty();
+        return !parameters.getPriceParameter().isPresent();
+    }
+
+    public boolean hasNoSortSelected() {
+        return !parameters.getSortParameter().isPresent();
+    }
+
+    public boolean hasNoDisplaySelected() {
+        return !parameters.getDisplayParameter().isPresent();
     }
 
     public boolean hasPriceSelected(String price) {
-        return parameters.getSelectedPriceFilter().contains(price);
+        Optional<String> selectedPrice = parameters.getPriceParameter();
+        return selectedPrice.isPresent() && selectedPrice.get().equals(price);
+    }
+
+    public boolean hasSortSelected(String sort) {
+        Optional<String> selectedSort = parameters.getSortParameter();
+        return selectedSort.isPresent() && selectedSort.get().equals(sort);
+    }
+
+    public boolean hasDisplaySelected(String display) {
+        Optional<String> selectedDisplay = parameters.getDisplayParameter();
+        return selectedDisplay.isPresent() && selectedDisplay.get().equals(display);
+    }
+
+    public boolean hasAmountSelected(String amount) {
+        Optional<String> selectedAmount = parameters.getAmountParameter();
+        return selectedAmount.isPresent() && selectedAmount.get().equals(amount);
     }
 }
