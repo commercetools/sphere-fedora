@@ -97,6 +97,10 @@ public class RequestParameters {
         return FacetParser.parse(queryString, usedFacets);
     }
 
+    public Optional<String> getSearchParameter() {
+        return getParameterValue(QUERY_PARAM_SEARCH);
+    }
+
     public Optional<String> getSortParameter() {
         return getParameterValue(QUERY_PARAM_SORT);
     }
