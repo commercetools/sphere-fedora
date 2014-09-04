@@ -8,11 +8,10 @@ GET     /                                                   controllers.Applicat
 GET     /search                                             @controllers.ProductListController.searchProducts(page: Int ?= 1, show: Int ?= 12, sort: String ?= "", list: String ?= "")
 
 # Cart
-GET     /cart                                               controllers.CartController.show()
-
+GET     /cart                                               @controllers.CartController.show()
 POST    /cart/add                                           @controllers.CartController.add()
 POST    /cart/update                                        @controllers.CartController.update()
-GET     /cart/remove                                        controllers.CartController.remove(item: String)
+GET     /cart/remove/:lineItemId                            @controllers.CartController.remove(lineItemId: String)
 
 # Checkout
 GET     /checkout                                           controllers.Checkouts.show()

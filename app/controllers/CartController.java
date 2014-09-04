@@ -2,7 +2,6 @@ package controllers;
 
 import com.google.common.base.Optional;
 import controllers.actions.CartNotEmpty;
-import io.sphere.client.shop.model.*;
 import forms.cartForm.AddToCart;
 import forms.cartForm.UpdateCart;
 import models.ShopCart;
@@ -10,7 +9,6 @@ import models.ShopProduct;
 import play.data.Form;
 import play.libs.F;
 import play.mvc.Result;
-import play.mvc.Results;
 import play.mvc.With;
 import services.CartService;
 import services.CategoryService;
@@ -21,19 +19,34 @@ import views.html.carts;
 import static play.data.Form.form;
 import static utils.AsyncUtils.asPromise;
 
+/**
+ * This controller is responsible for handling line items in a cart.
+ */
 public class CartController extends BaseController {
 
-    final static Form<AddToCart> addToCartForm = form(AddToCart.class);
-    final static Form<UpdateCart> updateCartForm = form(UpdateCart.class);
+    /** Form for adding line items to the cart. */
+    private final static Form<AddToCart> addToCartForm = form(AddToCart.class);
 
-    public CartController(CategoryService categoryService, ProductService productService, CartService cartService, CustomerService customerService) {
+    /** Form for updating the amount of line items in a cart. */
+    private final static Form<UpdateCart> updateCartForm = form(UpdateCart.class);
+
+    public CartController(final CategoryService categoryService, final ProductService productService,
+                          final CartService cartService, final CustomerService customerService) {
         super(categoryService, productService, cartService, customerService);
     }
 
+    /**
+     * Shows a detail page of the cart.
+     * @return the cart page
+     */
     @With(CartNotEmpty.class)
-    public static Result show() {
-        Cart cart = sphere().currentCart().fetch();
-        return ok(carts.render(cart));
+    public F.Promise<Result> show() {
+        return cartService().fetchCurrent().map(new F.Function<ShopCart, Result>() {
+            @Override
+            public Result apply(final ShopCart shopCart) throws Throwable {
+                return ok(carts.render(shopCart.get()));
+            }
+        });
     }
 
     /**
@@ -89,11 +102,19 @@ public class CartController extends BaseController {
         return result;
     }
 
-    public static Result remove(String item) {
-        // Case valid cart update
-        sphere().currentCart().removeLineItem(item);
-        flash("cart-success", "Product removed from your shopping cart.");
-        return redirectToCartDetailPage();
+    /**
+     * Removes a line item completely from the cart
+     * @param lineItemId the id of the line item to remove
+     * @return In success case the cart detail page.
+     */
+    public F.Promise<Result> remove(final String lineItemId) {
+        return cartService().removeItem(cart(), lineItemId).map(new F.Function<ShopCart, Result>() {
+            @Override
+            public Result apply(final ShopCart shopCart) throws Throwable {
+                flash("cart-success", "Product removed from your shopping cart.");
+                return redirectToCartDetailPage();
+            }
+        });
     }
 
     private F.Promise<Result> addProductToCart(final ShopProduct shopProduct, int quantity) {
