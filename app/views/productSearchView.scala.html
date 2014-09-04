@@ -5,7 +5,7 @@
     @helpers.navigationMenu()
 }{
     <section>
-        @productListHelper.filterListBlock(data)
+        @productListHelper.filtersBlock(data, productList)
 
         <!--MAIN CONTENT STARTS-->
         <div id="main_content">
@@ -14,11 +14,7 @@
             @helpers.breadcrumb()
             @helpers.toolbar()
 
-            @if(productList.getParameters.isGrid) {
-                @productListHelper.productGridBlock(data, productList)
-            } else {
-                @productListHelper.productListBlock(data, productList)
-            }
+            @productListHelper.productListBlock(data, productList)
 
             @helpers.toolbar()
 

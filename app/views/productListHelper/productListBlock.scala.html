@@ -1,10 +1,10 @@
 @(data: CommonData, productList: ProductList)
 
 <!--Product List Starts-->
-<div class="products_list_list">
+<div class="@if(productList.getParameters.isGrid){products_list products_slider}else{products_list_list}">
     <ul>
-        @if(flash.containsKey("product-list-info")) {
-            <div class="message info">@flash.get("product-list-info")</div>
+        @if(flash.containsKey("info-product-list")) {
+            <div class="message info">@flash.get("info-product-list")</div>
         }
         @for(product <- productList.getProducts){
             @productListHelper.productThumbnail(data, product)
