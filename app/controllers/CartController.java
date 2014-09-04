@@ -24,6 +24,11 @@ public class CartController extends ShopController {
         return ok(carts.render(cart));
     }
 
+    /**
+     * Adds a product of a specified quantity to a cart.
+     *
+     * @return In success case the cart overview page.
+     */
     public static Result add() {
         Form<AddToCart> form = addToCartForm.bindFromRequest();
         // Case missing or invalid form data
