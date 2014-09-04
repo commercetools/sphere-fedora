@@ -22,7 +22,7 @@ public class ProductRoutes {
     }
 
     public Map<Lang, Call> all(ShopProduct product, Optional<ShopCategory> category) {
-        Map<Lang, Call> localizedUrls = new HashMap<>();
+        Map<Lang, Call> localizedUrls = new HashMap<Lang, Call>();
         for (Lang lang : availableLang) {
             Call call = get(lang.toLocale(), product, category);
             localizedUrls.put(lang, call);

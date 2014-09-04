@@ -20,7 +20,7 @@ public class CategoryRoutes {
     }
 
     public Map<Lang, Call> all(ShopCategory currentCategory) {
-        Map<Lang, Call> localizedUrls = new HashMap<>();
+        Map<Lang, Call> localizedUrls = new HashMap<Lang, Call>();
         for (Lang lang : availableLang) {
             Call call = get(lang.toLocale(), currentCategory);
             // TODO build query facets
