@@ -8,8 +8,6 @@ import play.mvc.Content;
 import play.mvc.Result;
 import play.mvc.With;
 import services.*;
-import views.html.productCategoryView;
-import views.html.productSearchView;
 
 @With(SaveContext.class)
 public class ProductListController extends BaseController {
@@ -58,10 +56,10 @@ public class ProductListController extends BaseController {
 
     static Content showProductCategoryPage(CommonDataBuilder dataBuilder, ProductList productList, ShopCategory category) {
         CommonData data = dataBuilder.withCategory(category).build();
-        return productCategoryView.render(data, productList, category);
+        return views.html.productListView.render(data, productList);
     }
 
     static Content showProductSearchPage(CommonDataBuilder dataBuilder, ProductList productList) {
-        return productSearchView.render(dataBuilder.build(), productList);
+        return views.html.productListView.render(dataBuilder.build(), productList);
     }
 }
