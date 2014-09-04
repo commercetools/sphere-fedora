@@ -11,6 +11,7 @@ import play.data.Form;
 import play.libs.F;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.mvc.SimpleResult;
 import play.mvc.With;
 import services.CartService;
 import services.CategoryService;
@@ -65,20 +66,20 @@ public class CartController extends BaseController {
         return result;
     }
 
-    public static Result update() {
-        Form<UpdateCart> form = updateCartForm.bindFromRequest();
-        // Case missing or invalid form data
+    public static F.Promise<Result> update() {
+        final Form<UpdateCart> form = updateCartForm.bindFromRequest();
+        final F.Promise<Result> result;
         if (form.hasErrors()) {
             flash("error", "The item could not be updated in your cart, please try again.");
-            return Results.redirect(routes.CartController.show());
+            result = asPromise(redirectToCartDetailPage());
+        } else {
+            final UpdateCart updateCart = form.get();
+            final CartUpdate cartUpdate = new CartUpdate().setLineItemQuantity(updateCart.lineItemId, updateCart.quantity);
+            sphere().currentCart().update(cartUpdate);
+            flash("cart-success", "Quantity updated.");
+            result = asPromise(redirectToCartDetailPage());
         }
-        // Case valid cart update
-        UpdateCart updateCart = form.get();
-        CartUpdate cartUpdate = new CartUpdate()
-                .setLineItemQuantity(updateCart.lineItemId, updateCart.quantity);
-        sphere().currentCart().update(cartUpdate);
-        flash("cart-success", "Quantity updated.");
-        return Results.redirect(routes.CartController.show());
+        return result;
     }
 
     public static Result remove(String item) {
@@ -93,8 +94,12 @@ public class CartController extends BaseController {
             @Override
             public Result apply(ShopCart shopCart) throws Throwable {
                 flash("cart-success", shopProduct.getName(locale()) + " was added to your shopping cart.");
-                return redirect(routes.CartController.show());
+                return redirectToCartDetailPage();
             }
         });
+    }
+
+    private static Result redirectToCartDetailPage() {
+        return redirect(routes.CartController.show());
     }
 }
