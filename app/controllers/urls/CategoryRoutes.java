@@ -43,6 +43,6 @@ public class CategoryRoutes {
      * @return the URL call for the category.
      */
     public Call bySlug(String categorySlug) {
-        return routes.ProductListController.categoryProducts(categorySlug, 1, 24, "", "");
+        return routes.ProductListController.categoryProducts(categorySlug, 1);
     }
 }

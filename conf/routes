@@ -5,7 +5,7 @@
 # Application
 GET     /                                                   controllers.Application.home()
 
-GET     /search                                             @controllers.ProductListController.searchProducts(page: Int ?= 1, show: Int ?= 12, sort: String ?= "", list: String ?= "")
+GET     /search                                             @controllers.ProductListController.searchProducts(page: Int ?= 1)
 
 # Cart
 GET     /cart                                               @controllers.CartController.show()
@@ -50,4 +50,4 @@ GET     /assets/*file                                       controllers.Assets.a
 GET     /:product-$variant<[0-9]+>.html                     controllers.Products.select(product: String, variant: Int)
 
 # Category
-GET     /*category                                          @controllers.ProductListController.categoryProducts(category: String, page: Int ?= 1, show: Int ?= 12, sort: String ?= "", list: String ?= "")
+GET     /*category                                          @controllers.ProductListController.categoryProducts(category: String, page: Int ?= 1)

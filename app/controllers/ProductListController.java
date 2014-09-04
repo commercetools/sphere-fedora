@@ -19,11 +19,11 @@ public class ProductListController extends BaseController {
         super(categoryService, productService, cartService, customerService);
     }
 
-    public F.Promise<Result> categoryProducts(String categorySlug, int page, int show, String sort, String list) {
+    public F.Promise<Result> categoryProducts(String categorySlug, int page) {
         final Optional<ShopCategory> category = categoryService().getBySlug(locale(), categorySlug);
         final UserContext context = userContext(cart(), customer());
         if (category.isPresent()) {
-            RequestParameters parameters = RequestParameters.of(queryString(), page, show, sort, list);
+            RequestParameters parameters = RequestParameters.of(queryString(), page);
             return productService().fetchCategoryProducts(locale(), category.get(), parameters)
                     .map(new F.Function<ProductList, Result>() {
                         @Override
@@ -40,9 +40,9 @@ public class ProductListController extends BaseController {
         }
     }
 
-    public F.Promise<Result> searchProducts(int page, int show, String sort, String list) {
+    public F.Promise<Result> searchProducts(int page) {
         final UserContext context = userContext(cart(), customer());
-        final RequestParameters parameters = RequestParameters.of(queryString(), page, show, sort, list);
+        final RequestParameters parameters = RequestParameters.of(queryString(), page);
         return productService().fetchSearchedProducts(locale(), parameters)
                 .map(new F.Function<ProductList, Result>() {
                     @Override
