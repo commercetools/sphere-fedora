@@ -37,7 +37,7 @@
         <!--Search Starts-->
         <form action="@routes.ProductListController.searchProducts(1)" class="header_search">
         <div class="form-search">
-            <input id="search" type="text" name="q" class="input-text" autocomplete="off" placeholder="Search">
+            <input id="search" type="text" name="@RequestParameters.QUERY_PARAM_SEARCH" class="input-text" autocomplete="off" placeholder="Search">
             <button type="submit" title="Search"></button>
         </div>
         </form>
