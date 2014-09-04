@@ -28,7 +28,7 @@ public class ProductList {
     }
 
     public List<ShopProduct> getProducts() {
-        List<ShopProduct> products = new ArrayList<>();
+        List<ShopProduct> products = new ArrayList<ShopProduct>();
         for (Product product : searchResult.getResults()) {
             products.add(ShopProduct.of(product));
         }

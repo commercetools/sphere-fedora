@@ -71,7 +71,7 @@ public class ShopVariant {
     }
 
     public List<Attribute> getAttributes(final List<String> attributeNames) {
-        List<Attribute> attributes = new ArrayList<>();
+        List<Attribute> attributes = new ArrayList<Attribute>();
         for (String attributeName : attributeNames) {
             attributes.add(variant.getAttribute(attributeName));
         }

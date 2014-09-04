@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<ShopCategory> getRoots() {
-        List<ShopCategory> roots = new ArrayList<>();
+        List<ShopCategory> roots = new ArrayList<ShopCategory>();
         for (Category root : sphere.categories().getRoots()) {
             roots.add(ShopCategory.of(root));
         }

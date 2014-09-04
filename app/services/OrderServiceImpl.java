@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
                 .map(new F.Function<QueryResult<Order>, List<ShopOrder>>() {
                     @Override
                     public List<ShopOrder> apply(QueryResult<Order> orderQueryResult) throws Throwable {
-                        List<ShopOrder> customOrders = new ArrayList<>();
+                        List<ShopOrder> customOrders = new ArrayList<ShopOrder>();
                         for (Order order: orderQueryResult.getResults()) {
                             customOrders.add(ShopOrder.of(order));
                         }

@@ -20,7 +20,7 @@ public class ShopProduct {
     }
 
     public static ShopProduct of(Product product, int masterVariantId) {
-        List<ShopVariant> variants = new ArrayList<>();
+        List<ShopVariant> variants = new ArrayList<ShopVariant>();
         for (Variant variant : product.getVariants()) {
             variants.add(new ShopVariant(variant, product.getTaxCategory()));
         }
@@ -33,7 +33,7 @@ public class ShopProduct {
     }
 
     public static ShopProduct of(Product product, String masterVariantSku) {
-        List<ShopVariant> variants = new ArrayList<>();
+        List<ShopVariant> variants = new ArrayList<ShopVariant>();
         for (Variant variant : product.getVariants()) {
             variants.add(new ShopVariant(variant, product.getTaxCategory()));
         }
@@ -97,7 +97,7 @@ public class ShopProduct {
      * @return a list of variants that represent the selected variant in different selected attribute values.
      */
     public List<ShopVariant> getSelectableVariants(String selectedAttribute, List<String> allSelectableAttributes) {
-        List<String> selectableAttributes = new ArrayList<>(allSelectableAttributes);
+        List<String> selectableAttributes = new ArrayList<String>(allSelectableAttributes);
         selectableAttributes.remove(selectedAttribute);
         VariantList matchingVariants = getMatchingVariantsForAttributes(product.getVariants(), selectableAttributes);
         VariantList selectableVariants = getDistinctVariantsForAttribute(matchingVariants, selectedAttribute);
@@ -124,7 +124,7 @@ public class ShopProduct {
      */
     private VariantList getDistinctVariantsForAttribute(final VariantList variantList, final String attributeName) {
         List<Attribute> distinctAttributeValues = product.getVariants().getAvailableAttributes(attributeName);
-        List<Variant> selectableVariants = new ArrayList<>();
+        List<Variant> selectableVariants = new ArrayList<Variant>();
         for (Attribute distinctAttributeValue : distinctAttributeValues) {
             Optional<Variant> selectableVariant = variantList.byAttributes(distinctAttributeValue).first();
             if (selectableVariant.isPresent()) {
@@ -140,7 +140,7 @@ public class ShopProduct {
      * @return the converted list of shop variants.
      */
     private List<ShopVariant> convertToList(final VariantList variantList) {
-        List<ShopVariant> shopVariants =  new ArrayList<>();
+        List<ShopVariant> shopVariants =  new ArrayList<ShopVariant>();
         for (Variant variant : variantList) {
             shopVariants.add(new ShopVariant(variant, product.getTaxCategory()));
         }

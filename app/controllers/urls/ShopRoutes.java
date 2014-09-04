@@ -39,7 +39,7 @@ public class ShopRoutes {
             return categories().all(currentCategory.get());
         } else {
             // TODO implement other page case
-            return new HashMap<>();
+            return new HashMap<Lang, Call>();
         }
     }
 }

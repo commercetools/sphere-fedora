@@ -51,7 +51,7 @@ public class ShopCategory {
     }
 
     public List<ShopCategory> getPath() {
-        List<ShopCategory> categoriesInPath = new ArrayList<>();
+        List<ShopCategory> categoriesInPath = new ArrayList<ShopCategory>();
         for (Category categoryInPath : category.getPathInTree()) {
             categoriesInPath.add(new ShopCategory(categoryInPath));
         }
@@ -68,7 +68,7 @@ public class ShopCategory {
     }
 
     public List<ShopCategory> getChildren() {
-        List<ShopCategory> children = new ArrayList<>();
+        List<ShopCategory> children = new ArrayList<ShopCategory>();
         for (Category child : category.getChildren()) {
             children.add(new ShopCategory(child));
         }

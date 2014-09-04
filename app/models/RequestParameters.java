@@ -18,8 +18,8 @@ public class RequestParameters {
     private final int pageSize;
     private final ProductSort sort;
     private final boolean grid;
-    private List<FilterExpression> filters = new ArrayList<>();
-    private List<FacetExpression> facets = new ArrayList<>();
+    private List<FilterExpression> filters = new ArrayList<FilterExpression>();
+    private List<FacetExpression> facets = new ArrayList<FacetExpression>();
 
     RequestParameters(int page, int pageSize, ProductSort sort, boolean grid) {
         this.page = page;
