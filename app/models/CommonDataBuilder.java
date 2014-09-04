@@ -9,21 +9,25 @@ import play.i18n.Lang;
 public final class CommonDataBuilder {
     private UserContext userContext;
     private List<Lang> availableLang;
+    private List<ShopCategory> rootCategories;
     private Optional<ShopCategory> currentCategory = Optional.absent();
     private Optional<ShopProduct> currentProduct = Optional.absent();
 
-    private CommonDataBuilder(final UserContext userContext, final List<Lang> availableLang) {
+    private CommonDataBuilder(final UserContext userContext, final List<Lang> availableLang,
+                              List<ShopCategory> rootCategories) {
         this.userContext = userContext;
         this.availableLang = availableLang;
+        this.rootCategories = rootCategories;
     }
 
-    public static CommonDataBuilder of(final UserContext userContext, final List<Lang> availableLang) {
-        return new CommonDataBuilder(userContext, availableLang);
+    public static CommonDataBuilder of(final UserContext userContext, final List<Lang> availableLang,
+                                       final List<ShopCategory> rootCategories) {
+        return new CommonDataBuilder(userContext, availableLang, rootCategories);
     }
 
     public CommonData build() {
         ShopRoutes shopRoutes = ShopRoutes.of(userContext.locale(), availableLang);
-        return new CommonData(userContext, availableLang, shopRoutes, currentCategory, currentProduct);
+        return new CommonData(userContext, availableLang, shopRoutes, rootCategories, currentCategory, currentProduct);
     }
 
     public CommonDataBuilder withCategory(ShopCategory category) {

@@ -59,7 +59,7 @@ public class BaseController extends ShopController {
     }
 
     protected final CommonDataBuilder data(UserContext userContext) {
-        return CommonDataBuilder.of(userContext, Lang.availables());
+        return CommonDataBuilder.of(userContext, Lang.availables(), categoryService.getRoots());
     }
 
     protected final UserContext userContext(ShopCart currentCart, Optional<ShopCustomer> registeredCustomer) {
