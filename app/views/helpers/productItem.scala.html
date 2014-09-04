@@ -1,5 +1,7 @@
 @(data: CommonData, product: ShopProduct)
 
+@import utils.PrintUtils.printMoney
+
 <li class="product-item">
     <a href="@data.routes.products.get(product, data.currentCategory)" class="product_image">
         <img src="@product.getSelectedVariant.getMainImage(ImageSize.SMALL).getUrl"/>
