@@ -37,28 +37,29 @@ public class CartController extends BaseController {
      * @return In success case the cart overview page.
      */
     public Result add() {
-        Form<AddToCart> form = addToCartForm.bindFromRequest();
-        // Case missing or invalid form data
-        if (form.hasErrors()) {
+        final Form<AddToCart> filledForm = addToCartForm.bindFromRequest();
+        final Result result;
+        if (filledForm.hasErrors()) {
             flash("error", "The item could not be added to your cart, please try again.");
-            return redirect(session("returnUrl"));
+            result = redirect(session("returnUrl"));
+        } else {
+            final AddToCart addToCart = filledForm.get();
+            final Product product = sphere().products().byId(addToCart.productId).fetch().orNull();
+            if (product == null) {
+                result = notFound("Product not found");
+            } else {
+                final Variant variant = product.getVariants().byId(addToCart.variantId).orNull();
+                if (variant == null) {
+                    result = notFound("Product variant not found");
+                } else {
+                    final int variantId = getMatchedSizeVariant(product, variant, addToCart.size);
+                    sphere().currentCart().addLineItem(addToCart.productId, variantId, addToCart.quantity);
+                    flash("cart-success", product.getName() + " was added to your shopping cart.");
+                    result = Results.redirect(routes.CartController.show());
+                }
+            }
         }
-        // Case invalid product
-        AddToCart addToCart = form.get();
-        Product product = sphere().products().byId(addToCart.productId).fetch().orNull();
-        if (product == null) {
-            return notFound("Product not found");
-        }
-        // Case invalid variant
-        Variant variant = product.getVariants().byId(addToCart.variantId).orNull();
-        if (variant == null) {
-            return notFound("Product variant not found");
-        }
-        // Case valid product to add to cart
-        int variantId = getMatchedSizeVariant(product, variant, addToCart.size);
-        sphere().currentCart().addLineItem(addToCart.productId, variantId, addToCart.quantity);
-        flash("cart-success", product.getName() + " was added to your shopping cart.");
-        return Results.redirect(routes.CartController.show());
+        return result;
     }
 
     public static Result update() {
