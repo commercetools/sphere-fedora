@@ -38,4 +38,12 @@ public class ProductList {
     public boolean isEmpty() {
         return searchResult.getResults().isEmpty();
     }
+
+    public boolean hasNoPriceSelected() {
+        return parameters.getSelectedPriceFilter().isEmpty();
+    }
+
+    public boolean hasPriceSelected(String price) {
+        return parameters.getSelectedPriceFilter().contains(price);
+    }
 }

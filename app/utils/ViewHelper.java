@@ -128,12 +128,6 @@ public class ViewHelper {
 		return active;
 	}
 
-    public static String getActivePrice(String price) {
-        String selected = getQuery("price");
-        if (price.equals(selected)) return "active";
-        return "";
-    }
-
     public static String getActiveSort(String sort) {
         String selected = getQuery("sort");
         if (sort.equals(selected)) return "selected";
