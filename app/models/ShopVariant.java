@@ -44,18 +44,19 @@ public class ShopVariant {
         return Optional.fromNullable(price);
     }
 
-    // TODO return optional
-    public Money getPriceAmount(UserContext context) {
+    public Optional<Money> getPriceAmount(UserContext context) {
         Optional<Price> price = getPrice(context);
         if (price.isPresent()) {
             Optional<TaxRate> taxRate = getTaxRate(context.country());
+            Money money;
             if (taxRate.isPresent()) {
-                return customerPrice(price.get().getValue(), taxRate.get(), context.customer());
+                money = customerPrice(price.get().getValue(), taxRate.get(), context.customer());
             } else {
-                return price.get().getValue();
+                money = price.get().getValue();
             }
+            return Optional.of(money);
         } else {
-            return new Money(BigDecimal.ZERO, context.currency());
+            return Optional.absent();
         }
     }
 
