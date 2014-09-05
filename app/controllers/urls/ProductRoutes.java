@@ -49,6 +49,6 @@ public class ProductRoutes {
      * @return the URL call for the product.
      */
     public ShopCall bySlug(String productSlug, int variantId, Optional<String> categorySlug) {
-        return new ShopCall(routes.Products.select(productSlug, variantId));
+        return ShopCall.of(routes.Products.select(productSlug, variantId));
     }
 }
