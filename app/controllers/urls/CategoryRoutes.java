@@ -1,6 +1,7 @@
 package controllers.urls;
 
 import controllers.routes;
+import models.RequestParameters;
 import models.ShopCategory;
 import play.i18n.Lang;
 
@@ -18,29 +19,31 @@ public class CategoryRoutes {
         this.availableLang = availableLang;
     }
 
-    public Map<Lang, ShopCall> all(ShopCategory currentCategory) {
+    public Map<Lang, ShopCall> all(ShopCategory currentCategory, RequestParameters parameters) {
         Map<Lang, ShopCall> localizedUrls = new HashMap<Lang, ShopCall>();
         for (Lang lang : availableLang) {
-            ShopCall call = get(lang.toLocale(), currentCategory);
+            ShopCall call = get(lang.toLocale(), currentCategory, parameters);
             localizedUrls.put(lang, call);
         }
         return localizedUrls;
     }
 
-    public ShopCall get(ShopCategory category) {
-        return get(currentLocale, category);
+    public ShopCall get(ShopCategory category, RequestParameters parameters) {
+        return get(currentLocale, category, parameters);
     }
 
-    public ShopCall get(Locale locale, ShopCategory category) {
-        return bySlug(category.getSlug(locale));
+    public ShopCall get(Locale locale, ShopCategory category, RequestParameters parameters) {
+        return bySlug(category.getSlug(locale), parameters);
     }
 
     /**
      * Gets the category URL call for the provided slug.
      * @param categorySlug the localized category slug.
+     * @param parameters the request parameters associated with the current request.
      * @return the URL call for the category.
      */
-    public ShopCall bySlug(String categorySlug) {
-        return new ShopCall(routes.ProductListController.categoryProducts(categorySlug, 1));
+    public ShopCall bySlug(String categorySlug, RequestParameters parameters) {
+        ShopCall call = ShopCall.of(routes.ProductListController.categoryProducts(categorySlug, 1));
+        return call.withFilters(parameters);
     }
 }
