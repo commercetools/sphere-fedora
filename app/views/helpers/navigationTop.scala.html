@@ -29,11 +29,13 @@
                 </div>
                 <ul>
                     @for((language, call) <- data.localizedRoutes) {
-                    <li class="@if(language.toLocale == data.context.locale){active}">
-                        <a href="@call.url" title="@language.toLocale.getDisplayName">
-                            @language.toLocale.getLanguage
+                    @defining(language.toLocale){ locale =>
+                    <li class="@if(data.context.hasLocale(locale)){active}">
+                        <a href="@if(data.context.hasLocale(locale)){@call}else{@call.withLanguage(locale)}" title="@locale.getDisplayName">
+                            @locale.getLanguage
                         </a>
                     </li>
+                    }
                     }
                 </ul>
             </div>

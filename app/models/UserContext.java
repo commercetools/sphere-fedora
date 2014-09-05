@@ -50,6 +50,10 @@ public class UserContext {
         return locales;
     }
 
+    public boolean hasLocale(Locale locale) {
+        return lang.toLocale().equals(locale);
+    }
+
     public String currency() {
         return cart.getCurrencyCode();
     }
