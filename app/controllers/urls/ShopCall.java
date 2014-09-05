@@ -1,55 +1,139 @@
 package controllers.urls;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
+import models.RequestParameters;
+import org.apache.commons.lang3.StringUtils;
 import play.mvc.Call;
+import play.mvc.Http;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static models.RequestParameters.QUERY_PARAM_LANG;
-
 public class ShopCall extends Call {
-    final Call call;
+    final Optional<Call> call;
     Map<String, String> queryString;
 
-    ShopCall(Call call) {
+    ShopCall(Optional<Call> call) {
         this.call = call;
         this.queryString = new HashMap<String, String>();
     }
 
-    public String url() {
-        String url = call.url();
-        String query = buildQueryString();
-        if (!query.isEmpty() && !url.contains("?")) {
-            url += "?";
-        }
-        return url + query;
+    public static ShopCall of(Call call) {
+        return new ShopCall(Optional.of(call));
     }
 
-    private String buildQueryString() {
-        return Joiner.on("&").withKeyValueSeparator("=").join(queryString);
+    public static ShopCall empty() {
+        return new ShopCall(Optional.<Call>absent());
+    }
+
+    public String url() {
+        String url = "";
+        if (call.isPresent()) {
+            url = call.get().url();
+        }
+        String query = buildQueryString();
+        return joinUrl(url, query);
     }
 
     public String method() {
-        return call.method();
+        if (call.isPresent()) {
+            return call.get().method();
+        } else {
+            return "GET";
+        }
     }
 
     public ShopCall withLanguage(Locale locale) {
-        withParameter(QUERY_PARAM_LANG, locale.getLanguage());
+        withParameter(RequestParameters.QUERY_PARAM_LANG, locale.getLanguage());
         return this;
     }
 
-    public ShopCall withParameter(String key, String value) {
-        queryString.put(key, value);
+    public ShopCall withSort(String sortOption) {
+        withParameter(RequestParameters.QUERY_PARAM_SORT, sortOption);
         return this;
     }
 
-    public ShopCall withoutParameter(String key) {
+    public ShopCall withPrice(String priceOption) {
+        withParameter(RequestParameters.QUERY_PARAM_PRICE, priceOption);
+        return this;
+    }
+
+    public ShopCall withDisplay(String displayOption) {
+        withParameter(RequestParameters.QUERY_PARAM_DISPLAY, displayOption);
+        return this;
+    }
+
+    public ShopCall withAmount(String amountOption) {
+        withParameter(RequestParameters.QUERY_PARAM_AMOUNT, amountOption);
+        return this;
+    }
+
+    public ShopCall withoutSort() {
+        withoutParameter(RequestParameters.QUERY_PARAM_SORT);
+        return this;
+    }
+
+    public ShopCall withoutPrice() {
+        withoutParameter(RequestParameters.QUERY_PARAM_PRICE);
+        return this;
+    }
+
+    public ShopCall withoutDisplay() {
+        withoutParameter(RequestParameters.QUERY_PARAM_DISPLAY);
+        return this;
+    }
+
+    public ShopCall withoutAmount() {
+        withoutParameter(RequestParameters.QUERY_PARAM_AMOUNT);
+        return this;
+    }
+
+    public ShopCall withFilters(RequestParameters parameters) {
+        for (String parameterKey : RequestParameters.filterParameters()) {
+            Optional<String> parameterValue = parameters.getParameterValue(parameterKey);
+            if (parameterValue.isPresent()) {
+                this.withParameter(parameterKey, parameterValue.get());
+            }
+        }
+        return this;
+    }
+
+    protected ShopCall withParameter(String key, String value) {
+        try {
+            String encodedValue = URLEncoder.encode(value, "UTF-8");
+            queryString.put(key, encodedValue);
+            return this;
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected ShopCall withoutParameter(String key) {
         if (queryString.containsKey(key)) {
             queryString.remove(key);
         }
         return this;
+    }
+
+    protected String buildQueryString() {
+        return Joiner.on("&").withKeyValueSeparator("=").join(queryString);
+    }
+
+    protected String joinUrl(String url, String query) {
+        if (query.isEmpty()) {
+            return url;
+        } else {
+            if (!url.contains("?")) {
+                url += "?";
+            } else if (!StringUtils.endsWith(url, "&")) {
+                url += "&";
+            }
+            return url + query;
+        }
     }
 
     @Override
