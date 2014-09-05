@@ -12,6 +12,7 @@ public final class CommonDataBuilder {
     private List<ShopCategory> rootCategories;
     private Optional<ShopCategory> currentCategory = Optional.absent();
     private Optional<ShopProduct> currentProduct = Optional.absent();
+    private RequestParameters requestParameters = RequestParameters.empty();
 
     private CommonDataBuilder(final UserContext userContext, final List<Lang> availableLang,
                               List<ShopCategory> rootCategories) {
@@ -27,7 +28,8 @@ public final class CommonDataBuilder {
 
     public CommonData build() {
         ShopRoutes shopRoutes = ShopRoutes.of(userContext.locale(), availableLang);
-        return new CommonData(userContext, availableLang, shopRoutes, rootCategories, currentCategory, currentProduct);
+        return new CommonData(userContext, availableLang, shopRoutes, requestParameters, rootCategories,
+                currentCategory, currentProduct);
     }
 
     public CommonDataBuilder withCategory(ShopCategory category) {
@@ -37,6 +39,11 @@ public final class CommonDataBuilder {
 
     public CommonDataBuilder withProduct(ShopProduct product) {
         this.currentProduct = Optional.of(product);
+        return this;
+    }
+
+    public CommonDataBuilder withRequestParameters(RequestParameters requestParameters) {
+        this.requestParameters = requestParameters;
         return this;
     }
 }
