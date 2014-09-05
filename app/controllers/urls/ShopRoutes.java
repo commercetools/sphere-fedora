@@ -1,14 +1,9 @@
 package controllers.urls;
 
-import com.google.common.base.Optional;
-import models.ShopCategory;
-import models.ShopProduct;
 import play.i18n.Lang;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class ShopRoutes {
     private final Locale currentLocale;
@@ -31,14 +26,7 @@ public class ShopRoutes {
         return new ProductRoutes(currentLocale, availableLang);
     }
 
-    public Map<Lang, ShopCall> all(Optional<ShopCategory> currentCategory, Optional<ShopProduct> currentProduct) {
-        if (currentProduct.isPresent()) {
-            return products().all(currentProduct.get(), currentCategory);
-        } else if (currentCategory.isPresent()) {
-            return categories().all(currentCategory.get());
-        } else {
-            // TODO implement other page case
-            return new HashMap<Lang, ShopCall>();
-        }
+    public OtherRoutes any() {
+        return new OtherRoutes(availableLang);
     }
 }

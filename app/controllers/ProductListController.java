@@ -23,8 +23,8 @@ public class ProductListController extends BaseController {
     public F.Promise<Result> categoryProducts(String categorySlug, int page) {
         final Optional<ShopCategory> category = categoryService().getBySlug(locale(), categorySlug);
         if (category.isPresent()) {
-            RequestParameters parameters = RequestParameters.of(queryString(), page);
-            return productService().fetchCategoryProducts(locale(), category.get(), parameters)
+            RequestParameters parameters = RequestParameters.of(queryString());
+            return productService().fetchCategoryProducts(locale(), category.get(), parsePage(page), parameters)
                     .map(new F.Function<ProductList, Result>() {
                         @Override
                         public Result apply(ProductList productList) throws Throwable {
@@ -40,10 +40,9 @@ public class ProductListController extends BaseController {
         }
     }
 
-    @With(SaveContext.class)
     public F.Promise<Result> searchProducts(int page) {
-        final RequestParameters parameters = RequestParameters.of(queryString(), page);
-        return productService().fetchSearchedProducts(locale(), parameters)
+        final RequestParameters parameters = RequestParameters.of(queryString());
+        return productService().fetchSearchedProducts(locale(), parsePage(page), parameters)
                 .map(new F.Function<ProductList, Result>() {
                     @Override
                     public Result apply(ProductList productList) throws Throwable {
@@ -56,14 +55,25 @@ public class ProductListController extends BaseController {
 
     }
 
+    private int parsePage(int pageParameter) {
+        /* Convert page from 1..N to 0..N-1 */
+        int page = 0;
+        if (pageParameter > 1) {
+            page = pageParameter - 1;
+        }
+        return page;
+    }
+
+
     @With(SaveContext.class)
     static Content showProductCategoryPage(CommonDataBuilder dataBuilder, ProductList productList, ShopCategory category) {
-        CommonData data = dataBuilder.withCategory(category).build();
+        CommonData data = dataBuilder.withCategory(category).withRequestParameters(productList.getParameters()).build();
         return views.html.productListView.render(data, productList);
     }
 
     @With(SaveContext.class)
     static Content showProductSearchPage(CommonDataBuilder dataBuilder, ProductList productList) {
-        return views.html.productListView.render(dataBuilder.build(), productList);
+        CommonData data = dataBuilder.withRequestParameters(productList.getParameters()).build();
+        return views.html.productListView.render(data, productList);
     }
 }

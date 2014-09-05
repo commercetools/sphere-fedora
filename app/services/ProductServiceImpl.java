@@ -88,10 +88,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public F.Promise<ProductList> fetchSearchedProducts(final Locale locale, final RequestParameters parameters) {
+    public F.Promise<ProductList> fetchSearchedProducts(final Locale locale, int page, final RequestParameters parameters) {
         SearchRequest<Product> searchRequest = sphere.products().filter(locale, parameters.getFilters())
-                .facet(parameters.getFacets()).sort(parameters.getSort()).page(parameters.getPage())
-                .pageSize(parameters.getPageSize());
+                .facet(parameters.getFacets()).sort(parameters.getSort()).page(page).pageSize(parameters.getPageSize());
         return searchRequest.fetchAsync()
                 .map(new F.Function<SearchResult<Product>, ProductList>() {
                 @Override
@@ -102,11 +101,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public F.Promise<ProductList> fetchCategoryProducts(final Locale locale, final ShopCategory category,
+    public F.Promise<ProductList> fetchCategoryProducts(final Locale locale, final ShopCategory category, int page,
                                                         final RequestParameters parameters) {
         SearchRequest<Product> searchRequest = sphere.products().filter(filterByCategory(category))
-                .facet(parameters.getFacets()).sort(parameters.getSort()).page(parameters.getPage())
-                .pageSize(parameters.getPageSize());
+                .facet(parameters.getFacets()).sort(parameters.getSort()).page(page).pageSize(parameters.getPageSize());
         return searchRequest.fetchAsync()
                 .map(new F.Function<SearchResult<Product>, ProductList>() {
                     @Override

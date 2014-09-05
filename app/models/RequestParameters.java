@@ -23,35 +23,28 @@ public class RequestParameters {
     public static final String QUERY_PARAM_DISPLAY = "display";
     public static final String QUERY_PARAM_AMOUNT = "amount";
 
-    protected static final String SORT_PRICE_ASC = "price_asc";
-    protected static final String SORT_PRICE_DESC = "price_desc";
+    protected static final String SORT_PRICE_ASC = "PRICE ASC";
+    protected static final String SORT_PRICE_DESC = "PRICE DESC";
 
     protected static final String DISPLAY_LIST = "list";
 
-    protected static final String AMOUNT_LARGE = "large";
+    protected static final String AMOUNT_LARGE = "24";
 
     private final Map<String, String[]> queryString;
-    private final int page;
 
     public final Filters.Fulltext filterSearch = buildSearchFilter();
     public final Facets.MoneyAttribute.Ranges facetPrice = buildPriceFacet();
 
-    RequestParameters(Map<String, String[]> queryString, int page) {
+    RequestParameters(Map<String, String[]> queryString) {
         this.queryString = queryString;
-        this.page = page;
     }
 
-    public static RequestParameters of(Map<String, String[]> queryString, int pageParameter) {
-        /* Convert page from 1..N to 0..N-1 */
-        int page = 0;
-        if (pageParameter > 1) {
-            page = pageParameter - 1;
-        }
-        return new RequestParameters(queryString, page);
+    public static RequestParameters empty() {
+        return new RequestParameters(Collections.<String, String[]>emptyMap());
     }
 
-    public int getPage() {
-        return page;
+    public static RequestParameters of(Map<String, String[]> queryString) {
+        return new RequestParameters(queryString);
     }
 
     public int getPageSize() {
@@ -118,7 +111,7 @@ public class RequestParameters {
         return getParameterValue(QUERY_PARAM_PRICE);
     }
 
-    protected Optional<String> getParameterValue(String queryParameterKey) {
+    public Optional<String> getParameterValue(String queryParameterKey) {
         if (queryString.containsKey(queryParameterKey)) {
             String[] parameters = queryString.get(queryParameterKey);
             if (parameters != null && parameters.length > 0) {
@@ -126,6 +119,10 @@ public class RequestParameters {
             }
         }
         return Optional.absent();
+    }
+
+    public static List<String> filterParameters() {
+        return Arrays.asList(QUERY_PARAM_SORT, QUERY_PARAM_SEARCH, QUERY_PARAM_PRICE, QUERY_PARAM_DISPLAY, QUERY_PARAM_AMOUNT);
     }
 
     public static List<String> sortOptions() {
@@ -141,7 +138,7 @@ public class RequestParameters {
     }
 
     public static List<String> priceOptions() {
-        return Arrays.asList("20_60", "60_100", "100_500");
+        return Arrays.asList("20 to 60", "60 to 100", "100 to 500");
     }
 
     protected static Facets.MoneyAttribute.Ranges buildPriceFacet() {
@@ -157,7 +154,6 @@ public class RequestParameters {
     public String toString() {
         return "RequestParameters{" +
                 "queryString=" + queryString +
-                ", page=" + page +
                 ", filterSearch=" + filterSearch +
                 ", facetPrice=" + facetPrice +
                 '}';
@@ -170,7 +166,6 @@ public class RequestParameters {
 
         RequestParameters that = (RequestParameters) o;
 
-        if (page != that.page) return false;
         if (queryString != null ? !queryString.equals(that.queryString) : that.queryString != null) return false;
 
         return true;
@@ -179,7 +174,6 @@ public class RequestParameters {
     @Override
     public int hashCode() {
         int result = queryString != null ? queryString.hashCode() : 0;
-        result = 31 * result + page;
         return result;
     }
 }
