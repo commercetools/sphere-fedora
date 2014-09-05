@@ -77,6 +77,10 @@ public class LoginController extends ShopController {
         }
     }
 
+    /**
+     * Logs out the customer.
+     * @return The last returnUrl page.
+     */
     public static Result logOut() {
         sphere().logout();
         return redirect(session("returnUrl"));
