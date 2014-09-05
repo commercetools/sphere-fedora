@@ -1,7 +1,7 @@
 @(data: CommonData, productList: ProductList)
 
 <label>View as :</label>
-<a class="grid @if(productList.hasNoDisplaySelected){active}" href="@buildQuery(RequestParameters.QUERY_PARAM_DISPLAY)"></a>
+<a class="grid @if(productList.hasNoDisplaySelected){active}" href="@data.route.withoutDisplay"></a>
 @for(displayOption <- RequestParameters.displayOptions){
-<a class="list @if(productList.hasDisplaySelected(displayOption)){active}" href="@buildQuery(RequestParameters.QUERY_PARAM_DISPLAY, displayOption)"></a>
+<a class="list @if(productList.hasDisplaySelected(displayOption)){active}" href="@data.route.withDisplay(displayOption)"></a>
 }

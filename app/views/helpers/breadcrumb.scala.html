@@ -5,16 +5,16 @@
     @if(data.currentCategory.isPresent){
         @defining(data.currentCategory.get){ category =>
         @for(ancestor <- category.getPath.init) {
-        <li><a href="@data.routes.categories.get(ancestor)">@ancestor.getName(data.context.locale)</a></li>
+        <li><a href="@data.categoryRoute(ancestor)">@ancestor.getName(data.context.locale)</a></li>
         }
         <li class="@if(!data.currentProduct.isPresent){active}">
-            <a href="@data.routes.categories.get(category)">@category.getName(data.context.locale)</a>
+            <a href="@data.categoryRoute(category)">@category.getName(data.context.locale)</a>
         </li>
        }
     }
     @if(data.currentProduct.isPresent){
         @defining(data.currentProduct.get){ product =>
-        <li><a href="@data.routes.products.get(product, data.currentCategory)">@product.getName(data.context.locale)</a></li>
+        <li><a href="@data.productRoute(product, data.currentCategory)">@product.getName(data.context.locale)</a></li>
         }
     }
 </ul>

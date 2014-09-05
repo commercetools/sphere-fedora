@@ -6,16 +6,16 @@
         <ul class="primary_nav">
             @for(rootCategory <- data.rootCategories) {
             <li class="@if(data.isInCategoryPath(rootCategory)){active}">
-                <a href="@data.routes.categories.get(rootCategory)">@rootCategory.getName(data.context.locale)</a>
+                <a href="@data.categoryRoute(rootCategory)">@rootCategory.getName(data.context.locale)</a>
                 @if(rootCategory.hasChildren) {
                 <!--Submenu Starts-->
                 <ul class="sub_menu">
                     @for(mainCategory <- rootCategory.getChildren) {
                     <li>
-                        <a href="@data.routes.categories.get(mainCategory)">@mainCategory.getName(data.context.locale)</a>
+                        <a href="@data.categoryRoute(mainCategory)">@mainCategory.getName(data.context.locale)</a>
                         <ul>
                             @for(subcategory <- mainCategory.getChildren) {
-                            <li><a href="@data.routes.categories.get(subcategory)">@subcategory.getName(data.context.locale)</a></li>
+                            <li><a href="@data.categoryRoute(subcategory)">@subcategory.getName(data.context.locale)</a></li>
                             }
                         </ul>
                     </li>

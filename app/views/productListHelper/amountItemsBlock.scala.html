@@ -2,10 +2,10 @@
 
 <label>Show :</label>
 <select class="browse-url-selector">
-    <option data-url="@buildQuery(RequestParameters.QUERY_PARAM_AMOUNT)">12 ITEMS</option>
+    <option data-url="@data.route.withoutAmount">12 ITEMS</option>
     @for(amountOption <- RequestParameters.amountOptions){
-    <option data-url="@buildQuery(RequestParameters.QUERY_PARAM_AMOUNT, amountOption)" @if(productList.hasAmountSelected(amountOption)){selected}>
-        @printAmountOption(amountOption)
+    <option data-url="@data.route.withAmount(amountOption)" @if(productList.hasAmountSelected(amountOption)){selected}>
+        @printAmountOption(amountOption) ITEMS
     </option>
     }
 </select>
