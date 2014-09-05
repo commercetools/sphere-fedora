@@ -1,4 +1,4 @@
-@(customer: ShopCustomer, customerForm: Form[forms.customerForm.UpdateCustomer], shopOrders: List[ShopOrder])
+@(data: CommonData, customer: ShopCustomer, customerForm: Form[forms.customerForm.UpdateCustomer], shopOrders: List[ShopOrder])
 
 @import helpers._
 @import helper._
@@ -6,7 +6,8 @@
 @implicitField = @{ FieldConstructor(fieldConstructor.f) }
 
 @main("User"){
-  @* TODO add menu *@
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
 }{
     <section class="user">
         <h1>@Messages("user-page.Title")</h1>

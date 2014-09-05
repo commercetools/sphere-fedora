@@ -30,3 +30,10 @@ listOrders.Title=Your orders
 login.Title=Login
 signup.Title=Sign in
 logout=logout
+
+firstName=first name
+lastName=last name
+email=email
+password=password
+
+io.sphere.client.exceptions.EmailAlreadyInUseException=The provided email address {0} is already used.

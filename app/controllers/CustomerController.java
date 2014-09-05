@@ -95,7 +95,7 @@ public class CustomerController extends BaseController {
             @Override
             public Result apply(final List<ShopOrder> shopOrders) throws Throwable {
                 final Form<UpdateCustomer> customerForm = updateCustomerForm.fill(new UpdateCustomer(customer));
-                return ok(customerView.render(customer, customerForm, shopOrders));
+                return ok(customerView.render(data().build(), customer, customerForm, shopOrders));
             }
         });
     }

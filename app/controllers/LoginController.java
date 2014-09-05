@@ -4,12 +4,14 @@ import forms.customerForm.LogIn;
 import forms.customerForm.SignUp;
 import io.sphere.client.exceptions.EmailAlreadyInUseException;
 import play.data.Form;
+import play.i18n.Messages;
 import play.mvc.Result;
 import services.CartService;
 import services.CategoryService;
 import services.CustomerService;
 import services.ProductService;
 import views.html.loginView;
+import views.html.signupView;
 
 import static play.data.Form.form;
 
@@ -28,7 +30,7 @@ public class LoginController extends BaseController {
      *
      * @return login form page
      */
-    public Result signIn() {
+    public Result showSignIn() {
         if (sphere().isLoggedIn()) {
             sphere().logout();
         }
@@ -36,23 +38,24 @@ public class LoginController extends BaseController {
         return ok(loginView.render(data().build(), logInForm));
     }
 
-    public static Result showSignUp() {
-        return TODO;
+    public Result showSignUp() {
+        return ok(signupView.render(data().build(), signUpForm));
     }
 
-    public static Result signUp() {
-        Form<SignUp> filledForm = signUpForm.bindFromRequest();
+    public Result handleSignUp() {
+        final Form<SignUp> filledForm = signUpForm.bindFromRequest();
         if (filledForm.hasErrors()) {
-            return badRequest();
+            return badRequest(signupView.render(data().build(), filledForm));
         } else {
-            SignUp signUp = filledForm.get();
+            final SignUp signUp = filledForm.get();
             if (sphere().login(signUp.email, signUp.password)) {
                 return redirect(routes.CustomerController.show());
             } else {
                 try {
                     sphere().signup(signUp.email, signUp.password, signUp.getCustomerName());
                 } catch (EmailAlreadyInUseException e) {
-                    return badRequest();
+                    flash("error", Messages.get(lang(), "io.sphere.client.exceptions.EmailAlreadyInUseException", signUp.email));
+                    return badRequest(signupView.render(data().build(), filledForm));
                 }
                 return redirect(routes.CustomerController.show());
             }
@@ -63,7 +66,7 @@ public class LoginController extends BaseController {
      * Handles the login form submission.
      * @return the shop homepage on success or the login form on error.
      */
-    public Result logIn() {
+    public Result handleSignIn() {
         Form<LogIn> filledForm = logInForm.bindFromRequest();
         if (filledForm.hasErrors()) {
             flash("error", "Login form contains missing or invalid data.");

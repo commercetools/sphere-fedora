@@ -1,4 +1,4 @@
-@(data: CommonData, customerForm: Form[forms.customerForm.UpdateCustomer])
+@(data: CommonData, signupForm: Form[forms.customerForm.SignUp])
 
 @import helpers._
 @import helper._
@@ -10,14 +10,15 @@
     @helpers.navigationMenu(data)
 }{
     <section class="user">
-        <h1>@Messages("signup.Title.Title")</h1>
+        <h1>@Messages("signup.Title")</h1>
 
-        @form(action = routes.CustomerController.update(), 'id -> "customerForm") {
-            @inputText(customerForm("firstName"))
-            @inputText(customerForm("lastName"))
-            @inputText(customerForm("email"))
+        @form(action = routes.LoginController.handleSignUp(), 'id -> "signupForm") {
+            @inputText(signupForm("firstName"))
+            @inputText(signupForm("lastName"))
+            @inputText(signupForm("email"))
+            @inputPassword(signupForm("password"))
 
-            <input type="submit" class="button" id="submit-user-form" value='@Messages("save-changes")'>
+            <input type="submit" class="button" id="submit-user-form" value='@Messages("header.signup")'>
         }
 
     </section>

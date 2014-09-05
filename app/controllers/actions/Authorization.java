@@ -15,7 +15,7 @@ public class Authorization extends Action.Simple {
         Http.Context.current.set(ctx);
         if (!Sphere.getInstance().isLoggedIn()) {
             ctx.flash().put("error", "You need to log in to view this section");
-            return F.Promise.pure(redirect(controllers.routes.LoginController.signIn()));
+            return F.Promise.pure(redirect(controllers.routes.LoginController.showSignIn()));
         }
         return delegate.call(ctx);
     }

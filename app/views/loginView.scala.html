@@ -13,7 +13,7 @@
 
         <h1>@Messages("login.Title")</h1>
 
-        @form(action = routes.LoginController.logIn(), 'id -> "loginForm") {
+        @form(action = routes.LoginController.handleSignIn(), 'id -> "loginForm") {
             @inputText(logInForm("email"))
             @inputPassword(logInForm("password"))
 

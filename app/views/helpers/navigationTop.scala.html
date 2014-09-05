@@ -1,7 +1,7 @@
 @(data: CommonData)
 
 @topBarLink(call: Call, messageKey: String) = {
-    <li@(" class=highlight".when(request().path() == call.url)) ><a href='@call.url'>@Messages(messageKey)</a></li>
+    <li@(" class=highlight".when(request().path() == call.url))><a href='@call.url'>@Messages(messageKey)</a></li>
 }
 
 <div class="header_container">
@@ -16,7 +16,7 @@
             @if(isLoggedIn) {
                 @topBarLink(routes.LoginController.logOut(), "logout")
             } else {
-                @topBarLink(routes.LoginController.signIn(), "header.login")
+                @topBarLink(routes.LoginController.showSignIn(), "header.login")
                 @topBarLink(routes.LoginController.showSignUp(), "header.signup")
             }
             </ul>

@@ -30,12 +30,12 @@ GET     /checkout/shipping                                  controllers.Checkout
 POST    /checkout/shipping                                  controllers.Checkouts.setShipping()
 
 # Login
-GET     /user/login                                         @controllers.LoginController.signIn()
-POST    /user/login                                         @controllers.LoginController.logIn()
+GET     /user/login                                         @controllers.LoginController.showSignIn()
+POST    /user/login                                         @controllers.LoginController.handleSignIn()
 GET     /user/logout                                        controllers.LoginController.logOut()
 
-GET     /user/register                                      controllers.LoginController.showSignUp()
-POST    /user/register                                      controllers.LoginController.signUp()
+GET     /user/register                                      @controllers.LoginController.showSignUp()
+POST    /user/register                                      @controllers.LoginController.handleSignUp()
 
 # Customer
 GET     /user                                               @controllers.CustomerController.show()

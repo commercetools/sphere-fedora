@@ -30,3 +30,10 @@ listOrders.Title=Deine Bestellungen
 login.Title=Einloggen
 signup.Title=Registrieren
 logout=logout
+
+firstName=Vorname
+lastName=Nachname
+email=E-Mail Adresse
+password=Passwort
+
+io.sphere.client.exceptions.EmailAlreadyInUseException=Die angegebene E-Mail Adresse {0} ist schon vergeben.
