@@ -11,13 +11,13 @@
             <!--Top Links Starts-->
             <ul class="top_links">
                 @* use li class="highlight" for active link *@
-                <!--li><a href="#">@Messages("header.account")</a></li-->
                 <!--li><a href="#">@Messages("header.wishlist")</a></li-->
             @if(isLoggedIn) {
-                @topBarLink(routes.LoginController.logOut(), "logout")
+                @topBarLink(routes.CustomerController.show, "header.account")
+                @topBarLink(routes.LoginController.logOut, "logout")
             } else {
-                @topBarLink(routes.LoginController.showSignIn(), "header.login")
-                @topBarLink(routes.LoginController.showSignUp(), "header.signup")
+                @topBarLink(routes.LoginController.showSignIn, "header.login")
+                @topBarLink(routes.LoginController.showSignUp, "header.signup")
             }
             </ul>
             <!--Top Links Ends-->

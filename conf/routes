@@ -47,6 +47,7 @@ POST    /user/update/password                               controllers.Customer
 GET     /assets/*file                                       controllers.Assets.at(path="/public", file)
 
 # Product
+GET     /products/:productId-$variant<[0-9]+>.html          controllers.Products.selectById(productId: String, variant: Int)
 GET     /:product-$variant<[0-9]+>.html                     controllers.Products.select(product: String, variant: Int)
 
 # Category

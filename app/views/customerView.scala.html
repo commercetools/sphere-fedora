@@ -2,6 +2,7 @@
 
 @import helpers._
 @import helper._
+@import com.google.common.base.Optional
 
 @implicitField = @{ FieldConstructor(fieldConstructor.f) }
 
@@ -24,17 +25,22 @@
 
         <h2>@Messages("listOrders.Title")</h2>
 
-        <ul class="short-code toggle_box">
-            <li><a class="toggle_title" href="#">Title 1</a>
-                <div class="toggle_content short-code-column active" style="display: none;">Fusce ut lacus in nulla rutrum pellentesque. Nunc velit. Vestibulum eleifend porta risus. Cras congue volutpat leo. Nam nec mi quis libero placerat ultrices. Nulla massa velit, scelerisque sed, rutrum in, sollicitudin nec, mi. Pellentesque imperdiet laoreet sapien.</div>
-            </li>
-            <li><a class="toggle_title" href="#">Title 2</a>
-                <div class="toggle_content short-code-column" style="display: none;">Fusce ut lacus in nulla rutrum pellentesque. Nunc velit. Vestibulum eleifend porta risus. Cras congue volutpat leo. Nam nec mi quis libero placerat ultrices. Nulla massa velit, scelerisque sed, rutrum in, sollicitudin nec, mi. Pellentesque imperdiet laoreet sapien.</div>
-            </li>
-            <li><a class="toggle_title" href="#">Title 3</a>
-                <div class="toggle_content short-code-column">Fusce ut lacus in nulla rutrum pellentesque. Nunc velit. Vestibulum eleifend porta risus. Cras congue volutpat leo. Nam nec mi quis libero placerat ultrices. Nulla massa velit, scelerisque sed, rutrum in, sollicitudin nec, mi. Pellentesque imperdiet laoreet sapien.</div>
-            </li>
-        </ul>
+        @if(!shopOrders.isEmpty) {
+            <ul class="short-code toggle_box">
+            @shopOrders.map { order =>
+
+                    <li><a class="toggle_title" href="#">@order.getOrderDate("dd.MM.yyyy HH:mm") | @order.getTotalPrice(Optional.of(customer))</a>
+                        <div class="toggle_content short-code-column active" style="display: none;">
+                            <ul class="circle_li">
+                            @order.getLineItems.map { lineItem =>
+                                <li>@lineItem.getQuantity x <a href='@routes.Products.selectById(lineItem.getProductId, lineItem.getVariant.getId).url'>@lineItem.getProductName(data.context.locale)</a> | @lineItem.getTotalPrice</li>
+                            }
+                            </ul>
+                        </div>
+                    </li>
+            }
+            </ul>
+        }
 
     </section>
 }{
