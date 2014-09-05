@@ -38,7 +38,7 @@ GET     /user/register                                      controllers.Login.sh
 POST    /user/register                                      controllers.Login.signUp()
 
 # Customer
-GET     /user                                               controllers.CustomerController.show()
+GET     /user                                               @controllers.CustomerController.show()
 
 POST    /user/update                                        controllers.CustomerController.update()
 POST    /user/update/password                               controllers.CustomerController.updatePassword()

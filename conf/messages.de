@@ -21,4 +21,8 @@ cart.quantity=quantity
 
 or=or
 
+save-changes=Änderungen speichern
 
+user-page.Title=Dein Profil
+user-page.changeNameEmail.Title=Ändere deinen Namen oder deine E-Mail-Adresse
+listOrders.Title=Deine Bestellungen

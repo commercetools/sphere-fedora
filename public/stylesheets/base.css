@@ -366,6 +366,10 @@ span.highlight_text{ display:inline-block; color:#fff; font-size:16px; font-styl
 
 .twitter_feed{ padding:50px 15px 20px 15px; background:url(../images/twitter_top.jpg) repeat-x center top #ebebeb; line-height:20px; font-size:13px; font-style:italic; border-bottom:solid 2px}
 
+/*User*/
+section.user input[type="text"]{ border:1px solid #D7D7D7; padding:4px; width:225px;}
+
+
 /*GENERAL*/
 input, select, textarea,  button{ font-size:12px;}
 .message{ padding:10px 85px; font-size:14px; line-height:100%; margin-bottom:15px; margin:25px;}

@@ -1,0 +1,41 @@
+@(customer: ShopCustomer, customerForm: Form[forms.customerForm.UpdateCustomer], shopOrders: List[ShopOrder])
+
+@import helpers._
+@import helper._
+
+@implicitField = @{ FieldConstructor(fieldConstructor.f) }
+
+@main("User"){
+    @navigationMenu()
+}{
+    <section class="user">
+        <h1>@Messages("user-page.Title")</h1>
+
+        <h2>@Messages("user-page.changeNameEmail.Title")</h2>
+
+        @form(action = routes.CustomerController.update(), 'id -> "customerForm") {
+            @inputText(customerForm("firstName"))
+            @inputText(customerForm("lastName"))
+            @inputText(customerForm("email"))
+
+            <input type="submit" class="button" id="submit-user-form" value='@Messages("save-changes")'>
+        }
+
+        <h2>@Messages("listOrders.Title")</h2>
+
+        <ul class="short-code toggle_box">
+            <li><a class="toggle_title" href="#">Title 1</a>
+                <div class="toggle_content short-code-column active" style="display: none;">Fusce ut lacus in nulla rutrum pellentesque. Nunc velit. Vestibulum eleifend porta risus. Cras congue volutpat leo. Nam nec mi quis libero placerat ultrices. Nulla massa velit, scelerisque sed, rutrum in, sollicitudin nec, mi. Pellentesque imperdiet laoreet sapien.</div>
+            </li>
+            <li><a class="toggle_title" href="#">Title 2</a>
+                <div class="toggle_content short-code-column" style="display: none;">Fusce ut lacus in nulla rutrum pellentesque. Nunc velit. Vestibulum eleifend porta risus. Cras congue volutpat leo. Nam nec mi quis libero placerat ultrices. Nulla massa velit, scelerisque sed, rutrum in, sollicitudin nec, mi. Pellentesque imperdiet laoreet sapien.</div>
+            </li>
+            <li><a class="toggle_title" href="#">Title 3</a>
+                <div class="toggle_content short-code-column">Fusce ut lacus in nulla rutrum pellentesque. Nunc velit. Vestibulum eleifend porta risus. Cras congue volutpat leo. Nam nec mi quis libero placerat ultrices. Nulla massa velit, scelerisque sed, rutrum in, sollicitudin nec, mi. Pellentesque imperdiet laoreet sapien.</div>
+            </li>
+        </ul>
+
+    </section>
+}{
+
+}

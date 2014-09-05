@@ -1,0 +1,11 @@
+@(elements: helper.FieldElements)
+
+<div class="txt_frm">
+    @if(elements.field.constraints.map { case (a, b) => a }.contains("constraint.required")) {
+        <span class="required" title='@Messages("constraint.required")'>*</span>
+    }
+
+    <label for="@elements.id">@elements.label</label>
+    @elements.input
+    <br class="clear">
+</div>

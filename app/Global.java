@@ -1,4 +1,5 @@
 import controllers.BaseController;
+import controllers.CustomerController;
 import play.GlobalSettings;
 import play.libs.F;
 import play.mvc.Action;
@@ -70,7 +71,10 @@ public class Global extends GlobalSettings {
     @Override
     public <A> A getControllerInstance(final Class<A> controllerClass) throws Exception {
         final A result;
-        if (BaseController.class.isAssignableFrom(controllerClass)) {
+        if (controllerClass.equals(CustomerController.class)) {
+            result = (A) new CustomerController(createCategoryService(), createProductService(), createCartService(),
+                    createCustomerService(), createOrderService());
+        } else if (BaseController.class.isAssignableFrom(controllerClass)) {
             Constructor<A> constructor = controllerClass.getConstructor(CategoryService.class, ProductService.class,
                     CartService.class, CustomerService.class);
             result = constructor.newInstance(createCategoryService(), createProductService(), createCartService(),

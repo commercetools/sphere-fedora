@@ -21,4 +21,9 @@ cart.quantity=quantity
 
 or=or
 
+save-changes=save changes
+
+user-page.Title=Your Profile
+user-page.changeNameEmail.Title=Change your name or email
+listOrders.Title=Your orders
 
