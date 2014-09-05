@@ -1,10 +1,13 @@
 package controllers;
 
+import com.google.common.base.Optional;
+import exceptions.DuplicateEmailException;
 import forms.customerForm.LogIn;
 import forms.customerForm.SignUp;
-import io.sphere.client.exceptions.EmailAlreadyInUseException;
+import models.ShopCustomer;
 import play.data.Form;
 import play.i18n.Messages;
+import play.libs.F;
 import play.mvc.Result;
 import services.CartService;
 import services.CategoryService;
@@ -14,6 +17,7 @@ import views.html.loginView;
 import views.html.signupView;
 
 import static play.data.Form.form;
+import static utils.AsyncUtils.asPromise;
 
 /**
  * handles the lifecycle of the customer login and sign up.
@@ -37,10 +41,9 @@ public class LoginController extends BaseController {
      * @return login form page
      */
     public Result showSignIn() {
-        if (sphere().isLoggedIn()) {
-            sphere().logout();
+        if (customerService().isLoggedIn()) {
+            customerService().logout();
         }
-        //TODO bind from request if errors present
         return ok(loginView.render(data().build(), logInForm));
     }
 
@@ -57,23 +60,14 @@ public class LoginController extends BaseController {
      *
      * @return the customer profil page or in error case the form with errors
      */
-    public Result handleSignUp() {
+    public F.Promise<Result> handleSignUp() {
         final Form<SignUp> filledForm = signUpForm.bindFromRequest();
-        if (filledForm.hasErrors()) {
-            return badRequest(signupView.render(data().build(), filledForm));
+        if(customerService().isLoggedIn()) {
+            return asPromise(redirectToReturnUrl());
+        } else if (filledForm.hasErrors()) {
+            return asPromise(badRequest(signupView.render(data().build(), filledForm)));
         } else {
-            final SignUp signUp = filledForm.get();
-            if (sphere().login(signUp.email, signUp.password)) {
-                return redirect(routes.CustomerController.show());
-            } else {
-                try {
-                    sphere().signup(signUp.email, signUp.password, signUp.getCustomerName());
-                } catch (EmailAlreadyInUseException e) {
-                    flash("error", Messages.get(lang(), "io.sphere.client.exceptions.EmailAlreadyInUseException", signUp.email));
-                    return badRequest(signupView.render(data().build(), filledForm));
-                }
-                return redirect(routes.CustomerController.show());
-            }
+            return handleSignUpWithValidForm(filledForm);
         }
     }
 
@@ -81,22 +75,15 @@ public class LoginController extends BaseController {
      * Handles the login form submission.
      * @return the shop homepage on success or the login form on error.
      */
-    public Result handleSignIn() {
-        Form<LogIn> filledForm = logInForm.bindFromRequest();
-        if (filledForm.hasErrors()) {
+    public F.Promise<Result> handleSignIn() {
+        final Form<LogIn> filledForm = logInForm.bindFromRequest();
+        if (customerService().isLoggedIn()) {
+            return asPromise(redirect(routes.Application.home()));
+        } else if (filledForm.hasErrors()) {
             flash("error", "Login form contains missing or invalid data.");
-            return badRequest(loginView.render(data().build(), filledForm));
+            return asPromise(badRequest(loginView.render(data().build(), filledForm)));
         } else {
-            LogIn logIn = filledForm.get();
-            if (sphere().isLoggedIn()) {
-                return ok();
-            } else if (!sphere().login(logIn.email, logIn.password)) {
-                flash("error", "Invalid username or password.");
-                return badRequest(loginView.render(data().build(), filledForm));
-            } else {
-                flash("success", "You are signed in.");
-                return redirect(routes.Application.home());
-            }
+            return handleSignInWithValidForm(filledForm);
         }
     }
 
@@ -104,9 +91,46 @@ public class LoginController extends BaseController {
      * Logs out the customer.
      * @return The last returnUrl page.
      */
-    public static Result logOut() {
-        sphere().logout();
-        return redirect(session("returnUrl"));
+    public Result logOut() {
+        customerService().logout();
+        return redirectToReturnUrl();
     }
 
+    private F.Promise<Result> handleSignInWithValidForm(final Form<LogIn> filledForm) {
+        final LogIn logIn = filledForm.get();
+        return customerService().login(logIn.email, logIn.password).map(new F.Function<Optional<ShopCustomer>, Result>() {
+            @Override
+            public Result apply(Optional<ShopCustomer> shopCustomerOptional) throws Throwable {
+                if (shopCustomerOptional.isPresent()) {
+                    flash("success", "You are signed in.");
+                    return redirect(routes.Application.home());
+                } else {
+                    flash("error", "Invalid username or password.");
+                    return badRequest(loginView.render(data().build(), filledForm));
+                }
+            }
+        });
+    }
+
+    private F.Promise<Result> handleSignUpWithValidForm(final Form<SignUp> filledForm) {
+        final SignUp signUp = filledForm.get();
+        return customerService().signUp(signUp.email, signUp.password, signUp.getCustomerName())
+                .map(new F.Function<ShopCustomer, Result>() {
+                    @Override
+                    public Result apply(final ShopCustomer shopCustomer) throws Throwable {
+                        return redirect(routes.CustomerController.show());
+                    }
+                })
+                .recover(new F.Function<Throwable, Result>() {
+                    @Override
+                    public Result apply(Throwable throwable) throws Throwable {
+                        if (throwable instanceof DuplicateEmailException) {
+                            flash("error", Messages.get(lang(), "error.emailAlreadyInUse", signUp.email));
+                            return badRequest(signupView.render(data().build(), filledForm));
+                        } else {
+                            throw throwable;
+                        }
+                    }
+                });
+    }
 }

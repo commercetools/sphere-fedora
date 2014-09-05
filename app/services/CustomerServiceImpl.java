@@ -1,5 +1,8 @@
 package services;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import exceptions.DuplicateEmailException;
 import io.sphere.client.model.CustomObject;
 import io.sphere.client.shop.model.*;
 import models.ShopCart;
@@ -18,6 +21,8 @@ import io.sphere.client.model.QueryResult;
 import io.sphere.client.model.VersionedId;
 import io.sphere.client.shop.SignInResult;
 import io.sphere.client.shop.SignUpBuilder;
+
+import java.util.List;
 
 public class CustomerServiceImpl implements CustomerService {
     protected static final int INITIAL_CUSTOMER_NUMBER = 1000;
@@ -135,7 +140,18 @@ public class CustomerServiceImpl implements CustomerService {
                         if (result.isSuccess()) {
                             return ShopCustomer.of(result.getValue().getCustomer());
                         } else {
-                            throw new RuntimeException(result.getGenericError());
+                            final List<SphereError> errors = result.getGenericError().getErrors();
+                            final boolean emailAlreadyInUse = Iterables.any(errors, new Predicate<SphereError>() {
+                                @Override
+                                public boolean apply(final SphereError sphereError) {
+                                    return "DuplicateField".equals(sphereError.getCode());
+                                }
+                            });
+                            if (emailAlreadyInUse) {
+                                throw new DuplicateEmailException(result.getGenericError());
+                            } else {
+                                throw result.getGenericError();
+                            }
                         }
                     }
                 });

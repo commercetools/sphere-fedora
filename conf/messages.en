@@ -36,4 +36,4 @@ lastName=last name
 email=email
 password=password
 
-io.sphere.client.exceptions.EmailAlreadyInUseException=The provided email address {0} is already used.
+error.emailAlreadyInUse=The provided email address {0} is already used.

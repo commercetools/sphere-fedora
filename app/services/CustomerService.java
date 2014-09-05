@@ -53,6 +53,7 @@ public interface CustomerService {
      * @param email that will uniquely identify the customer.
      * @param password for the customer account.
      * @param customerName of the customer.
+     * @throws exceptions.DuplicateEmailException if the email address is already used
      * @return the new customer, already logged in.
      */
     F.Promise<ShopCustomer> signUp(String email, String password, CustomerName customerName);

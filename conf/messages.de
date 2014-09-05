@@ -36,4 +36,4 @@ lastName=Nachname
 email=E-Mail Adresse
 password=Passwort
 
-io.sphere.client.exceptions.EmailAlreadyInUseException=Die angegebene E-Mail Adresse {0} ist schon vergeben.
+error.emailAlreadyInUse=Die angegebene E-Mail Adresse {0} ist schon vergeben.

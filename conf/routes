@@ -32,7 +32,7 @@ POST    /checkout/shipping                                  controllers.Checkout
 # Login
 GET     /user/login                                         @controllers.LoginController.showSignIn()
 POST    /user/login                                         @controllers.LoginController.handleSignIn()
-GET     /user/logout                                        controllers.LoginController.logOut()
+GET     /user/logout                                        @controllers.LoginController.logOut()
 
 GET     /user/register                                      @controllers.LoginController.showSignUp()
 POST    /user/register                                      @controllers.LoginController.handleSignUp()
