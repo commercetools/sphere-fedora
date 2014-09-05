@@ -9,7 +9,7 @@ import sphere.ShopController;
 
 import static play.data.Form.form;
 
-public class Login extends ShopController {
+public class LoginController extends ShopController {
 
     final static Form<LogIn> logInForm = form(LogIn.class);
     final static Form<SignUp> signUpForm = form(SignUp.class);
