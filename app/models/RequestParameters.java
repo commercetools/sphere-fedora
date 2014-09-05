@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class RequestParameters {
+    public static final String QUERY_PARAM_LANG = "lang";
     public static final String QUERY_PARAM_SORT = "sort";
     public static final String QUERY_PARAM_SEARCH = "query";
     public static final String QUERY_PARAM_PRICE = "price";

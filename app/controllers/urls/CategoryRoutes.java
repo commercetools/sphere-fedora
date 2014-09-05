@@ -3,7 +3,6 @@ package controllers.urls;
 import controllers.routes;
 import models.ShopCategory;
 import play.i18n.Lang;
-import play.mvc.Call;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,21 +18,20 @@ public class CategoryRoutes {
         this.availableLang = availableLang;
     }
 
-    public Map<Lang, Call> all(ShopCategory currentCategory) {
-        Map<Lang, Call> localizedUrls = new HashMap<Lang, Call>();
+    public Map<Lang, ShopCall> all(ShopCategory currentCategory) {
+        Map<Lang, ShopCall> localizedUrls = new HashMap<Lang, ShopCall>();
         for (Lang lang : availableLang) {
-            Call call = get(lang.toLocale(), currentCategory);
-            // TODO build query facets
+            ShopCall call = get(lang.toLocale(), currentCategory);
             localizedUrls.put(lang, call);
         }
         return localizedUrls;
     }
 
-    public Call get(ShopCategory category) {
+    public ShopCall get(ShopCategory category) {
         return get(currentLocale, category);
     }
 
-    public Call get(Locale locale, ShopCategory category) {
+    public ShopCall get(Locale locale, ShopCategory category) {
         return bySlug(category.getSlug(locale));
     }
 
@@ -42,7 +40,7 @@ public class CategoryRoutes {
      * @param categorySlug the localized category slug.
      * @return the URL call for the category.
      */
-    public Call bySlug(String categorySlug) {
-        return routes.ProductListController.categoryProducts(categorySlug, 1);
+    public ShopCall bySlug(String categorySlug) {
+        return new ShopCall(routes.ProductListController.categoryProducts(categorySlug, 1));
     }
 }

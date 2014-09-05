@@ -9,7 +9,6 @@ import com.google.common.base.Optional;
 import models.ShopCategory;
 import models.ShopProduct;
 import play.i18n.Lang;
-import play.mvc.Call;
 import controllers.routes;
 
 public class ProductRoutes {
@@ -21,20 +20,20 @@ public class ProductRoutes {
         this.availableLang = availableLang;
     }
 
-    public Map<Lang, Call> all(ShopProduct product, Optional<ShopCategory> category) {
-        Map<Lang, Call> localizedUrls = new HashMap<Lang, Call>();
+    public Map<Lang, ShopCall> all(ShopProduct product, Optional<ShopCategory> category) {
+        Map<Lang, ShopCall> localizedUrls = new HashMap<Lang, ShopCall>();
         for (Lang lang : availableLang) {
-            Call call = get(lang.toLocale(), product, category);
+            ShopCall call = get(lang.toLocale(), product, category);
             localizedUrls.put(lang, call);
         }
         return localizedUrls;
     }
 
-    public Call get(ShopProduct product, Optional<ShopCategory> category) {
+    public ShopCall get(ShopProduct product, Optional<ShopCategory> category) {
         return get(currentLocale, product, category);
     }
 
-    public Call get(Locale locale, ShopProduct product, Optional<ShopCategory> category) {
+    public ShopCall get(Locale locale, ShopProduct product, Optional<ShopCategory> category) {
         Optional<String> categorySlug = Optional.absent();
         if (category.isPresent()) {
             categorySlug = Optional.of(category.get().getSlug(locale));
@@ -49,7 +48,7 @@ public class ProductRoutes {
      * @param categorySlug the localized category slug to which the product is associated for this call.
      * @return the URL call for the product.
      */
-    public Call bySlug(String productSlug, int variantId, Optional<String> categorySlug) {
-        return routes.Products.select(productSlug, variantId);
+    public ShopCall bySlug(String productSlug, int variantId, Optional<String> categorySlug) {
+        return new ShopCall(routes.Products.select(productSlug, variantId));
     }
 }

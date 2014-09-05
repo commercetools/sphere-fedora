@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Optional;
+import controllers.urls.ShopCall;
 import controllers.urls.ShopRoutes;
 import play.i18n.Lang;
 import play.mvc.Call;
@@ -41,7 +42,7 @@ public class CommonData {
         return shopRoutes;
     }
 
-    public Map<Lang, Call> localizedRoutes() {
+    public Map<Lang, ShopCall> localizedRoutes() {
         return shopRoutes.all(currentCategory, currentProduct);
     }
 
