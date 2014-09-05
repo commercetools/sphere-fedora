@@ -1,15 +1,24 @@
 @(data: CommonData)
 
+@topBarLink(call: Call, messageKey: String) = {
+    <li@(" class=highlight".when(request().path() == call.url)) ><a href='@call.url'>@Messages(messageKey)</a></li>
+}
+
 <div class="header_container">
     <!--Header Starts-->
     <header>
         <div class="top_bar clear">
             <!--Top Links Starts-->
             <ul class="top_links">
+                @* use li class="highlight" for active link *@
                 <!--li><a href="#">@Messages("header.account")</a></li-->
                 <!--li><a href="#">@Messages("header.wishlist")</a></li-->
-                <!--li><a href="#">@Messages("header.login")</a></li-->
-                <!--li class="highlight"><a href="#">@Messages("header.signup")</a></li-->
+            @if(isLoggedIn) {
+                @topBarLink(routes.LoginController.logOut(), "logout")
+            } else {
+                @topBarLink(routes.LoginController.signIn(), "header.login")
+                @topBarLink(routes.LoginController.showSignUp(), "header.signup")
+            }
             </ul>
             <!--Top Links Ends-->
 

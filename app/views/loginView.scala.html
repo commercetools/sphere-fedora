@@ -1,4 +1,4 @@
-@(logInForm: Form[forms.customerForm.LogIn])
+@(data: CommonData, logInForm: Form[forms.customerForm.LogIn])
 
 @import helpers._
 @import helper._
@@ -6,7 +6,8 @@
 @implicitField = @{ FieldConstructor(fieldConstructor.f) }
 
 @main("Login"){
-    @* TODO add menu *@
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
 }{
     <section class="login">
 

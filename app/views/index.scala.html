@@ -1,7 +1,7 @@
 @(data: CommonData, searchResultNew: SearchResult[Product], searchResultOffer: SearchResult[Product])
 
 @main(){
-    @**helpers.navigationTop(getLocalizedUrls)**@
+    @helpers.navigationTop(data)
     @helpers.navigationMenu(data)
 }{
     <section>

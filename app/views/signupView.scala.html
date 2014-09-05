@@ -1,0 +1,26 @@
+@(data: CommonData, customerForm: Form[forms.customerForm.UpdateCustomer])
+
+@import helpers._
+@import helper._
+
+@implicitField = @{ FieldConstructor(fieldConstructor.f) }
+
+@main("User"){
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
+}{
+    <section class="user">
+        <h1>@Messages("signup.Title.Title")</h1>
+
+        @form(action = routes.CustomerController.update(), 'id -> "customerForm") {
+            @inputText(customerForm("firstName"))
+            @inputText(customerForm("lastName"))
+            @inputText(customerForm("email"))
+
+            <input type="submit" class="button" id="submit-user-form" value='@Messages("save-changes")'>
+        }
+
+    </section>
+}{
+
+}

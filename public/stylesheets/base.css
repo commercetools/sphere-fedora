@@ -31,6 +31,7 @@ header .top_links{ margin:0px; float:right;}
 header .top_links > li{ float:left; background:#5f5a56; margin-left:1px;}
 header .top_links > li a{ display:block; padding:16px 20px; line-height:100%; color:#e9e9e9; text-shadow:0px 1px 0px #3e3935; text-decoration:none; text-transform:uppercase; font-weight:bold;}
 header .top_links > li.highlight a { color:#fff; text-shadow:none;}
+header .top_links > li:hover { background:#f38256;}
 
 header h1.logo{ float:left; padding:30px 0px;}
 header .header_search{ height:23px; width:230px; float:right; padding:3px; margin:30px 0px;  border:solid 1px #e1e1e1;  cursor:pointer;}

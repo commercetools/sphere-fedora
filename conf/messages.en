@@ -28,3 +28,5 @@ user-page.changeNameEmail.Title=Change your name or email
 listOrders.Title=Your orders
 
 login.Title=Login
+signup.Title=Sign in
+logout=logout
