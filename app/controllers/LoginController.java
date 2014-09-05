@@ -15,9 +15,15 @@ import views.html.signupView;
 
 import static play.data.Form.form;
 
+/**
+ * handles the lifecycle of the customer login and sign up.
+ */
 public class LoginController extends BaseController {
 
+    /** form for the customer credentials */
     final static Form<LogIn> logInForm = form(LogIn.class);
+
+    /** form for new customers to register */
     final static Form<SignUp> signUpForm = form(SignUp.class);
 
     public LoginController(CategoryService categoryService, ProductService productService, CartService cartService, CustomerService customerService) {
@@ -38,10 +44,19 @@ public class LoginController extends BaseController {
         return ok(loginView.render(data().build(), logInForm));
     }
 
+    /**
+     * Shows the page to become a new registered customer.
+     * @return sign up form ui
+     */
     public Result showSignUp() {
         return ok(signupView.render(data().build(), signUpForm));
     }
 
+    /**
+     * Handles the sign up form submission.
+     *
+     * @return the customer profil page or in error case the form with errors
+     */
     public Result handleSignUp() {
         final Form<SignUp> filledForm = signUpForm.bindFromRequest();
         if (filledForm.hasErrors()) {
