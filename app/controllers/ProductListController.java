@@ -9,6 +9,8 @@ import play.mvc.Result;
 import play.mvc.With;
 import services.*;
 
+import static utils.AsyncUtils.asPromise;
+
 @With(SaveContext.class)
 public class ProductListController extends BaseController {
 
@@ -32,7 +34,7 @@ public class ProductListController extends BaseController {
                         }
                     });
         } else {
-            return F.Promise.<Result>pure(notFound(showNotFoundPage(data())));
+            return asPromise(notFound(showNotFoundPage(data())));
         }
     }
 
