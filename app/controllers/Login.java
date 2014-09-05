@@ -15,7 +15,8 @@ public class Login extends ShopController {
     final static Form<SignUp> signUpForm = form(SignUp.class);
 
 
-    public static Result show() {
+
+    public static Result signIn() {
         if (sphere().isLoggedIn()) {
             sphere().logout();
         }
@@ -23,7 +24,7 @@ public class Login extends ShopController {
     }
 
     public static Result showSignUp() {
-        return show();
+        return signIn();
     }
 
     public static Result signUp() {

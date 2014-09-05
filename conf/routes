@@ -30,7 +30,7 @@ GET     /checkout/shipping                                  controllers.Checkout
 POST    /checkout/shipping                                  controllers.Checkouts.setShipping()
 
 # Login
-GET     /user/login                                         controllers.Login.show()
+GET     /user/login                                         controllers.Login.signIn()
 POST    /user/login                                         controllers.Login.logIn()
 GET     /user/logout                                        controllers.Login.logOut()
 
