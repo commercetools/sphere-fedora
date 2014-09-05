@@ -1,8 +1,8 @@
-@(searchResultNew: SearchResult[Product], searchResultOffer: SearchResult[Product])
+@(data: CommonData, searchResultNew: SearchResult[Product], searchResultOffer: SearchResult[Product])
 
 @main(){
     @**helpers.navigationTop(getLocalizedUrls)**@
-    @*helpers.navigationMenu()*@
+    @helpers.navigationMenu(data)
 }{
     <section>
         <!--Banner Starts-->
