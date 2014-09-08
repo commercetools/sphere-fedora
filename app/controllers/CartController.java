@@ -43,7 +43,7 @@ public class CartController extends BaseController {
         return cartService().fetchCurrent().map(new F.Function<ShopCart, Result>() {
             @Override
             public Result apply(final ShopCart shopCart) throws Throwable {
-                return ok(carts.render(shopCart.get()));
+                return ok(carts.render(data().build(), shopCart.get()));
             }
         });
     }

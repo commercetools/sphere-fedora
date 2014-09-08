@@ -1,8 +1,8 @@
-@(cart: Cart)
+@(data: CommonData, cart: Cart)
 
 @main("Cart"){
-    @**helpers.navigationTop(getLocalizedUrls)**@
-    @*helpers.navigationMenu()*@
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
 }{
     <section> 
       <!--CART STARTS-->
