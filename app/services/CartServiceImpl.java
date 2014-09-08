@@ -252,6 +252,7 @@ public class CartServiceImpl implements CartService {
                         public F.Promise<ShopCart> apply(SphereResult<Cart> result) throws Throwable {
                             if (result.isSuccess()) {
                                 ShopCart updatedCart = ShopCart.of(result.getValue());
+                                Session.current().putCart(result.getValue());
                                 return F.Promise.pure(updatedCart);
                             } else {
                                 return handleUpdateError(cart, cartUpdate, result);
