@@ -23,10 +23,17 @@ import java.util.List;
 import static play.data.Form.form;
 import static utils.AsyncUtils.asPromise;
 
+/**
+ * Deals with authorized customers and provides the "my account" page.
+ */
 @With(Authorization.class)
 public class CustomerController extends BaseController {
+    /** from to update the customer name and email */
     static final Form<UpdateCustomer> updateCustomerForm = form(UpdateCustomer.class);
+
+    /** form to set a new customer password */
     static final Form<UpdatePassword> updatePasswordForm = form(UpdatePassword.class);
+
     private final OrderService orderService;
 
     public CustomerController(final CategoryService categoryService, final ProductService productService,
@@ -36,6 +43,10 @@ public class CustomerController extends BaseController {
         this.orderService = orderService;
     }
 
+    /**
+     * Shows the "my account" page.
+     * @return a page with a form for changing the name and email, a form to change the password, the list of orders
+     */
     public F.Promise<Result> show() {
         return customerService().fetchCurrent().flatMap(new F.Function<Optional<ShopCustomer>, F.Promise<Result>>() {
             @Override
@@ -52,6 +63,10 @@ public class CustomerController extends BaseController {
         });
     }
 
+    /**
+     * Handles the form submission to change the customer name an email.
+     * @return "my account" page
+     */
     public F.Promise<Result> handleCustomerUpdate() {
         final F.Promise<Optional<ShopCustomer>> customerPromise = customerService().fetchCurrent();
         final Form<UpdateCustomer> filledForm = updateCustomerForm.bindFromRequest();
@@ -64,6 +79,10 @@ public class CustomerController extends BaseController {
         return result;
     }
 
+    /**
+     * Handles the password change requests from the customer.
+     * @return "my account" page
+     */
     public F.Promise<Result> handlePasswordUpdate() {
         final Form<UpdatePassword> filledForm = updatePasswordForm.bindFromRequest();
         final F.Promise<Optional<ShopCustomer>> customerPromise = customerService().fetchCurrent();
