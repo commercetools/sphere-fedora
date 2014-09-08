@@ -39,9 +39,11 @@
             <input type="submit" class="button" id="submit-password-form" value='@Messages("save-changes")'>
         }
 
-        <h2>@Messages("listOrders.Title")</h2>
+
 
         @if(!shopOrders.isEmpty) {
+            <h2>@Messages("listOrders.Title")</h2>
+
             <ul class="short-code toggle_box">
             @shopOrders.map { order =>
 
