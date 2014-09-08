@@ -43,3 +43,5 @@ repeatPassword=your new password again
 
 error.emailAlreadyInUse=The provided email address {0} is already used.
 error.passwordNotMatch=The password is incorrect.
+
+welcomeNewCustomer=Welcome, {0} {1}.

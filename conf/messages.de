@@ -43,3 +43,4 @@ repeatPassword=Ihr neues Passwort noch mal
 
 error.emailAlreadyInUse=Die angegebene E-Mail Adresse {0} ist schon vergeben.
 error.passwordNotMatch=Das Passwort ist nicht korrekt.
+welcomeNewCustomer=Herzlich willkommen, {0} {1},

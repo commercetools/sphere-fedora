@@ -1,14 +1,17 @@
 package controllers;
 
 import controllers.actions.CartNotEmpty;
+import exceptions.DuplicateEmailException;
 import forms.checkoutForm.SetBilling;
 import forms.checkoutForm.SetShipping;
 import forms.customerForm.LogIn;
 import forms.customerForm.SignUp;
-import io.sphere.client.exceptions.EmailAlreadyInUseException;
+import io.sphere.client.shop.model.CustomerName;
 import io.sphere.client.shop.model.PaymentState;
 import io.sphere.client.shop.model.ShippingMethod;
 import models.ShopCart;
+import models.ShopCustomer;
+import play.i18n.Messages;
 import play.libs.F;
 import play.mvc.Content;
 import play.data.Form;
@@ -16,6 +19,7 @@ import play.mvc.Result;
 import play.mvc.With;
 import services.*;
 import views.html.checkout;
+import views.html.signupView;
 
 import java.util.List;
 
@@ -93,26 +97,35 @@ public class CheckoutController extends BaseController {
     }
 
     public F.Promise<Result> signUp() {
-        Form<SignUp> form = signUpForm.bindFromRequest();
-        // Case missing or invalid form data
-        if (form.hasErrors()) {
+        final Form<SignUp> filledForm = signUpForm.bindFromRequest();
+        if (filledForm.hasErrors()) {
             flash("error", "Login form contains missing or invalid data");
             return badRequest(showPage(CHECKOUT_METHOD_1));
+        } else if (customerService().isLoggedIn()) {
+            return showShipping();
+        } else {
+            final SignUp signUp = filledForm.get();
+            return customerService().signUp(signUp.email, signUp.password, signUp.getCustomerName())
+                    .map(new F.Function<ShopCustomer, Result>() {
+                        @Override
+                        public Result apply(final ShopCustomer shopCustomer) throws Throwable {
+                            final CustomerName name = shopCustomer.getName();
+                            flash("success", Messages.get(lang(), "welcomeNewCustomer", name.getFirstName(), name.getLastName()));
+                            return redirect(routes.CheckoutController.showShipping());
+                        }
+                    })
+                    .recover(new F.Function<Throwable, Result>() {
+                        @Override
+                        public Result apply(Throwable throwable) throws Throwable {
+                            if (throwable instanceof DuplicateEmailException) {
+                                flash("error", Messages.get(lang(), "error.emailAlreadyInUse", signUp.email));
+                                return badRequest(signupView.render(data().build(), filledForm));
+                            } else {
+                                throw throwable;
+                            }
+                        }
+                    });
         }
-        // Case already signed up
-        SignUp signUp = form.get();
-        if (sphere().login(signUp.email, signUp.password)) {
-            return asPromise(redirect(routes.CheckoutController.showShipping()));
-        }
-        // Case already registered email
-        try {
-            sphere().signup(signUp.email, signUp.password, signUp.getCustomerName());
-        } catch (EmailAlreadyInUseException e) {
-            flash("error", "Provided email is already in use");
-            return badRequest(showPage(CHECKOUT_METHOD_1));
-        }
-        // Case valid sign up
-        return asPromise(redirect(routes.CheckoutController.showShipping()));
     }
 
     public F.Promise<Result> logIn() {
