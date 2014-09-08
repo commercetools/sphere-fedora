@@ -1,5 +1,6 @@
 package controllers;
 
+import com.google.common.base.Optional;
 import controllers.actions.CartNotEmpty;
 import exceptions.DuplicateEmailException;
 import forms.checkoutForm.SetBilling;
@@ -129,24 +130,29 @@ public class CheckoutController extends BaseController {
     }
 
     public F.Promise<Result> logIn() {
-        Form<LogIn> form = logInForm.bindFromRequest();
-        // Case missing or invalid form data
-        if (form.hasErrors()) {
-            flash("error", "Login form contains missing or invalid data");
-            return badRequest(showPage(CHECKOUT_METHOD_1));
+        final Form<LogIn> filledForm = logInForm.bindFromRequest();
+        final F.Promise<Result> result;
+        if (customerService().isLoggedIn()) {
+            result = ok(showPage(SHIPPING_INFORMATION_2));
+        } else if (filledForm.hasErrors()) {
+            flash("error", "Login form contains missing or invalid data.");
+            result = badRequest(showPage(CHECKOUT_METHOD_1));
+        } else {
+            final LogIn logIn = filledForm.get();
+            final F.Promise<Optional<ShopCustomer>> customerPromise = customerService().login(logIn.email, logIn.password);
+            result = customerPromise.flatMap(new F.Function<Optional<ShopCustomer>, F.Promise<Result>>() {
+                @Override
+                public F.Promise<Result> apply(final Optional<ShopCustomer> shopCustomerOptional) throws Throwable {
+                    if (shopCustomerOptional.isPresent()) {
+                        return ok(showPage(SHIPPING_INFORMATION_2));
+                    } else {
+                        flash("error", "Invalid username or password");
+                        return badRequest(showPage(CHECKOUT_METHOD_1));
+                    }
+                }
+            });
         }
-        // Case already logged in
-        LogIn logIn = form.get();
-        if (sphere().isLoggedIn()) {
-            return ok(showPage(SHIPPING_INFORMATION_2));
-        }
-        // Case invalid credentials
-        if (!sphere().login(logIn.email, logIn.password)) {
-            flash("error", "Invalid username or password");
-            return badRequest(showPage(CHECKOUT_METHOD_1));
-        }
-        // Case valid log in
-        return ok(showPage(SHIPPING_INFORMATION_2));
+        return result;
     }
 
     public F.Promise<Result> setShipping() {
