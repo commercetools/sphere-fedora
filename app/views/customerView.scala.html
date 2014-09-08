@@ -1,4 +1,4 @@
-@(data: CommonData, customer: ShopCustomer, customerForm: Form[forms.customerForm.UpdateCustomer], shopOrders: List[ShopOrder])
+@(data: CommonData, customer: ShopCustomer, customerForm: Form[forms.customerForm.UpdateCustomer], updatePasswordForm: Form[forms.passwordForm.UpdatePassword], shopOrders: List[ShopOrder])
 
 @import helpers._
 @import helper._
@@ -23,6 +23,22 @@
             <input type="submit" class="button" id="submit-user-form" value='@Messages("save-changes")'>
         }
 
+        <h2>@Messages("user-page.changePassword.Title")</h2>
+
+
+
+        @updatePasswordForm.globalErrors.map { globalError =>
+            <div class="short-code msg error"> <span>@globalError.message</span> </div>
+        }
+
+        @form(action = routes.CustomerController.handlePasswordUpdate(), 'id -> "customerPasswordForm") {
+            @inputPassword(updatePasswordForm("oldPassword"))
+            @inputPassword(updatePasswordForm("newPassword"))
+            @inputPassword(updatePasswordForm("repeatPassword"))
+
+            <input type="submit" class="button" id="submit-password-form" value='@Messages("save-changes")'>
+        }
+
         <h2>@Messages("listOrders.Title")</h2>
 
         @if(!shopOrders.isEmpty) {
@@ -30,7 +46,7 @@
             @shopOrders.map { order =>
 
                     <li><a class="toggle_title" href="#">@order.getOrderDate("dd.MM.yyyy HH:mm") | @order.getTotalPrice(Optional.of(customer))</a>
-                        <div class="toggle_content short-code-column active" style="display: none;">
+                        <div class="toggle_content short-code-column" style="display: none;">
                             <ul class="circle_li">
                             @order.getLineItems.map { lineItem =>
                                 <li>@lineItem.getQuantity x <a href='@routes.Products.selectById(lineItem.getProductId, lineItem.getVariant.getId).url'>@lineItem.getProductName(data.context.locale)</a> | @lineItem.getTotalPrice</li>

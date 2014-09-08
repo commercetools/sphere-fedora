@@ -1,31 +1,32 @@
-header.account=My Account
-header.wishlist=Wishlist
+header.account=Mein Profil
+header.wishlist=Wunschliste
 header.login=Login
-header.signup=Sign Up
+header.signup=Registrieren
 
-button.cart=Add to cart
-button.wishlist=Add to wishlist
+button.cart=zum Warenkorb hinzufügen
+button.wishlist=zur Wunschliste hinzufügen
 
-list.new=New Products
-list.offers=Special Offers
-list.related=You might also like
+list.new=new Produkte
+list.offers=Spezialangebote
+list.related=Vielleicht mögen Sie auch
 
-product.zoom=Roll over image to zoom
-product.size=Available size
-product.color=Color
+product.zoom=über das Bild fahren zum Zoomen
+product.size=verfügbare Größe
+product.color=Farbe
 product.sku=Produkt SKU
-product.overview=Quick overview
+product.overview=Schnellübersicht
 
-cart.item=item
-cart.quantity=quantity
+cart.item=Gegenstand
+cart.quantity=Anzahl
 
-or=or
+or=oder
 
 save-changes=Änderungen speichern
 
 user-page.Title=Dein Profil
 user-page.changeNameEmail.Title=Ändere deinen Namen oder deine E-Mail-Adresse
-listOrders.Title=Deine Bestellungen
+user-page.changePassword.Title=Passwort ändern
+listOrders.Title=Ihre Bestellungen
 
 login.Title=Einloggen
 signup.Title=Registrieren
@@ -35,5 +36,9 @@ firstName=Vorname
 lastName=Nachname
 email=E-Mail Adresse
 password=Passwort
+oldPassword=Ihr altes Passwort
+newPassword=Ihr neues Passwort
+repeatPassword=Ihr neues Passwort noch mal
 
 error.emailAlreadyInUse=Die angegebene E-Mail Adresse {0} ist schon vergeben.
+error.passwordNotMatch=Das Passwort ist nicht korrekt.

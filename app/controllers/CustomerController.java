@@ -2,15 +2,14 @@ package controllers;
 
 import com.google.common.base.Optional;
 import controllers.actions.Authorization;
+import exceptions.PasswordNotMatchException;
 import forms.customerForm.UpdateCustomer;
 import forms.passwordForm.UpdatePassword;
-import io.sphere.client.exceptions.InvalidPasswordException;
-import io.sphere.client.shop.model.Customer;
-import io.sphere.client.shop.model.Order;
 import models.ShopCustomer;
 import models.ShopOrder;
 import play.Logger;
 import play.data.Form;
+import play.i18n.Messages;
 import play.libs.F;
 import play.mvc.Result;
 import play.mvc.With;
@@ -46,8 +45,8 @@ public class CustomerController extends BaseController {
                     Logger.warn(String.format("Customer %s in session, but not in SPHERE.", currentCustomer));
                     return asPromise(redirectToReturnUrl());
                 } else {
-                    final Form<UpdateCustomer> customerForm = updateCustomerForm.fill(new UpdateCustomer(shopCustomerOptional.get()));
-                    return displayCustomerPage(shopCustomerOptional.get(), customerForm, OK);
+                    final Form<UpdateCustomer> filledCustomerForm = updateCustomerForm.fill(new UpdateCustomer(shopCustomerOptional.get()));
+                    return displayCustomerPage(shopCustomerOptional.get(), filledCustomerForm, updatePasswordForm, OK);
                 }
             }
         });
@@ -65,31 +64,49 @@ public class CustomerController extends BaseController {
         return result;
     }
 
-    public static Result updatePassword() {
-        Customer customer = sphere().currentCustomer().fetch();
-        List<Order> orders = sphere().currentCustomer().orders().fetch().getResults();
-        Form<UpdatePassword> form = updatePasswordForm.bindFromRequest();
-        Form<UpdateCustomer> customerForm = updateCustomerForm.fill(new UpdateCustomer(customer));
-        // Case missing or invalid form data
-        if (form.hasErrors()) {
-            return badRequest();
+    public F.Promise<Result> handlePasswordUpdate() {
+        final Form<UpdatePassword> filledForm = updatePasswordForm.bindFromRequest();
+        final F.Promise<Optional<ShopCustomer>> customerPromise = customerService().fetchCurrent();
+        final F.Promise<Result> result;
+        if (filledForm.hasErrors()) {
+            result = customerPromise.flatMap(new F.Function<Optional<ShopCustomer>, F.Promise<Result>>() {
+                @Override
+                public F.Promise<Result> apply(Optional<ShopCustomer> shopCustomerOptional) throws Throwable {
+                    return displayCustomerPage(shopCustomerOptional.get(), updateCustomerForm, filledForm, BAD_REQUEST);
+                }
+            });
+        } else {
+            result = customerPromise.flatMap(new F.Function<Optional<ShopCustomer>, F.Promise<Result>>() {
+                @Override
+                public F.Promise<Result> apply(Optional<ShopCustomer> shopCustomerOptional) throws Throwable {
+                    final UpdatePassword updatePassword = filledForm.get();
+                    final F.Promise<ShopCustomer> promise = customerService().changePassword(shopCustomerOptional.get(), updatePassword.oldPassword, updatePassword.newPassword);
+                    return redirectToCustomerPage(promise).recover(recoverFromInvalidPassword());
+                }
+            });
         }
-        // Case invalid old password
-        UpdatePassword updatePassword = form.get();
-        try {
-            sphere().currentCustomer().changePassword(updatePassword.oldPassword, updatePassword.newPassword);
-        } catch (InvalidPasswordException e) {
-            return badRequest();
-        }
-        // Case valid password update
-        return ok();
+        return result;
     }
 
-    private F.Promise<Result> displayCustomerPage(final ShopCustomer customer, final Form<UpdateCustomer> updateCustomerForm, final int responseCode) {
+    private F.Function<Throwable, Result> recoverFromInvalidPassword() {
+        return new F.Function<Throwable, Result>() {
+            @Override
+            public Result apply(final Throwable throwable) throws Throwable {
+                if (throwable instanceof PasswordNotMatchException) {
+                    flash("error", Messages.get(lang(), "error.passwordNotMatch"));
+                    return redirect(routes.CustomerController.show());
+                } else {
+                    throw throwable;
+                }
+            }
+        };
+    }
+
+    private F.Promise<Result> displayCustomerPage(final ShopCustomer customer, final Form<UpdateCustomer> updateCustomerForm, final Form<UpdatePassword> updatePasswordForm, final int responseCode) {
         return orderService.fetchByCustomer(customer).map(new F.Function<List<ShopOrder>, Result>() {
             @Override
             public Result apply(final List<ShopOrder> shopOrders) throws Throwable {
-                return status(responseCode, customerView.render(data().build(), customer, updateCustomerForm, shopOrders));
+                return status(responseCode, customerView.render(data().build(), customer, updateCustomerForm, updatePasswordForm, shopOrders));
             }
         });
     }
@@ -118,7 +135,7 @@ public class CustomerController extends BaseController {
         return customerPromise.flatMap(new F.Function<Optional<ShopCustomer>, F.Promise<Result>>() {
             @Override
             public F.Promise<Result> apply(Optional<ShopCustomer> shopCustomerOptional) throws Throwable {
-                return displayCustomerPage(shopCustomerOptional.get(), filledForm, BAD_REQUEST);
+                return displayCustomerPage(shopCustomerOptional.get(), filledForm, updatePasswordForm, BAD_REQUEST);
             }
         });
     }

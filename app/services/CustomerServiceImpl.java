@@ -3,6 +3,7 @@ package services;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import exceptions.DuplicateEmailException;
+import exceptions.PasswordNotMatchException;
 import io.sphere.client.model.CustomObject;
 import io.sphere.client.shop.model.*;
 import models.ShopCart;
@@ -227,7 +228,18 @@ public class CustomerServiceImpl implements CustomerService {
                         if (result.isSuccess()) {
                             return ShopCustomer.of(result.getValue());
                         } else {
-                            throw new RuntimeException(result.getGenericError());
+                            final List<SphereError> errors = result.getGenericError().getErrors();
+                            final boolean currentPasswordIncorrect = Iterables.any(errors, new Predicate<SphereError>() {
+                                @Override
+                                public boolean apply(final SphereError sphereError) {
+                                    return "InvalidCurrentPassword".equals(sphereError.getCode());
+                                }
+                            });
+                            if (currentPasswordIncorrect) {
+                                throw new PasswordNotMatchException(result.getGenericError());
+                            } else {
+                                throw result.getGenericError();
+                            }
                         }
                     }
                 });

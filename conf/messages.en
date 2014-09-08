@@ -25,6 +25,7 @@ save-changes=save changes
 
 user-page.Title=Your Profile
 user-page.changeNameEmail.Title=Change your name or email
+user-page.changePassword.Title=Change your password
 listOrders.Title=Your orders
 
 login.Title=Login
@@ -35,5 +36,9 @@ firstName=first name
 lastName=last name
 email=email
 password=password
+oldPassword=your old password
+newPassword=your new password
+repeatPassword=your new password again
 
 error.emailAlreadyInUse=The provided email address {0} is already used.
+error.passwordNotMatch=The password is incorrect.
