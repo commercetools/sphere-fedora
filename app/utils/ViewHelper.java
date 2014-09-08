@@ -27,14 +27,6 @@ public class ViewHelper {
 		return Sphere.getInstance().currentCart().fetch();
 	}
 
-    public static Customer getCurrentCustomer() {
-        Customer customer = null;
-        if (Sphere.getInstance().isLoggedIn()) {
-            customer = Sphere.getInstance().currentCustomer().fetch();
-        }
-        return customer;
-    }
-
     public static boolean isLoggedIn() {
         return Sphere.getInstance().isLoggedIn();
     }
@@ -96,50 +88,6 @@ public class ViewHelper {
         return StringUtils.abbreviate(text, maxWidth);
     }
 
-    public static String getCountryName(String code) {
-        try {
-            return CountryCode.getByCode(code).getName();
-        } catch (Exception e) {
-            return "";
-        }
-    }
-
-    public static Category getAncestor(Category category) {
-        return category.getPathInTree().get(0);
-    }
-
-    public static String getActive(String selected, String current) {
-        if (selected.equals(current)) return "active";
-        return "";
-    }
-
-	/**
-	 * Compares the categories and returns the 'active' class if are the same.
-	 * 
-	 * @param category
-     * @param currentCategory
-	 * @return 'active' if categories are the same, otherwise an empty string.
-	 */
-	public static String getActiveClass(Category category, Category currentCategory) {
-        String active = "";
-        if (currentCategory != null && currentCategory.getPathInTree().contains(category)) {
-            active = "active";
-        }
-		return active;
-	}
-
-    public static String getActiveSort(String sort) {
-        String selected = getQuery("sort");
-        if (sort.equals(selected)) return "selected";
-        return "";
-    }
-
-    public static String getActiveShow(int pageSize) {
-        String selected = getQuery("show");
-        if (selected.equals(String.valueOf(pageSize))) return "selected";
-        return "";
-    }
-
     public static BigDecimal getPercentage(double amount) {
         return BigDecimal.valueOf(amount * 100).stripTrailingZeros();
     }
@@ -159,65 +107,9 @@ public class ViewHelper {
         return product.getVariants().getAvailableAttributes(attributeName).size() > 1;
     }
 
-    /**
-     * Check whether the given Product has more than one 'color' attribute
-     *
-     * @param product
-     * @return true if the product has more than one color, false otherwise
-     */
-    public static boolean hasMoreColors(Product product) {
-        return hasMoreAttributeValues(product, "color");
-    }
-
-    /**
-     * Check whether the given Product has more than one 'size' attribute
-     *
-     * @param product
-     * @return true if the product has more than one size, false otherwise
-     */
-    public static boolean hasMoreSizes(Product product) {
-        return hasMoreAttributeValues(product, "size");
-    }
-
     public static Money getShippingCost() {
         // TODO Implement correct shipping cost
         return new Money(BigDecimal.valueOf(10), "EUR");
-    }
-
-    public static String getCategoryUrl(Category category) {
-        return getCategoryUrl(category, 1, lang());
-    }
-
-    public static String getCategoryUrl(Category category, int page, Lang lang) {
-        return routes.ProductListController.categoryProducts(category.getSlug(lang.toLocale()), page).url();
-    }
-
-    public static String getProductUrl(Product product, Variant variant) {
-        return getProductUrl(product, variant, null, lang());
-    }
-
-    public static String getProductUrl(Product product, Variant variant, Category category, Lang lang) {
-        return routes.Products.select(product.getSlug(lang.toLocale()), variant.getId()).url();
-    }
-
-    public static Map<Lang, String> getLocalizedCategoryUrls(Category category) {
-        Map<Lang, String> localizedUrls = new HashMap<Lang, String>();
-        for (Lang language : getLanguages()) {
-            String url = getCategoryUrl(category, 1, language);
-            if (!language.equals(lang())) url = buildQuery(url, "lang", language.language());
-            localizedUrls.put(language, url);
-        }
-        return localizedUrls;
-    }
-
-    public static Map<Lang, String> getLocalizedProductUrls(Product product, Variant variant, Category category) {
-        Map<Lang, String> localizedUrls = new HashMap<Lang, String>();
-        for (Lang language : getLanguages()) {
-            String url = getProductUrl(product, variant, category, language);
-            if (!language.equals(lang())) url = buildQuery(url, "lang", language.language());
-            localizedUrls.put(language, url);
-        }
-        return localizedUrls;
     }
 
     public static Map<Lang, String> getLocalizedUrls() {
@@ -228,17 +120,6 @@ public class ViewHelper {
             localizedUrls.put(language, url);
         }
         return localizedUrls;
-    }
-
-    public static String getLocalizedUrl(Map<Lang, String> urls) {
-        return getLocalizedUrl(urls, lang());
-    }
-
-    public static String getLocalizedUrl(Map<Lang, String> urls, Lang lang) {
-        if (urls.containsKey(lang)) {
-            return urls.get(lang);
-        }
-        return null;
     }
 
     public static String displayAttributeId(Attribute attribute) {
@@ -304,54 +185,6 @@ public class ViewHelper {
         return attribute.getValue().getClass().equals(java.lang.Integer.class);
     }
 
-    /* Get possible variant sizes for a particular variant */
-    public static List<Attribute> getPossibleSizes(Product product, Variant variant) {
-        List<Variant> variants = getPossibleVariants(product, variant, "size");
-        List<Attribute> sizes = new ArrayList<Attribute>();
-        for (Variant matchedVariant : variants) {
-            sizes.add(matchedVariant.getAttribute("size"));
-        }
-        return sizes;
-    }
-
-    /* Get variants with matching attributes but with different selected attribute
-    * This method can be simplified if fixed and variable attributes are known beforehand */
-    public static List<Variant> getPossibleVariants(Product product, Variant variant, String selectedAttribute) {
-        List<Variant> matchingVariantList = new ArrayList<Variant>();
-        List<Attribute> desiredAttributes = new ArrayList<Attribute>();
-        // Get all other attributes with more than one different value
-        for (Attribute attribute : variant.getAttributes()) {
-            if (!selectedAttribute.equals(attribute.getName()) && hasMoreAttributeValues(product, attribute.getName())) {
-                desiredAttributes.add(attribute);
-            }
-        }
-        // Get variants matching all these other attributes but different selected attribute
-        VariantList variantList = product.getVariants().byAttributes(desiredAttributes);
-        for (Attribute attr : product.getVariants().getAvailableAttributes(selectedAttribute)) {
-            if (variantList.byAttributes(attr).size() < 1) {
-                matchingVariantList.add((product.getVariants().byAttributes(attr).first()).orNull());
-            } else {
-                matchingVariantList.add((variantList.byAttributes(attr).first()).orNull());
-            }
-        }
-        matchingVariantList.removeAll(Collections.singleton(null));
-        return matchingVariantList;
-    }
-
-    public static String getQuery(String query) {
-        String value = current().request().getQueryString(query);
-        if (value == null) return "";
-        return value;
-    }
-
-    public static String buildQuery() {
-        return buildQuery("", "");
-    }
-
-    public static String buildQuery(String key) {
-        return buildQuery(key, "");
-    }
-
     public static String buildQuery(String key, String value) {
         String queryString = "?";
         if (!value.isEmpty()) {
@@ -364,11 +197,5 @@ public class ViewHelper {
             }
         }
         return queryString;
-    }
-
-    public static String buildQuery(String url, String key, String value) {
-        String queryString = key + "=" + value;
-        if (!url.contains("?")) url += "?";
-        return url + queryString;
     }
 }
