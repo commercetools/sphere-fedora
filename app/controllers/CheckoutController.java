@@ -13,53 +13,61 @@ import play.mvc.Content;
 import play.data.Form;
 import play.mvc.Result;
 import play.mvc.With;
-import sphere.ShopController;
+import services.CartService;
+import services.CategoryService;
+import services.CustomerService;
+import services.ProductService;
 import views.html.checkout;
 
 import java.util.List;
 
 import static play.data.Form.form;
 
-public class CheckoutController extends ShopController {
+public class CheckoutController extends BaseController {
 
     final static Form<SetShipping> setShippingForm = form(SetShipping.class);
     final static Form<SetBilling> setBillingForm = form(SetBilling.class);
     final static Form<SignUp> signUpForm = form(SignUp.class);
     final static Form<LogIn> logInForm = form(LogIn.class);
 
-    @With(CartNotEmpty.class)
-    public static Result show() {
-        if (sphere().isLoggedIn()) {
-            return showShipping();
-        }
-        return showLogin();
+    public CheckoutController(CategoryService categoryService, ProductService productService, CartService cartService, CustomerService customerService) {
+        super(categoryService, productService, cartService, customerService);
     }
 
     @With(CartNotEmpty.class)
-    public static Result showLogin() {
+    public Result show() {
+        if (customerService().isLoggedIn()) {
+            return showShipping();
+        } else {
+            return showLogin();
+        }
+    }
+
+    @With(CartNotEmpty.class)
+    public Result showLogin() {
         return ok(showPage(1));
     }
 
     @With(CartNotEmpty.class)
-    public static Result showShipping() {
+    public Result showShipping() {
         return ok(showPage(2));
     }
 
     @With(CartNotEmpty.class)
-    public static Result showBilling() {
+    public Result showBilling() {
         return ok(showPage(3));
     }
 
-    protected static Content showPage(int page) {
+    protected Content showPage(int page) {
         Cart cart = sphere().currentCart().fetch();
-        List<ShippingMethod> shippingMethods = sphere().shippingMethods().all().fetch().getResults();
+        List<ShippingMethod> shippingMethods = sphere().shippingMethods().query().fetch().getResults();
         Form<SetShipping> shippingForm = setShippingForm.fill(new SetShipping(cart.getShippingAddress()));
         Form<SetBilling> billingForm = setBillingForm.fill(new SetBilling(cart.getBillingAddress()));
         String cartSnapshot = sphere().currentCart().createCartSnapshotId();
-        return checkout.render(cart, cartSnapshot, shippingMethods, page);
+        return checkout.render(data().build(), cart, cartSnapshot, shippingMethods, page);
     }
 
-    public static Result signUp() {
+    public Result signUp() {
         Form<SignUp> form = signUpForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
@@ -82,7 +90,7 @@ public class CheckoutController extends ShopController {
         return redirect(routes.CheckoutController.showShipping());
     }
 
-    public static Result logIn() {
+    public Result logIn() {
         Form<LogIn> form = logInForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
@@ -103,7 +111,7 @@ public class CheckoutController extends ShopController {
         return ok(showPage(2));
     }
 
-    public static Result setShipping() {
+    public Result setShipping() {
         Form<SetShipping> form = setShippingForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
@@ -124,7 +132,7 @@ public class CheckoutController extends ShopController {
         return ok(showPage(3));
     }
 
-    public static Result setBilling() {
+    public Result setBilling() {
         Form<SetBilling> form = setBillingForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
@@ -140,7 +148,7 @@ public class CheckoutController extends ShopController {
         return ok(showPage(4));
     }
 
-    public static Result submit() {
+    public Result submit() {
         String cartSnapshot = form().bindFromRequest().field("cartSnapshot").valueOr("");
         if (!sphere().currentCart().isSafeToCreateOrder(cartSnapshot)) {
             flash("error", "Your cart has changed, check everything is correct");

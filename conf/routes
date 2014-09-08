@@ -14,20 +14,20 @@ POST    /cart/update                                        @controllers.CartCon
 GET     /cart/remove/:lineItemId                            @controllers.CartController.remove(lineItemId: String)
 
 # Checkout
-GET     /checkout                                           controllers.CheckoutController.show()
-POST    /checkout                                           controllers.CheckoutController.submit()
+GET     /checkout                                           @controllers.CheckoutController.show()
+POST    /checkout                                           @controllers.CheckoutController.submit()
 
-GET     /checkout/register                                  controllers.CheckoutController.showLogin()
-POST    /checkout/register                                  controllers.CheckoutController.signUp()
+GET     /checkout/register                                  @controllers.CheckoutController.showLogin()
+POST    /checkout/register                                  @controllers.CheckoutController.signUp()
 
-GET     /checkout/login                                     controllers.CheckoutController.showLogin()
-POST    /checkout/login                                     controllers.CheckoutController.logIn()
+GET     /checkout/login                                     @controllers.CheckoutController.showLogin()
+POST    /checkout/login                                     @controllers.CheckoutController.logIn()
 
-GET     /checkout/billing                                   controllers.CheckoutController.showBilling()
-POST    /checkout/billing                                   controllers.CheckoutController.setBilling()
+GET     /checkout/billing                                   @controllers.CheckoutController.showBilling()
+POST    /checkout/billing                                   @controllers.CheckoutController.setBilling()
 
-GET     /checkout/shipping                                  controllers.CheckoutController.showShipping()
-POST    /checkout/shipping                                  controllers.CheckoutController.setShipping()
+GET     /checkout/shipping                                  @controllers.CheckoutController.showShipping()
+POST    /checkout/shipping                                  @controllers.CheckoutController.setShipping()
 
 # Login
 GET     /user/login                                         @controllers.LoginController.showSignIn()
