@@ -1,6 +1,5 @@
 package controllers;
 
-import controllers.actions.CartNotEmpty;
 import forms.checkoutForm.SetBilling;
 import forms.checkoutForm.SetShipping;
 import forms.customerForm.LogIn;
@@ -12,7 +11,6 @@ import io.sphere.client.shop.model.ShippingMethod;
 import play.mvc.Content;
 import play.data.Form;
 import play.mvc.Result;
-import play.mvc.With;
 import sphere.ShopController;
 import views.html.checkout;
 
@@ -27,7 +25,8 @@ public class CheckoutController extends ShopController {
     final static Form<SignUp> signUpForm = form(SignUp.class);
     final static Form<LogIn> logInForm = form(LogIn.class);
 
-    @With(CartNotEmpty.class)
+    //TODO check for empty cart!
+
     public static Result show() {
         if (sphere().isLoggedIn()) {
             return showShipping();
@@ -35,17 +34,14 @@ public class CheckoutController extends ShopController {
         return showLogin();
     }
 
-    @With(CartNotEmpty.class)
     public static Result showLogin() {
         return ok(showPage(1));
     }
 
-    @With(CartNotEmpty.class)
     public static Result showShipping() {
         return ok(showPage(2));
     }
 
-    @With(CartNotEmpty.class)
     public static Result showBilling() {
         return ok(showPage(3));
     }
