@@ -1,10 +1,10 @@
-@(product: Product, variant: Variant, category: Category, searchResultRelated: SearchResult[Product])
+@(data: CommonData, product: Product, variant: Variant, category: Category, searchResultRelated: SearchResult[Product])
 
 @scripts = {<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.zoom.js")"></script>}
 
 @main(product.getName, scripts){
-    @**helpers.navigationTop(getLocalizedProductUrls(product, variant, category))**@
-    @*helpers.navigationMenu(category)*@
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
 }{
     <section>
       @*helpers.breadcrumb()*@
