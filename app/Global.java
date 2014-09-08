@@ -1,4 +1,5 @@
 import controllers.BaseController;
+import controllers.CheckoutController;
 import controllers.CustomerController;
 import play.GlobalSettings;
 import play.libs.F;
@@ -62,6 +63,10 @@ public class Global extends GlobalSettings {
         return new OrderServiceImpl(Sphere.getInstance());
     }
 
+    protected ShippingMethodService createShippingMethodService() {
+        return new ShippingMethodServiceImpl(Sphere.getInstance());
+    }
+
     protected CheckoutService createCheckoutService() {
         Sphere sphere = Sphere.getInstance();
         CustomObjectService customObjectService = new CustomObjectServiceImpl(sphere);
@@ -71,7 +76,10 @@ public class Global extends GlobalSettings {
     @Override
     public <A> A getControllerInstance(final Class<A> controllerClass) throws Exception {
         final A result;
-        if (controllerClass.equals(CustomerController.class)) {
+        if (controllerClass.equals(CheckoutController.class)) {
+            result = (A) new CheckoutController(createCategoryService(), createProductService(), createCartService(),
+                    createCustomerService(), createCheckoutService(), createShippingMethodService());
+        } else if (controllerClass.equals(CustomerController.class)) {
             result = (A) new CustomerController(createCategoryService(), createProductService(), createCartService(),
                     createCustomerService(), createOrderService());
         } else if (BaseController.class.isAssignableFrom(controllerClass)) {

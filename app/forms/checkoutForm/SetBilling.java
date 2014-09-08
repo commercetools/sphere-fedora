@@ -1,5 +1,6 @@
 package forms.checkoutForm;
 
+import com.google.common.base.Optional;
 import com.neovisionaries.i18n.CountryCode;
 import io.sphere.client.shop.model.Address;
 import io.sphere.client.shop.model.Customer;
@@ -36,11 +37,24 @@ public class SetBilling {
     public String country;
 
     public SetBilling() {
-
+        this(Optional.<Address>absent());
     }
 
     public SetBilling(Address address) {
-        if (address != null) {
+        this(Optional.fromNullable(address));
+    }
+
+    public SetBilling(Customer customer) {
+        if (customer != null) {
+            this.firstName = customer.getName().getFirstName();
+            this.lastName = customer.getName().getLastName();
+            this.email = customer.getEmail();
+        }
+    }
+
+    public SetBilling(Optional<Address> addressOption) {
+        if (addressOption.isPresent()) {
+            final Address address = addressOption.get();
             this.firstName = address.getFirstName();
             this.lastName = address.getLastName();
             this.email = address.getEmail();
@@ -49,14 +63,6 @@ public class SetBilling {
             this.postalCode = address.getPostalCode();
             this.city = address.getCity();
             this.country = address.getCountry().getAlpha2();
-        }
-    }
-
-    public SetBilling(Customer customer) {
-        if (customer != null) {
-            this.firstName = customer.getName().getFirstName();
-            this.lastName = customer.getName().getLastName();
-            this.email = customer.getEmail();
         }
     }
 

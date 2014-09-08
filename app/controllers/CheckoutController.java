@@ -6,23 +6,22 @@ import forms.checkoutForm.SetShipping;
 import forms.customerForm.LogIn;
 import forms.customerForm.SignUp;
 import io.sphere.client.exceptions.EmailAlreadyInUseException;
-import io.sphere.client.shop.model.Cart;
 import io.sphere.client.shop.model.PaymentState;
 import io.sphere.client.shop.model.ShippingMethod;
+import models.ShopCart;
+import play.libs.F;
 import play.mvc.Content;
 import play.data.Form;
 import play.mvc.Result;
 import play.mvc.With;
-import services.CartService;
-import services.CategoryService;
-import services.CustomerService;
-import services.ProductService;
+import services.*;
 import views.html.checkout;
 
 import java.util.List;
 
 import static controllers.CheckoutController.CheckoutStages.*;
 import static play.data.Form.form;
+import static utils.AsyncUtils.asPromise;
 
 public class CheckoutController extends BaseController {
 
@@ -30,6 +29,8 @@ public class CheckoutController extends BaseController {
     final static Form<SetBilling> setBillingForm = form(SetBilling.class);
     final static Form<SignUp> signUpForm = form(SignUp.class);
     final static Form<LogIn> logInForm = form(LogIn.class);
+    private final CheckoutService checkoutService;
+    private final ShippingMethodService shippingMethodService;
 
     static enum CheckoutStages {
         CHECKOUT_METHOD_1(1), SHIPPING_INFORMATION_2(2), BILLING_INFORMATION_3(3), ORDER_PREVIEW_4(4);
@@ -40,12 +41,16 @@ public class CheckoutController extends BaseController {
         }
     }
 
-    public CheckoutController(CategoryService categoryService, ProductService productService, CartService cartService, CustomerService customerService) {
+    public CheckoutController(final CategoryService categoryService, final ProductService productService,
+                              final CartService cartService, final CustomerService customerService,
+                              final CheckoutService checkoutService, final ShippingMethodService shippingMethodService) {
         super(categoryService, productService, cartService, customerService);
+        this.checkoutService = checkoutService;
+        this.shippingMethodService = shippingMethodService;
     }
 
     @With(CartNotEmpty.class)
-    public Result show() {
+    public F.Promise<Result> show() {
         if (customerService().isLoggedIn()) {
             return showShipping();
         } else {
@@ -54,32 +59,40 @@ public class CheckoutController extends BaseController {
     }
 
     @With(CartNotEmpty.class)
-    public Result showLogin() {
+    public F.Promise<Result> showLogin() {
         return ok(showPage(CHECKOUT_METHOD_1));
     }
 
     @With(CartNotEmpty.class)
-    public Result showShipping() {
+    public F.Promise<Result> showShipping() {
         return ok(showPage(SHIPPING_INFORMATION_2));
     }
 
     @With(CartNotEmpty.class)
-    public Result showBilling() {
+    public F.Promise<Result> showBilling() {
         return ok(showPage(BILLING_INFORMATION_3));
     }
 
     @With(CartNotEmpty.class)
-    protected Content showPage(final CheckoutStages stage) {
+    protected F.Promise<Content> showPage(final CheckoutStages stage) {
         final int page = stage.key;
-        Cart cart = sphere().currentCart().fetch();
-        List<ShippingMethod> shippingMethods = sphere().shippingMethods().query().fetch().getResults();
-        Form<SetShipping> shippingForm = setShippingForm.fill(new SetShipping(cart.getShippingAddress()));
-        Form<SetBilling> billingForm = setBillingForm.fill(new SetBilling(cart.getBillingAddress()));
-        String cartSnapshot = sphere().currentCart().createCartSnapshotId();
-        return checkout.render(data().build(), cart, cartSnapshot, shippingMethods, page);
+        final F.Promise<ShopCart> shopCartPromise = cartService().fetchCurrent();
+        final F.Promise<List<ShippingMethod>> shippingMethodsPromise = shippingMethodService.getShippingMethods();
+        return shopCartPromise.zip(shippingMethodsPromise)
+                .map(new F.Function<F.Tuple<ShopCart, List<ShippingMethod>>, Content>() {
+                    @Override
+                    public Content apply(F.Tuple<ShopCart, List<ShippingMethod>> shopCartListTuple) throws Throwable {
+                        final ShopCart cart = shopCartListTuple._1;
+                        final List<ShippingMethod> shippingMethods = shopCartListTuple._2;
+                        Form<SetShipping> shippingForm = setShippingForm.fill(new SetShipping(cart.getShippingAddress()));
+                        Form<SetBilling> billingForm = setBillingForm.fill(new SetBilling(cart.getBillingAddress()));
+                        String cartSnapshot = sphere().currentCart().createCartSnapshotId();
+                        return checkout.render(data().build(), cart.get(), cartSnapshot, shippingMethods, page);
+                    }
+                });
     }
 
-    public Result signUp() {
+    public F.Promise<Result> signUp() {
         Form<SignUp> form = signUpForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
@@ -89,7 +102,7 @@ public class CheckoutController extends BaseController {
         // Case already signed up
         SignUp signUp = form.get();
         if (sphere().login(signUp.email, signUp.password)) {
-            return redirect(routes.CheckoutController.showShipping());
+            return asPromise(redirect(routes.CheckoutController.showShipping()));
         }
         // Case already registered email
         try {
@@ -99,10 +112,10 @@ public class CheckoutController extends BaseController {
             return badRequest(showPage(CHECKOUT_METHOD_1));
         }
         // Case valid sign up
-        return redirect(routes.CheckoutController.showShipping());
+        return asPromise(redirect(routes.CheckoutController.showShipping()));
     }
 
-    public Result logIn() {
+    public F.Promise<Result> logIn() {
         Form<LogIn> form = logInForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
@@ -123,7 +136,7 @@ public class CheckoutController extends BaseController {
         return ok(showPage(SHIPPING_INFORMATION_2));
     }
 
-    public Result setShipping() {
+    public F.Promise<Result> setShipping() {
         Form<SetShipping> form = setShippingForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
@@ -144,7 +157,7 @@ public class CheckoutController extends BaseController {
         return ok(showPage(BILLING_INFORMATION_3));
     }
 
-    public Result setBilling() {
+    public F.Promise<Result> setBilling() {
         Form<SetBilling> form = setBillingForm.bindFromRequest();
         // Case missing or invalid form data
         if (form.hasErrors()) {
@@ -160,7 +173,7 @@ public class CheckoutController extends BaseController {
         return ok(showPage(ORDER_PREVIEW_4));
     }
 
-    public Result submit() {
+    public F.Promise<Result> submit() {
         String cartSnapshot = form().bindFromRequest().field("cartSnapshot").valueOr("");
         if (!sphere().currentCart().isSafeToCreateOrder(cartSnapshot)) {
             flash("error", "Your cart has changed, check everything is correct");
@@ -168,6 +181,24 @@ public class CheckoutController extends BaseController {
         }
         sphere().currentCart().createOrder(cartSnapshot, PaymentState.Pending);
         flash("success", "Your order has successfully created!");
-        return redirect(routes.Application.home());
+        return asPromise(redirect(routes.Application.home()));
+    }
+
+    private F.Promise<Result> badRequest(F.Promise<Content> contentPromise) {
+        return contentPromise.map(new F.Function<Content, Result>() {
+            @Override
+            public Result apply(final Content content) throws Throwable {
+                return badRequest(content);
+            }
+        });
+    }
+
+    private F.Promise<Result> ok(F.Promise<Content> contentPromise) {
+        return contentPromise.map(new F.Function<Content, Result>() {
+            @Override
+            public Result apply(final Content content) throws Throwable {
+                return ok(content);
+            }
+        });
     }
 }
