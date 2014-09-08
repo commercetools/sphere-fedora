@@ -18,7 +18,9 @@ public interface CustomerService {
     /**
      * Fetches the current customer.
      * @return the promise of the current customer, or of absent when not logged in.
+     * @deprecated in a controller/service architecture the service should not access the session
      */
+    @Deprecated
     F.Promise<Optional<ShopCustomer>> fetchCurrent();
 
     /**

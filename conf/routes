@@ -40,7 +40,7 @@ POST    /user/register                                      @controllers.LoginCo
 # Customer
 GET     /user                                               @controllers.CustomerController.show()
 
-POST    /user/update                                        controllers.CustomerController.update()
+POST    /user/update                                        @controllers.CustomerController.handleCustomerUpdate()
 POST    /user/update/password                               controllers.CustomerController.updatePassword()
 
 # Map static resources from the /public folder to the /assets URL path

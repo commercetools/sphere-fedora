@@ -15,7 +15,7 @@
 
         <h2>@Messages("user-page.changeNameEmail.Title")</h2>
 
-        @form(action = routes.CustomerController.update(), 'id -> "customerForm") {
+        @form(action = routes.CustomerController.handleCustomerUpdate(), 'id -> "customerForm") {
             @inputText(customerForm("firstName"))
             @inputText(customerForm("lastName"))
             @inputText(customerForm("email"))
