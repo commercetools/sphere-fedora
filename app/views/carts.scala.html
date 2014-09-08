@@ -11,7 +11,7 @@
         @if(flash.containsKey("cart-success")) {<div class="message success">@flash.get("cart-success")</div>}
         <div class="action_buttonbar">
             <form action="@getReturnUrl" method="get"><button type="submit" class="continue">Continue Shopping</button></form>
-            <form action="@routes.Checkouts.show" method="get"><button type="submit" class="checkout">Checkout</button></form>
+            <form action="@routes.CheckoutController.show" method="get"><button type="submit" class="checkout">Checkout</button></form>
         </div>
         <div class="cart_table">
           <table class="data-table cart-table" id="shopping-cart-table" cellpadding="0" cellspacing="0">
@@ -78,7 +78,7 @@
         </div>
         <div class="action_buttonbar">
             <form action="@getReturnUrl" method="get"><button type="submit" class="continue">Continue Shopping</button></form>
-            <form action="@routes.Checkouts.show" method="get"><button type="submit" class="checkout">Checkout</button></form>
+            <form action="@routes.CheckoutController.show" method="get"><button type="submit" class="checkout">Checkout</button></form>
         </div>
       </div>
       <!--CART ENDS--> 

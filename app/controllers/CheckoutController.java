@@ -20,7 +20,7 @@ import java.util.List;
 
 import static play.data.Form.form;
 
-public class Checkouts extends ShopController {
+public class CheckoutController extends ShopController {
 
     final static Form<SetShipping> setShippingForm = form(SetShipping.class);
     final static Form<SetBilling> setBillingForm = form(SetBilling.class);
@@ -69,7 +69,7 @@ public class Checkouts extends ShopController {
         // Case already signed up
         SignUp signUp = form.get();
         if (sphere().login(signUp.email, signUp.password)) {
-            return redirect(routes.Checkouts.showShipping());
+            return redirect(routes.CheckoutController.showShipping());
         }
         // Case already registered email
         try {
@@ -79,7 +79,7 @@ public class Checkouts extends ShopController {
             return badRequest(showPage(1));
         }
         // Case valid sign up
-        return redirect(routes.Checkouts.showShipping());
+        return redirect(routes.CheckoutController.showShipping());
     }
 
     public static Result logIn() {

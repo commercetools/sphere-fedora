@@ -30,7 +30,7 @@
                                         </li>
                                     </ul>
                                     <div class="checkout-step-register">
-                                        <form action="@routes.Checkouts.signUp" method="post" id="signUp-form">
+                                        <form action="@routes.CheckoutController.signUp" method="post" id="signUp-form">
                                             <fieldset>
                                                 <ul class="form-list">
                                                     <li>
@@ -72,13 +72,13 @@
                                         <br/>
                                         <br/>
                                         <div class="buttons-set">
-                                            <a href="@routes.Checkouts.showShipping" class="button brown_btn">Continue as guest</a>
+                                            <a href="@routes.CheckoutController.showShipping" class="button brown_btn">Continue as guest</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <h3>Login</h3>
-                                    <form action="@routes.Checkouts.logIn" method="post" id="login-form">
+                                    <form action="@routes.CheckoutController.logIn" method="post" id="login-form">
                                         <fieldset>
                                             <h4>Already registered?</h4>
                                             <p>Please log in below:</p>
@@ -113,7 +113,7 @@
                             <h2>Shipping Information</h2>
                         </div>
                         <div class="step-body" id="checkout-step-shipping">
-                            <form action="@routes.Checkouts.setShipping" method="post" id="shipping-form">
+                            <form action="@routes.CheckoutController.setShipping" method="post" id="shipping-form">
                                 <input type="hidden" name="country" value="DE">
                                 <div class="col2-set">
                                     <div class="col-1">
@@ -178,7 +178,7 @@
                                 <br>
                                 <br>
                                 <div class="buttons-set clearfix">
-                                    <a href="@routes.Checkouts.showLogin" class="button white_btn pull-left">Back</a>
+                                    <a href="@routes.CheckoutController.showLogin" class="button white_btn pull-left">Back</a>
                                     <button class="button brown_btn pull-right" type="submit">Continue</button>
                                </div>
                             </form>
@@ -189,7 +189,7 @@
                             <h2>Billing Information</h2>
                         </div>
                         <div class="step-body" id="checkout-step-billing">
-                            <form action="@routes.Checkouts.setBilling" method="post" id="billing-form">
+                            <form action="@routes.CheckoutController.setBilling" method="post" id="billing-form">
                                 <input type="hidden" name="country" value="DE">
 
                                 <div class="col2-set">
@@ -257,7 +257,7 @@
                                 <br>
                                 <br>
                                 <div class="buttons-set clearfix">
-                                    <a href="@routes.Checkouts.showShipping" class="button white_btn pull-left">Back</a>
+                                    <a href="@routes.CheckoutController.showShipping" class="button white_btn pull-left">Back</a>
                                     <button class="button brown_btn pull-right" type="submit">Continue</button>
                                 </div>
                             </form>
@@ -268,7 +268,7 @@
                             <h2>Order Preview</h2>
                         </div>
                         <div class="step-body" id="checkout-step-submit">
-                            <form action="@routes.Checkouts.submit" method="post" id="checkout-form">
+                            <form action="@routes.CheckoutController.submit" method="post" id="checkout-form">
                                 <input type="hidden" name="cartSnapshot" value="@cartSnapshot">
                                 <div class="cart_table">
                                     <table class="data-table cart-table" id="shopping-cart-table" cellpadding="0" cellspacing="0">
@@ -374,7 +374,7 @@
                                 <br>
                                 <br>
                                 <div class="buttons-set clearfix">
-                                    <a href="@routes.Checkouts.showBilling" class="button white_btn pull-left">Back</a>
+                                    <a href="@routes.CheckoutController.showBilling" class="button white_btn pull-left">Back</a>
                                     <button class="button brown_btn pull-right" type="submit">Buy now</button>
                                 </div>
                             </form>
