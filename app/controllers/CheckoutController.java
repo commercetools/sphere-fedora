@@ -21,6 +21,7 @@ import views.html.checkout;
 
 import java.util.List;
 
+import static controllers.CheckoutController.CheckoutStages.*;
 import static play.data.Form.form;
 
 public class CheckoutController extends BaseController {
@@ -29,6 +30,15 @@ public class CheckoutController extends BaseController {
     final static Form<SetBilling> setBillingForm = form(SetBilling.class);
     final static Form<SignUp> signUpForm = form(SignUp.class);
     final static Form<LogIn> logInForm = form(LogIn.class);
+
+    static enum CheckoutStages {
+        CHECKOUT_METHOD_1(1), SHIPPING_INFORMATION_2(2), BILLING_INFORMATION_3(3), ORDER_PREVIEW_4(4);
+        private final int key;
+
+        CheckoutStages(int key) {
+            this.key = key;
+        }
+    }
 
     public CheckoutController(CategoryService categoryService, ProductService productService, CartService cartService, CustomerService customerService) {
         super(categoryService, productService, cartService, customerService);
@@ -45,20 +55,22 @@ public class CheckoutController extends BaseController {
 
     @With(CartNotEmpty.class)
     public Result showLogin() {
-        return ok(showPage(1));
+        return ok(showPage(CHECKOUT_METHOD_1));
     }
 
     @With(CartNotEmpty.class)
     public Result showShipping() {
-        return ok(showPage(2));
+        return ok(showPage(SHIPPING_INFORMATION_2));
     }
 
     @With(CartNotEmpty.class)
     public Result showBilling() {
-        return ok(showPage(3));
+        return ok(showPage(BILLING_INFORMATION_3));
     }
 
-    protected Content showPage(int page) {
+    @With(CartNotEmpty.class)
+    protected Content showPage(final CheckoutStages stage) {
+        final int page = stage.key;
         Cart cart = sphere().currentCart().fetch();
         List<ShippingMethod> shippingMethods = sphere().shippingMethods().query().fetch().getResults();
         Form<SetShipping> shippingForm = setShippingForm.fill(new SetShipping(cart.getShippingAddress()));
@@ -72,7 +84,7 @@ public class CheckoutController extends BaseController {
         // Case missing or invalid form data
         if (form.hasErrors()) {
             flash("error", "Login form contains missing or invalid data");
-            return badRequest(showPage(1));
+            return badRequest(showPage(CHECKOUT_METHOD_1));
         }
         // Case already signed up
         SignUp signUp = form.get();
@@ -84,7 +96,7 @@ public class CheckoutController extends BaseController {
             sphere().signup(signUp.email, signUp.password, signUp.getCustomerName());
         } catch (EmailAlreadyInUseException e) {
             flash("error", "Provided email is already in use");
-            return badRequest(showPage(1));
+            return badRequest(showPage(CHECKOUT_METHOD_1));
         }
         // Case valid sign up
         return redirect(routes.CheckoutController.showShipping());
@@ -95,20 +107,20 @@ public class CheckoutController extends BaseController {
         // Case missing or invalid form data
         if (form.hasErrors()) {
             flash("error", "Login form contains missing or invalid data");
-            return badRequest(showPage(1));
+            return badRequest(showPage(CHECKOUT_METHOD_1));
         }
         // Case already logged in
         LogIn logIn = form.get();
         if (sphere().isLoggedIn()) {
-            return ok(showPage(2));
+            return ok(showPage(SHIPPING_INFORMATION_2));
         }
         // Case invalid credentials
         if (!sphere().login(logIn.email, logIn.password)) {
             flash("error", "Invalid username or password");
-            return badRequest(showPage(1));
+            return badRequest(showPage(CHECKOUT_METHOD_1));
         }
         // Case valid log in
-        return ok(showPage(2));
+        return ok(showPage(SHIPPING_INFORMATION_2));
     }
 
     public Result setShipping() {
@@ -116,20 +128,20 @@ public class CheckoutController extends BaseController {
         // Case missing or invalid form data
         if (form.hasErrors()) {
             flash("error", "Shipping information has errors");
-            return badRequest(showPage(2));
+            return badRequest(showPage(SHIPPING_INFORMATION_2));
         }
         // Case invalid shipping method
         SetShipping setShipping = form.get();
         ShippingMethod shippingMethod = sphere().shippingMethods().byId(setShipping.method).fetch().orNull();
         if (shippingMethod == null) {
             flash("error", "Shipping method is invalid");
-            return badRequest(showPage(2));
+            return badRequest(showPage(SHIPPING_INFORMATION_2));
         }
         // Case valid shipping data
         sphere().currentCart().setCustomerEmail(setShipping.email);
         sphere().currentCart().setShippingAddress(setShipping.getAddress());
         sphere().currentCart().setShippingMethod(ShippingMethod.reference(shippingMethod.getId()));
-        return ok(showPage(3));
+        return ok(showPage(BILLING_INFORMATION_3));
     }
 
     public Result setBilling() {
@@ -137,7 +149,7 @@ public class CheckoutController extends BaseController {
         // Case missing or invalid form data
         if (form.hasErrors()) {
             flash("error", "Billing information has errors");
-            return badRequest(showPage(3));
+            return badRequest(showPage(BILLING_INFORMATION_3));
         }
         // Case valid shipping address
         SetBilling setBilling = form.get();
@@ -145,14 +157,14 @@ public class CheckoutController extends BaseController {
             sphere().currentCart().setCustomerEmail(setBilling.email);
         }
         sphere().currentCart().setBillingAddress(setBilling.getAddress());
-        return ok(showPage(4));
+        return ok(showPage(ORDER_PREVIEW_4));
     }
 
     public Result submit() {
         String cartSnapshot = form().bindFromRequest().field("cartSnapshot").valueOr("");
         if (!sphere().currentCart().isSafeToCreateOrder(cartSnapshot)) {
             flash("error", "Your cart has changed, check everything is correct");
-            return badRequest(showPage(4));
+            return badRequest(showPage(ORDER_PREVIEW_4));
         }
         sphere().currentCart().createOrder(cartSnapshot, PaymentState.Pending);
         flash("success", "Your order has successfully created!");
