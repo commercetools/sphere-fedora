@@ -1,8 +1,8 @@
 @(data: CommonData, cart: Cart, cartSnapshot: String, shippingMethods: List[ShippingMethod], step: Int = 1)
 
 @main("Checkout"){
-    @**helpers.navigationTop(getLocalizedUrls)**@
-    @*helpers.navigationMenu()*@
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
 }{
     <section>
         <div class="full_page">
