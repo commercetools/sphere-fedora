@@ -18,6 +18,7 @@ product.overview=Quick overview
 
 cart.item=item
 cart.quantity=quantity
+cart.isEmpty=Your cart is empty.
 
 or=or
 

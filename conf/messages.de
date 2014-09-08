@@ -18,6 +18,7 @@ product.overview=Schnellübersicht
 
 cart.item=Gegenstand
 cart.quantity=Anzahl
+cart.isEmpty=Ihr Warenkorb ist leer.
 
 or=oder
 

@@ -1,6 +1,7 @@
 package controllers;
 
 import com.google.common.base.Optional;
+import controllers.actions.CartNotEmpty;
 import forms.cartForm.AddToCart;
 import forms.cartForm.UpdateCart;
 import models.ShopCart;
@@ -8,6 +9,7 @@ import models.ShopProduct;
 import play.data.Form;
 import play.libs.F;
 import play.mvc.Result;
+import play.mvc.With;
 import services.CartService;
 import services.CategoryService;
 import services.CustomerService;
@@ -32,8 +34,6 @@ public class CartController extends BaseController {
                           final CartService cartService, final CustomerService customerService) {
         super(categoryService, productService, cartService, customerService);
     }
-
-    //TODO check for empty cart!
 
     /**
      * Shows a detail page of the cart.
