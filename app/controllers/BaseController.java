@@ -23,6 +23,9 @@ import java.util.*;
 
 import utils.AsyncUtils;
 
+import static models.RequestParameters.QUERY_PARAM_COUNTRY;
+import static models.RequestParameters.QUERY_PARAM_LANG;
+
 /**
  * The common functionality for all the shop controllers.
  */
@@ -40,6 +43,9 @@ public class BaseController extends ShopController {
         this.productService = productService;
         this.cartService = cartService;
         this.customerService = customerService;
+        // TODO Move this calls out of the constructor
+        changeCountryOnRequest();
+        changeLanguageOnRequest();
     }
 
     protected Functions f() {
@@ -97,8 +103,37 @@ public class BaseController extends ShopController {
         return country(request(), Play.application().configuration());
     }
 
-    protected final void changeCountry(CountryCode country) {
-        changeCountry(country, response(), Play.application().configuration());
+    protected final void changeCountryOnRequest() {
+        String country = request().getQueryString(QUERY_PARAM_COUNTRY);
+        if (country != null) {
+            changeCountry(country);
+        }
+    }
+
+    protected final void changeLanguageOnRequest() {
+        String lang = request().getQueryString(QUERY_PARAM_LANG);
+        Optional<String> languageCode = getValidLanguageCode(lang);
+        if (languageCode.isPresent()) {
+            changeLang(languageCode.get());
+        }
+    }
+
+    private Optional<String> getValidLanguageCode(String lang) {
+        if (lang != null) {
+            for (Lang availableLang : Lang.availables()) {
+                if (availableLang.language().equals(lang)) {
+                    return Optional.of(availableLang.code());
+                }
+            }
+        }
+        return Optional.absent();
+    }
+
+    protected final void changeCountry(String country) {
+        Optional<CountryCode> countryCode = parseCountryCode(country);
+        if (countryCode.isPresent()) {
+            changeCountry(countryCode.get(), response(), Play.application().configuration());
+        }
     }
 
     /**
@@ -111,6 +146,7 @@ public class BaseController extends ShopController {
         if (availableCountries(config).contains(country)) {
             this.country = country;
             response.setCookie(countryCookieName(config), country.getAlpha2());
+            cartService.setCountry(cart(), country);
         }
     }
 
