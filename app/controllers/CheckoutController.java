@@ -171,7 +171,7 @@ public class CheckoutController extends BaseController {
                             final ShippingMethod shippingMethod = requireExistingShippingMethod(tuple._1, setShipping.method);
                             final ShopCart shopCart = tuple._2;
                             return cartService().changeShipping(shopCart, ShippingMethod.reference(shippingMethod.getId()))
-                                    .flatMap(setShippingAddressFunction(setShipping))
+                                    .flatMap(functionForSettingShippingAddress(setShipping))
                                     .map(f().<ShopCart>redirect(routes.CheckoutController.showBilling()));
                         }
                     }).recover(new F.Function<Throwable, Result>() {
@@ -188,7 +188,7 @@ public class CheckoutController extends BaseController {
         }
     }
 
-    protected F.Function<ShopCart, F.Promise<ShopCart>> setShippingAddressFunction(final SetShipping setShipping) {
+    protected F.Function<ShopCart, F.Promise<ShopCart>> functionForSettingShippingAddress(final SetShipping setShipping) {
         return new F.Function<ShopCart, F.Promise<ShopCart>>() {
             @Override
             public F.Promise<ShopCart> apply(ShopCart shopCart) throws Throwable {
