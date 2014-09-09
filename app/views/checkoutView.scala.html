@@ -1,12 +1,16 @@
-@(data: CommonData, cart: Cart, cartSnapshot: String, shippingMethods: List[ShippingMethod], paymentMethod: String, step: Int = 1)
+@(data: CommonData, cart: Cart, cartSnapshot: String, shippingMethods: List[ShippingMethod], paymentMethod: String, paymillPublicKey: String, step: Int = 1)
 
 @import checkoutPartials._
 
-@main("Checkout"){
+@scripts = {
+<script type="text/javascript">var PAYMILL_PUBLIC_KEY = '@paymillPublicKey';</script>
+}
+
+@main("Checkout", scripts){
     @helpers.navigationTop(data)
     @helpers.navigationMenu(data)
 }{
-    <section>
+    <section class="checkout">
         <div class="full_page">
             <h1>Checkout</h1>
             <!--CHECKOUT STEPS STARTS-->

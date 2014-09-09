@@ -1,0 +1,76 @@
+@(paymentMethod: String)
+
+<h3>Choose payment method</h3>
+<fieldset>
+    <ul class="form-list">
+        @models.PaymentMethods.values().map { paymentMethodItem =>
+        <li class="control">
+            <input type="radio" class="radio paymenttype" value="@paymentMethodItem.key()" id="billing-method:@paymentMethodItem.key()" name="method"@if(paymentMethod == paymentMethodItem.key()){ checked}>
+            <label for="billing-method:@paymentMethodItem.key()">@paymentMethodItem.label()</label>
+        </li>
+        }
+    </ul>
+
+    <div id="payment-form-cc">
+        <input class="card-amount-int" type="hidden" />
+        <input class="card-currency" type="hidden" />
+        <div class="controls controls-row">
+            <div class="span3">
+                <label class="required"><em>*</em>Card number</label>
+                <div class="input-box">
+                    <input class="card-number" type="text" size="20" value="4111111111111111"/>
+                </div>
+            </div>
+            <div class="span1">
+                <label class="required"><em>*</em>CVC</label>
+                <div class="input-box">
+                    <input class="card-cvc" type="text" size="4" value="111"/>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <div class="span4">
+                <label class="required"><em>*</em>Card holder</label>
+                <div class="input-box">
+                    <input class="card-holdername" type="text" size="20" value="John Doe"/>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <div class="span3">
+                <label>Valid until (MM/YYYY)</label>
+                <div class="input-box">
+                    <input class="card-expiry-month" type="text" size="2" value="12"/>
+                    <span> / </span>
+                    <input class="card-expiry-year" type="text" size="4" value="2015"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="payment-form-elv" style="display:none">
+        <div class="controls">
+            <div class="span3">
+                <label class="required"><em>*</em>Account holder</label>
+                <div class="input-box">
+                    <input class="elv-holdername" type="text" size="20" value="John Doe"/>
+                </div>
+            </div>
+        </div>
+        <div class="controls controls-row">
+            <div class="span3"><label class="required"><em>*</em>Account number</label>
+                <div class="input-box">
+                    <input class="elv-account" type="text" size="20" value="1234567890"/>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <div class="span3">
+                <label class="required"><em>*</em>Bank code</label>
+                <div class="input-box">
+                    <input class="elv-bankcode" type="text" size="20" value="40050150"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

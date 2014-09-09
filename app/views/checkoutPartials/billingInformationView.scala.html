@@ -5,17 +5,7 @@
 
     <div class="col2-set">
         <div class="col-1">
-            <h3>Choose payment method</h3>
-            <fieldset>
-                <ul class="form-list">
-                    @models.PaymentMethods.values().map { paymentMethodItem =>
-                        <li class="control">
-                            <input type="radio" class="radio" value="@paymentMethodItem.key()" id="billing-method:@paymentMethodItem.key()" name="method"@if(paymentMethod == paymentMethodItem.key()){ checked}>
-                            <label for="billing-method:@paymentMethodItem.key()">@paymentMethodItem.label()</label>
-                        </li>
-                    }
-                </ul>
-            </fieldset>
+            @checkoutPartials.paymentMethodView(paymentMethod)
         </div>
         <div class="col-2">
             <h3>Provide billing address</h3>
