@@ -2,6 +2,7 @@ package services;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+
 import exceptions.DuplicateEmailException;
 import exceptions.PasswordNotMatchException;
 import io.sphere.client.model.CustomObject;
@@ -114,11 +115,12 @@ public class CustomerServiceImpl implements CustomerService {
             @Override
             public F.Promise<String> apply(Optional<CustomObject> customObject) throws Throwable {
                 int lastCustomerNumber = INITIAL_CUSTOMER_NUMBER;
+                int version = 0;
                 if (customObject.isPresent()) {
                     lastCustomerNumber = customObject.get().getValue().asInt();
+                    version = customObject.get().getVersion();
                 }
-                Optional<Integer> version = Optional.of(customObject.get().getVersion());
-                return setLastUsedCustomerNumber(lastCustomerNumber + 1, version)
+                return setLastUsedCustomerNumber(lastCustomerNumber + 1, Optional.of(version))
                         .map(new F.Function<CustomObject, String>() {
                             @Override
                             public String apply(CustomObject customObject) throws Throwable {
