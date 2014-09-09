@@ -17,7 +17,7 @@
                 <option data-url="@data.variantRoute(product, matchingVariant)" @if(matchingVariant == product.getSelectedVariant){selected}>
                     @defining(matchingVariant.getAttribute(selectedAttributeName)){ attribute =>
                     @if(attribute.isPresent){
-                        attribute.get.getStringValue(data.context.locale)
+                        @attribute.get.getStringValue(data.context.locale)
                     }
                     }
                 </option>
