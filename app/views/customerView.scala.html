@@ -51,7 +51,7 @@
                         <div class="toggle_content short-code-column" style="display: none;">
                             <ul class="circle_li">
                             @order.getLineItems.map { lineItem =>
-                                <li>@lineItem.getQuantity x <a href='@routes.Products.selectById(lineItem.getProductId, lineItem.getVariant.getId).url'>@lineItem.getProductName(data.context.locale)</a> | @lineItem.getTotalPrice</li>
+                                <li>@lineItem.getQuantity x <a href='@routes.ProductController.selectById(lineItem.getProductId, lineItem.getVariant.getId).url'>@lineItem.getProductName(data.context.locale)</a> | @lineItem.getTotalPrice</li>
                             }
                             </ul>
                         </div>

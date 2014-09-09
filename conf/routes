@@ -47,8 +47,8 @@ POST    /user/update/password                               @controllers.Custome
 GET     /assets/*file                                       controllers.Assets.at(path="/public", file)
 
 # Product
-GET     /products/:productId-$variant<[0-9]+>.html          @controllers.Products.selectById(productId: String, variant: Int)
-GET     /:product-$variant<[0-9]+>.html                     @controllers.Products.select(product: String, variant: Int)
+GET     /products/:productId-$variantId<[0-9]+>.html        @controllers.ProductController.selectById(productId: String, variantId: Int)
+GET     /:productSlug-$variantId<[0-9]+>.html               @controllers.ProductController.select(productSlug: String, variantId: Int, categorySlug: String ?= "")
 
 # Category
-GET     /*category                                          @controllers.ProductListController.categoryProducts(category: String, page: Int ?= 1)
+GET     /*categorySlug                                      @controllers.ProductListController.categoryProducts(categorySlug: String, page: Int ?= 1)
