@@ -88,7 +88,7 @@ public class BaseController extends ShopController {
     }
 
     protected final Locale locale() {
-        return lang().toLocale();
+        return new Locale(lang().language());
     }
 
     protected final CountryCode country() {
