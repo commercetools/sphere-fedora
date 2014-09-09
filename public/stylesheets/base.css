@@ -366,6 +366,8 @@ span.highlight_text{ display:inline-block; color:#fff; font-size:16px; font-styl
 
 /*User + Login*/
 input[type="text"], input[type="email"], input[type="password"]{ border:1px solid #D7D7D7; padding:4px; width:225px;}
+input.card-expiry-year{width:57px !important;}
+input.card-expiry-month{width:47px !important;}
 
 
 /*GENERAL*/
