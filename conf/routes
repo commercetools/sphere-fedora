@@ -3,7 +3,7 @@
 # ~~~~
 
 # Application
-GET     /                                                   @controllers.Application.home()
+GET     /                                                   @controllers.HomeController.home()
 
 GET     /search                                             @controllers.ProductListController.searchProducts(page: Int ?= 1)
 

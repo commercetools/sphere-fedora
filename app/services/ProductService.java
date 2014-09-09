@@ -61,6 +61,20 @@ public interface ProductService {
     F.Promise<ProductList> fetchCategoryProducts(Locale locale, ShopCategory category, int page, RequestParameters parameters);
 
     /**
+     * Searches products that were published recently.
+     * So far it simply returns the most expensive products in the shop.
+     * @return the promise of the product list containing the newest products of the shop.
+     */
+    F.Promise<ProductList> fetchNewProducts();
+
+    /**
+     * Searches products that are in offer.
+     * So far it simply returns the cheapest products in the shop.
+     * @return the promise of the product list containing the products in offer of the shop.
+     */
+    F.Promise<ProductList> fetchProductsInOffer();
+
+    /**
      * Searches products related to the given product.
      * In particular, gets products belonging to one of the categories of the product.
      * @param locale the selected locale corresponding to the search request.

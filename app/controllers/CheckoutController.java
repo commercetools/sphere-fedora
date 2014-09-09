@@ -125,7 +125,7 @@ public class CheckoutController extends BaseController {
                         public Result apply(final ShopCustomer shopCustomer) throws Throwable {
                             final CustomerName name = shopCustomer.getName();
                             flash("success", Messages.get(lang(), "welcomeNewCustomer", name.getFirstName(), name.getLastName()));
-                            return redirect(routes.CheckoutController.showShipping());
+                            return redirect(controllers.routes.CheckoutController.showShipping());
                         }
                     })
                     .recover(new F.Function<Throwable, Result>() {
@@ -247,7 +247,7 @@ public class CheckoutController extends BaseController {
         }
         sphere().currentCart().createOrder(cartSnapshot, PaymentState.Pending);
         flash("success", "Your order has successfully created!");
-        return asPromise(redirect(routes.Application.home()));
+        return asPromise(redirect(controllers.routes.HomeController.home()));
     }
 
     private F.Promise<Result> badRequest(F.Promise<Content> contentPromise) {

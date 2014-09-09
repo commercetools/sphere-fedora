@@ -78,7 +78,7 @@ public class LoginController extends BaseController {
     public F.Promise<Result> handleSignIn() {
         final Form<LogIn> filledForm = logInForm.bindFromRequest();
         if (customerService().isLoggedIn()) {
-            return asPromise(redirect(routes.Application.home()));
+            return asPromise(redirect(controllers.routes.HomeController.home()));
         } else if (filledForm.hasErrors()) {
             flash("error", "Login form contains missing or invalid data.");
             return asPromise(badRequest(loginView.render(data().build(), filledForm)));
@@ -103,7 +103,7 @@ public class LoginController extends BaseController {
             public Result apply(Optional<ShopCustomer> shopCustomerOptional) throws Throwable {
                 if (shopCustomerOptional.isPresent()) {
                     flash("success", "You are signed in.");
-                    return redirect(routes.Application.home());
+                    return redirect(controllers.routes.HomeController.home());
                 } else {
                     flash("error", "Invalid username or password.");
                     return badRequest(loginView.render(data().build(), filledForm));
@@ -118,7 +118,7 @@ public class LoginController extends BaseController {
                 .map(new F.Function<ShopCustomer, Result>() {
                     @Override
                     public Result apply(final ShopCustomer shopCustomer) throws Throwable {
-                        return redirect(routes.CustomerController.show());
+                        return redirect(controllers.routes.CustomerController.show());
                     }
                 })
                 .recover(new F.Function<Throwable, Result>() {

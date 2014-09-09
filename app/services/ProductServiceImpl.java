@@ -1,6 +1,7 @@
 package services;
 
 import com.google.common.base.Optional;
+import io.sphere.client.ProductSort;
 import io.sphere.client.filters.expressions.FilterExpression;
 import io.sphere.client.filters.expressions.FilterExpressions;
 import io.sphere.client.model.SearchResult;
@@ -18,6 +19,8 @@ import static utils.AsyncUtils.asPromise;
 
 public class ProductServiceImpl implements ProductService {
     protected static final int RECOMMENDED_PRODUCTS_SIZE = 20;
+    protected static final int NEW_PRODUCTS_SIZE = 20;
+    protected static final int OFFERS_PRODUCTS_SIZE = 20;
 
     private final Sphere sphere;
 
@@ -114,6 +117,32 @@ public class ProductServiceImpl implements ProductService {
                     @Override
                     public ProductList apply(SearchResult<Product> result) throws Throwable {
                         return ProductList.of(result, parameters);
+                    }
+                });
+    }
+
+    @Override
+    public F.Promise<ProductList> fetchNewProducts() {
+        SearchRequest<Product> searchRequest = sphere.products().all().sort(ProductSort.price.desc)
+                .page(0).pageSize(NEW_PRODUCTS_SIZE);
+        return searchRequest.fetchAsync()
+                .map(new F.Function<SearchResult<Product>, ProductList>() {
+                    @Override
+                    public ProductList apply(SearchResult<Product> result) throws Throwable {
+                        return ProductList.of(result);
+                    }
+                });
+    }
+
+    @Override
+    public F.Promise<ProductList> fetchProductsInOffer() {
+        SearchRequest<Product> searchRequest = sphere.products().all().sort(ProductSort.price.asc)
+                .page(0).pageSize(OFFERS_PRODUCTS_SIZE);
+        return searchRequest.fetchAsync()
+                .map(new F.Function<SearchResult<Product>, ProductList>() {
+                    @Override
+                    public ProductList apply(SearchResult<Product> result) throws Throwable {
+                        return ProductList.of(result);
                     }
                 });
     }

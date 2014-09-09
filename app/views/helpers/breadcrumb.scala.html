@@ -1,7 +1,7 @@
 @(data: CommonData)
 
 <ul class="breadcrumb">
-    <li><a href="@routes.Application.home">Home</a></li>
+    <li><a href="@routes.HomeController.home">Home</a></li>
     @if(data.currentCategory.isPresent){
         @defining(data.currentCategory.get){ category =>
         @for(ancestor <- category.getPath.init) {
