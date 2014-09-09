@@ -71,6 +71,18 @@ public class ShopVariant {
         return Optional.absent();
     }
 
+    public ShopAttribute getAttribute(String attributeName) {
+        return new ShopAttribute(variant.getAttribute(attributeName));
+    }
+
+    public List<ShopAttribute> getAttributes() {
+        List<ShopAttribute> attributes = new ArrayList<ShopAttribute>();
+        for(Attribute attribute : variant.getAttributes()) {
+            attributes.add(new ShopAttribute(attribute));
+        }
+        return attributes;
+    }
+
     public List<Attribute> getAttributes(final List<String> attributeNames) {
         List<Attribute> attributes = new ArrayList<Attribute>();
         for (String attributeName : attributeNames) {
