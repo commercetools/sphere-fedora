@@ -21,11 +21,12 @@ header, nav, section, footer{ width:980px; margin:0px auto;}
 /*-----------------------------------HEADER*/
 .header_container{ background:url(../images/top_bar_bg.png) repeat-x top;}
 header .top_bar{ display:inline-block; width:100%;}
-header .language_switch{ margin:12px 0px;}
-header .language_switch li { position:relative; float:left; background:#312e2b; width:20px; text-align:center; padding:4px 8px; margin-right:3px; box-shadow:0px 1px 0px #67615c; }
-header .language_switch li a{ color:#8b827a; text-transform:uppercase; font-size:11px; text-shadow:0px 1px 0px #272524; text-decoration:none; }
-header .language_switch li.active a{text-decoration:underline;}
-header .language_switch #language_more{ display:none; width:11px; height:12px; margin:0; padding:4px; background:#312e2b; box-shadow:0px 1px 0px #67615c; }
+header .top_switch { margin:12px 0px;}
+header .top_switch li { position:relative; float:left; background:#312e2b; width:20px; text-align:center; padding:4px 8px; margin-right:3px; box-shadow:0px 1px 0px #67615c; }
+header .top_switch li a{ color:#8b827a; text-transform:uppercase; font-size:11px; text-shadow:0px 1px 0px #272524; text-decoration:none; }
+header .top_switch li.active a{text-decoration:underline;}
+header .top_switch .top_switch_more{ display:none; width:11px; height:12px; margin:0; padding:4px; background:#312e2b; box-shadow:0px 1px 0px #67615c; }
+header #top_switch_country ul li:first-child {margin-left: 20px;}
 
 header .top_links{ margin:0px; float:right;}
 header .top_links > li{ float:left; background:#5f5a56; margin-left:1px;}

@@ -1,0 +1,18 @@
+@(data: CommonData)
+
+<div id="language_more" class="top_switch_more">
+    <a href="#"><img src="@routes.Assets.at("images/shortcodes/list-plus.png")"/></a>
+</div>
+<ul>
+    @for((language, call) <- data.localizedRoutes) {
+    @defining(language.toLocale){ locale =>
+    <li class="@if(data.context.hasLocale(locale)){active}">
+        @if(data.context.hasLocale(locale)){
+        <a title="@locale.getDisplayName">@locale.getLanguage</a>
+        } else {
+        <a href="@call.withLanguage(locale)" title="@locale.getDisplayName">@locale.getLanguage</a>
+        }
+    </li>
+    }
+    }
+</ul>
