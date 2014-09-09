@@ -10,57 +10,111 @@
     @helpers.navigationTop(data)
     @helpers.navigationMenu(data)
 }{
-    <section class="user">
+<section class="user">
+
+    <div id="" class="full_page">
         <h1>@Messages("user-page.Title")</h1>
 
-        <h2>@Messages("user-page.changeNameEmail.Title")</h2>
+        <div class="page_sidebar">
+            <section id="main_content">
 
-        @form(action = routes.CustomerController.handleCustomerUpdate(), 'id -> "customerForm") {
-            @inputText(customerForm("firstName"))
-            @inputText(customerForm("lastName"))
-            @inputText(customerForm("email"))
+                <div class="short-code-column one-half">
+                    <h2>@Messages("user-page.changeNameEmail.Title")</h2>
+                    <br>
+                    <form action="@routes.CustomerController.handleCustomerUpdate" method="post" id="customer-form">
+                        <fieldset>
+                            <ul class="form-list">
+                                <li>
+                                    <label class="required" for="user-firstName"><em>*</em>Name</label>
+                                    <div class="input-box">
+                                        <input type="text" name="firstName" id="user-firstName" placeholder="First name" class="input-text" required>
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="text" name="lastName" id="user-lastName" placeholder="Last name" class="input-text" required>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="required" for="user-email"><em>*</em>E-mail</label>
+                                    <div class="input-box">
+                                        <input type="email" name="email" id="user-email" placeholder="Email address" class="input-text">
+                                    </div>
+                                </li>
+                            </ul>
+                            <br/>
+                        </fieldset>
+                        <div class="buttons-set">
+                            <button  class="button brown_btn" id="submit-customer-form" type="submit">@Messages("save-changes")</button>
+                        </div>
+                    </form>
+                    <br/>
+                    <br/>
+                </div>
 
-            <input type="submit" class="button" id="submit-user-form" value='@Messages("save-changes")'>
-        }
+                <div class="short-code-column one-half column-last">
+                    <h2>@Messages("user-page.changePassword.Title")</h2>
 
-        <h2>@Messages("user-page.changePassword.Title")</h2>
+                    @updatePasswordForm.globalErrors.map { globalError =>
+                        <div class="short-code msg error"> <span>@globalError.message</span> </div>
+                    }
+                    <br>
+                    <form action="@routes.CustomerController.handleCustomerUpdate" method="post" id="password-form">
+                        <fieldset>
+                            <ul class="form-list">
+                                <li>
+                                    <label class="required" for="user-oldPassword"><em>*</em>Old Password</label>
+                                    <div class="input-box">
+                                        <input type="email" name="oldPassword" id="user-oldPassword" class="input-text">
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="required" for="user-newPassword"><em>*</em>New Password</label>
+                                    <div class="input-box">
+                                        <input type="password" name="newPassword" id="user-newPassword" class="input-text">
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="required" for="user-repeatPassword"><em>*</em>Repeat Password</label>
+                                    <div class="input-box">
+                                        <input type="password" name="repeatPassword" id="user-repeatPassword" class="input-text">
+                                    </div>
+                                </li>
+                            </ul>
+                            <br/>
+                        </fieldset>
+                        <div class="buttons-set">
+                            <button  class="button brown_btn" id="submit-password-form" type="submit">@Messages("save-changes")</button>
+                        </div>
+                    </form>
+                    <br/>
+                    <br/>
+                </div>
 
+            </section>
 
+            <section>
+                @if(!shopOrders.isEmpty) {
+                <h2>@Messages("listOrders.Title")</h2>
 
-        @updatePasswordForm.globalErrors.map { globalError =>
-            <div class="short-code msg error"> <span>@globalError.message</span> </div>
-        }
-
-        @form(action = routes.CustomerController.handlePasswordUpdate(), 'id -> "customerPasswordForm") {
-            @inputPassword(updatePasswordForm("oldPassword"))
-            @inputPassword(updatePasswordForm("newPassword"))
-            @inputPassword(updatePasswordForm("repeatPassword"))
-
-            <input type="submit" class="button" id="submit-password-form" value='@Messages("save-changes")'>
-        }
-
-
-
-        @if(!shopOrders.isEmpty) {
-            <h2>@Messages("listOrders.Title")</h2>
-
-            <ul class="short-code toggle_box">
-            @shopOrders.map { order =>
+                <ul class="short-code toggle_box">
+                    @shopOrders.map { order =>
 
                     <li><a class="toggle_title" href="#">@order.getOrderDate("dd.MM.yyyy HH:mm") | @order.getTotalPrice(Optional.of(customer))</a>
                         <div class="toggle_content short-code-column" style="display: none;">
                             <ul class="circle_li">
-                            @order.getLineItems.map { lineItem =>
+                                @order.getLineItems.map { lineItem =>
                                 <li>@lineItem.getQuantity x <a href='@routes.ProductController.selectById(lineItem.getProductId, lineItem.getVariant.getId).url'>@lineItem.getProductName(data.context.locale)</a> | @lineItem.getTotalPrice</li>
-                            }
+                                }
                             </ul>
                         </div>
                     </li>
-            }
-            </ul>
-        }
+                    }
+                </ul>
+                }
+            </section>
+        </div>
+    </div>
+</section>
 
-    </section>
 }{
 
 }
