@@ -1,21 +1,10 @@
 package utils;
 
-import java.math.BigDecimal;
-import java.util.*;
-
-import com.google.common.collect.Maps;
 import com.neovisionaries.i18n.CountryCode;
-import controllers.routes;
-import io.sphere.client.model.LocalizedString;
 import io.sphere.client.model.Money;
 import io.sphere.client.shop.model.*;
-import io.sphere.internal.util.Util;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
-import play.i18n.Lang;
 import sphere.Sphere;
 
-import static play.mvc.Http.Context.Implicit.lang;
 import static play.mvc.Http.Context.current;
 
 public class ViewHelper {
