@@ -113,7 +113,7 @@ public class CustomerController extends BaseController {
             public Result apply(final Throwable throwable) throws Throwable {
                 if (throwable instanceof PasswordNotMatchException) {
                     flash("error", Messages.get(lang(), "error.passwordNotMatch"));
-                    return redirect(routes.CustomerController.show());
+                    return redirect(controllers.routes.CustomerController.show());
                 } else {
                     throw throwable;
                 }
@@ -145,7 +145,7 @@ public class CustomerController extends BaseController {
         return promise.map(new F.Function<T, Result>() {
             @Override
             public Result apply(final T t) throws Throwable {
-                return redirect(routes.CustomerController.show());
+                return redirect(controllers.routes.CustomerController.show());
             }
         });
     }
