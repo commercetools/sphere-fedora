@@ -28,26 +28,7 @@
         </ul>
 
         <div class="minicart">
-            <a href="@routes.CartController.show" class="minicart_link">
-                <span class="item"><b>@data.context.cart.getTotalQuantity</b> @Messages("cart.item") /</span> <span class="price"><b>@data.context.cart.getTotalPrice</b></span>
-            </a>
-            <div class="cart_drop"> <span class="darw"></span>
-                <ul>
-                    @for(item <- data.context.cart.getLineItems) {
-                    <li>
-                        <a href="@routes.ProductController.selectById(item.getProductId, item.getVariant.getId)">
-                            <img src="@item.getVariant.getFeaturedImage.getSize(ImageSize.THUMBNAIL).getUrl">
-                            @item.getProductName
-                            <span class="price">@item.getTotalPrice</span>
-                        </a>
-                    </li>
-                    }
-                    <div class="cart_bottom">
-                        <div class="subtotal_menu"><small>Subtotal:</small><big>@data.context.cart.getTotalPrice</big></div>
-                        <a href="@routes.CheckoutController.show">Checkout</a>
-                    </div>
-                </ul>
-            </div>
+            @helpers.miniCart(data)
         </div>
     </nav>
     <!--Navigation Ends-->
