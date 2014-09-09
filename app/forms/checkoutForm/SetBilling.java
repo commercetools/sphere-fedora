@@ -9,8 +9,11 @@ import play.data.validation.Constraints;
 public class SetBilling {
 
     @Constraints.Required(message = "Billing method required")
-    @Constraints.Pattern(value = "visa|mastercard|paypal", message = "Invalid value for payment method")
+    @Constraints.Pattern(value = "cc|elv", message = "Invalid value for payment method")
     public String method;
+
+    @Constraints.Required(message = "Payment required")
+    public String paymillToken;
 
     @Constraints.Required(message = "First name required")
     public String firstName;

@@ -1,7 +1,7 @@
 package models;
 
 public enum PaymentMethods {
-    CREDITCARD("Credit Card", "creditcard"), ELV("ELV", "elv");
+    CREDITCARD("Credit Card", "cc"), ELV("ELV", "elv");
     private final String label;
     private final String key;
 
