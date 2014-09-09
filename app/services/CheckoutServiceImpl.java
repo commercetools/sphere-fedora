@@ -32,6 +32,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     protected static final String CHECKOUT_CONTAINER = "checkoutInfo";
     protected static final String CHECKOUT_PAYMENT_METHOD_KEY = "paymentMethod";
+    protected static final String CHECKOUT_PAYMENT_TOKEN_KEY = "paymentToken";
     protected static final String CHECKOUT_PAYMENT_TRANSACTION_KEY = "paymentTransaction";
     protected static final String CHECKOUT_PAYMENT_TIMESTAMP_KEY = "paymentTimestamp";
     protected static final String CHECKOUT_ORDER_NUMBER_KEY = "orderNumber";
@@ -191,9 +192,28 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Override
-    public F.Promise<CustomObject> setPaymentMethod(final String cartId, final String paymentMethod) {
+    public F.Promise<Optional<String>> getPaymentToken(final String cartId) {
+        return getCheckoutInformation(cartId).map(new F.Function<Optional<CustomObject>, Optional<String>>() {
+            @Override
+            public Optional<String> apply(Optional<CustomObject> customObject) throws Throwable {
+                if (customObject.isPresent()) {
+                    JsonNode checkoutInfo = convertToNewFormat(customObject.get().getValue());
+                    JsonNode paymentTokenNode = checkoutInfo.path(CHECKOUT_PAYMENT_TOKEN_KEY);
+                    if (!paymentTokenNode.isMissingNode()) {
+                        return Optional.of(paymentTokenNode.asText());
+                    }
+                }
+                return Optional.absent();
+            }
+        });
+
+    }
+
+    @Override
+    public F.Promise<CustomObject> setPaymentMethod(final String cartId, final String paymentMethod, String token) {
         ObjectNode json = Json.newObject();
         json.put(CHECKOUT_PAYMENT_METHOD_KEY, paymentMethod);
+        json.put(CHECKOUT_PAYMENT_TOKEN_KEY, token);
         return setCheckoutInformation(cartId, json);
     }
 

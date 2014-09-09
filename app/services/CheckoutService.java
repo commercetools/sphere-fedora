@@ -84,12 +84,20 @@ public interface CheckoutService {
     F.Promise<Optional<String>> getPaymentMethod(String cartId);
 
     /**
+     * Gets the payment token of the cart or order with the provided ID.
+     * @param cartId internal identifier of the cart or order.
+     * @return the promise of the payment token of the cart or order, or absent if it does not exist.
+     */
+    F.Promise<Optional<String>> getPaymentToken(String cartId);
+
+    /**
      * Sets the payment method of the cart or order with the provided ID.
      * @param cartId internal identifier of the cart or order.
      * @param paymentMethod the payment method to be set.
+     * @param token the token associated with this payment.
      * @return the promise of the updated custom object representing the checkout information with the payment method.
      */
-    F.Promise<CustomObject> setPaymentMethod(String cartId, String paymentMethod);
+    F.Promise<CustomObject> setPaymentMethod(String cartId, String paymentMethod, String token);
 
     /**
      * Gets the last payment notification timestamp of the cart or order with the provided ID.
