@@ -35,8 +35,11 @@
                 <ul>
                     @for(item <- data.context.cart.getLineItems) {
                     <li>
-                        <img src="@item.getVariant.getFeaturedImage.getSize(ImageSize.THUMBNAIL).getUrl">
-                        <a href="#">@item.getProductName</a> <span class="price">@item.getTotalPrice</span>
+                        <a href="@routes.ProductController.selectById(item.getProductId, item.getVariant.getId)">
+                            <img src="@item.getVariant.getFeaturedImage.getSize(ImageSize.THUMBNAIL).getUrl">
+                            @item.getProductName
+                            <span class="price">@item.getTotalPrice</span>
+                        </a>
                     </li>
                     }
                     <div class="cart_bottom">
