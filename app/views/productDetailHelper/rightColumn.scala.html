@@ -1,0 +1,28 @@
+@(data: CommonData, product: ShopProduct)
+
+<span id="img-zoomed"></span>
+@if(data.currentCategory.isPresent){
+    <small class="pr_type">@data.currentCategory.get.getName(data.context.locale)</small>
+}
+
+<h1>@product.getName(data.context.locale)</h1>
+<p class="short_dc">@Html(abbreviate(product.getDescription(data.context.locale), 400))</p>
+
+<ul class="product-attributes">
+    @for(attribute <- product.getSelectedVariant.getAttributes) {
+    <li><span>@attribute.getName</span>: @attribute.getStringValue(data.context.locale)</li>
+    }
+</ul>
+
+@productDetailHelper.addToCartForm(data, product)
+
+<!--div class="product_overview">
+<h4>@Messages("product.overview")</h4>
+<ul>
+<li>Long sleeves with single button cuffs.</li>
+<li>Cuffs can be rolled up and secured with button-tabs.</li>
+<li>Standing collar with notched detailing.</li>
+<li>Front button placket.</li>
+<li>Hem is longer in back.</li>
+</ul>
+</div-->

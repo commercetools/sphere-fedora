@@ -1,0 +1,54 @@
+@(data: CommonData, product: ShopProduct)
+
+@defining(product.getSelectedVariant.getPriceAmount(data.context)){ priceAmount =>
+@if(priceAmount.isPresent){
+<form action="@routes.CartController.add" method="post">
+    <input type="hidden" name="productId" value="@product.getId"/>
+    <input type="hidden" name="variantId" value="@product.getSelectedVariant.getId"/>
+    <div class="pr_price">
+        <big>@printMoney(data.context.locale, priceAmount.get)</big> <small></small>
+    </div>
+    <div class="size_info">
+        @for(selectedAttributeName <- data.selectableAttributeNames){
+        <div class="variant-selector">
+            <label>@selectedAttributeName :</label>
+            <select class="browse-url-selector">
+                @for(matchingVariant <- product.getSelectableVariants(selectedAttributeName, data.selectableAttributeNames)) {
+                <option data-url="@data.variantRoute(product, matchingVariant)" @if(matchingVariant == product.getSelectedVariant){selected}>
+                    @matchingVariant.getAttribute(selectedAttributeName).getStringValue(data.context.locale)
+                </option>
+                }
+            </select>
+        </div>
+        }
+       <div class="variant-selector sku_sel">
+            <label>@Messages("product.sku") :</label>
+            <select class="browse-url-selector" id="product-sku-selector">
+                @for(variant <- product.getVariants) {
+                <option data-url="@data.variantRoute(product, variant)" @if(variant == product.getSelectedVariant){selected}>
+                    @variant.getSku
+                </option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="qty_info">
+        <div class="quantity">
+            <label>@Messages("cart.quantity") :</label>
+            <select name="quantity">
+                @for(quantity <- 1 to 5) {
+                <option value="@quantity">@quantity</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="add_to_buttons">
+        <button type="submit" class="add_cart">@Messages("button.cart")</button>
+        <!--span>@Messages("or")</span>
+        <ul>
+          <li><a href="#">@Messages("button.wishlist")</a></li>
+        </ul-->
+    </div>
+</form>
+}
+}

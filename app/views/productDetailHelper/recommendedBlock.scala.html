@@ -1,0 +1,8 @@
+@(data: CommonData, recommendedProductList: ProductList)
+
+<h2 class="sub_title">@Messages("list.related")</h2>
+<ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
+    @for(recommendedProduct <- recommendedProductList.getProducts) {
+        @productListHelper.productThumbnail(data, recommendedProduct)
+    }
+</ul>

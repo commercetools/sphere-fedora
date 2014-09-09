@@ -127,13 +127,10 @@ ul.sub_menu > li > ul{border-top: solid 1px #5f5a56; margin-top:10px;}
 .product_rightcol .qty_info{ padding:7px 0px; display:inline-block; width:100%;}
 .product_rightcol .qty_info label{ font-size:11px; color:#5f5a56; text-transform:uppercase; float:left; padding-right:10px; line-height:24px;width:88px;}
 .product_rightcol .qty_info > div{ float:left; margin-right:45px;}
-.product_rightcol div.selector{ width:70px;}
-.product_rightcol div.selector span{width:75px;}
-.product_rightcol div.selector select{ width:84px!important;}
-.product_rightcol div.color_sel div.selector { width:160px;}
-.product_rightcol div.color_sel div.selector span{ width:165px;}
-.product_rightcol div.color_sel div.selector select{ width:174px!important;}
-.product_rightcol div.sku_sel { margin-top: 10px; }
+.product_rightcol div.selector{ margin-bottom:10px; }
+.product_rightcol div.selector{ width:110px;}
+.product_rightcol div.selector span{width:115px;}
+.product_rightcol div.selector select{ width:124px!important;}
 .product_rightcol div.sku_sel div.selector { width:110px;}
 .product_rightcol div.sku_sel div.selector span{ width:115px;}
 .product_rightcol div.sku_sel div.selector select{ width:124px!important;}

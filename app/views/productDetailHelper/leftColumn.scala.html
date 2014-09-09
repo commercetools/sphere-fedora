@@ -1,0 +1,17 @@
+@(data: CommonData, product: ShopProduct)
+
+    <span id="product-image-zoom" class="image-zoom">
+        <img src="@product.getSelectedVariant.getMainImage(ImageSize.ORIGINAL).getUrl" class="small">
+    </span>
+    <span class="pr_info">@Messages("product.zoom")</span>
+    <ul class="pr_gallery">
+        @for(image <- product.getSelectedVariant.getImages) {
+        <li>
+            <a href="#" class="product-image-small" data-pic="@image.getSize(ImageSize.ORIGINAL).getUrl">
+                <div class="product-detail-thumbnail">
+                    <img src="@image.getSize(ImageSize.THUMBNAIL).getUrl"/>
+                </div>
+            </a>
+        </li>
+        }
+    </ul>
