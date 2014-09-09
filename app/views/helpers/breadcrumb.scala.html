@@ -14,7 +14,9 @@
     }
     @if(data.currentProduct.isPresent){
         @defining(data.currentProduct.get){ product =>
-        <li><a href="@data.productRoute(product, data.currentCategory)">@product.getName(data.context.locale)</a></li>
+        <li class="active">
+            <a href="@data.productRoute(product, data.currentCategory)">@product.getName(data.context.locale)</a>
+        </li>
         }
     }
 </ul>
