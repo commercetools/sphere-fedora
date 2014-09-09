@@ -1,7 +1,9 @@
+import com.google.common.base.Optional;
 import controllers.BaseController;
 import controllers.CheckoutController;
 import controllers.CustomerController;
 import play.GlobalSettings;
+import play.i18n.Lang;
 import play.libs.F;
 import play.mvc.Action;
 import play.mvc.Http;
@@ -12,26 +14,42 @@ import sphere.Sphere;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+import static models.RequestParameters.QUERY_PARAM_LANG;
+
 public class Global extends GlobalSettings {
 
     @Override
     public Action onRequest(Http.Request arg0, Method arg1) {
         return new Action.Simple() {
-            final static String LANG_QUERY = "lang";
 
             public F.Promise<SimpleResult> call(Http.Context ctx) throws Throwable {
-                if (ctx.request().queryString().containsKey(LANG_QUERY)) {
-                    String lang = ctx.request().getQueryString(LANG_QUERY);
-                    if (!ctx.changeLang(lang))
-                        return toPrevPage(ctx);
+                String lang = ctx.request().getQueryString(QUERY_PARAM_LANG);
+                Optional<String> languageCode = getValidLanguageCode(lang);
+                if (languageCode.isPresent()) {
+                    ctx.changeLang(languageCode.get());
+                    return redirectToReferrer(ctx);
+                } else {
+                    return delegate.call(ctx);
                 }
-                return delegate.call(ctx);
             }
 
-            private F.Promise<SimpleResult> toPrevPage(Http.Context ctx) {
-                String url = ctx.request().getHeader("referer");
-                if (url == null) url = "/";
+            private F.Promise<SimpleResult> redirectToReferrer(Http.Context ctx) {
+                String url = ctx.request().getHeader(Http.HeaderNames.REFERER);
+                if (url == null) {
+                    url = "/";
+                }
                 return F.Promise.pure(redirect(url));
+            }
+
+            private Optional<String> getValidLanguageCode(String lang) {
+                if (lang != null) {
+                    for (Lang availableLang : Lang.availables()) {
+                        if (availableLang.language().equals(lang)) {
+                            return Optional.of(availableLang.code());
+                        }
+                    }
+                }
+                return Optional.absent();
             }
         };
     }

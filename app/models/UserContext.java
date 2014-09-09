@@ -51,7 +51,7 @@ public class UserContext {
     }
 
     public boolean hasLocale(Locale locale) {
-        return lang.toLocale().equals(locale);
+        return lang.toLocale().getLanguage().equals(locale.getLanguage());
     }
 
     public String currency() {
