@@ -16,10 +16,7 @@ import services.CustomerService;
 import services.ProductService;
 import sphere.ShopController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import utils.AsyncUtils;
 
@@ -193,6 +190,10 @@ public class BaseController extends ShopController {
 
     static Content showNotFoundPage(CommonDataBuilder data) {
         return views.html.notFoundView.render(data.build());
+    }
+
+    static List<String> selectableAttributeNames() {
+        return Play.application().configuration().getStringList("attributes.selectable", Collections.<String>emptyList());
     }
 
     protected Result redirectToReturnUrl() {
