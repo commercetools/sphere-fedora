@@ -16,8 +16,8 @@
         <h1>@Messages("user-page.Title")</h1>
 
         <div class="page_sidebar">
-            <section id="main_content">
 
+            <section id="main_content">
                 <div class="short-code-column one-half">
                     <h2>@Messages("user-page.changeNameEmail.Title")</h2>
                     <br>
@@ -50,7 +50,7 @@
                     <br/>
                 </div>
 
-                <div class="short-code-column one-half column-last">
+                <div class="short-code-column one-half column-last clearfix">
                     <h2>@Messages("user-page.changePassword.Title")</h2>
 
                     @updatePasswordForm.globalErrors.map { globalError =>
@@ -88,12 +88,12 @@
                     <br/>
                     <br/>
                 </div>
-
             </section>
 
             <section>
+                <br class="clear">
                 @if(!shopOrders.isEmpty) {
-                <h2>@Messages("listOrders.Title")</h2>
+                <h1>@Messages("listOrders.Title")</h1>
 
                 <ul class="short-code toggle_box">
                     @shopOrders.map { order =>
@@ -109,6 +109,8 @@
                     </li>
                     }
                 </ul>
+                <br>
+                <br>
                 }
             </section>
         </div>
