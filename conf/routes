@@ -16,6 +16,7 @@ GET     /cart/remove/:lineItemId                            @controllers.CartCon
 # Checkout
 GET     /checkout                                           @controllers.CheckoutController.show()
 POST    /checkout                                           @controllers.CheckoutController.submit()
+GET    /checkout/preview                                   @controllers.CheckoutController.showOrderPreview()
 
 GET     /checkout/register                                  @controllers.CheckoutController.showLogin()
 POST    /checkout/register                                  @controllers.CheckoutController.signUp()
@@ -24,7 +25,7 @@ GET     /checkout/login                                     @controllers.Checkou
 POST    /checkout/login                                     @controllers.CheckoutController.logIn()
 
 GET     /checkout/billing                                   @controllers.CheckoutController.showBilling()
-POST    /checkout/billing                                   @controllers.CheckoutController.setBilling()
+POST    /checkout/billing                                   @controllers.CheckoutController.handleBillingSettings()
 
 GET     /checkout/shipping                                  @controllers.CheckoutController.showShipping()
 POST    /checkout/shipping                                  @controllers.CheckoutController.handleShippingAddress()

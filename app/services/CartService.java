@@ -130,6 +130,14 @@ public interface CartService {
     F.Promise<ShopCart> changeAddresses(ShopCart cart, Address shippingAddress, Address billingAddress);
 
     /**
+     * Set the billing address for the cart.
+     * @param cart the cart to be updated.
+     * @param billingAddress the provided billing address to be set.
+     * @return the promise of the updated cart
+     */
+    F.Promise<ShopCart> setBillingAddress(final ShopCart cart, final Address billingAddress);
+
+    /**
      * Set the shipping address for the cart.
      * @param cart the cart to be updated.
      * @param shippingAddress the provided shipping address to be set.

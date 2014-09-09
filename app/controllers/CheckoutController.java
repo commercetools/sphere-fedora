@@ -13,6 +13,7 @@ import io.sphere.client.shop.model.PaymentState;
 import io.sphere.client.shop.model.ShippingMethod;
 import models.ShopCart;
 import models.ShopCustomer;
+import play.Logger;
 import play.i18n.Messages;
 import play.libs.F;
 import play.mvc.Content;
@@ -20,7 +21,7 @@ import play.data.Form;
 import play.mvc.Result;
 import play.mvc.With;
 import services.*;
-import views.html.checkout;
+import views.html.checkoutView;
 import views.html.signupView;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class CheckoutController extends BaseController {
     final static Form<SetBilling> setBillingForm = form(SetBilling.class);
     final static Form<SignUp> signUpForm = form(SignUp.class);
     final static Form<LogIn> logInForm = form(LogIn.class);
+    public static final String CAN_GO_TO_ORDER_PREVIEW = "canGoToOrderPreview";
     private final CheckoutService checkoutService;
     private final ShippingMethodService shippingMethodService;
 
@@ -80,6 +82,16 @@ public class CheckoutController extends BaseController {
     }
 
     @With(CartNotEmpty.class)
+    public F.Promise<Result> showOrderPreview() {
+        if ("true".equals(flash(CAN_GO_TO_ORDER_PREVIEW))) {
+            return ok(showPage(ORDER_PREVIEW_4));
+        } else {
+            Logger.warn("Show order preview page direct access is not allowed.");
+            return show();
+        }
+    }
+
+    @With(CartNotEmpty.class)
     protected F.Promise<Content> showPage(final CheckoutStages stage) {
         final int page = stage.key;
         final F.Promise<ShopCart> shopCartPromise = cartService().fetchCurrent();
@@ -93,7 +105,7 @@ public class CheckoutController extends BaseController {
                         Form<SetShipping> shippingForm = setShippingForm.fill(new SetShipping(cart.getShippingAddress()));
                         Form<SetBilling> billingForm = setBillingForm.fill(new SetBilling(cart.getBillingAddress()));
                         String cartSnapshot = sphere().currentCart().createCartSnapshotId();
-                        return checkout.render(data().build(), cart.get(), cartSnapshot, shippingMethods, page);
+                        return checkoutView.render(data().build(), cart.get(), cartSnapshot, shippingMethods, page);
                     }
                 });
     }
@@ -204,20 +216,27 @@ public class CheckoutController extends BaseController {
         return shippingMethodOptional.get();
     }
 
-    public F.Promise<Result> setBilling() {
-        Form<SetBilling> form = setBillingForm.bindFromRequest();
-        // Case missing or invalid form data
+    public F.Promise<Result> handleBillingSettings() {
+        final Form<SetBilling> form = setBillingForm.bindFromRequest();
         if (form.hasErrors()) {
             flash("error", "Billing information has errors");
             return badRequest(showPage(BILLING_INFORMATION_3));
+        } else {
+            final SetBilling setBilling = form.get();
+            return cartService().fetchCurrent().flatMap(new F.Function<ShopCart, F.Promise<Result>>() {
+                @Override
+                public F.Promise<Result> apply(final ShopCart shopCart) throws Throwable {
+                    return cartService().setBillingAddress(shopCart, setBilling.getAddress())
+                            .map(new F.Function<ShopCart, Result>() {
+                                @Override
+                                public Result apply(final ShopCart shopCart) throws Throwable {
+                                    flash(CAN_GO_TO_ORDER_PREVIEW, "true");
+                                    return redirect(routes.CheckoutController.showOrderPreview());
+                                }
+                            });
+                }
+            });
         }
-        // Case valid shipping address
-        SetBilling setBilling = form.get();
-        if (setBilling.email != null) {
-            sphere().currentCart().setCustomerEmail(setBilling.email);
-        }
-        sphere().currentCart().setBillingAddress(setBilling.getAddress());
-        return ok(showPage(ORDER_PREVIEW_4));
     }
 
     public F.Promise<Result> submit() {

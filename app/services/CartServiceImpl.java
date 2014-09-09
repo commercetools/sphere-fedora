@@ -178,9 +178,17 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public F.Promise<ShopCart> setBillingAddress(final ShopCart cart, final Address billingAddress) {
+        CartUpdate cartUpdate = new CartUpdate()
+            .setBillingAddress(billingAddress);
+        return updateCart(cart, cartUpdate);
+    }
+
+    @Override
     public F.Promise<ShopCart> setShippingAddress(final ShopCart cart, final Address shippingAddress) {
         CartUpdate cartUpdate = new CartUpdate()
                 .setShippingAddress(shippingAddress)
+                .setCustomerEmail(shippingAddress.getEmail())
                 .setCountry(shippingAddress.getCountry());
         return updateCart(cart, cartUpdate);
     }
