@@ -14,7 +14,11 @@ import sphere.Sphere;
 
 import java.util.*;
 
+import static utils.AsyncUtils.asPromise;
+
 public class ProductServiceImpl implements ProductService {
+    protected static final int RECOMMENDED_PRODUCTS_SIZE = 20;
+
     private final Sphere sphere;
 
     public ProductServiceImpl(final Sphere sphere) {
@@ -103,7 +107,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public F.Promise<ProductList> fetchCategoryProducts(final Locale locale, final ShopCategory category, int page,
                                                         final RequestParameters parameters) {
-        SearchRequest<Product> searchRequest = sphere.products().filter(filterByCategory(category))
+        SearchRequest<Product> searchRequest = sphere.products().filter(locale, filterByCategory(category))
                 .facet(parameters.getFacets()).sort(parameters.getSort()).page(page).pageSize(parameters.getPageSize());
         return searchRequest.fetchAsync()
                 .map(new F.Function<SearchResult<Product>, ProductList>() {
@@ -114,9 +118,36 @@ public class ProductServiceImpl implements ProductService {
                 });
     }
 
+    @Override
+    public F.Promise<Optional<ProductList>> fetchRecommendedProducts(final Locale locale, final ShopProduct product) {
+        List<ShopCategory> categories = product.getCategories();
+        if (categories.isEmpty()) {
+            return asPromise(Optional.<ProductList>absent());
+        } else {
+            SearchRequest<Product> searchRequest = sphere.products().filter(locale, filterByCategories(categories))
+                    .page(0).pageSize(RECOMMENDED_PRODUCTS_SIZE);
+            return searchRequest.fetchAsync()
+                    .map(new F.Function<SearchResult<Product>, Optional<ProductList>>() {
+                        @Override
+                        public Optional<ProductList> apply(SearchResult<Product> result) throws Throwable {
+                            ProductList productList = ProductList.of(result);
+                            return Optional.of(productList);
+                        }
+                    });
+        }
+    }
+
     protected static FilterExpression filterBySku(String sku) {
         List<String> skuList = Arrays.asList(sku);
         return new FilterExpressions.StringAttribute.EqualsAnyOf("variants.sku", skuList);
+    }
+
+    protected static FilterExpression filterByCategories(List<ShopCategory> shopCategories) {
+        List<Category> categories = new ArrayList<Category>();
+        for (ShopCategory shopCategory : shopCategories) {
+            categories.add(shopCategory.get());
+        }
+        return new FilterExpressions.CategoriesOrSubcategories(categories);
     }
 
     protected static FilterExpression filterByCategory(ShopCategory category) {

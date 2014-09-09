@@ -59,4 +59,13 @@ public interface ProductService {
      * @return the promise of the product list matching the request.
      */
     F.Promise<ProductList> fetchCategoryProducts(Locale locale, ShopCategory category, int page, RequestParameters parameters);
+
+    /**
+     * Searches products related to the given product.
+     * In particular, gets products belonging to one of the categories of the product.
+     * @param locale the selected locale corresponding to the search request.
+     * @param product the product to use to get recommended products.
+     * @return the promise of the product list containing products related to the provided product, if any.
+     */
+    F.Promise<Optional<ProductList>> fetchRecommendedProducts(Locale locale, ShopProduct product);
 }
