@@ -18,6 +18,14 @@ public class ShopCategory {
         return new ShopCategory(category);
     }
 
+    public static List<ShopCategory> ofList(List<Category> categories) {
+        List<ShopCategory> shopCategories = new ArrayList<ShopCategory>();
+        for (Category category : categories) {
+              shopCategories.add(new ShopCategory(category));
+        }
+        return shopCategories;
+    }
+
     public Category get() {
         return category;
     }
