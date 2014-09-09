@@ -73,6 +73,19 @@ public class ShopProduct {
         return this.product.getMetaDescription(locale);
     }
 
+    public List<ShopCategory> getCategories() {
+        return ShopCategory.ofList(product.getCategories());
+    }
+
+    public Optional<ShopCategory> getMainCategory() {
+        List<ShopCategory> categories = getCategories();
+        if (categories.isEmpty()) {
+            return Optional.absent();
+        } else {
+            return Optional.of(categories.get(0));
+        }
+    }
+
     public List<ShopVariant> getVariants() {
         return variants;
     }
