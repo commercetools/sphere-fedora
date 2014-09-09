@@ -211,10 +211,20 @@ public class BaseController extends ShopController {
         private Functions() {
         }
 
-        protected static <T> F.Function<T, Result> redirect(final Call call) {
+        public static <T> F.Function<T, Result> redirect(final Call call) {
             return new F.Function<T, Result>() {
                 @Override
                 public Result apply(final T o) throws Throwable {
+                    return Results.redirect(call);
+                }
+            };
+        }
+
+        public static <T> F.Function<T, Result> redirectWithFlash(final Call call, final String flashKey, final String flashValue) {
+            return new F.Function<T, Result>() {
+                @Override
+                public Result apply(final T o) throws Throwable {
+                    flash(flashKey, flashValue);
                     return Results.redirect(call);
                 }
             };

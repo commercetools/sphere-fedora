@@ -11,11 +11,11 @@ import forms.customerForm.SignUp;
 import io.sphere.client.model.CustomObject;
 import io.sphere.client.model.VersionedId;
 import io.sphere.client.shop.model.CustomerName;
-import io.sphere.client.shop.model.PaymentState;
 import io.sphere.client.shop.model.ShippingMethod;
 import models.PaymentMethods;
 import models.ShopCart;
 import models.ShopCustomer;
+import models.ShopOrder;
 import play.Logger;
 import play.i18n.Messages;
 import play.libs.F;
@@ -199,8 +199,13 @@ public class CheckoutController extends BaseController {
                         public F.Promise<Result> apply(F.Tuple<Optional<ShippingMethod>, ShopCart> tuple) throws Throwable {
                             final ShippingMethod shippingMethod = requireExistingShippingMethod(tuple._1, setShipping.method);
                             final ShopCart shopCart = tuple._2;
-                            return cartService().changeShipping(shopCart, ShippingMethod.reference(shippingMethod.getId()))
-                                    .flatMap(functionForSettingShippingAddress(setShipping))
+                            return cartService().setShippingAddress(shopCart, setShipping.getAddress())
+                                    .flatMap(new F.Function<ShopCart, F.Promise<ShopCart>>() {
+                                        @Override
+                                        public F.Promise<ShopCart> apply(ShopCart shopCart1) throws Throwable {
+                                            return cartService().changeShipping(shopCart, ShippingMethod.reference(shippingMethod.getId()));
+                                        }
+                                    })
                                     .map(f().<ShopCart>redirect(routes.CheckoutController.showBilling()));
                         }
                     }).recover(new F.Function<Throwable, Result>() {
@@ -215,15 +220,6 @@ public class CheckoutController extends BaseController {
                         }
                     });
         }
-    }
-
-    protected F.Function<ShopCart, F.Promise<ShopCart>> functionForSettingShippingAddress(final SetShipping setShipping) {
-        return new F.Function<ShopCart, F.Promise<ShopCart>>() {
-            @Override
-            public F.Promise<ShopCart> apply(ShopCart shopCart) throws Throwable {
-                return cartService().setShippingAddress(shopCart, setShipping.getAddress());
-            }
-        };
     }
 
     protected ShippingMethod requireExistingShippingMethod(Optional<ShippingMethod> shippingMethodOptional, String id) {
@@ -250,27 +246,27 @@ public class CheckoutController extends BaseController {
                                     return checkoutService.setPaymentMethod(shopCart.getId(), setBilling.method);
                                 }
                             })
-                            .map(new F.Function<CustomObject, Result>() {
-                                @Override
-                                public Result apply(final CustomObject c) throws Throwable {
-                                    flash(CAN_GO_TO_ORDER_PREVIEW, "true");
-                                    return redirect(routes.CheckoutController.showOrderPreview());
-                                }
-                            });
+                            .map(f().<CustomObject>redirectWithFlash(routes.CheckoutController.showOrderPreview(), CAN_GO_TO_ORDER_PREVIEW, "true"));
                 }
             });
         }
     }
 
     public F.Promise<Result> submit() {
-        String cartSnapshot = form().bindFromRequest().field("cartSnapshot").valueOr("");
+        final String cartSnapshot = form().bindFromRequest().field("cartSnapshot").valueOr("");
         if (!sphere().currentCart().isSafeToCreateOrder(cartSnapshot)) {
             flash("error", "Your cart has changed, check everything is correct");
             return badRequest(showPage(ORDER_PREVIEW_4));
+        } else {
+            return cartService().fetchCurrent().flatMap(new F.Function<ShopCart, F.Promise<Result>>() {
+                @Override
+                public F.Promise<Result> apply(final ShopCart shopCart) throws Throwable {
+                   return cartService().createOrder(shopCart, cartSnapshot)
+                           .map(f().<Optional<ShopOrder>>redirectWithFlash(controllers.routes.HomeController.home(), "success", "Your order has been successfully created!"));
+                }
+            });
         }
         sphere().currentCart().createOrder(cartSnapshot, PaymentState.Pending);
-        flash("success", "Your order has successfully created!");
-        return asPromise(redirect(controllers.routes.HomeController.home()));
     }
 
     private F.Promise<Result> badRequest(F.Promise<Content> contentPromise) {

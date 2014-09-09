@@ -4,6 +4,7 @@ import static utils.JsonUtils.convertToNewFormat;
 import static utils.JsonUtils.convertToOldFormat;
 import static utils.JsonUtils.objectNode;
 
+import com.google.common.base.Function;
 import io.sphere.client.shop.model.ShippingMethod;
 import models.ShopCart;
 import models.ShippingMethods;
@@ -20,6 +21,7 @@ import com.google.common.base.Optional;
 
 import io.sphere.client.model.CustomObject;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class CheckoutServiceImpl implements CheckoutService {
@@ -129,10 +131,16 @@ public class CheckoutServiceImpl implements CheckoutService {
                 if (customObject.isPresent()) {
                     lastOrderNumber = customObject.get().getValue().asInt();
                 }
-                return setLastUsedOrderNumber(lastOrderNumber + 1, Optional.of(customObject.get().getVersion()))
+                final Optional<Integer> customObjectVersion = customObject.transform(new Function<CustomObject, Integer>() {
+                    @Override
+                    public Integer apply(final CustomObject customObject) {
+                        return customObject.getVersion();
+                    }
+                });
+                return setLastUsedOrderNumber(lastOrderNumber + 1, customObjectVersion)
                         .map(new F.Function<CustomObject, String>() {
                             @Override
-                            public String apply(CustomObject customObject) throws Throwable {
+                            public String apply(final CustomObject customObject) throws Throwable {
                                 return customObject.getValue().asText();
                             }
                         });
