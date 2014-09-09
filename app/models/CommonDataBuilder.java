@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Optional;
@@ -13,6 +14,7 @@ public final class CommonDataBuilder {
     private Optional<ShopCategory> currentCategory = Optional.absent();
     private Optional<ShopProduct> currentProduct = Optional.absent();
     private RequestParameters requestParameters = RequestParameters.empty();
+    private List<String> selectableAttributeNames = Collections.emptyList();
 
     private CommonDataBuilder(final UserContext userContext, final List<Lang> availableLang,
                               List<ShopCategory> rootCategories) {
@@ -29,7 +31,7 @@ public final class CommonDataBuilder {
     public CommonData build() {
         ShopRoutes shopRoutes = ShopRoutes.of(userContext.locale(), availableLang);
         return new CommonData(userContext, availableLang, shopRoutes, requestParameters, rootCategories,
-                currentCategory, currentProduct);
+                currentCategory, currentProduct, selectableAttributeNames);
     }
 
     public CommonDataBuilder withCategory(ShopCategory category) {
@@ -44,6 +46,11 @@ public final class CommonDataBuilder {
 
     public CommonDataBuilder withRequestParameters(RequestParameters requestParameters) {
         this.requestParameters = requestParameters;
+        return this;
+    }
+
+    public CommonDataBuilder withSelectableAttributes(List<String> selectableAttributeNames) {
+        this.selectableAttributeNames = selectableAttributeNames;
         return this;
     }
 }

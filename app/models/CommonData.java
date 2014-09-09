@@ -1,6 +1,5 @@
 package models;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +19,11 @@ public class CommonData {
     private final Optional<ShopProduct> currentProduct;
     private final ShopRoutes shopRoutes;
     private final RequestParameters requestParameters;
+    private final List<String> selectableAttributeNames;
 
     CommonData(UserContext userContext, List<Lang> availableLang, ShopRoutes shopRoutes, RequestParameters requestParameters,
-               List<ShopCategory> rootCategories, Optional<ShopCategory> currentCategory, Optional<ShopProduct> currentProduct) {
+               List<ShopCategory> rootCategories, Optional<ShopCategory> currentCategory, Optional<ShopProduct> currentProduct,
+               List<String> selectableAttributeNames) {
         this.userContext = userContext;
         this.availableLang = availableLang;
         this.rootCategories = rootCategories;
@@ -30,6 +31,7 @@ public class CommonData {
         this.currentProduct = currentProduct;
         this.shopRoutes = shopRoutes;
         this.requestParameters = requestParameters;
+        this.selectableAttributeNames = selectableAttributeNames;
     }
 
     public UserContext context() {
@@ -67,7 +69,11 @@ public class CommonData {
     }
 
     public ShopCall productRoute(ShopProduct product, Optional<ShopCategory> category) {
-        return shopRoutes.products().get(product, category);
+        return shopRoutes.products().get(product, product.getSelectedVariant(), category);
+    }
+
+    public ShopCall variantRoute(ShopProduct product, ShopVariant variant) {
+        return shopRoutes.products().get(product, variant, currentCategory);
     }
 
     public Optional<ShopCategory> currentCategory() {
@@ -88,5 +94,9 @@ public class CommonData {
 
     public boolean isInCategoryPath(ShopCategory category) {
         return currentCategory.isPresent() && currentCategory.get().hasInPath(category);
+    }
+
+    public List<String> selectableAttributeNames() {
+        return selectableAttributeNames;
     }
 }
