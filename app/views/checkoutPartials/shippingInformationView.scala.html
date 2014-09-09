@@ -1,0 +1,72 @@
+@(cart: Cart, cartSnapshot: String, shippingMethods: List[ShippingMethod])
+
+
+<form action="@routes.CheckoutController.handleShippingAddress" method="post" id="shipping-form">
+    <input type="hidden" name="country" value="DE">
+    <div class="col2-set">
+        <div class="col-1">
+            <h3>Choose shipping method</h3>
+            <fieldset>
+                <ul class="form-list">
+                @for(shippingMethod <- shippingMethods) {
+                    <li class="control">
+                        <input type="radio" class="radio" value="@shippingMethod.getId" id="shipping-method:@shippingMethod.getId" name="method" checked>
+                        <label><b>@shippingMethod.getName</b> @shippingMethod.getDescription</label>
+                    </li>
+                }
+                </ul>
+            </fieldset>
+        </div>
+        <div class="col-2">
+            <h3>Provide shipping address</h3>
+            <fieldset>
+            @defining(getShippingAddress(cart)) { address =>
+                <ul class="form-list">
+                    <li>
+                        <label class="required" for="shipping-firstName"><em>*</em>Name</label>
+                        <div class="input-box">
+                            <input type="text" name="firstName" id="shipping-firstName" class="input-text" placeholder="First name" value="@address.getFirstName" required>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" name="lastName" id="shipping-lastName" class="input-text" placeholder="Last name" value="@address.getLastName" required>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required" for="shipping-street"><em>*</em>Address</label>
+                        <div class="input-box">
+                            <input type="text" name="street" id="shipping-street" class="input-text" placeholder="First address line" value="@address.getStreetName" required>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" name="street2" id="shipping-street2" class="input-text" placeholder="Second address line (optional)" value="@address.getStreetNumber">
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required" for="shipping-city"><em>*</em>City</label>
+                        <div class="input-box">
+                            <input type="text" name="city" id="shipping-city" class="input-text" placeholder="City" value="@address.getCity" required>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required" for="shipping-postalCode"><em>*</em>Postal code</label>
+                        <div class="input-box">
+                            <input type="text" name="postalCode" id="shipping-postalCode" class="input-text" placeholder="Postal code" value="@address.getPostalCode" required>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required" for="shipping-email"><em>*</em>E-mail</label>
+                        <div class="input-box">
+                            <input type="email" name="email" id="shipping-email" class="input-text" placeholder="Email address" value="@address.getEmail" required>
+                        </div>
+                    </li>
+                </ul>
+            }
+            </fieldset>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="buttons-set clearfix">
+        <a href="@routes.CheckoutController.showLogin" class="button white_btn pull-left">Back</a>
+        <button class="button brown_btn pull-right" type="submit">Continue</button>
+    </div>
+</form>

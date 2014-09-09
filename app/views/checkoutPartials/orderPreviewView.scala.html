@@ -1,0 +1,112 @@
+@(cart: Cart, cartSnapshot: String)
+
+<form action="@routes.CheckoutController.submit" method="post" id="checkout-form">
+    <input type="hidden" name="cartSnapshot" value="@cartSnapshot">
+    <div class="cart_table">
+        <table class="data-table cart-table" id="shopping-cart-table" cellpadding="0" cellspacing="0">
+            <tr>
+                <th colspan="2">Products</th>
+                <th class="align_center" width="12%"></th>
+                <th class="align_center" width="12%">Unit Price</th>
+                <th class="align_center" width="10%">Qty</th>
+                <th class="align_center" width="12%">Subtotal</th>
+            </tr>
+            @for(item <- cart.getLineItems) {
+                <tr>
+                    <td width="10%"><img src="@item.getVariant.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"></td>
+                    <td class="align_left" width="44%">
+                        <a class="pr_name" href="#">@item.getProductName</a>
+                        @if(item.getVariant.hasAttribute("color")) {
+                            <span class="pr_info">color: @item.getVariant.getString("color")</span><br/>
+                        }
+                        @if(item.getVariant.hasAttribute("size")) {
+                            <span class="pr_info">size: @item.getVariant.getString("size")</span>
+                        }
+                    </td>
+                    <td class="align_center"></td>
+                    <td class="align_center vline"><span class="price">@item.getPrice.getValue</span></td>
+                    <td class="align_center vline">@item.getQuantity</td>
+                    <td class="align_center vline"><span class="price">@item.getTotalPrice</span></td>
+                </tr>
+            }
+        </table>
+    </div>
+    <br>
+    <br>
+    <div class="col2-set">
+        <div class="col-1">
+            <h3>Shipping information</h3>
+            <fieldset>
+                @if(isSet(cart.getShippingInfo)) {
+                    <b>@cart.getShippingInfo.getShippingMethodName</b>
+                }
+                @defining(cart.getShippingAddress){ address =>
+                    @if(isSet(address)) {
+                        <ul class="form-list">
+                            <li class="control">
+                                @address.getFirstName @address.getLastName<br>
+                            @address.getEmail
+                            </li>
+                            <li class="control">
+                                @address.getStreetName @address.getStreetNumber<br>
+                                @address.getPostalCode (@address.getCity)
+                            </li>
+                        </ul>
+                    }
+                }
+            </fieldset>
+        </div>
+        <div class="col-2">
+            <h3>Billing information</h3>
+            <fieldset>
+            @defining(cart.getBillingAddress){ address =>
+                @if(isSet(address)) {
+                    <ul class="form-list">
+                        <li class="control">
+                            @address.getFirstName @address.getLastName<br>
+                        </li>
+                        <li class="control">
+                            @address.getStreetName @address.getStreetNumber<br>
+                            @address.getPostalCode (@address.getCity)
+                        </li>
+                    </ul>
+                }
+            }
+            </fieldset>
+        </div>
+    </div>
+    <div class="cart_table">
+        <div class="totals">
+            <table id="totals-table">
+                <tr>
+                    <td width="60%" colspan="1" class="align_left" ><strong>Subtotal</strong></td>
+                    <td class="align_right" style=""><strong><span class="price">@cart.getTotalPrice</span></strong></td>
+                </tr>
+                @if(isSet(cart.getTaxedPrice)){
+                    <tr>
+                    @for(taxPortion <- cart.getTaxedPrice.getTaxPortions) {
+                        <td width="60%" colspan="1" class="align_left">Tax @percentage(taxPortion.getRate)%</td>
+                        <td class="align_right" style=""><span class="">@taxPortion.getAmount</span></td>
+                    }
+                    </tr>
+                }
+                @if(isSet(cart.getShippingInfo)) {
+                    <tr>
+                        <td width="60%" colspan="1" class="align_left" >Shipping cost</td>
+                        <td class="align_right" style=""><span class="price">@cart.getShippingInfo.getPrice</span></td>
+                    </tr>
+                }
+                <tr>
+                    <td width="60%" colspan="1" class="align_left total" >Grand Total</td>
+                    <td class="align_right" style=""><span class="total">@getTotalPrice(cart)</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="buttons-set clearfix">
+        <a href="@routes.CheckoutController.showBilling" class="button white_btn pull-left">Back</a>
+        <button class="button brown_btn pull-right" type="submit">Buy now</button>
+    </div>
+</form>
