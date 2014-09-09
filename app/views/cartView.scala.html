@@ -25,9 +25,12 @@
             </tr>
             @for(item <- cart.getLineItems) {
             <tr>
-              <td width="10%"><img src="@item.getVariant.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"></td>
+              <td width="10%">
+                  <a href="@routes.ProductController.selectById(item.getProductId, item.getVariant.getId)">
+                      <img src="@item.getVariant.getFeaturedImage.getSize(ImageSize.SMALL).getUrl"></a>
+              </td>
               <td class="align_left" width="44%">
-                  <a class="pr_name" href="#">@item.getProductName</a>
+                  <a class="pr_name" href="@routes.ProductController.selectById(item.getProductId, item.getVariant.getId)">@item.getProductName</a>
                   @for(selectedAttributeName <- data.selectableAttributeNames){
                       @defining(item.getVariant.getAttribute(selectedAttributeName)){ attribute =>
                         @** TODO IMPROVE THIS! **@
