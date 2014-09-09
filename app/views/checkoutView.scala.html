@@ -353,7 +353,7 @@
                                             @if(isSet(cart.getTaxedPrice)){
                                             <tr>
                                                 @for(taxPortion <- cart.getTaxedPrice.getTaxPortions) {
-                                                <td width="60%" colspan="1" class="align_left">Tax @getPercentage(taxPortion.getRate)%</td>
+                                                <td width="60%" colspan="1" class="align_left">Tax @percentage(taxPortion.getRate)%</td>
                                                 <td class="align_right" style=""><span class="">@taxPortion.getAmount</span></td>
                                                 }
                                             </tr>

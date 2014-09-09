@@ -55,7 +55,7 @@ public final class PrintUtils {
         return StringUtils.abbreviate(text, maxWidth);
     }
 
-    public static BigDecimal getPercentage(double amount) {
+    public static BigDecimal percentage(double amount) {
         return BigDecimal.valueOf(amount * 100).stripTrailingZeros();
     }
 }
