@@ -1,6 +1,7 @@
 package controllers;
 
 import com.google.common.base.Optional;
+import com.google.common.primitives.Ints;
 import controllers.actions.CartNotEmpty;
 import exceptions.DuplicateEmailException;
 import exceptions.InvalidShippingMethodException;
@@ -9,8 +10,10 @@ import forms.checkoutForm.SetShipping;
 import forms.customerForm.LogIn;
 import forms.customerForm.SignUp;
 import io.sphere.client.model.CustomObject;
+import io.sphere.client.model.Money;
 import io.sphere.client.model.VersionedId;
 import io.sphere.client.shop.model.CustomerName;
+import io.sphere.client.shop.model.Price;
 import io.sphere.client.shop.model.ShippingMethod;
 import models.PaymentMethods;
 import models.ShopCart;
@@ -26,6 +29,14 @@ import play.mvc.With;
 import services.*;
 import views.html.checkoutView;
 import views.html.signupView;
+
+import de.paymill.Paymill;
+import de.paymill.PaymillException;
+import de.paymill.model.Payment;
+import de.paymill.model.Transaction;
+import de.paymill.net.ApiException;
+import de.paymill.service.PaymentService;
+import de.paymill.service.TransactionService;
 
 import java.util.List;
 
@@ -278,7 +289,7 @@ public class CheckoutController extends BaseController {
                             .flatMap(new F.Function<ShopCart, F.Promise<CustomObject>>() {
                                 @Override
                                 public F.Promise<CustomObject> apply(final ShopCart shopCart) throws Throwable {
-                                    return checkoutService.setPaymentMethod(shopCart.getId(), setBilling.method);
+                                    return checkoutService.setPaymentMethod(shopCart.getId(), setBilling.method, setBilling.paymillToken);
                                 }
                             })
                             .map(f().<CustomObject>redirectWithFlash(controllers.routes.CheckoutController.showOrderPreview(), CAN_GO_TO_ORDER_PREVIEW, "true"));
@@ -296,11 +307,44 @@ public class CheckoutController extends BaseController {
             return cartService().fetchCurrent().flatMap(new F.Function<ShopCart, F.Promise<Result>>() {
                 @Override
                 public F.Promise<Result> apply(final ShopCart shopCart) throws Throwable {
-                    return cartService().createOrder(shopCart, cartSnapshot)
-                            .map(f().<Optional<ShopOrder>>redirectWithFlash(controllers.routes.HomeController.home(), "success", "Your order has been successfully created!"));
+                    return chargeCustomer(shopCart, cartSnapshot);
                 }
             });
         }
+    }
+
+    public F.Promise<Result> chargeCustomer(final ShopCart cart, final String cartSnapshot) {
+        return checkoutService.getPaymentToken(cart.getId()).flatMap(new F.Function<Optional<String>, F.Promise<Result>>() {
+            @Override
+            public F.Promise<Result> apply(Optional<String> token) throws Throwable {
+                if (token.isPresent()) {
+                    try {
+                        // Get payment object from token
+                        Paymill.setApiKey(paymillPrivateKey());
+                        PaymentService paymentSrv = Paymill.getService(PaymentService.class);
+                        Payment payment = paymentSrv.create(token.get());
+                        // Set transaction details
+                        TransactionService transactionSrv = Paymill.getService(TransactionService.class);
+                        Transaction transaction = new Transaction();
+                        Money money = cart.getTotalPrice();
+                        transaction.setPayment(payment);
+                        transaction.setAmount(Ints.checkedCast(money.getCentAmount()));
+                        transaction.setCurrency(money.getCurrencyCode());
+                        // Execute charge transaction
+                        play.Logger.debug("Executing payment " + payment.getId() + " of " + transaction.getAmount()
+                                + " " + transaction.getCurrency() + " with token " + token);
+                        transactionSrv.create(transaction);
+                        return cartService().createOrder(cart, cartSnapshot)
+                                .map(f().<Optional<ShopOrder>>redirectWithFlash(controllers.routes.HomeController.home(), "success", "Your order has been successfully created!"));
+
+                    } catch (PaymillException pe) {
+                        throw new RuntimeException("Payment failed unexpectedly", pe);
+                    }
+                } else {
+                    throw new RuntimeException("No payment token found");
+                }
+            }
+        });
     }
 
     private F.Promise<Result> badRequest(F.Promise<Content> contentPromise) {

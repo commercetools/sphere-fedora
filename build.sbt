@@ -14,6 +14,7 @@ libraryDependencies ++= Seq(
   "io.sphere" %% "sphere-play-sdk" % "0.67.0" withSources(),
   "javax.mail" % "mail" % "1.4.7",
   "org.jsoup" % "jsoup" % "1.7.1",
+  "de.paymill" % "paymill-java" % "2.6",
   "org.mockito" % "mockito-all" % "1.9.5" % "test"
 )
 
