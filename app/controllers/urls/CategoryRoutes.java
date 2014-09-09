@@ -22,7 +22,8 @@ public class CategoryRoutes {
     public Map<Lang, ShopCall> all(ShopCategory currentCategory, RequestParameters parameters) {
         Map<Lang, ShopCall> localizedUrls = new HashMap<Lang, ShopCall>();
         for (Lang lang : availableLang) {
-            ShopCall call = get(lang.toLocale(), currentCategory, parameters);
+            Locale languageLocale = new Locale(lang.language());
+            ShopCall call = get(languageLocale, currentCategory, parameters);
             localizedUrls.put(lang, call);
         }
         return localizedUrls;
