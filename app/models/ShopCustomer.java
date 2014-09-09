@@ -20,7 +20,7 @@ public class ShopCustomer {
 
     // TODO Allow to configure customer types from config file
     public enum CustomerType {
-        B2C(""), B2B("b2b");
+        B2C(""), B2B("B2B");
 
         private final String key;
 
