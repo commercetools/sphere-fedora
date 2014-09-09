@@ -104,9 +104,7 @@ public class CheckoutController extends BaseController {
         return zip(shopCartPromise, shippingMethodsPromise, paymentMethodPromise, new F.Function3<ShopCart, List<ShippingMethod>, String, Content>() {
             @Override
             public Content apply(final ShopCart cart, final List<ShippingMethod> shippingMethods, final String paymentMethod) throws Throwable {
-                Form<SetShipping> shippingForm = setShippingForm.fill(new SetShipping(cart.getShippingAddress()));
-                Form<SetBilling> billingForm = setBillingForm.fill(new SetBilling(cart.getBillingAddress()));
-                String cartSnapshot = sphere().currentCart().createCartSnapshotId();
+                final String cartSnapshot = cartService().createSnapshot();
                 return checkoutView.render(data().build(), cart.get(), cartSnapshot, shippingMethods, paymentMethod, page);
             }
         });
@@ -254,7 +252,7 @@ public class CheckoutController extends BaseController {
 
     public F.Promise<Result> submit() {
         final String cartSnapshot = form().bindFromRequest().field("cartSnapshot").valueOr("");
-        if (!sphere().currentCart().isSafeToCreateOrder(cartSnapshot)) {
+        if (!cartService().canCreateOrder(cartSnapshot)) {
             flash("error", "Your cart has changed, check everything is correct");
             return badRequest(showPage(ORDER_PREVIEW_4));
         } else {
