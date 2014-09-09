@@ -27,7 +27,7 @@ GET     /checkout/billing                                   @controllers.Checkou
 POST    /checkout/billing                                   @controllers.CheckoutController.setBilling()
 
 GET     /checkout/shipping                                  @controllers.CheckoutController.showShipping()
-POST    /checkout/shipping                                  @controllers.CheckoutController.setShipping()
+POST    /checkout/shipping                                  @controllers.CheckoutController.handleShippingAddress()
 
 # Login
 GET     /user/login                                         @controllers.LoginController.showSignIn()

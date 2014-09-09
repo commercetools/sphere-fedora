@@ -3,6 +3,7 @@ package controllers;
 import com.google.common.base.Optional;
 import controllers.actions.CartNotEmpty;
 import exceptions.DuplicateEmailException;
+import exceptions.InvalidShippingMethodException;
 import forms.checkoutForm.SetBilling;
 import forms.checkoutForm.SetShipping;
 import forms.customerForm.LogIn;
@@ -155,25 +156,52 @@ public class CheckoutController extends BaseController {
         return result;
     }
 
-    public F.Promise<Result> setShipping() {
-        Form<SetShipping> form = setShippingForm.bindFromRequest();
-        // Case missing or invalid form data
-        if (form.hasErrors()) {
-            flash("error", "Shipping information has errors");
+    public F.Promise<Result> handleShippingAddress() {
+        final Form<SetShipping> filledForm = setShippingForm.bindFromRequest();
+        if (filledForm.hasErrors()) {
+            flash("error", "Shipping information has errors.");
             return badRequest(showPage(SHIPPING_INFORMATION_2));
+        } else {
+            final SetShipping setShipping = filledForm.get();
+            return shippingMethodService.fetchById(setShipping.method)
+                    .zip(cartService().fetchCurrent())
+                    .flatMap(new F.Function<F.Tuple<Optional<ShippingMethod>, ShopCart>, F.Promise<Result>>() {
+                        @Override
+                        public F.Promise<Result> apply(F.Tuple<Optional<ShippingMethod>, ShopCart> tuple) throws Throwable {
+                            final ShippingMethod shippingMethod = requireExistingShippingMethod(tuple._1, setShipping.method);
+                            final ShopCart shopCart = tuple._2;
+                            return cartService().changeShipping(shopCart, ShippingMethod.reference(shippingMethod.getId()))
+                                    .flatMap(setShippingAddressFunction(setShipping))
+                                    .map(f().<ShopCart>redirect(routes.CheckoutController.showBilling()));
+                        }
+                    }).recover(new F.Function<Throwable, Result>() {
+                        @Override
+                        public Result apply(final Throwable throwable) throws Throwable {
+                            if (throwable instanceof InvalidShippingMethodException) {
+                                flash("error", "Shipping method is invalid");
+                                return redirect(routes.CheckoutController.showShipping());
+                            } else {
+                                throw throwable;
+                            }
+                        }
+                    });
         }
-        // Case invalid shipping method
-        SetShipping setShipping = form.get();
-        ShippingMethod shippingMethod = sphere().shippingMethods().byId(setShipping.method).fetch().orNull();
-        if (shippingMethod == null) {
-            flash("error", "Shipping method is invalid");
-            return badRequest(showPage(SHIPPING_INFORMATION_2));
+    }
+
+    protected F.Function<ShopCart, F.Promise<ShopCart>> setShippingAddressFunction(final SetShipping setShipping) {
+        return new F.Function<ShopCart, F.Promise<ShopCart>>() {
+            @Override
+            public F.Promise<ShopCart> apply(ShopCart shopCart) throws Throwable {
+                return cartService().setShippingAddress(shopCart, setShipping.getAddress());
+            }
+        };
+    }
+
+    protected ShippingMethod requireExistingShippingMethod(Optional<ShippingMethod> shippingMethodOptional, String id) {
+        if (!shippingMethodOptional.isPresent()) {
+            throw InvalidShippingMethodException.ofWrongId(id);
         }
-        // Case valid shipping data
-        sphere().currentCart().setCustomerEmail(setShipping.email);
-        sphere().currentCart().setShippingAddress(setShipping.getAddress());
-        sphere().currentCart().setShippingMethod(ShippingMethod.reference(shippingMethod.getId()));
-        return ok(showPage(BILLING_INFORMATION_3));
+        return shippingMethodOptional.get();
     }
 
     public F.Promise<Result> setBilling() {

@@ -6,10 +6,13 @@ import models.*;
 import play.Configuration;
 import play.Logger;
 import play.Play;
+import play.api.mvc.Call;
 import play.i18n.Lang;
+import play.libs.F;
 import play.mvc.Content;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Results;
 import services.CartService;
 import services.CategoryService;
 import services.CustomerService;
@@ -37,6 +40,10 @@ public class BaseController extends ShopController {
         this.productService = productService;
         this.cartService = cartService;
         this.customerService = customerService;
+    }
+
+    protected Functions f() {
+        return new Functions();
     }
 
     protected CategoryService categoryService() {
@@ -198,5 +205,19 @@ public class BaseController extends ShopController {
 
     protected Result redirectToReturnUrl() {
         return redirect(session("returnUrl"));
+    }
+
+    protected static final class Functions {
+        private Functions() {
+        }
+
+        protected static <T> F.Function<T, Result> redirect(final Call call) {
+            return new F.Function<T, Result>() {
+                @Override
+                public Result apply(final T o) throws Throwable {
+                    return Results.redirect(call);
+                }
+            };
+        }
     }
 }

@@ -21,13 +21,17 @@ public interface CartService {
     /**
      * Gets the version and ID object of the current cart from the session.
      * @return the versioned ID of the current cart.
+     * @deprecated service should not access the session
      */
+    @Deprecated
     Optional<VersionedId> currentVersionedId();
 
     /**
      * Fetches the current cart.
      * @return the promise of the current cart.
+     * @deprecated service should not access the session
      */
+    @Deprecated
     F.Promise<ShopCart> fetchCurrent();
 
     /**
@@ -62,7 +66,9 @@ public interface CartService {
      * Creates the snapshot ID for the current cart.
      * Useful for creating an order from the cart in a secure way.
      * @return the generated snapshot ID.
+     * @deprecated service should not access the session
      */
+    @Deprecated
     String createSnapshot();
 
     /**
@@ -122,6 +128,14 @@ public interface CartService {
      * @return the promise of the updated cart with the shipping and billing addresses.
      */
     F.Promise<ShopCart> changeAddresses(ShopCart cart, Address shippingAddress, Address billingAddress);
+
+    /**
+     * Set the shipping address for the cart.
+     * @param cart the cart to be updated.
+     * @param shippingAddress the provided shipping address to be set.
+     * @return the promise of the updated cart
+     */
+    F.Promise<ShopCart> setShippingAddress(final ShopCart cart, final Address shippingAddress);
 
     /**
      * Sets the shipping method to the provided cart.
