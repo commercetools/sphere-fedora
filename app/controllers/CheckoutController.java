@@ -137,12 +137,12 @@ public class CheckoutController extends BaseController {
         final int page = stage.key;
         final F.Promise<ShopCart> shopCartPromise = cartService().fetchCurrent();
         final F.Promise<List<ShippingMethod>> shippingMethodsPromise = shippingMethodService.getShippingMethods();
-        final F.Promise<String> paymentMethodPromise = paymentMethodOr(PaymentMethods.VISA.key());
+        final F.Promise<String> paymentMethodPromise = paymentMethodOr(PaymentMethods.CREDITCARD.key());
         return zip(shopCartPromise, shippingMethodsPromise, paymentMethodPromise, new F.Function3<ShopCart, List<ShippingMethod>, String, Content>() {
             @Override
             public Content apply(final ShopCart cart, final List<ShippingMethod> shippingMethods, final String paymentMethod) throws Throwable {
                 final String cartSnapshot = cartService().createSnapshot();
-                return checkoutView.render(data().build(), cart.get(), cartSnapshot, shippingMethods, paymentMethod, page);
+                return checkoutView.render(data().build(), cart.get(), cartSnapshot, shippingMethods, paymentMethod, paymillPublicKey(), page);
             }
         });
     }
@@ -241,14 +241,14 @@ public class CheckoutController extends BaseController {
                                             return cartService().changeShipping(shopCart, ShippingMethod.reference(shippingMethod.getId()));
                                         }
                                     })
-                                    .map(f().<ShopCart>redirect(routes.CheckoutController.showBilling()));
+                                    .map(f().<ShopCart>redirect(controllers.routes.CheckoutController.showBilling()));
                         }
                     }).recover(new F.Function<Throwable, Result>() {
                         @Override
                         public Result apply(final Throwable throwable) throws Throwable {
                             if (throwable instanceof InvalidShippingMethodException) {
                                 flash("error", "Shipping method is invalid");
-                                return redirect(routes.CheckoutController.showShipping());
+                                return redirect(controllers.routes.CheckoutController.showShipping());
                             } else {
                                 throw throwable;
                             }
@@ -281,7 +281,7 @@ public class CheckoutController extends BaseController {
                                     return checkoutService.setPaymentMethod(shopCart.getId(), setBilling.method);
                                 }
                             })
-                            .map(f().<CustomObject>redirectWithFlash(routes.CheckoutController.showOrderPreview(), CAN_GO_TO_ORDER_PREVIEW, "true"));
+                            .map(f().<CustomObject>redirectWithFlash(controllers.routes.CheckoutController.showOrderPreview(), CAN_GO_TO_ORDER_PREVIEW, "true"));
                 }
             });
         }
