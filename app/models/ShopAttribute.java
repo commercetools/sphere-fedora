@@ -12,6 +12,10 @@ public class ShopAttribute {
         this.attribute = attribute;
     }
 
+    public static ShopAttribute of(Attribute attribute) {
+        return new ShopAttribute(attribute);
+    }
+
     public Attribute get() {
         return attribute;
     }
