@@ -41,7 +41,7 @@ public class CartController extends BaseController {
         return cartService().fetchCurrent().map(new F.Function<ShopCart, Result>() {
             @Override
             public Result apply(final ShopCart shopCart) throws Throwable {
-                return ok(cartView.render(data().build(), shopCart.get()));
+                return ok(cartView.render(data().build(), shopCart));
             }
         });
     }

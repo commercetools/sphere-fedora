@@ -1,4 +1,4 @@
-@(data: CommonData, cart: Cart)
+@(data: CommonData, cart: ShopCart)
 
 @main("Cart"){
     @helpers.navigationTop(data)
@@ -54,23 +54,23 @@
                   <td width="60%" colspan="1" class="align_left" ><strong>Subtotal</strong></td>
                   <td class="align_right" style=""><strong><span class="price">@printMoney(data.context, cart.getTotalPrice)</span></strong></td>
                 </tr>
-                @if(isSet(cart.getTaxedPrice)){
+                @if(cart.getTaxedPrice.isPresent){
                 <tr>
-                    @for(taxPortion <- cart.getTaxedPrice.getTaxPortions) {
-                    <td width="60%" colspan="1" class="align_left">Tax @getPercentage(taxPortion.getRate)%</td>
+                    @for(taxPortion <- cart.getTaxedPrice.get.getTaxPortions) {
+                    <td width="60%" colspan="1" class="align_left">Tax @percentage(taxPortion.getRate)%</td>
                     <td class="align_right" style=""><span class="">@taxPortion.getAmount</span></td>
                     }
                 </tr>
                 }
-                @if(isSet(cart.getShippingInfo)) {
+                @if(cart.getShippingInfo.isPresent){
                 <tr>
                     <td width="60%" colspan="1" class="align_left" >Shipping cost</td>
-                    <td class="align_right" style=""><span class="price">@cart.getShippingInfo.getPrice</span></td>
+                    <td class="align_right" style=""><span class="price">@printMoney(data.context, cart.getShippingInfo.get.getPrice)</span></td>
                 </tr>
                 }
                 <tr>
                   <td width="60%" colspan="1" class="align_left total" >Grand Total</td>
-                  <td class="align_right" style=""><span class="total">@printMoney(data.context, getTotalPrice(cart))</span></td>
+                  <td class="align_right" style=""><span class="total">@printMoney(data.context, cart.getTotalPrice)</span></td>
                 </tr>                
             </table>
           </div>
