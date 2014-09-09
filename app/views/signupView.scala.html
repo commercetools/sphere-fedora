@@ -9,19 +9,54 @@
     @helpers.navigationTop(data)
     @helpers.navigationMenu(data)
 }{
-    <section class="user">
+<section class="user">
+
+    <div id="" class="full_page">
         <h1>@Messages("signup.Title")</h1>
 
-        @form(action = routes.LoginController.handleSignUp(), 'id -> "signupForm") {
-            @inputText(signupForm("firstName"))
-            @inputText(signupForm("lastName"))
-            @inputText(signupForm("email"))
-            @inputPassword(signupForm("password"))
-
-            <input type="submit" class="button" id="submit-user-form" value='@Messages("header.signup")'>
-        }
-
-    </section>
+        <div class="page_sidebar">
+            <section id="main_content">
+                <div class="short-code-column">
+                    <form action="@routes.LoginController.handleSignUp" method="post" id="sign-up-form">
+                        <fieldset>
+                            <h4><a href="@routes.LoginController.showSignIn">Already registered?</a></h4>
+                            <p>Register with us for future convenience:</p>
+                            <ul class="form-list">
+                                <li>
+                                    <label class="required" for="signUp-firstName"><em>*</em>Name</label>
+                                    <div class="input-box">
+                                        <input type="text" name="firstName" id="signUp-firstName" placeholder="First name" class="input-text" required>
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="text" name="lastName" id="signUp-lastName" placeholder="Last name" class="input-text" required>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="required" for="signUp-email"><em>*</em>E-mail</label>
+                                    <div class="input-box">
+                                        <input type="email" name="email" id="signUp-email" placeholder="Email address" class="input-text">
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="required" for="signUp-password"><em>*</em>Password</label>
+                                    <div class="input-box">
+                                        <input type="password" name="password" id="signUp-password" class="input-text">
+                                    </div>
+                                </li>
+                            </ul>
+                            <br/>
+                        </fieldset>
+                        <div class="buttons-set">
+                            <button  class="button brown_btn" type="submit">Register</button>
+                        </div>
+                    </form>
+                    <br/>
+                    <br/>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
 }{
 
 }
