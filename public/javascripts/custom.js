@@ -84,16 +84,4 @@ $(document).ready(function(){
         $('#product-image-zoom img').attr("src", $(this).data("pic"));
     });
 
-    // Toggle payment form between credit card and direct debit
-    $('.checkout .paymenttype').click(function(e) {
-        $(this).addClass('btn-primary disabled');
-        if ($(this).val() == 'elv') {
-            $('#payment-form-elv').show();
-            $('#payment-form-cc').hide();
-        } else {
-            $('#payment-form-elv').hide();
-            $('#payment-form-cc').show();
-        }
-    });
-
 });
