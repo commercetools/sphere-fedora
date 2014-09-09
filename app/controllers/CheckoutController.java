@@ -261,12 +261,11 @@ public class CheckoutController extends BaseController {
             return cartService().fetchCurrent().flatMap(new F.Function<ShopCart, F.Promise<Result>>() {
                 @Override
                 public F.Promise<Result> apply(final ShopCart shopCart) throws Throwable {
-                   return cartService().createOrder(shopCart, cartSnapshot)
-                           .map(f().<Optional<ShopOrder>>redirectWithFlash(controllers.routes.HomeController.home(), "success", "Your order has been successfully created!"));
+                    return cartService().createOrder(shopCart, cartSnapshot)
+                            .map(f().<Optional<ShopOrder>>redirectWithFlash(controllers.routes.HomeController.home(), "success", "Your order has been successfully created!"));
                 }
             });
         }
-        sphere().currentCart().createOrder(cartSnapshot, PaymentState.Pending);
     }
 
     private F.Promise<Result> badRequest(F.Promise<Content> contentPromise) {
