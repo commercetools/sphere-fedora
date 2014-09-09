@@ -22,7 +22,7 @@ public class CustomObjectServiceImpl implements CustomObjectService {
     }
 
     public <T> F.Promise<CustomObject> setCustomObject(final String container, final String key, final T data,
-                                                          final Optional<Integer> version) {
+                                                       final Optional<Integer> version) {
         CommandRequest<CustomObject> request;
         if (version.isPresent()) {
             request = sphere.client().customObjects().set(container, key, data, version.get());
