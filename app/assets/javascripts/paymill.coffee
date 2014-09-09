@@ -1,6 +1,6 @@
 class window.Paymill
         constructor: (@form) ->
-            @paymentType = @form.find('.paymenttype.disabled').val() ? 'cc'
+            @paymentType = @form.find(".paymenttype:checked").val() ? 'cc'
             @error = false
 
             @cardNumber = @form.find('.card-number')
@@ -11,12 +11,9 @@ class window.Paymill
             @cardAmount = @form.find('.card-amount-int')
             @cardCurrency = @form.find('.card-currency')
 
-            @elvNumber = @form.find('.elv-account')
+            @elvAccount = @form.find('.elv-account')
             @elvBank = @form.find('.elv-bankcode')
             @elvHolder = @form.find('.elv-holdername')
-
-        reload: ->
-            @paymentType = @form.find('.paymenttype.disabled').val() ? 'cc'
 
         # Method to update amount and currency for 3DS credit card
         updatePrice: (amount, currency) ->
@@ -61,8 +58,8 @@ class window.Paymill
         submit: (responseHandler) ->
             return false if @error
             switch @paymentType
-                when "ELV" then params = {
-                        number: @elvNumber.val()
+                when "elv" then params = {
+                        number: @elvAccount.val()
                         bank: @elvBank.val()
                         accountholder: @elvHolder.val()
                     }
@@ -79,23 +76,18 @@ class window.Paymill
 
 
 $ ->
-    paymill = new Paymill $("#billing-form")
-
     # Toggle payment form between credit card and direct debit
     $('.checkout .paymenttype').click ->
-        $(this).addClass('btn-primary disabled');
         if $(this).val() is 'elv'
             $('#payment-form-elv').show()
             $('#payment-form-cc').hide()
-            $('#billing-method:cc').removeClass('btn-primary disabled')
         else
             $('#payment-form-elv').hide()
             $('#payment-form-cc').show()
-            $('#billing-method:elv').removeClass('btn-primary disabled')
 
 
     $("#billing-form button[type=submit]").click ->
-        paymill.reload()
+        paymill = new Paymill $("#billing-form")
         # Validate form client side
         return false unless paymill.validate()
         # Submit payment data to Paymill
