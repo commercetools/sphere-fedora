@@ -9,8 +9,9 @@
 <p class="short_dc">@Html(abbreviate(product.getDescription(data.context.locale), 400))</p>
 
 <ul class="product-attributes">
+    <li><span>SKU</span>: @product.getSelectedVariant.getSku</li>
     @for(attribute <- product.getSelectedVariant.getAttributes) {
-    <li><span>@attribute.getName</span>: @attribute.getStringValue(data.context.locale)</li>
+    <li><span>@attribute.getName.toUpperCase</span>: @attribute.getStringValue(data.context.locale)</li>
     }
 </ul>
 

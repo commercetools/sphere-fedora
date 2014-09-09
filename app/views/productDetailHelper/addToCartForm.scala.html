@@ -25,16 +25,6 @@
             </select>
         </div>
         }
-       <div class="variant-selector sku_sel">
-            <label>@Messages("product.sku") :</label>
-            <select class="browse-url-selector" id="product-sku-selector">
-                @for(variant <- product.getVariants) {
-                <option data-url="@data.variantRoute(product, variant)" @if(variant == product.getSelectedVariant){selected}>
-                    @variant.getSku
-                </option>
-                }
-            </select>
-        </div>
     </div>
     <div class="qty_info">
         <div class="quantity">
