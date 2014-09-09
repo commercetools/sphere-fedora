@@ -122,69 +122,6 @@ public class ViewHelper {
         return localizedUrls;
     }
 
-    public static String displayAttributeId(Attribute attribute) {
-        if (isEnumAttribute(attribute)) {
-            return attribute.getEnum().key;
-        } else if (isNumberAttribute(attribute)) {
-            return String.valueOf(attribute.getInt());
-        } else {
-            return attribute.getString();
-        }
-    }
-
-    public static String displayAttributeValue(Attribute attribute, Locale locale) {
-        if (attribute == null) {
-            return "";
-        } else if (isNumberAttribute(attribute)) {
-            return String.valueOf(attribute.getInt());
-        } else if (isEnumAttribute(attribute)) {
-            if (isLocalizedEnumAttribute(attribute)) {
-                return attribute.getLocalizableEnum().getLabel().get(locale);
-            } else {
-                return attribute.getEnum().label;
-            }
-        } else {
-            String localizedString = getLocalizedString(attribute).get(locale);
-            if (localizedString.isEmpty()) {
-                return attribute.getString();
-            } else {
-                return localizedString;
-            }
-        }
-    }
-
-    public static LocalizedString getLocalizedString(Attribute attribute) {
-        LocalizedString result = Attribute.defaultLocalizedString;
-        if (attribute.getValue() instanceof Map) {
-            final Map data = (Map) attribute.getValue();
-            result = extractLocalizedString(data);
-        }
-        return result;
-    }
-
-    @SuppressWarnings("unchecked")//since object has no type information it needs to be casted
-    private static LocalizedString extractLocalizedString(Map data) {
-        final Map<Locale, String> stringMap = Maps.newHashMap();
-        Map<String, String> localeMap = (Map<String, String>)data;
-        for (Map.Entry<String, String> entry : localeMap.entrySet()) {
-            stringMap.put(Util.fromLanguageTag(entry.getKey()), entry.getValue());
-        }
-        return new LocalizedString(stringMap);
-    }
-
-    public static boolean isEnumAttribute(Attribute attribute) {
-        String key = attribute.getEnum().key;
-        return key != null && !key.isEmpty();
-    }
-
-    public static boolean isLocalizedEnumAttribute(Attribute attribute) {
-        return !attribute.getLocalizableEnum().getKey().isEmpty();
-    }
-
-    public static boolean isNumberAttribute(Attribute attribute) {
-        return attribute.getValue().getClass().equals(java.lang.Integer.class);
-    }
-
     public static String buildQuery(String key, String value) {
         String queryString = "?";
         if (!value.isEmpty()) {
