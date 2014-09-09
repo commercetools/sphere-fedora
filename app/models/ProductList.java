@@ -16,6 +16,10 @@ public class ProductList {
         this.parameters = parameters;
     }
 
+    public static ProductList of(SearchResult<Product> searchResult) {
+        return new ProductList(searchResult, RequestParameters.empty());
+    }
+
     public static ProductList of(SearchResult<Product> searchResult, RequestParameters parameters) {
         return new ProductList(searchResult, parameters);
     }
