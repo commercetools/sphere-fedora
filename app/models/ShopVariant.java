@@ -71,8 +71,14 @@ public class ShopVariant {
         return Optional.absent();
     }
 
-    public ShopAttribute getAttribute(String attributeName) {
-        return new ShopAttribute(variant.getAttribute(attributeName));
+    public Optional<ShopAttribute> getAttribute(String attributeName) {
+        Attribute attribute = variant.getAttribute(attributeName);
+        if (attribute == null) {
+            return Optional.absent();
+        } else {
+            ShopAttribute shopAttribute = ShopAttribute.of(attribute);
+            return Optional.of(shopAttribute);
+        }
     }
 
     public List<ShopAttribute> getAttributes() {

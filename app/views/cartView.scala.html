@@ -29,8 +29,11 @@
               <td class="align_left" width="44%">
                   <a class="pr_name" href="#">@item.getProductName</a>
                   @for(selectedAttributeName <- data.selectableAttributeNames){
-                      @defining(ShopAttribute.of(item.getVariant.getAttribute(selectedAttributeName))){ attribute =>
-                      <span class="pr_info">@selectedAttributeName: @attribute.getStringValue(data.context.locale)</span><br/>
+                      @defining(item.getVariant.getAttribute(selectedAttributeName)){ attribute =>
+                        @** TODO IMPROVE THIS! **@
+                        @if(attribute != null){
+                        <span class="pr_info">@selectedAttributeName: @ShopAttribute.of(attribute).getStringValue(data.context.locale)</span><br/>
+                        }
                       }
                   }
               </td>

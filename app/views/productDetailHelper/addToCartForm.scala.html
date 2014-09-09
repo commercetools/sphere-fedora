@@ -15,7 +15,11 @@
             <select class="browse-url-selector">
                 @for(matchingVariant <- product.getSelectableVariants(selectedAttributeName, data.selectableAttributeNames)) {
                 <option data-url="@data.variantRoute(product, matchingVariant)" @if(matchingVariant == product.getSelectedVariant){selected}>
-                    @matchingVariant.getAttribute(selectedAttributeName).getStringValue(data.context.locale)
+                    @defining(matchingVariant.getAttribute(selectedAttributeName)){ attribute =>
+                    @if(attribute.isPresent){
+                        attribute.get.getStringValue(data.context.locale)
+                    }
+                    }
                 </option>
                 }
             </select>
