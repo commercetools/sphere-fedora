@@ -1,7 +1,6 @@
 package controllers;
 
 import com.google.common.base.Optional;
-import controllers.actions.CartNotEmpty;
 import forms.cartForm.AddToCart;
 import forms.cartForm.UpdateCart;
 import models.ShopCart;
@@ -9,12 +8,11 @@ import models.ShopProduct;
 import play.data.Form;
 import play.libs.F;
 import play.mvc.Result;
-import play.mvc.With;
 import services.CartService;
 import services.CategoryService;
 import services.CustomerService;
 import services.ProductService;
-import views.html.carts;
+import views.html.cartView;
 
 import static play.data.Form.form;
 import static utils.AsyncUtils.asPromise;
@@ -43,7 +41,7 @@ public class CartController extends BaseController {
         return cartService().fetchCurrent().map(new F.Function<ShopCart, Result>() {
             @Override
             public Result apply(final ShopCart shopCart) throws Throwable {
-                return ok(carts.render(data().build(), shopCart.get()));
+                return ok(cartView.render(data().build(), shopCart.get()));
             }
         });
     }
