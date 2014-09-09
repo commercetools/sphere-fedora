@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Optional;
+import com.neovisionaries.i18n.CountryCode;
 import controllers.urls.ShopCall;
 import controllers.urls.ShopRoutes;
 import play.i18n.Lang;
@@ -14,6 +15,7 @@ import play.i18n.Lang;
 public class CommonData {
     private final UserContext userContext;
     private final List<Lang> availableLang;
+    private final List<CountryCode> availableCountry;
     private final List<ShopCategory> rootCategories;
     private final Optional<ShopCategory> currentCategory;
     private final Optional<ShopProduct> currentProduct;
@@ -21,11 +23,12 @@ public class CommonData {
     private final RequestParameters requestParameters;
     private final List<String> selectableAttributeNames;
 
-    CommonData(UserContext userContext, List<Lang> availableLang, ShopRoutes shopRoutes, RequestParameters requestParameters,
-               List<ShopCategory> rootCategories, Optional<ShopCategory> currentCategory, Optional<ShopProduct> currentProduct,
-               List<String> selectableAttributeNames) {
+    CommonData(UserContext userContext, List<Lang> availableLang, List<CountryCode> availableCountry, ShopRoutes shopRoutes,
+               RequestParameters requestParameters, List<ShopCategory> rootCategories, Optional<ShopCategory> currentCategory,
+               Optional<ShopProduct> currentProduct, List<String> selectableAttributeNames) {
         this.userContext = userContext;
         this.availableLang = availableLang;
+        this.availableCountry = availableCountry;
         this.rootCategories = rootCategories;
         this.currentCategory = currentCategory;
         this.currentProduct = currentProduct;
@@ -40,6 +43,10 @@ public class CommonData {
 
     public List<Lang> availableLang() {
         return availableLang;
+    }
+
+    public List<CountryCode> availableCountry() {
+        return availableCountry;
     }
 
     public ShopRoutes routes() {

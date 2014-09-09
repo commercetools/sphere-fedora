@@ -2,6 +2,7 @@ package controllers.urls;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
+import com.neovisionaries.i18n.CountryCode;
 import models.RequestParameters;
 import org.apache.commons.lang3.StringUtils;
 import play.mvc.Call;
@@ -49,6 +50,11 @@ public class ShopCall extends Call {
 
     public ShopCall withLanguage(Locale locale) {
         withParameter(RequestParameters.QUERY_PARAM_LANG, locale.getLanguage());
+        return this;
+    }
+
+    public ShopCall withCountry(CountryCode country) {
+        withParameter(RequestParameters.QUERY_PARAM_COUNTRY, country.getAlpha2());
         return this;
     }
 

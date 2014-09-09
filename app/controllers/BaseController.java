@@ -64,11 +64,13 @@ public class BaseController extends ShopController {
 
     protected final CommonDataBuilder data() {
         final UserContext context = userContext(cart(), customer());
-        return data(context).withSelectableAttributes(selectableAttributeNames());
+        return data(context);
     }
 
     protected final CommonDataBuilder data(UserContext userContext) {
-        return CommonDataBuilder.of(userContext, Lang.availables(), categoryService.getRoots());
+        List<CountryCode> availableCountry = availableCountries(Play.application().configuration());
+        return CommonDataBuilder.of(userContext, Lang.availables(), availableCountry, categoryService.getRoots())
+                .withSelectableAttributes(selectableAttributeNames());
     }
 
     protected final UserContext userContext(ShopCart currentCart, Optional<ShopCustomer> registeredCustomer) {
@@ -119,7 +121,7 @@ public class BaseController extends ShopController {
      * @return the current country if any, or the country stored in the user's cookie, or the default country of the shop if none stored.
      */
     protected CountryCode country(Http.Request request, Configuration config) {
-        if (this.country != null) {
+        if (this.country == null) {
             this.country = countryInCookie(request, config).or(defaultCountry(config));
         }
         return this.country;

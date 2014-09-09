@@ -58,6 +58,10 @@ public class UserContext {
         return lang.toLocale().getLanguage().equals(locale.getLanguage());
     }
 
+    public boolean hasCountry(CountryCode countryCode) {
+        return this.countryCode.equals(countryCode);
+    }
+
     public String currency() {
         return cart.getCurrencyCode();
     }
