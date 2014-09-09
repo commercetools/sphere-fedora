@@ -27,27 +27,25 @@
             }
         </ul>
 
-        @defining(getCurrentCart) { cart =>
         <div class="minicart">
             <a href="@routes.CartController.show" class="minicart_link">
-                <span class="item"><b>@cart.getTotalQuantity</b> @Messages("cart.item") /</span> <span class="price"><b>@cart.getTotalPrice</b></span>
+                <span class="item"><b>@data.context.cart.getTotalQuantity</b> @Messages("cart.item") /</span> <span class="price"><b>@data.context.cart.getTotalPrice</b></span>
             </a>
             <div class="cart_drop"> <span class="darw"></span>
                 <ul>
-                    @for(item <- cart.getLineItems) {
+                    @for(item <- data.context.cart.getLineItems) {
                     <li>
                         <img src="@item.getVariant.getFeaturedImage.getSize(ImageSize.THUMBNAIL).getUrl">
                         <a href="#">@item.getProductName</a> <span class="price">@item.getTotalPrice</span>
                     </li>
                     }
                     <div class="cart_bottom">
-                        <div class="subtotal_menu"><small>Subtotal:</small><big>@cart.getTotalPrice</big></div>
+                        <div class="subtotal_menu"><small>Subtotal:</small><big>@data.context.cart.getTotalPrice</big></div>
                         <a href="@routes.CheckoutController.show">Checkout</a>
                     </div>
                 </ul>
             </div>
         </div>
-        }
     </nav>
     <!--Navigation Ends-->
 </div>

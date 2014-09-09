@@ -20,13 +20,6 @@ import static play.mvc.Http.Context.current;
 
 public class ViewHelper {
 
-	/**
-	 * Returns the current Cart in session.
-	 */
-	public static Cart getCurrentCart() {
-		return Sphere.getInstance().currentCart().fetch();
-	}
-
     public static boolean isLoggedIn() {
         return Sphere.getInstance().isLoggedIn();
     }
