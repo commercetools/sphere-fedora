@@ -1,4 +1,4 @@
-@(cart: Cart, cartSnapshot: String, shippingMethods: List[ShippingMethod])
+@(cart: Cart, shippingMethods: List[ShippingMethod])
 
 
 <form action="@routes.CheckoutController.handleShippingAddress" method="post" id="shipping-form">
