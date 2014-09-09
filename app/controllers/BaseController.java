@@ -64,7 +64,7 @@ public class BaseController extends ShopController {
 
     protected final CommonDataBuilder data() {
         final UserContext context = userContext(cart(), customer());
-        return data(context);
+        return data(context).withSelectableAttributes(selectableAttributeNames());
     }
 
     protected final CommonDataBuilder data(UserContext userContext) {

@@ -70,7 +70,7 @@ public class ProductController extends BaseController {
         if (category.isPresent()) {
             dataBuilder.withCategory(category.get());
         }
-        CommonData data = dataBuilder.withProduct(product).withSelectableAttributes(selectableAttributeNames()).build();
+        CommonData data = dataBuilder.withProduct(product).build();
         return ok(views.html.productDetailView.render(data, product, recommendedProducts));
     }
 }
