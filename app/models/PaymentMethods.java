@@ -1,7 +1,7 @@
 package models;
 
 public enum PaymentMethods {
-    VISA("VISA", "visa"), MASTERCARD("Mastercard", "mastercard"), PAYPAL("PayPal", "paypal");
+    CREDITCARD("Credit Card", "creditcard"), ELV("ELV", "elv");
     private final String label;
     private final String key;
 
