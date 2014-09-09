@@ -1,25 +1,26 @@
 package utils;
 
 import io.sphere.client.model.Money;
+import models.UserContext;
 import org.apache.commons.lang3.StringUtils;
 import play.i18n.Messages;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Currency;
-import java.util.Locale;
 
 public final class PrintUtils {
 
-    public static String printMoney(Locale locale, Money money) {
-        NumberFormat numberFormat = NumberFormat.getInstance(locale);
+    public static String printMoney(UserContext context, Money money) {
+        NumberFormat numberFormat = NumberFormat.getInstance(context.countryLocale());
         numberFormat.setMinimumFractionDigits(2);
         String printedAmount = numberFormat.format(money.getAmount());
-        return String.format("%s %s", printedAmount, printCurrency(locale, money.getCurrencyCode()));
+        String printedCurrency = printCurrency(context, money.getCurrencyCode());
+        return String.format("%s %s", printedAmount, printedCurrency);
     }
 
-    public static String printCurrency(Locale locale, String currencyCode) {
-        return Currency.getInstance(currencyCode).getSymbol(locale);
+    public static String printCurrency(UserContext context, String currencyCode) {
+        return Currency.getInstance(currencyCode).getSymbol(context.countryLocale());
     }
 
     public static String printSortOption(String sortOption) {

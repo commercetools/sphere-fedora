@@ -6,7 +6,7 @@
     <input type="hidden" name="productId" value="@product.getId"/>
     <input type="hidden" name="variantId" value="@product.getSelectedVariant.getId"/>
     <div class="pr_price">
-        <big>@printMoney(data.context.locale, priceAmount.get)</big> <small></small>
+        <big>@printMoney(data.context, priceAmount.get)</big> <small></small>
     </div>
     <div class="size_info">
         @for(selectedAttributeName <- data.selectableAttributeNames){

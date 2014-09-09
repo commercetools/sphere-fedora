@@ -5,7 +5,7 @@
     <li><a href="@data.route.withoutPrice" class="@if(productList.hasNoPriceSelected){active}">All prices</a></li>
     @for(priceOption <- RequestParameters.priceOptions){
     <li><a href="@data.route.withPrice(priceOption)" class="@if(productList.hasPriceSelected(priceOption)){active}">
-        @printPriceOption(priceOption) @printCurrency(data.context.locale, data.context.currency)
+        @printPriceOption(priceOption) @printCurrency(data.context, data.context.currency)
     </a></li>
     }
 </ul>
