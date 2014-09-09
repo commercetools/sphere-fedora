@@ -203,6 +203,14 @@ public class BaseController extends ShopController {
         return Play.application().configuration().getStringList("attributes.selectable", Collections.<String>emptyList());
     }
 
+    static String paymillPublicKey() {
+        return Play.application().configuration().getString("paymill.key.public");
+    }
+
+    static String paymillPrivateKey() {
+        return Play.application().configuration().getString("paymill.key.private");
+    }
+
     protected Result redirectToReturnUrl() {
         return redirect(session("returnUrl"));
     }
