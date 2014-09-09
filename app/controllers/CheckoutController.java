@@ -31,19 +31,34 @@ import java.util.List;
 
 import static controllers.CheckoutController.CheckoutStages.*;
 import static play.data.Form.form;
-import static utils.AsyncUtils.asPromise;
 import static utils.AsyncUtils.zip;
 
+/**
+ * Handles the process of creating an order from a cart.
+ * In that process no (custom) line items should be added or removed.
+ */
 public class CheckoutController extends BaseController {
 
+    /** form to handle the setting of the shipping address */
     final static Form<SetShipping> setShippingForm = form(SetShipping.class);
+
+    /** form to handle the setting of payment information */
     final static Form<SetBilling> setBillingForm = form(SetBilling.class);
+
+    /** form to quickly register new customers */
     final static Form<SignUp> signUpForm = form(SignUp.class);
+
+    /** form to signin existing customers */
     final static Form<LogIn> logInForm = form(LogIn.class);
+
+    /** a flash key to check if the order preview page can be viewed */
     public static final String CAN_GO_TO_ORDER_PREVIEW = "canGoToOrderPreview";
     private final CheckoutService checkoutService;
     private final ShippingMethodService shippingMethodService;
 
+    /**
+     * The checkout process is divided into four parts. This enum provides the index number for each step.
+     */
     static enum CheckoutStages {
         CHECKOUT_METHOD_1(1), SHIPPING_INFORMATION_2(2), BILLING_INFORMATION_3(3), ORDER_PREVIEW_4(4);
         private final int key;
@@ -61,6 +76,12 @@ public class CheckoutController extends BaseController {
         this.shippingMethodService = shippingMethodService;
     }
 
+    /**
+     * Displays the first manually step for the checkout.
+     * If the customer is not logged in he can signup or register.
+     * If the customer is logged it displys the shipping page.
+     * @return first manually checkout step (signup/login or shipping)
+     */
     @With(CartNotEmpty.class)
     public F.Promise<Result> show() {
         if (customerService().isLoggedIn()) {
@@ -70,21 +91,37 @@ public class CheckoutController extends BaseController {
         }
     }
 
+    /**
+     * Shows a page to login or sign up.
+     * @return page
+     */
     @With(CartNotEmpty.class)
     public F.Promise<Result> showLogin() {
         return ok(showPage(CHECKOUT_METHOD_1));
     }
 
+    /**
+     * Shows a page to set the shipping address and contact information
+     * @return shipping address form page
+     */
     @With(CartNotEmpty.class)
     public F.Promise<Result> showShipping() {
         return ok(showPage(SHIPPING_INFORMATION_2));
     }
 
+    /**
+     * Shows a page to set the billing address and payment information
+     * @return billing form page
+     */
     @With(CartNotEmpty.class)
     public F.Promise<Result> showBilling() {
         return ok(showPage(BILLING_INFORMATION_3));
     }
 
+    /**
+     * Shows the products with their quantities and prices.
+     * @return
+     */
     @With(CartNotEmpty.class)
     public F.Promise<Result> showOrderPreview() {
         if ("true".equals(flash(CAN_GO_TO_ORDER_PREVIEW))) {
