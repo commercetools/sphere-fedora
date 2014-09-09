@@ -205,7 +205,7 @@ public class CartServiceImpl implements CartService {
             @Override
             public F.Promise<Optional<ShopOrder>> apply(String orderNumber) throws Throwable {
                 try {
-                    CreateOrderBuilder builder = new CreateOrderBuilder(cart.getVersionedId(), PaymentState.Pending)
+                    CreateOrderBuilder builder = new CreateOrderBuilder(cart.getVersionedId(), PaymentState.Paid)
                             .setCartSnapshotId(cartSnapshot)
                             .setOrderNumber(orderNumber);
                     ShopOrder order = ShopOrder.of(sphere.currentCart().createOrder(builder));
