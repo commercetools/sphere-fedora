@@ -11,7 +11,7 @@ playJavaSettings
 libraryDependencies ++= Seq(
   javaCore,
   javaJdbc,
-  "io.sphere" %% "sphere-play-sdk" % "0.65.0" withSources(),
+  "io.sphere" %% "sphere-play-sdk" % "0.67.0" withSources(),
   "javax.mail" % "mail" % "1.4.7",
   "org.jsoup" % "jsoup" % "1.7.1",
   "org.mockito" % "mockito-all" % "1.9.5" % "test"
