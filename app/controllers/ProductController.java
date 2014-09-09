@@ -49,8 +49,8 @@ public class ProductController extends BaseController {
                 .flatMap(new F.Function<Optional<ShopProduct>, F.Promise<Result>>() {
                     @Override
                     public F.Promise<Result> apply(final Optional<ShopProduct> product) throws Throwable {
-                        final Optional<ShopCategory> category = product.get().getMainCategory();
                         if (product.isPresent()) {
+                            final Optional<ShopCategory> category = product.get().getMainCategory();
                             return productService().fetchRecommendedProducts(locale(), product.get())
                                     .map(new F.Function<Optional<ProductList>, Result>() {
                                         @Override
