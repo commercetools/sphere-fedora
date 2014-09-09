@@ -8,9 +8,12 @@ import forms.checkoutForm.SetBilling;
 import forms.checkoutForm.SetShipping;
 import forms.customerForm.LogIn;
 import forms.customerForm.SignUp;
+import io.sphere.client.model.CustomObject;
+import io.sphere.client.model.VersionedId;
 import io.sphere.client.shop.model.CustomerName;
 import io.sphere.client.shop.model.PaymentState;
 import io.sphere.client.shop.model.ShippingMethod;
+import models.PaymentMethods;
 import models.ShopCart;
 import models.ShopCustomer;
 import play.Logger;
@@ -29,6 +32,7 @@ import java.util.List;
 import static controllers.CheckoutController.CheckoutStages.*;
 import static play.data.Form.form;
 import static utils.AsyncUtils.asPromise;
+import static utils.AsyncUtils.zip;
 
 public class CheckoutController extends BaseController {
 
@@ -96,18 +100,31 @@ public class CheckoutController extends BaseController {
         final int page = stage.key;
         final F.Promise<ShopCart> shopCartPromise = cartService().fetchCurrent();
         final F.Promise<List<ShippingMethod>> shippingMethodsPromise = shippingMethodService.getShippingMethods();
-        return shopCartPromise.zip(shippingMethodsPromise)
-                .map(new F.Function<F.Tuple<ShopCart, List<ShippingMethod>>, Content>() {
-                    @Override
-                    public Content apply(F.Tuple<ShopCart, List<ShippingMethod>> shopCartListTuple) throws Throwable {
-                        final ShopCart cart = shopCartListTuple._1;
-                        final List<ShippingMethod> shippingMethods = shopCartListTuple._2;
-                        Form<SetShipping> shippingForm = setShippingForm.fill(new SetShipping(cart.getShippingAddress()));
-                        Form<SetBilling> billingForm = setBillingForm.fill(new SetBilling(cart.getBillingAddress()));
-                        String cartSnapshot = sphere().currentCart().createCartSnapshotId();
-                        return checkoutView.render(data().build(), cart.get(), cartSnapshot, shippingMethods, page);
-                    }
-                });
+        final F.Promise<String> paymentMethodPromise = paymentMethodOr(PaymentMethods.VISA.key());
+        return zip(shopCartPromise, shippingMethodsPromise, paymentMethodPromise, new F.Function3<ShopCart, List<ShippingMethod>, String, Content>() {
+            @Override
+            public Content apply(final ShopCart cart, final List<ShippingMethod> shippingMethods, final String paymentMethod) throws Throwable {
+                Form<SetShipping> shippingForm = setShippingForm.fill(new SetShipping(cart.getShippingAddress()));
+                Form<SetBilling> billingForm = setBillingForm.fill(new SetBilling(cart.getBillingAddress()));
+                String cartSnapshot = sphere().currentCart().createCartSnapshotId();
+                return checkoutView.render(data().build(), cart.get(), cartSnapshot, shippingMethods, paymentMethod, page);
+            }
+        });
+    }
+
+    private F.Promise<String> paymentMethodOr(final String defaultValue) {
+        final Optional<VersionedId> idOptional = cartService().currentVersionedId();
+        F.Promise<Optional<String>> paymentMethodOptionPromise = F.Promise.pure(Optional.<String>absent());
+        if (idOptional.isPresent()) {
+            paymentMethodOptionPromise = checkoutService.getPaymentMethod(idOptional.get().getId());
+        }
+        return paymentMethodOptionPromise.map(new F.Function<Optional<String>, String>() {
+            @Override
+            public String apply(Optional<String> paymentMethodOption) throws Throwable {
+
+                return paymentMethodOption.or(defaultValue);
+            }
+        });
     }
 
     public F.Promise<Result> signUp() {
@@ -217,19 +234,25 @@ public class CheckoutController extends BaseController {
     }
 
     public F.Promise<Result> handleBillingSettings() {
-        final Form<SetBilling> form = setBillingForm.bindFromRequest();
-        if (form.hasErrors()) {
+        final Form<SetBilling> filledForm = setBillingForm.bindFromRequest();
+        if (filledForm.hasErrors()) {
             flash("error", "Billing information has errors");
             return badRequest(showPage(BILLING_INFORMATION_3));
         } else {
-            final SetBilling setBilling = form.get();
+            final SetBilling setBilling = filledForm.get();
             return cartService().fetchCurrent().flatMap(new F.Function<ShopCart, F.Promise<Result>>() {
                 @Override
                 public F.Promise<Result> apply(final ShopCart shopCart) throws Throwable {
                     return cartService().setBillingAddress(shopCart, setBilling.getAddress())
-                            .map(new F.Function<ShopCart, Result>() {
+                            .flatMap(new F.Function<ShopCart, F.Promise<CustomObject>>() {
                                 @Override
-                                public Result apply(final ShopCart shopCart) throws Throwable {
+                                public F.Promise<CustomObject> apply(final ShopCart shopCart) throws Throwable {
+                                    return checkoutService.setPaymentMethod(shopCart.getId(), setBilling.method);
+                                }
+                            })
+                            .map(new F.Function<CustomObject, Result>() {
+                                @Override
+                                public Result apply(final CustomObject c) throws Throwable {
                                     flash(CAN_GO_TO_ORDER_PREVIEW, "true");
                                     return redirect(routes.CheckoutController.showOrderPreview());
                                 }

@@ -1,4 +1,4 @@
-@(data: CommonData, cart: Cart, cartSnapshot: String, shippingMethods: List[ShippingMethod], step: Int = 1)
+@(data: CommonData, cart: Cart, cartSnapshot: String, shippingMethods: List[ShippingMethod], paymentMethod: String, step: Int = 1)
 
 @import checkoutPartials._
 
@@ -39,7 +39,7 @@
                         </div>
                         <div class="step-body" id="checkout-step-billing">
                         @if(step == 3){
-                            @billingInformationView(cart)
+                            @billingInformationView(cart, paymentMethod)
                         }
                         </div>
                     </li>

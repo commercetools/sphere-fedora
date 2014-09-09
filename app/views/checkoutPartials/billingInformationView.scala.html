@@ -1,4 +1,4 @@
-@(cart: Cart)
+@(cart: Cart, paymentMethod: String)
 
 <form action="@routes.CheckoutController.handleBillingSettings" method="post" id="billing-form">
     <input type="hidden" name="country" value="DE">
@@ -8,18 +8,12 @@
             <h3>Choose payment method</h3>
             <fieldset>
                 <ul class="form-list">
-                    <li class="control">
-                        <input type="radio" class="radio" value="visa" id="billing-method:visa" name="method" checked>
-                        <label for="billing-method:visa">VISA</label>
-                    </li>
-                    <li class="control">
-                        <input type="radio" class="radio" value="mastercard" id="billing-method:mastercard" name="method">
-                        <label for="billing-method:mastercard">Mastercard</label>
-                    </li>
-                    <li class="control">
-                        <input type="radio" class="radio" value="paypal" id="billing-method:paypal" name="method">
-                        <label for="billing-method:paypal">PayPal</label>
-                    </li>
+                    @models.PaymentMethods.values().map { paymentMethodItem =>
+                        <li class="control">
+                            <input type="radio" class="radio" value="@paymentMethodItem.key()" id="billing-method:@paymentMethodItem.key()" name="method"@if(paymentMethod == paymentMethodItem.key()){ checked}>
+                            <label for="billing-method:@paymentMethodItem.key()">@paymentMethodItem.label()</label>
+                        </li>
+                    }
                 </ul>
             </fieldset>
         </div>
