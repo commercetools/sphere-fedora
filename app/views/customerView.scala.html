@@ -27,16 +27,16 @@
                                 <li>
                                     <label class="required" for="user-firstName"><em>*</em>Name</label>
                                     <div class="input-box">
-                                        <input type="text" name="firstName" id="user-firstName" placeholder="First name" class="input-text" required>
+                                        <input type="text" name="firstName" id="user-firstName" placeholder="First name" class="input-text" required value="@customerForm.field("firstName").value">
                                     </div>
                                     <div class="input-box">
-                                        <input type="text" name="lastName" id="user-lastName" placeholder="Last name" class="input-text" required>
+                                        <input type="text" name="lastName" id="user-lastName" placeholder="Last name" class="input-text" required value="@customerForm.field("lastName").value">
                                     </div>
                                 </li>
                                 <li>
                                     <label class="required" for="user-email"><em>*</em>E-mail</label>
                                     <div class="input-box">
-                                        <input type="email" name="email" id="user-email" placeholder="Email address" class="input-text">
+                                        <input type="email" name="email" id="user-email" placeholder="Email address" class="input-text" value="@customerForm.field("email").value">
                                     </div>
                                 </li>
                             </ul>
@@ -63,19 +63,19 @@
                                 <li>
                                     <label class="required" for="user-oldPassword"><em>*</em>Old Password</label>
                                     <div class="input-box">
-                                        <input type="email" name="oldPassword" id="user-oldPassword" class="input-text">
+                                        <input type="email" name="oldPassword" id="user-oldPassword" class="input-text" value="@customerForm.field("oldPassword").value">
                                     </div>
                                 </li>
                                 <li>
                                     <label class="required" for="user-newPassword"><em>*</em>New Password</label>
                                     <div class="input-box">
-                                        <input type="password" name="newPassword" id="user-newPassword" class="input-text">
+                                        <input type="password" name="newPassword" id="user-newPassword" class="input-text" value="@customerForm.field("newPassword").value">
                                     </div>
                                 </li>
                                 <li>
                                     <label class="required" for="user-repeatPassword"><em>*</em>Repeat Password</label>
                                     <div class="input-box">
-                                        <input type="password" name="repeatPassword" id="user-repeatPassword" class="input-text">
+                                        <input type="password" name="repeatPassword" id="user-repeatPassword" class="input-text" value="@customerForm.field("repeatPassword").value">
                                     </div>
                                 </li>
                             </ul>

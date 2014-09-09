@@ -25,22 +25,22 @@
                                 <li>
                                     <label class="required" for="signUp-firstName"><em>*</em>Name</label>
                                     <div class="input-box">
-                                        <input type="text" name="firstName" id="signUp-firstName" placeholder="First name" class="input-text" required>
+                                        <input type="text" name="firstName" id="signUp-firstName" placeholder="First name" class="input-text" required value="@signupForm.field("firstName").value">
                                     </div>
                                     <div class="input-box">
-                                        <input type="text" name="lastName" id="signUp-lastName" placeholder="Last name" class="input-text" required>
+                                        <input type="text" name="lastName" id="signUp-lastName" placeholder="Last name" class="input-text" required value="@signupForm.field("lastName").value">
                                     </div>
                                 </li>
                                 <li>
                                     <label class="required" for="signUp-email"><em>*</em>E-mail</label>
                                     <div class="input-box">
-                                        <input type="email" name="email" id="signUp-email" placeholder="Email address" class="input-text">
+                                        <input type="email" name="email" id="signUp-email" placeholder="Email address" class="input-text" value="@signupForm.field("email").value">
                                     </div>
                                 </li>
                                 <li>
                                     <label class="required" for="signUp-password"><em>*</em>Password</label>
                                     <div class="input-box">
-                                        <input type="password" name="password" id="signUp-password" class="input-text">
+                                        <input type="password" name="password" id="signUp-password" class="input-text" value="@signupForm.field("password").value">
                                     </div>
                                 </li>
                             </ul>
