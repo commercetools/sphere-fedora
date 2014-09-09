@@ -104,3 +104,4 @@ $ ->
             # Append token to checkout form
             $("#billing-form").find("input[name=paymillToken]").val result.token
             $("#billing-form").submit()
+        return false
