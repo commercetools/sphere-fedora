@@ -18,6 +18,7 @@ public class SetShipping {
     public String lastName;
 
     @Constraints.Email(message = "Invalid value for email")
+    @Constraints.Required(message = "Email required")
     public String email;
 
     @Constraints.Required(message = "Street address required")
