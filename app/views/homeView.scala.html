@@ -1,4 +1,4 @@
-@(data: CommonData, searchResultNew: SearchResult[Product], searchResultOffer: SearchResult[Product])
+@(data: CommonData, searchResultNew: ProductList, searchResultOffer: ProductList)
 
 @main(){
     @helpers.navigationTop(data)
@@ -37,8 +37,8 @@
         <div class="products_list products_slider">
             <h2 class="sub_title">@Messages("list.new")</h2>
             <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
-                @for(product <- searchResultNew.getResults) {
-                    @**helpers.productItem(product)**@
+                @for(product <- searchResultNew.getProducts) {
+                    @productListHelper.productThumbnail(data, product)
                 }
             </ul>
         </div>
@@ -47,8 +47,8 @@
         <div class="products_list products_slider">
             <h2 class="sub_title">@Messages("list.offers")</h2>
             <ul id="second-carousel" class="first-and-second-carousel jcarousel-skin-tango">
-                @for(product <- searchResultOffer.getResults) {
-                    @**helpers.productItem(product)**@
+                @for(product <- searchResultOffer.getProducts) {
+                    @productListHelper.productThumbnail(data, product)
                 }
             </ul>
         </div>
