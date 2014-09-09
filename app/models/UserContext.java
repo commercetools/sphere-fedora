@@ -39,6 +39,10 @@ public class UserContext {
     }
 
     public Locale locale() {
+        return new Locale(lang.language());
+    }
+
+    public Locale countryLocale() {
         return lang.toLocale();
     }
 
