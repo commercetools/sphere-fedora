@@ -56,76 +56,11 @@ public class ViewHelper {
         return cart.getTotalPrice();
     }
 
-	/**
-	 * Returns the list of root categories
-	 */
-	public static List<Category> getRootCategories() {
-        return Sphere.getInstance().categories().getRoots();
-	}
-
-
     public static String getReturnUrl() {
         return current().session().get("returnUrl");
     }
 
-    public static List<Lang> getLanguages() {
-        return Lang.availables();
-    }
-
-    public static String capitalizeInitials(String text) {
-        return WordUtils.capitalizeFully(text);
-    }
-
-    public static String abbreviate(String text, int maxWidth) {
-        if (text == null) return "";
-        return StringUtils.abbreviate(text, maxWidth);
-    }
-
-    public static BigDecimal getPercentage(double amount) {
-        return BigDecimal.valueOf(amount * 100).stripTrailingZeros();
-    }
-
     public static boolean isSet(Object object) {
         return object != null;
-    }
-
-    /**
-	 * Check whether the given product has more than one attribute value
-	 * 
-	 * @param product
-     * @param attributeName
-	 * @return true if the product has more than one attribute value, false otherwise
-	 */
-	public static boolean hasMoreAttributeValues(Product product, String attributeName) {
-        return product.getVariants().getAvailableAttributes(attributeName).size() > 1;
-    }
-
-    public static Money getShippingCost() {
-        // TODO Implement correct shipping cost
-        return new Money(BigDecimal.valueOf(10), "EUR");
-    }
-
-    public static Map<Lang, String> getLocalizedUrls() {
-        Map<Lang, String> localizedUrls = new HashMap<Lang, String>();
-        for (Lang language : getLanguages()) {
-            String url = "";
-            if (!language.equals(lang())) url = buildQuery("lang", language.language());
-            localizedUrls.put(language, url);
-        }
-        return localizedUrls;
-    }
-
-    public static String buildQuery(String key, String value) {
-        String queryString = "?";
-        if (!value.isEmpty()) {
-            queryString += key + "=" + value;
-        }
-        for (Map.Entry<String,String[]> entry : current().request().queryString().entrySet()) {
-            if (entry.getKey().equals(key)) continue;
-            for (String val : entry.getValue()) {
-                queryString += "&" + entry.getKey() + "=" + val;
-            }
-        }
-        return queryString;
     }
 }

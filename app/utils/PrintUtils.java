@@ -1,8 +1,10 @@
 package utils;
 
 import io.sphere.client.model.Money;
+import org.apache.commons.lang3.StringUtils;
 import play.i18n.Messages;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
@@ -45,5 +47,14 @@ public final class PrintUtils {
         } else {
             return amountOption;
         }
+    }
+
+    public static String abbreviate(String text, int maxWidth) {
+        if (text == null) return "";
+        return StringUtils.abbreviate(text, maxWidth);
+    }
+
+    public static BigDecimal getPercentage(double amount) {
+        return BigDecimal.valueOf(amount * 100).stripTrailingZeros();
     }
 }
