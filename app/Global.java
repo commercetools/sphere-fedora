@@ -34,7 +34,10 @@ public class Global extends GlobalSettings {
     }
 
     protected OrderService createOrderService() {
-        return new OrderServiceImpl(Sphere.getInstance());
+        Sphere sphere = Sphere.getInstance();
+        CustomObjectService customObjectService = new CustomObjectServiceImpl(sphere);
+        CheckoutService checkoutService = new CheckoutServiceImpl(sphere, customObjectService);
+        return new OrderServiceImpl(sphere, checkoutService);
     }
 
     protected ShippingMethodService createShippingMethodService() {

@@ -34,12 +34,4 @@ public interface OrderService {
      * @return the promise of the list of orders belonging to this customer, or empty if the customer does not exist.
      */
     F.Promise<List<ShopOrder>> fetchByCustomer(ShopCustomer customer);
-
-    /**
-     * Sets the payment state to the provided order.
-     * @param order the order to be updated.
-     * @param paymentState the new payment state for the order.
-     * @return the promise of the updated order with the provided payment state.
-     */
-    F.Promise<ShopOrder> setPaymentState(ShopOrder order, PaymentState paymentState);
 }

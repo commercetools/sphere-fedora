@@ -15,24 +15,28 @@ import io.sphere.client.SphereResult;
 import io.sphere.client.model.Reference;
 import io.sphere.client.shop.model.*;
 import sphere.util.Async;
+import utils.AsyncUtils;
+
+import static utils.AsyncUtils.asPromise;
 
 public class OrderServiceImpl implements OrderService {
     private final Sphere sphere;
+    private final CheckoutService checkoutService;
 
-    public OrderServiceImpl(final Sphere sphere) {
+    public OrderServiceImpl(final Sphere sphere, final CheckoutService checkoutService) {
         this.sphere = sphere;
+        this.checkoutService = checkoutService;
     }
 
     @Override
     public F.Promise<Optional<ShopOrder>> fetchById(final String id) {
-        return sphere.orders().byId(id).fetchAsync().map(new F.Function<Optional<Order>, Optional<ShopOrder>>() {
+        return sphere.orders().byId(id).fetchAsync().flatMap(new F.Function<Optional<Order>, F.Promise<Optional<ShopOrder>>>() {
             @Override
-            public Optional<ShopOrder> apply(Optional<Order> order) throws Throwable {
+            public F.Promise<Optional<ShopOrder>> apply(Optional<Order> order) throws Throwable {
                 if (order.isPresent()) {
-                    ShopOrder fetchedOrder = ShopOrder.of(order.get());
-                    return Optional.of(fetchedOrder);
+                    return createShopOrder(order.get());
                 } else {
-                    return Optional.absent();
+                    return asPromise(Optional.<ShopOrder>absent());
                 }
             }
         });
@@ -42,15 +46,14 @@ public class OrderServiceImpl implements OrderService {
     public F.Promise<Optional<ShopOrder>> fetchByOrderNumber(String orderNumber) {
         final String predicate = String.format("orderNumber=\"%s\"", orderNumber);
         return Async.asPlayPromise(sphere.client().orders().query().where(predicate).fetchAsync())
-                .map(new F.Function<QueryResult<Order>, Optional<ShopOrder>>() {
+                .flatMap(new F.Function<QueryResult<Order>, F.Promise<Optional<ShopOrder>>>() {
                     @Override
-                    public Optional<ShopOrder> apply(QueryResult<Order> orderQueryResult) throws Throwable {
+                    public F.Promise<Optional<ShopOrder>> apply(QueryResult<Order> orderQueryResult) throws Throwable {
                         List<Order> orders = orderQueryResult.getResults();
                         if (!orders.isEmpty()) {
-                            ShopOrder fetchedOrder = ShopOrder.of(orders.get(0));
-                            return Optional.of(fetchedOrder);
+                            return createShopOrder(orders.get(0));
                         } else {
-                            return Optional.absent();
+                            return asPromise(Optional.<ShopOrder>absent());
                         }
                     }
                 });
@@ -65,42 +68,30 @@ public class OrderServiceImpl implements OrderService {
                     public List<ShopOrder> apply(QueryResult<Order> orderQueryResult) throws Throwable {
                         List<ShopOrder> customOrders = new ArrayList<ShopOrder>();
                         for (Order order: orderQueryResult.getResults()) {
-                            customOrders.add(ShopOrder.of(order));
+                            // TODO Use async calls
+                            Optional<ShopOrder> fetchedOrder = createShopOrder(order).get(AsyncUtils.defaultTimeout());
+                            if (fetchedOrder.isPresent()) {
+                                customOrders.add(fetchedOrder.get());
+                            }
                         }
                         return customOrders;
                     }
                 });
     }
 
-    @Override
-    public F.Promise<ShopOrder> setPaymentState(final ShopOrder order, PaymentState paymentState) {
-        OrderUpdate orderUpdate = new OrderUpdate().setPaymentState(paymentState);
-        return sphere.orders().updateOrderAsync(order.getVersionedId(), orderUpdate)
-            .map(new F.Function<SphereResult<Order>, ShopOrder>() {
-                @Override
-                public ShopOrder apply(SphereResult<Order> orderSphereResult) throws Throwable {
-                    if (orderSphereResult.isSuccess()) {
-                        return ShopOrder.of(orderSphereResult.getValue());
-                    } else {
-                        throw new RuntimeException(orderSphereResult.getGenericError());
-                    }
-                }
-            });
-    }
-
-    // TODO do not use, needs Play SDK task https://github.com/commercetools/sphere-play-sdk/issues/21
-    @Deprecated
-    public F.Promise<ShopOrder> setSyncPaymentInfo(ShopOrder order, String transactionId) {
-        Reference<Channel> reference = Reference.create("", order.getId());
-        SyncInfo syncInfo = new SyncInfo(reference, transactionId);
-        OrderUpdate orderUpdate = new OrderUpdate().updateSyncInfo(syncInfo);
-        return sphere.orders().updateOrderAsync(order.getVersionedId(), orderUpdate)
-                .map(new F.Function<SphereResult<Order>, ShopOrder>() {
+    /**
+     * Creates a shop order with all related information from external sources, i.e. the payment method used.
+     * @param order the order to use.
+     * @return the promise of the shop order with the related information, or absent if the required information is not available.
+     */
+    private F.Promise<Optional<ShopOrder>> createShopOrder(final Order order) {
+        return checkoutService.getPaymentMethod(order.getId())
+                .map(new F.Function<Optional<String>, Optional<ShopOrder>>() {
                     @Override
-                    public ShopOrder apply(SphereResult<Order> orderSphereResult) throws Throwable {
-                        return ShopOrder.of(orderSphereResult.getValue());
+                    public Optional<ShopOrder> apply(Optional<String> paymentMethod) throws Throwable {
+                        ShopOrder shopOrder = ShopOrder.of(order, paymentMethod);
+                        return Optional.of(shopOrder);
                     }
                 });
-
     }
 }

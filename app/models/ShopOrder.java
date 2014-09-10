@@ -15,15 +15,20 @@ import io.sphere.client.model.VersionedId;
 import static utils.PriceUtils.customerPrice;
 
 public class ShopOrder {
-
     private final Order order;
+    private final Optional<String> paymentMethod;
 
-    ShopOrder(final Order order) {
+    ShopOrder(final Order order, final Optional<String> paymentMethod) {
         this.order = order;
+        this.paymentMethod = paymentMethod;
     }
 
     public static ShopOrder of(final Order order) {
-        return new ShopOrder(order);
+        return new ShopOrder(order, Optional.<String>absent());
+    }
+
+    public static ShopOrder of(final Order order, final Optional<String> paymentMethod) {
+        return new ShopOrder(order, paymentMethod);
     }
 
     public String getId() {
@@ -155,12 +160,16 @@ public class ShopOrder {
         }
     }
 
-    public ShipmentState getShippingState() {
-        return order.getShipmentState();
+    public Optional<String> getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public PaymentState getPaymentState() {
-        return order.getPaymentState();
+    public Optional<ShipmentState> getShippingState() {
+        return Optional.fromNullable(order.getShipmentState());
+    }
+
+    public Optional<PaymentState> getPaymentState() {
+        return Optional.fromNullable(order.getPaymentState());
     }
 
     public CustomerName getCustomerName() {
