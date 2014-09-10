@@ -98,13 +98,22 @@
                 <ul class="short-code toggle_box">
                     @shopOrders.map { order =>
 
-                    <li><a class="toggle_title" href="#">@order.getOrderDate("dd.MM.yyyy HH:mm") | @order.getTotalPrice(Optional.of(customer))</a>
+                    <li><a class="toggle_title" href="#">
+                        @order.getOrderDate("dd.MM.yyyy HH:mm") | @printMoney(data.context, order.getTotalPrice(Optional.of(customer)))</a>
                         <div class="toggle_content short-code-column" style="display: none;">
                             <ul class="circle_li">
                                 @order.getLineItems.map { lineItem =>
-                                <li>@lineItem.getQuantity x <a href='@routes.ProductController.selectById(lineItem.getProductId, lineItem.getVariant.getId).url'>@lineItem.getProductName(data.context.locale)</a> | @lineItem.getTotalPrice</li>
+                                <li>@lineItem.getQuantity x
+                                    <a href='@routes.ProductController.selectById(lineItem.getProductId, lineItem.getVariant.getId).url'>
+                                        @lineItem.getProductName(data.context.locale)
+                                    </a> | @printMoney(data.context, lineItem.getTotalPrice)</li>
                                 }
                             </ul>
+                            <p><strong>Shipping</strong>: @order.getShippingMethodName.or("None")
+                                @if(order.getShippingPrice(data.context.customer).isPresent){@printMoney(data.context, order.getShippingPrice(data.context.customer).get)}
+                                @if(order.getShippingState.isPresent){(@order.getShippingState.get.name)}</p>
+                            <p><strong>Payment</strong>: @order.getPaymentMethod.or("None")
+                                @if(order.getPaymentState.isPresent){(@order.getPaymentState.get.name)}</p>
                         </div>
                     </li>
                     }
