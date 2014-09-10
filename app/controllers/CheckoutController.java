@@ -13,7 +13,6 @@ import io.sphere.client.model.CustomObject;
 import io.sphere.client.model.Money;
 import io.sphere.client.model.VersionedId;
 import io.sphere.client.shop.model.CustomerName;
-import io.sphere.client.shop.model.Price;
 import io.sphere.client.shop.model.ShippingMethod;
 import models.PaymentMethods;
 import models.ShopCart;
@@ -34,7 +33,6 @@ import de.paymill.Paymill;
 import de.paymill.PaymillException;
 import de.paymill.model.Payment;
 import de.paymill.model.Transaction;
-import de.paymill.net.ApiException;
 import de.paymill.service.PaymentService;
 import de.paymill.service.TransactionService;
 
