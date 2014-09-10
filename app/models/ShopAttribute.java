@@ -4,6 +4,7 @@ import io.sphere.client.model.LocalizedString;
 import io.sphere.client.shop.model.Attribute;
 
 import java.util.Locale;
+import java.util.Map;
 
 public class ShopAttribute {
     private final Attribute attribute;
@@ -25,12 +26,13 @@ public class ShopAttribute {
     }
 
     public boolean isEnumAttribute() {
-        String key = attribute.getEnum().key;
-        return key != null && !key.isEmpty();
+        Object value = attribute.getValue();
+        return value instanceof Map && ((Map) value).containsKey("label") && ((Map) value).containsKey("key");
     }
 
     public boolean isLocalizedEnumAttribute() {
-        return !attribute.getLocalizableEnum().getKey().isEmpty();
+        Object value = attribute.getValue();
+        return isEnumAttribute() && value instanceof Map && ((Map) value).get("label") instanceof Map;
     }
 
     public boolean isNumberAttribute() {
