@@ -1,12 +1,13 @@
 @(data: CommonData)
 
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-<p>Oops, page not found!</p>
-</body>
-</html>
+@main(){
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
+}{
+    <section>
+        <div id="" class="full_page">
+            <h1>Oops, page not found!</h1>
+        </div>
+    </section>
+}{
+}
