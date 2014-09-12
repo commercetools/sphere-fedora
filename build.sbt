@@ -11,6 +11,7 @@ playJavaSettings
 libraryDependencies ++= Seq(
   javaCore,
   javaJdbc,
+  "com.google.inject" % "guice" % "3.0",
   "io.sphere" %% "sphere-play-sdk" % "0.67.0" withSources(),
   "javax.mail" % "mail" % "1.4.7",
   "org.jsoup" % "jsoup" % "1.7.1",

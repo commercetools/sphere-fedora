@@ -12,8 +12,13 @@ import services.CategoryService;
 import services.CustomerService;
 import services.ProductService;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class HomeController extends BaseController {
 
+    @Inject
     public HomeController(final CategoryService categoryService, final ProductService productService,
                           final CartService cartService, final CustomerService customerService) {
         super(categoryService, productService, cartService, customerService);

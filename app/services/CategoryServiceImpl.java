@@ -5,13 +5,17 @@ import io.sphere.client.shop.model.Category;
 import models.ShopCategory;
 import sphere.Sphere;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+@Singleton
 public class CategoryServiceImpl implements CategoryService {
     private final Sphere sphere;
 
+    @Inject
     public CategoryServiceImpl(final Sphere sphere) {
         this.sphere = sphere;
     }

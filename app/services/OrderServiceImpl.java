@@ -11,18 +11,21 @@ import sphere.Sphere;
 
 import com.google.common.base.Optional;
 
-import io.sphere.client.SphereResult;
-import io.sphere.client.model.Reference;
 import io.sphere.client.shop.model.*;
 import sphere.util.Async;
 import utils.AsyncUtils;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import static utils.AsyncUtils.asPromise;
 
+@Singleton
 public class OrderServiceImpl implements OrderService {
     private final Sphere sphere;
     private final CheckoutService checkoutService;
 
+    @Inject
     public OrderServiceImpl(final Sphere sphere, final CheckoutService checkoutService) {
         this.sphere = sphere;
         this.checkoutService = checkoutService;

@@ -9,10 +9,15 @@ import play.mvc.Result;
 import play.mvc.With;
 import services.*;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import static utils.AsyncUtils.asPromise;
 
+@Singleton
 public class ProductListController extends BaseController {
 
+    @Inject
     public ProductListController(CategoryService categoryService, ProductService productService,
                                  CartService cartService, CustomerService customerService) {
         super(categoryService, productService, cartService, customerService);

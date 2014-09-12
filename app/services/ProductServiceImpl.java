@@ -13,10 +13,13 @@ import play.libs.F;
 import sphere.SearchRequest;
 import sphere.Sphere;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.*;
 
 import static utils.AsyncUtils.asPromise;
 
+@Singleton
 public class ProductServiceImpl implements ProductService {
     protected static final int RECOMMENDED_PRODUCTS_SIZE = 20;
     protected static final int NEW_PRODUCTS_SIZE = 20;
@@ -24,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final Sphere sphere;
 
+    @Inject
     public ProductServiceImpl(final Sphere sphere) {
         this.sphere = sphere;
     }

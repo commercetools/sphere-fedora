@@ -7,11 +7,15 @@ import io.sphere.client.shop.model.ShippingMethod;
 import play.libs.F;
 import sphere.Sphere;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
+@Singleton
 public class ShippingMethodServiceImpl implements ShippingMethodService {
     private final Sphere sphere;
 
+    @Inject
     public ShippingMethodServiceImpl(Sphere sphere) {
         this.sphere = sphere;
     }

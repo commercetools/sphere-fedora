@@ -11,11 +11,16 @@ import services.CategoryService;
 import services.CustomerService;
 import services.ProductService;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import static utils.AsyncUtils.asPromise;
 
+@Singleton
 @With(SaveContext.class)
 public class ProductController extends BaseController {
 
+    @Inject
     public ProductController(CategoryService categoryService, ProductService productService,
                              CartService cartService, CustomerService customerService) {
         super(categoryService, productService, cartService, customerService);

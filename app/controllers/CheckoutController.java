@@ -36,6 +36,8 @@ import de.paymill.model.Transaction;
 import de.paymill.service.PaymentService;
 import de.paymill.service.TransactionService;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
 import static controllers.CheckoutController.CheckoutStages.*;
@@ -46,6 +48,7 @@ import static utils.AsyncUtils.zip;
  * Handles the process of creating an order from a cart.
  * In that process no (custom) line items should be added or removed.
  */
+@Singleton
 public class CheckoutController extends BaseController {
 
     /** form to handle the setting of the shipping address */
@@ -77,6 +80,7 @@ public class CheckoutController extends BaseController {
         }
     }
 
+    @Inject
     public CheckoutController(final CategoryService categoryService, final ProductService productService,
                               final CartService cartService, final CustomerService customerService,
                               final CheckoutService checkoutService, final ShippingMethodService shippingMethodService) {

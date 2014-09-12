@@ -14,12 +14,16 @@ import services.CustomerService;
 import services.ProductService;
 import views.html.cartView;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import static play.data.Form.form;
 import static utils.AsyncUtils.asPromise;
 
 /**
  * This controller is responsible for handling line items in a cart.
  */
+@Singleton
 public class CartController extends BaseController {
 
     /** Form for adding line items to the cart. */
@@ -28,6 +32,7 @@ public class CartController extends BaseController {
     /** Form for updating the amount of line items in a cart. */
     private final static Form<UpdateCart> updateCartForm = form(UpdateCart.class);
 
+    @Inject
     public CartController(final CategoryService categoryService, final ProductService productService,
                           final CartService cartService, final CustomerService customerService) {
         super(categoryService, productService, cartService, customerService);

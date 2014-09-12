@@ -18,6 +18,8 @@ import sphere.CurrentCustomer;
 import sphere.Sphere;
 import views.html.customerView;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
 import static play.data.Form.form;
@@ -27,6 +29,7 @@ import static utils.AsyncUtils.asPromise;
  * Deals with authorized customers and provides the "my account" page.
  */
 @With(Authorization.class)
+@Singleton
 public class CustomerController extends BaseController {
     /** from to update the customer name and email */
     static final Form<UpdateCustomer> updateCustomerForm = form(UpdateCustomer.class);
@@ -36,6 +39,7 @@ public class CustomerController extends BaseController {
 
     private final OrderService orderService;
 
+    @Inject
     public CustomerController(final CategoryService categoryService, final ProductService productService,
                               final CartService cartService, final CustomerService customerService,
                               final OrderService orderService) {

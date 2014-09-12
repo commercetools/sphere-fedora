@@ -10,9 +10,14 @@ import play.libs.F;
 import sphere.Sphere;
 import sphere.util.Async;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class CustomObjectServiceImpl implements CustomObjectService {
     protected final Sphere sphere;
 
+    @Inject
     public CustomObjectServiceImpl(final Sphere sphere) {
         this.sphere = sphere;
     }

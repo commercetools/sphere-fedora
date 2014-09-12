@@ -16,12 +16,16 @@ import services.ProductService;
 import views.html.loginView;
 import views.html.signupView;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import static play.data.Form.form;
 import static utils.AsyncUtils.asPromise;
 
 /**
  * handles the lifecycle of the customer login and sign up.
  */
+@Singleton
 public class LoginController extends BaseController {
 
     /** form for the customer credentials */
@@ -30,6 +34,7 @@ public class LoginController extends BaseController {
     /** form for new customers to register */
     final static Form<SignUp> signUpForm = form(SignUp.class);
 
+    @Inject
     public LoginController(CategoryService categoryService, ProductService productService, CartService cartService, CustomerService customerService) {
         super(categoryService, productService, cartService, customerService);
     }

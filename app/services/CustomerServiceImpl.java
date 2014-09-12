@@ -24,8 +24,11 @@ import io.sphere.client.model.VersionedId;
 import io.sphere.client.shop.SignInResult;
 import io.sphere.client.shop.SignUpBuilder;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
+@Singleton
 public class CustomerServiceImpl implements CustomerService {
     protected static final int INITIAL_CUSTOMER_NUMBER = 1000;
 
@@ -40,6 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final CartService cartService;
     private final CustomObjectService customObjectService;
 
+    @Inject
     public CustomerServiceImpl(final Sphere sphere, final CartService cartService, final CustomObjectService customObjectService) {
         this.sphere = sphere;
         this.cartService = cartService;

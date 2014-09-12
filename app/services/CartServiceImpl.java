@@ -28,10 +28,15 @@ import com.google.common.base.Optional;
 import com.neovisionaries.i18n.CountryCode;
 import sphere.util.Async;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class CartServiceImpl implements CartService {
     private final Sphere sphere;
     private final CheckoutService checkoutService;
 
+    @Inject
     public CartServiceImpl(final Sphere sphere, CheckoutService checkoutService) {
         this.sphere = sphere;
         this.checkoutService = checkoutService;

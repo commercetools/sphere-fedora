@@ -21,9 +21,11 @@ import com.google.common.base.Optional;
 
 import io.sphere.client.model.CustomObject;
 
-import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
+@Singleton
 public class CheckoutServiceImpl implements CheckoutService {
     protected static final int INITIAL_ORDER_NUMBER = 10000;
 
@@ -40,6 +42,7 @@ public class CheckoutServiceImpl implements CheckoutService {
     protected final Sphere sphere;
     private final CustomObjectService customObjectService;
 
+    @Inject
     public CheckoutServiceImpl(final Sphere sphere, final CustomObjectService customObjectService) {
         this.sphere = sphere;
         this.customObjectService = customObjectService;
