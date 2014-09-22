@@ -36,7 +36,7 @@ public class ShopAttribute {
     }
 
     public boolean isNumberAttribute() {
-        return attribute.getValue() instanceof  java.lang.Integer;
+        return attribute.getValue() instanceof java.lang.Integer;
     }
 
     public LocalizedString getLocalizedString() {
