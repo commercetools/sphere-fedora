@@ -12,7 +12,7 @@ Visit a live demo of SPHERE.io fedora store at [fedora.sphere.io](http://fedora.
 
 ### Set it up
 - Install at least JDK 6 on your machine. We recommend using [JDK 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html).
-- [Clone](http://git-scm.com/book/en/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository) sphere-fedora project from GitHub. or download it as [zip file](https://github.com/commercetools/sphere-fedora/archive/master.zip).
+- [Clone](http://git-scm.com/book/en/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository) sphere-fedora project from GitHub or download it as [zip file](https://github.com/commercetools/sphere-fedora/archive/master.zip).
 - Run `./sbt run` or `sbt.bat run` (Windows) command in root project directory.
 - Open your browser and point it to [http://localhost:9000](http://localhost:9000).
 
@@ -56,5 +56,4 @@ To run this SPHERE.IO example web shop on [heroku](https://www.heroku.com) just 
 
 ### Special info: Eclipse
 
-- [Eclipse](https://www.eclipse.org/) has no native support of Scala/Play applications
-- Please use this prepackaged version of Eclipse: [Scala-IDE](http://scala-ide.org)
+[Eclipse](https://www.eclipse.org/) has no native support of Scala/Play applications. If you plan to use Eclipse, please use this prepackaged version which include Scala support: [Scala-IDE](http://scala-ide.org)
