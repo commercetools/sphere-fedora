@@ -1,0 +1,22 @@
+@(data: CommonData, product: ShopProduct)
+
+<div class="size_info">
+    @for(selectedAttributeName <- data.selectableAttributeNames){
+    @if(product.hasMoreAttributeValues(selectedAttributeName)){
+    <div class="variant-selector">
+        <label>@selectedAttributeName :</label>
+        <select class="browse-url-selector">
+            @for(matchingVariant <- product.getSelectableVariants(selectedAttributeName, data.selectableAttributeNames)) {
+            <option data-url="@data.variantRoute(product, matchingVariant)" @if(matchingVariant == product.getSelectedVariant){selected}>
+            @defining(matchingVariant.getAttribute(selectedAttributeName)){ attribute =>
+            @if(attribute.isPresent){
+            @attribute.get.getStringValue(data.context.locale)
+            }
+            }
+            </option>
+            }
+        </select>
+    </div>
+    }
+    }
+</div>
