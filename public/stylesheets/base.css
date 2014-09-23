@@ -130,7 +130,7 @@ ul.sub_menu > li > ul{border-top: solid 1px #5f5a56; margin-top:10px;}
 .product_rightcol .qty_info > div{ float:left; margin-right:45px;}
 .product_rightcol div.selector{ margin-bottom:10px; }
 .product_rightcol div.selector{ width:110px;}
-.product_rightcol div.selector span{ width:115px; overflow: hidden; }
+.product_rightcol div.selector span{ width:115px; }
 .product_rightcol div.selector select{ width:124px!important;}
 .product_rightcol div.sku_sel div.selector { width:110px;}
 .product_rightcol div.sku_sel div.selector span{ width:115px;}
