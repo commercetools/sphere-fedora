@@ -119,8 +119,8 @@ public class ShopVariant {
 
         ShopVariant that = (ShopVariant) o;
 
-        if (variant.getId() == that.get().getId()) return false;
-        if (variant.getSKU().equals(that.get().getSKU())) return false;
+        if (variant.getId() != that.get().getId()) return false;
+        if (!variant.getSKU().equals(that.get().getSKU())) return false;
 
         return true;
     }
