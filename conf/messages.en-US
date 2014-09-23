@@ -1,0 +1,47 @@
+header.account=My Account
+header.wishlist=Wishlist
+header.login=Login
+header.signup=Sign Up
+
+button.cart=Add to cart
+button.wishlist=Add to wishlist
+
+list.new=New Products
+list.offers=Special Offers
+list.related=You might also like
+
+product.zoom=Roll over image to zoom
+product.size=Available size
+product.color=Color
+product.sku=Product SKU
+product.overview=Quick overview
+
+cart.item=item
+cart.quantity=quantity
+cart.isEmpty=Your cart is empty.
+
+or=or
+
+save-changes=save changes
+
+user-page.Title=Your Profile
+user-page.changeNameEmail.Title=Change your name or email
+user-page.changePassword.Title=Change your password
+listOrders.Title=Your orders
+
+login.Title=Login
+signup.Title=Sign in
+logout=logout
+
+firstName=first name
+lastName=last name
+email=email
+password=password
+oldPassword=your old password
+newPassword=your new password
+repeatPassword=your new password again
+
+error.emailAlreadyInUse=The provided email address {0} is already used.
+error.passwordNotMatch=The password is incorrect.
+
+welcomeNewCustomer=Welcome, {0} {1}.

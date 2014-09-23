@@ -11,9 +11,11 @@ playJavaSettings
 libraryDependencies ++= Seq(
   javaCore,
   javaJdbc,
-  "io.sphere" %% "sphere-play-sdk" % "0.65.0" withSources(),
+  "com.google.inject" % "guice" % "3.0",
+  "io.sphere" %% "sphere-play-sdk" % "0.67.0" withSources(),
   "javax.mail" % "mail" % "1.4.7",
   "org.jsoup" % "jsoup" % "1.7.1",
+  "de.paymill" % "paymill-java" % "2.6",
   "org.mockito" % "mockito-all" % "1.9.5" % "test"
 )
 
@@ -21,6 +23,7 @@ lessEntryPoints := baseDirectory.value / "app" / "assets" / "stylesheets" * "*.l
 
 templatesImport ++= Seq(
   "utils.ViewHelper._",
+  "utils.PrintUtils._",
   "forms._",
   "io.sphere.client.model._",
   "io.sphere.client.filters._",

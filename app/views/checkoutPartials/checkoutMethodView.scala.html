@@ -1,0 +1,91 @@
+<div class="col2-set">
+    <div class="col-1">
+        <h3>Checkout as a Guest or Register</h3>
+        <p>Register with us for future convenience:</p>
+        <ul class="form-list">
+            <li class="control">
+                <input type="radio" class="radio" value="guest" id="login:guest" name="checkout_method" checked>
+                <label>Checkout as Guest</label>
+            </li>
+            <li class="control">
+                <input type="radio" class="radio" value="register" id="login:register" name="checkout_method">
+                <label>Register</label>
+            </li>
+        </ul>
+        <div class="checkout-step-register">
+            <form action="@routes.CheckoutController.signUp" method="post" id="signUp-form">
+                <fieldset>
+                    <ul class="form-list">
+                        <li>
+                            <label class="required" for="signUp-firstName"><em>*</em>Name</label>
+                            <div class="input-box">
+                                <input type="text" name="firstName" id="signUp-firstName" placeholder="First name" class="input-text" required>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="lastName" id="signUp-lastName" placeholder="Last name" class="input-text" required>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="required" for="login-email"><em>*</em>E-mail</label>
+                            <div class="input-box">
+                                <input type="email" name="email" id="signUp-email" placeholder="Email address" class="input-text">
+                            </div>
+                        </li>
+                        <li>
+                            <label class="required" for="login-password"><em>*</em>Password</label>
+                            <div class="input-box">
+                                <input type="password" name="password" id="signUp-password" class="input-text">
+                            </div>
+                        </li>
+                    </ul>
+                </fieldset>
+                <br/>
+                <div class="buttons-set clearfix">
+                    <button class="button brown_btn" type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+        <div class="checkout-step-guest">
+            <h4>Register and save time!</h4>
+            <p>Register with us for future convenience:</p>
+            <ul class="ul">
+                <li>Fast and easy check out</li>
+                <li>Easy access to your order history and status</li>
+            </ul>
+            <br/>
+            <br/>
+            <div class="buttons-set">
+                <a href="@routes.CheckoutController.showShipping" class="button brown_btn">Continue as guest</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
+        <h3>Login</h3>
+        <form action="@routes.CheckoutController.logIn" method="post" id="login-form">
+            <fieldset>
+                <h4>Already registered?</h4>
+                <p>Please log in below:</p>
+                <ul class="form-list">
+                    <li>
+                        <label class="required" for="login-email"><em>*</em>Email Address</label>
+                        <div class="input-box">
+                            <input type="email" name="email" id="login-email" class="input-text">
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required" for="login-password"><em>*</em>Password</label>
+                        <div class="input-box">
+                            <input type="password" name="password" id="login-password" class="input-text">
+                        </div>
+                    </li>
+                </ul>
+                <br/>
+                <br/>
+            </fieldset>
+            <div class="buttons-set">
+                <a class="fl_right" href="#">Forgot your password?</a>
+                <button  class="button brown_btn" type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+</div>

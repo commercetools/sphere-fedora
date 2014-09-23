@@ -1,0 +1,30 @@
+@(data: CommonData, productList: ProductList)
+
+@main(){
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
+}{
+    <section>
+        @productListHelper.filtersBlock(data, productList)
+
+        <!--MAIN CONTENT STARTS-->
+        <div id="main_content">
+            <div class="category_banner"> <img src="@routes.Assets.at("images/promo_cat_banner.jpg")"/> </div>
+
+            @helpers.breadcrumb(data)
+
+            @defining(productListHelper.toolbar(data, productList)){ toolbar =>
+                @toolbar
+                @productListHelper.productListBlock(data, productList)
+                @toolbar
+            }
+
+        </div>
+        <!--MAIN CONTENT ENDS-->
+
+        @helpers.newsletter()
+
+    </section>
+}{
+
+}

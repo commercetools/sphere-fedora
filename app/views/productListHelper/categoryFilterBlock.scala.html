@@ -1,0 +1,24 @@
+@(data: CommonData, currentCategory: ShopCategory)
+
+@defining(currentCategory.getRootAncestor) { rootCategory =>
+@if(rootCategory.hasChildren) {
+    <h1>@rootCategory.getName(data.context.locale)</h1>
+    <ul class="category departments">
+        <li class="header">Departments</li>
+        @for(mainCategory <- rootCategory.getChildren) {
+            @if(mainCategory.hasChildren){
+                <li class="menu_cont">
+                    <a href="@data.filterCategoryRoute(mainCategory)" class="@if(currentCategory.hasInPath(mainCategory)){active}">@mainCategory.getName(data.context.locale)</a>
+                    <ul class="side_sub_menu">
+                        @for(subcategory <- mainCategory.getChildren) {
+                        <li><a href="@data.filterCategoryRoute(subcategory)" class="@if(currentCategory.hasInPath(subcategory)){active}">@subcategory.getName(data.context.locale)</a></li>
+                        }
+                    </ul>
+                </li>
+            } else {
+                <li><a href="@data.filterCategoryRoute(mainCategory)" class="@if(currentCategory.hasInPath(mainCategory)){active}">@mainCategory.getName(data.context.locale)</a></li>
+            }
+        }
+    </ul>
+}
+}

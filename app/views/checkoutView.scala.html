@@ -1,0 +1,86 @@
+@(data: CommonData, cart: Cart, cartSnapshot: String, shippingMethods: List[ShippingMethod], paymentMethod: String, paymillPublicKey: String, step: Int = 1)
+
+@import checkoutPartials._
+
+@scripts = {
+<script type="text/javascript">var PAYMILL_PUBLIC_KEY = '@paymillPublicKey';</script>
+<script type="text/javascript" src="https://bridge.paymill.com/"></script>
+<script type="text/javascript" src='@routes.Assets.at("javascripts/paymill.min.js")'></script>
+}
+
+@main("Checkout", scripts){
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
+}{
+    <section class="checkout">
+        <div class="full_page">
+            <h1>Checkout</h1>
+            <!--CHECKOUT STEPS STARTS-->
+            <div class="checkout_steps">
+                <ol id="checkoutSteps">
+                    <li class="section clearfix allow @if(step == 1){active}" id="opc-login">
+                        <div class="step-title"> <span class="number">1</span>
+                            <h2>Checkout Method</h2>
+                        </div>
+                        <div class="step-body" id="checkout-step-login">
+                        @if(step == 1){
+                            @checkoutMethodView()
+                        }
+                        </div>
+                    </li>
+                    <li class="section clearfix allow @if(step == 2){active}">
+                        <div class="step-title"> <span class="number">2</span>
+                            <h2>Shipping Information</h2>
+                        </div>
+
+                        <div class="step-body" id="checkout-step-shipping">
+                        @if(step == 2){
+                            @shippingInformationView(cart, shippingMethods)
+                        }
+                        </div>
+                    </li>
+                    <li class="section clearfix allow @if(step == 3){active}">
+                        <div class="step-title"> <span class="number">3</span>
+                            <h2>Billing Information</h2>
+                        </div>
+                        <div class="step-body" id="checkout-step-billing">
+                        @if(step == 3){
+                            @billingInformationView(cart, paymentMethod)
+                        }
+                        </div>
+                    </li>
+                    <li class="section clearfix allow @if(step == 4){active}">
+                        <div class="step-title"> <span class="number">4</span>
+                            <h2>Order Preview</h2>
+                        </div>
+                        <div class="step-body" id="checkout-step-submit">
+                        @if(step == 4){
+                            @orderPreviewView(cart, cartSnapshot)
+                        }
+                        </div>
+                    </li>
+                </ol>
+            </div>
+            <!--CHECKOUT STEPS ENDS-->
+            <div class="col_right">
+                <div class="block-progress">
+                    <div class="block-title">Your Checkout Progress</div>
+                    <ul>
+                        <li>Billing Address</li>
+                        <li>Shipping Address</li>
+                        <li>Shipping Method</li>
+                        <li>Payment Method</li>
+                    </ul>
+                </div>
+                <!--div class="right_promo">
+                <img src="@routes.Assets.at("images/side_promo_banner.jpg")">
+                </div-->
+            </div>
+        </div>
+
+        @helpers.newsletter()
+
+    </section>
+}{
+
+}

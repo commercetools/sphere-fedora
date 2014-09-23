@@ -1,0 +1,58 @@
+@(cart: Cart, paymentMethod: String)
+
+<form action="@routes.CheckoutController.handleBillingSettings" method="post" id="billing-form">
+    <input type="hidden" name="country" value="DE">
+
+    <div class="col2-set">
+        <div class="col-1">
+            @checkoutPartials.paymentMethodView(paymentMethod)
+        </div>
+        <div class="col-2">
+            <h3>Provide billing address</h3>
+            <fieldset>
+            @defining(getBillingAddress(cart)) { address =>
+                <ul class="form-list">
+                    <li>
+                        <label class="required" for="billing-firstName"><em>*</em>Name</label>
+                        <div class="input-box">
+                            <input type="text" name="firstName" id="billing-firstName" class="input-text" placeholder="First name" value="@address.getFirstName" required>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" name="lastName" id="billing-lastName" class="input-text" placeholder="Last name" value="@address.getLastName" required>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required" for="billing-street"><em>*</em>Address</label>
+                        <div class="input-box">
+                            <input type="text" name="street" id="billing-street" class="input-text" placeholder="First address line" value="@address.getStreetName" required>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" name="street2" id="billing-street2" class="input-text" placeholder="Second address line (optional)" value="@address.getStreetNumber">
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required" for="billing-city"><em>*</em>City</label>
+                        <div class="input-box">
+                            <input type="text" name="city" id="billing-city" class="input-text" placeholder="City" value="@address.getCity" required>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required" for="billing-postalCode"><em>*</em>Postal code</label>
+                        <div class="input-box">
+                            <input type="text" name="postalCode" id="billing-postalCode" class="input-text" placeholder="Postal code" value="@address.getPostalCode" required>
+                        </div>
+                    </li>
+                </ul>
+                <br/>
+                <br/>
+            }
+            </fieldset>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="buttons-set clearfix">
+        <a href="@routes.CheckoutController.showShipping" class="button white_btn pull-left">Back</a>
+        <button class="button brown_btn pull-right" type="submit">Continue</button>
+    </div>
+</form>

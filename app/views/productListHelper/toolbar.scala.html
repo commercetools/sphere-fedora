@@ -1,0 +1,15 @@
+@(data: CommonData, productList: ProductList)
+
+<!--Toolbar-->
+<div class="toolbar">
+    <div class="sortby">
+        @productListHelper.sortByBlock(data, productList)
+    </div>
+    <div class="viewby">
+        @productListHelper.displayAsBlock(data, productList)
+    </div>
+    <div class="show_no">
+        @productListHelper.amountItemsBlock(data, productList)
+    </div>
+</div>
+<!--Toolbar-->

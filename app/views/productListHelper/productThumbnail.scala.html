@@ -1,0 +1,29 @@
+@(data: CommonData, product: ShopProduct)
+
+@import utils.PrintUtils.printMoney
+
+<li class="product-item">
+    <a href="@data.productRoute(product, data.currentCategory)" class="product_image">
+        <img src="@product.getSelectedVariant.getMainImage(ImageSize.SMALL).getUrl"/>
+    </a>
+    <div class="product_info">
+        <h3><a href="@data.productRoute(product, data.currentCategory)">@product.getName(data.context.locale)</a></h3>
+        <small class="description">@Html(product.getDescription(data.context.locale))</small>
+    </div>
+    @defining(product.getSelectedVariant.getPriceAmount(data.context)){ priceAmount =>
+    @if(priceAmount.isPresent){
+    <div class="price_info">
+        <!--a href="#">+ @Messages("button.wishlist")</a-->
+        <form action="@routes.CartController.add" method="post">
+            <input type="hidden" name="productId" value="@product.getId"/>
+            <input type="hidden" name="variantId" value="@product.getSelectedVariant.getId"/>
+            <input type="hidden" name="quantity" value="1"/>
+            <button class="price_add" title="" type="submit">
+                <span class="pr_price">@printMoney(data.context, priceAmount.get)</span>
+                <span class="pr_add">@Messages("button.cart")</span>
+            </button>
+        </form>
+    </div>
+    }
+    }
+</li>

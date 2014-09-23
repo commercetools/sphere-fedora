@@ -1,0 +1,43 @@
+@(data: CommonData, product: ShopProduct, recommendedProducts: com.google.common.base.Optional[ProductList])
+
+@scripts = {<script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.zoom.js")'></script>}
+
+@main(product.getName(data.context.locale), scripts){
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
+}{
+<section>
+    @helpers.breadcrumb(data)
+
+    <!--PRODUCT DETAIL STARTS-->
+    <div id="product_detail">
+
+        <!--Product Left Starts-->
+        <div class="product_leftcol">
+        @productDetailHelper.leftColumn(data, product)
+        </div>
+        <!--Product Left Ends-->
+
+        <!--Product Right Starts-->
+        <div class="product_rightcol">
+        @productDetailHelper.rightColumn(data, product)
+        </div>
+        <!--Product Right Ends-->
+
+    </div>
+    <!--PRODUCT DETAIL ENDS-->
+
+    @if(recommendedProducts.isPresent){
+        <!--Product List Starts-->
+        <div class="products_list products_slider">
+        @productDetailHelper.recommendedBlock(data, recommendedProducts.get)
+        </div>
+        <!--Product List Ends-->
+    }
+
+    @helpers.newsletter()
+
+</section>
+}{
+
+}

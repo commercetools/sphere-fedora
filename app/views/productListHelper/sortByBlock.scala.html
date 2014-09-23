@@ -1,0 +1,11 @@
+@(data: CommonData, productList: ProductList)
+
+<label>Sort by :</label>
+<select class="browse-url-selector">
+    <option data-url="@data.route.withoutSort">DEFAULT</option>
+    @for(sortOption <- RequestParameters.sortOptions){
+    <option data-url="@data.route.withSort(sortOption)" @if(productList.hasSortSelected(sortOption)){selected}>
+        @printSortOption(sortOption)
+    </option>
+    }
+</select>

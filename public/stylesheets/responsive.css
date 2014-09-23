@@ -85,10 +85,10 @@ header{ position:relative;}
 .responsive-nav .selector span{ width:239px;}
 .responsive-nav .selector select{ width:246px;}
 
-header .language_switch { width: 60px; position:absolute; }
-header .language_switch li{ display:none; float:none; }
-header .language_switch li.active{ display:block; }
-header .language_switch #language_more{ display:block; float:right; }
+header .top_switch { width: 60px; position:absolute; }
+header .top_switch li{ display:none; float:none; }
+header .top_switch li.active{ display:block; }
+header .top_switch .top_switch_more{ display:block; float:right; }
 
 header .top_links > li a{ padding:16px 4px; font-size:11px;}
 header h1.logo { width:145px; margin:auto; float:none; padding:15px 0px 0px;}

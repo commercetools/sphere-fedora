@@ -1,21 +1,21 @@
-@(current: Category = null)
+@(data: CommonData)
 
 <div class="navigation_container">
     <!--Navigation Starts-->
     <nav>
         <ul class="primary_nav">
-            @for(root <- getRootCategories) {
-            <li class="@getActiveClass(root, current)">
-                <a href="@getCategoryUrl(root)">@root.getName(lang.toLocale)</a>
-                @if(root.getChildren.size > 0) {
+            @for(rootCategory <- data.rootCategories) {
+            <li class="@if(data.isInCategoryPath(rootCategory)){active}">
+                <a href="@data.categoryRoute(rootCategory)">@rootCategory.getName(data.context.locale)</a>
+                @if(rootCategory.hasChildren) {
                 <!--Submenu Starts-->
                 <ul class="sub_menu">
-                    @for(category <- root.getChildren) {
+                    @for(mainCategory <- rootCategory.getChildren) {
                     <li>
-                        <a href="@getCategoryUrl(category)">@category.getName(lang.toLocale)</a>
+                        <a href="@data.categoryRoute(mainCategory)">@mainCategory.getName(data.context.locale)</a>
                         <ul>
-                            @for(subcategory <- category.getChildren) {
-                            <li><a href="@getCategoryUrl(subcategory)">@subcategory.getName(lang.toLocale)</a></li>
+                            @for(subcategory <- mainCategory.getChildren) {
+                            <li><a href="@data.categoryRoute(subcategory)">@subcategory.getName(data.context.locale)</a></li>
                             }
                         </ul>
                     </li>
@@ -27,27 +27,9 @@
             }
         </ul>
 
-        @defining(getCurrentCart) { cart =>
         <div class="minicart">
-            <a href="@routes.Carts.show" class="minicart_link">
-                <span class="item"><b>@cart.getTotalQuantity</b> @Messages("cart.item") /</span> <span class="price"><b>@cart.getTotalPrice</b></span>
-            </a>
-            <div class="cart_drop"> <span class="darw"></span>
-                <ul>
-                    @for(item <- cart.getLineItems) {
-                    <li>
-                        <img src="@item.getVariant.getFeaturedImage.getSize(ImageSize.THUMBNAIL).getUrl">
-                        <a href="#">@item.getProductName</a> <span class="price">@item.getTotalPrice</span>
-                    </li>
-                    }
-                    <div class="cart_bottom">
-                        <div class="subtotal_menu"><small>Subtotal:</small><big>@cart.getTotalPrice</big></div>
-                        <a href="@routes.Checkouts.show">Checkout</a>
-                    </div>
-                </ul>
-            </div>
+            @helpers.miniCart(data)
         </div>
-        }
     </nav>
     <!--Navigation Ends-->
 </div>

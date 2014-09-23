@@ -1,0 +1,131 @@
+@(data: CommonData, customer: ShopCustomer, customerForm: Form[forms.customerForm.UpdateCustomer], updatePasswordForm: Form[forms.passwordForm.UpdatePassword], shopOrders: List[ShopOrder])
+
+@import helpers._
+@import helper._
+@import com.google.common.base.Optional
+
+@implicitField = @{ FieldConstructor(fieldConstructor.f) }
+
+@main("User"){
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
+}{
+<section class="user">
+
+    <div id="" class="full_page">
+        <h1>@Messages("user-page.Title")</h1>
+
+        <div class="page_sidebar">
+
+            <section id="main_content">
+                <div class="short-code-column one-half">
+                    <h2>@Messages("user-page.changeNameEmail.Title")</h2>
+                    <br>
+                    <form action="@routes.CustomerController.handleCustomerUpdate" method="post" id="customer-form">
+                        <fieldset>
+                            <ul class="form-list">
+                                <li>
+                                    <label class="required" for="user-firstName"><em>*</em>Name</label>
+                                    <div class="input-box">
+                                        <input type="text" name="firstName" id="user-firstName" placeholder="First name" class="input-text" required value="@customerForm.field("firstName").value">
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="text" name="lastName" id="user-lastName" placeholder="Last name" class="input-text" required value="@customerForm.field("lastName").value">
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="required" for="user-email"><em>*</em>E-mail</label>
+                                    <div class="input-box">
+                                        <input type="email" name="email" id="user-email" placeholder="Email address" class="input-text" value="@customerForm.field("email").value">
+                                    </div>
+                                </li>
+                            </ul>
+                            <br/>
+                        </fieldset>
+                        <div class="buttons-set">
+                            <button  class="button brown_btn" id="submit-customer-form" type="submit">@Messages("save-changes")</button>
+                        </div>
+                    </form>
+                    <br/>
+                    <br/>
+                </div>
+
+                <div class="short-code-column one-half column-last clearfix">
+                    <h2>@Messages("user-page.changePassword.Title")</h2>
+
+                    @updatePasswordForm.globalErrors.map { globalError =>
+                        <div class="short-code msg error"> <span>@globalError.message</span> </div>
+                    }
+                    <br>
+                    <form action="@routes.CustomerController.handleCustomerUpdate" method="post" id="password-form">
+                        <fieldset>
+                            <ul class="form-list">
+                                <li>
+                                    <label class="required" for="user-oldPassword"><em>*</em>Old Password</label>
+                                    <div class="input-box">
+                                        <input type="email" name="oldPassword" id="user-oldPassword" class="input-text" value="@customerForm.field("oldPassword").value">
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="required" for="user-newPassword"><em>*</em>New Password</label>
+                                    <div class="input-box">
+                                        <input type="password" name="newPassword" id="user-newPassword" class="input-text" value="@customerForm.field("newPassword").value">
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="required" for="user-repeatPassword"><em>*</em>Repeat Password</label>
+                                    <div class="input-box">
+                                        <input type="password" name="repeatPassword" id="user-repeatPassword" class="input-text" value="@customerForm.field("repeatPassword").value">
+                                    </div>
+                                </li>
+                            </ul>
+                            <br/>
+                        </fieldset>
+                        <div class="buttons-set">
+                            <button  class="button brown_btn" id="submit-password-form" type="submit">@Messages("save-changes")</button>
+                        </div>
+                    </form>
+                    <br/>
+                    <br/>
+                </div>
+            </section>
+
+            <section>
+                <br class="clear">
+                @if(!shopOrders.isEmpty) {
+                <h1>@Messages("listOrders.Title")</h1>
+
+                <ul class="short-code toggle_box">
+                    @shopOrders.map { order =>
+
+                    <li><a class="toggle_title" href="#">
+                        @order.getOrderDate("dd.MM.yyyy HH:mm") | @printMoney(data.context, order.getTotalPrice(Optional.of(customer)))</a>
+                        <div class="toggle_content short-code-column" style="display: none;">
+                            <ul class="circle_li">
+                                @order.getLineItems.map { lineItem =>
+                                <li>@lineItem.getQuantity x
+                                    <a href='@routes.ProductController.selectById(lineItem.getProductId, lineItem.getVariant.getId).url'>
+                                        @lineItem.getProductName(data.context.locale)
+                                    </a> | @printMoney(data.context, lineItem.getTotalPrice)</li>
+                                }
+                            </ul>
+                            <p><strong>Shipping</strong>: @order.getShippingMethodName.or("None")
+                                @if(order.getShippingPrice(data.context.customer).isPresent){@printMoney(data.context, order.getShippingPrice(data.context.customer).get)}
+                                @if(order.getShippingState.isPresent){(@order.getShippingState.get.name)}</p>
+                            <p><strong>Payment</strong>: @order.getPaymentMethod.or("None")
+                                @if(order.getPaymentState.isPresent){(@order.getPaymentState.get.name)}</p>
+                        </div>
+                    </li>
+                    }
+                </ul>
+                <br>
+                <br>
+                }
+            </section>
+        </div>
+    </div>
+</section>
+
+}{
+
+}

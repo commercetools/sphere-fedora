@@ -3,51 +3,53 @@
 # ~~~~
 
 # Application
-GET     /                                                   controllers.Application.home()
-GET     /search                                             controllers.Categories.search(page: Int ?= 1, show: Int ?= 12, sort: String ?= "", list: String ?= "")
+GET     /                                                   @controllers.HomeController.home()
+
+GET     /search                                             @controllers.ProductListController.searchProducts(page: Int ?= 1)
 
 # Cart
-GET     /cart                                               controllers.Carts.show()
-
-POST    /cart/add                                           controllers.Carts.add()
-POST    /cart/update                                        controllers.Carts.update()
-GET     /cart/remove                                        controllers.Carts.remove(item: String)
+GET     /cart                                               @controllers.CartController.show()
+POST    /cart/add                                           @controllers.CartController.add()
+POST    /cart/update                                        @controllers.CartController.update()
+GET     /cart/remove/:lineItemId                            @controllers.CartController.remove(lineItemId: String)
 
 # Checkout
-GET     /checkout                                           controllers.Checkouts.show()
-POST    /checkout                                           controllers.Checkouts.submit()
+GET     /checkout                                           @controllers.CheckoutController.show()
+POST    /checkout                                           @controllers.CheckoutController.submit()
+GET    /checkout/preview                                   @controllers.CheckoutController.showOrderPreview()
 
-GET     /checkout/register                                  controllers.Checkouts.showLogin()
-POST    /checkout/register                                  controllers.Checkouts.signUp()
+GET     /checkout/register                                  @controllers.CheckoutController.showLogin()
+POST    /checkout/register                                  @controllers.CheckoutController.signUp()
 
-GET     /checkout/login                                     controllers.Checkouts.showLogin()
-POST    /checkout/login                                     controllers.Checkouts.logIn()
+GET     /checkout/login                                     @controllers.CheckoutController.showLogin()
+POST    /checkout/login                                     @controllers.CheckoutController.logIn()
 
-GET     /checkout/billing                                   controllers.Checkouts.showBilling()
-POST    /checkout/billing                                   controllers.Checkouts.setBilling()
+GET     /checkout/billing                                   @controllers.CheckoutController.showBilling()
+POST    /checkout/billing                                   @controllers.CheckoutController.handleBillingSettings()
 
-GET     /checkout/shipping                                  controllers.Checkouts.showShipping()
-POST    /checkout/shipping                                  controllers.Checkouts.setShipping()
+GET     /checkout/shipping                                  @controllers.CheckoutController.showShipping()
+POST    /checkout/shipping                                  @controllers.CheckoutController.handleShippingAddress()
 
 # Login
-GET     /user/login                                         controllers.Login.show()
-POST    /user/login                                         controllers.Login.logIn()
-GET     /user/logout                                        controllers.Login.logOut()
+GET     /user/login                                         @controllers.LoginController.showSignIn()
+POST    /user/login                                         @controllers.LoginController.handleSignIn()
+GET     /user/logout                                        @controllers.LoginController.logOut()
 
-GET     /user/register                                      controllers.Login.showSignUp()
-POST    /user/register                                      controllers.Login.signUp()
+GET     /user/register                                      @controllers.LoginController.showSignUp()
+POST    /user/register                                      @controllers.LoginController.handleSignUp()
 
 # Customer
-GET     /user                                               controllers.Customers.show()
+GET     /user                                               @controllers.CustomerController.show()
 
-POST    /user/update                                        controllers.Customers.update()
-POST    /user/update/password                               controllers.Customers.updatePassword()
+POST    /user/update                                        @controllers.CustomerController.handleCustomerUpdate()
+POST    /user/update/password                               @controllers.CustomerController.handlePasswordUpdate()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                                       controllers.Assets.at(path="/public", file)
 
 # Product
-GET     /:product-$variant<[0-9]+>.html                     controllers.Products.select(product: String, variant: Int)
+GET     /products/:productId-$variantId<[0-9]+>.html        @controllers.ProductController.selectById(productId: String, variantId: Int)
+GET     /:productSlug-$variantId<[0-9]+>.html               @controllers.ProductController.select(productSlug: String, variantId: Int, categorySlug: String ?= "")
 
 # Category
-GET     /*category                                          controllers.Categories.select(category: String, page: Int ?= 1, show: Int ?= 12, sort: String ?= "", list: String ?= "")
+GET     /*categorySlug                                      @controllers.ProductListController.categoryProducts(categorySlug: String, page: Int ?= 1)

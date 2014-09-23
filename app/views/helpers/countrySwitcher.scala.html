@@ -1,0 +1,16 @@
+@(data: CommonData)
+
+<div id="country_more" class="top_switch_more">
+    <a href="#"><img src="@routes.Assets.at("images/shortcodes/list-plus.png")"/></a>
+</div>
+<ul>
+    @for(country <- data.availableCountry) {
+    <li class="@if(data.context.hasCountry(country)){active}">
+        @if(data.context.hasCountry(country)){
+        <a title="@country.getName">@country.getAlpha3</a>
+        } else {
+        <a href="@data.route.withCountry(country)" title="@country.getName">@country.getAlpha3</a>
+        }
+    </li>
+    }
+</ul>

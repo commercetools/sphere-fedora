@@ -65,6 +65,7 @@ $(document).ready(function(){
 
     //ABBREVIATE DESCRIPTION
     $('.product-item .product_info .description').ellipsis();
+    $('.product_rightcol div.selector span').ellipsis();
 
     //TOGGLE REGISTRATION FORM IN CHECKOUT PAGE
     $('#checkout-step-login input[name=checkout_method]').change(function() {

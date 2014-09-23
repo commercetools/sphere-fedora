@@ -1,5 +1,7 @@
 package controllers.actions;
 
+import controllers.routes;
+import play.i18n.Messages;
 import play.libs.F;
 import play.mvc.Action;
 import play.mvc.Http;
@@ -13,7 +15,8 @@ public class CartNotEmpty extends Action.Simple {
     * */
     public F.Promise<SimpleResult> call(Http.Context ctx) throws Throwable {
         if (Sphere.getInstance().currentCart().getQuantity() < 1) {
-            return F.Promise.pure(redirect(ctx.session().get("returnUrl")));
+            ctx.flash().put("info", Messages.get(ctx.lang(), "cart.isEmpty"));
+            return F.Promise.pure(redirect(routes.CartController.show()));
         }
         return delegate.call(ctx);
     }

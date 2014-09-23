@@ -21,16 +21,18 @@ header, nav, section, footer{ width:980px; margin:0px auto;}
 /*-----------------------------------HEADER*/
 .header_container{ background:url(../images/top_bar_bg.png) repeat-x top;}
 header .top_bar{ display:inline-block; width:100%;}
-header .language_switch{ margin:12px 0px;}
-header .language_switch li { position:relative; float:left; background:#312e2b; width:20px; text-align:center; padding:4px 8px; margin-right:3px; box-shadow:0px 1px 0px #67615c; }
-header .language_switch li a{ color:#8b827a; text-transform:uppercase; font-size:11px; text-shadow:0px 1px 0px #272524; text-decoration:none; }
-header .language_switch li.active a{text-decoration:underline;}
-header .language_switch #language_more{ display:none; width:11px; height:12px; margin:0; padding:4px; background:#312e2b; box-shadow:0px 1px 0px #67615c; }
+header .top_switch { margin:12px 0px;}
+header .top_switch li { position:relative; float:left; background:#312e2b; width:20px; text-align:center; padding:4px 8px; margin-right:3px; box-shadow:0px 1px 0px #67615c; }
+header .top_switch li a{ color:#8b827a; text-transform:uppercase; font-size:11px; text-shadow:0px 1px 0px #272524; text-decoration:none; }
+header .top_switch li.active a{text-decoration:underline;}
+header .top_switch .top_switch_more{ display:none; width:11px; height:12px; margin:0; padding:4px; background:#312e2b; box-shadow:0px 1px 0px #67615c; }
+header #top_switch_country ul li:first-child {margin-left: 20px;}
 
 header .top_links{ margin:0px; float:right;}
 header .top_links > li{ float:left; background:#5f5a56; margin-left:1px;}
 header .top_links > li a{ display:block; padding:16px 20px; line-height:100%; color:#e9e9e9; text-shadow:0px 1px 0px #3e3935; text-decoration:none; text-transform:uppercase; font-weight:bold;}
 header .top_links > li.highlight a { color:#fff; text-shadow:none;}
+header .top_links > li:hover { background:#f38256;}
 
 header h1.logo{ float:left; padding:30px 0px;}
 header .header_search{ height:23px; width:230px; float:right; padding:3px; margin:30px 0px;  border:solid 1px #e1e1e1;  cursor:pointer;}
@@ -120,19 +122,16 @@ ul.sub_menu > li > ul{border-top: solid 1px #5f5a56; margin-top:10px;}
 .product_rightcol .pr_price{ padding:22px 0px 20px 0px;}
 .product_rightcol .pr_price big{ font-size:29px; font-weight:bold!important; display:inline-block; padding-right:16px;}
 .product_rightcol .pr_price small{ font-size:17px; text-decoration:line-through;color:#a29b95;}
-.product_rightcol .size_info{ padding:7px 0px; border:solid 1px #dedede; border-width:1px 0px; display:inline-block; width:100%;}
+.product_rightcol .size_info{ padding:7px 0px; border:solid 1px #dedede; border-width:1px 0px 0px; display:inline-block; width:100%;}
 .product_rightcol .size_info label{ font-size:11px; color:#5f5a56; text-transform:uppercase; float:left; padding-right:10px; line-height:24px;}
 .product_rightcol .size_info > div{ float:left; margin-right:45px;}
 .product_rightcol .qty_info{ padding:7px 0px; display:inline-block; width:100%;}
 .product_rightcol .qty_info label{ font-size:11px; color:#5f5a56; text-transform:uppercase; float:left; padding-right:10px; line-height:24px;width:88px;}
 .product_rightcol .qty_info > div{ float:left; margin-right:45px;}
-.product_rightcol div.selector{ width:70px;}
-.product_rightcol div.selector span{width:75px;}
-.product_rightcol div.selector select{ width:84px!important;}
-.product_rightcol div.color_sel div.selector { width:160px;}
-.product_rightcol div.color_sel div.selector span{ width:165px;}
-.product_rightcol div.color_sel div.selector select{ width:174px!important;}
-.product_rightcol div.sku_sel { margin-top: 10px; }
+.product_rightcol div.selector{ margin-bottom:10px; }
+.product_rightcol div.selector{ width:110px;}
+.product_rightcol div.selector span{ width:115px; }
+.product_rightcol div.selector select{ width:124px!important;}
 .product_rightcol div.sku_sel div.selector { width:110px;}
 .product_rightcol div.sku_sel div.selector span{ width:115px;}
 .product_rightcol div.sku_sel div.selector select{ width:124px!important;}
@@ -365,6 +364,12 @@ span.highlight_text{ display:inline-block; color:#fff; font-size:16px; font-styl
 .side_nav li a{color:#544F4B; text-decoration:none;}
 
 .twitter_feed{ padding:50px 15px 20px 15px; background:url(../images/twitter_top.jpg) repeat-x center top #ebebeb; line-height:20px; font-size:13px; font-style:italic; border-bottom:solid 2px}
+
+/*User + Login*/
+input[type="text"], input[type="email"], input[type="password"]{ border:1px solid #D7D7D7; padding:4px; width:225px;}
+input.card-expiry-year{width:57px !important;}
+input.card-expiry-month{width:47px !important;}
+
 
 /*GENERAL*/
 input, select, textarea,  button{ font-size:12px;}

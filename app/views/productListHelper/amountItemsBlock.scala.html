@@ -1,0 +1,11 @@
+@(data: CommonData, productList: ProductList)
+
+<label>Show :</label>
+<select class="browse-url-selector">
+    <option data-url="@data.route.withoutAmount">12 ITEMS</option>
+    @for(amountOption <- RequestParameters.amountOptions){
+    <option data-url="@data.route.withAmount(amountOption)" @if(productList.hasAmountSelected(amountOption)){selected}>
+        @printAmountOption(amountOption) ITEMS
+    </option>
+    }
+</select>

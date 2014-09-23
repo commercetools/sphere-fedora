@@ -1,5 +1,6 @@
 package forms.checkoutForm;
 
+import com.google.common.base.Optional;
 import com.neovisionaries.i18n.CountryCode;
 import io.sphere.client.shop.model.Address;
 import io.sphere.client.shop.model.Customer;
@@ -8,8 +9,11 @@ import play.data.validation.Constraints;
 public class SetBilling {
 
     @Constraints.Required(message = "Billing method required")
-    @Constraints.Pattern(value = "visa|mastercard|paypal", message = "Invalid value for payment method")
+    @Constraints.Pattern(value = "cc|elv", message = "Invalid value for payment method")
     public String method;
+
+    @Constraints.Required(message = "Payment required")
+    public String paymillToken;
 
     @Constraints.Required(message = "First name required")
     public String firstName;
@@ -36,11 +40,24 @@ public class SetBilling {
     public String country;
 
     public SetBilling() {
-
+        this(Optional.<Address>absent());
     }
 
     public SetBilling(Address address) {
-        if (address != null) {
+        this(Optional.fromNullable(address));
+    }
+
+    public SetBilling(Customer customer) {
+        if (customer != null) {
+            this.firstName = customer.getName().getFirstName();
+            this.lastName = customer.getName().getLastName();
+            this.email = customer.getEmail();
+        }
+    }
+
+    public SetBilling(Optional<Address> addressOption) {
+        if (addressOption.isPresent()) {
+            final Address address = addressOption.get();
             this.firstName = address.getFirstName();
             this.lastName = address.getLastName();
             this.email = address.getEmail();
@@ -49,14 +66,6 @@ public class SetBilling {
             this.postalCode = address.getPostalCode();
             this.city = address.getCity();
             this.country = address.getCountry().getAlpha2();
-        }
-    }
-
-    public SetBilling(Customer customer) {
-        if (customer != null) {
-            this.firstName = customer.getName().getFirstName();
-            this.lastName = customer.getName().getLastName();
-            this.email = customer.getEmail();
         }
     }
 

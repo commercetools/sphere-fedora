@@ -1,0 +1,14 @@
+@(data: CommonData, productList: ProductList)
+
+<!--Product List Starts-->
+<div class="@if(productList.getParameters.isList){products_list_list}else{products_list products_slider}">
+    <ul>
+        @if(flash.containsKey("info-product-list")) {
+            <div class="message info">@flash.get("info-product-list")</div>
+        }
+        @for(product <- productList.getProducts){
+            @productListHelper.productThumbnail(data, product)
+        }
+    </ul>
+</div>
+<!--Product List Ends-->

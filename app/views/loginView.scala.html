@@ -1,0 +1,54 @@
+@(data: CommonData, logInForm: Form[forms.customerForm.LogIn])
+
+@import helpers._
+@import helper._
+
+@implicitField = @{ FieldConstructor(fieldConstructor.f) }
+
+@main("Login"){
+    @helpers.navigationTop(data)
+    @helpers.navigationMenu(data)
+}{
+<section class="login">
+
+    <div id="" class="full_page">
+        <h1>@Messages("login.Title")</h1>
+
+        <div class="page_sidebar">
+            <section id="main_content">
+                <div class="short-code-column">
+                    <form action="@routes.LoginController.handleSignIn" method="post" id="login-form">
+                        <fieldset>
+                            <p>Please log in below:</p>
+                            <ul class="form-list">
+                                <li>
+                                    <label class="required" for="login-email"><em>*</em>Email Address</label>
+                                    <div class="input-box">
+                                        <input type="email" name="email" id="login-email" class="input-text" value="@logInForm.field("email").value">
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="required" for="login-password"><em>*</em>Password</label>
+                                    <div class="input-box">
+                                        <input type="password" name="password" id="login-password" class="input-text" value="@logInForm.field("password").value">
+                                    </div>
+                                </li>
+                            </ul>
+                            <br/>
+                        </fieldset>
+                        <div class="buttons-set">
+                            <button  class="button brown_btn" type="submit">Login</button>
+                            <br><br>
+                            <a href="#">Forgot your password?</a>
+                        </div>
+                    </form>
+                    <br/>
+                    <br/>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+}{
+
+}
