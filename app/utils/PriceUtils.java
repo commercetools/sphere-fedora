@@ -35,7 +35,7 @@ public final class PriceUtils {
         if (taxRate.isIncludedInPrice()) {
             return amount;
         } else {
-            return amount.plus(amount.multiply(taxRate.getAmount()));
+            return grossPrice(amount, taxRate.getAmount());
         }
     }
 
@@ -51,6 +51,16 @@ public final class PriceUtils {
         } else {
             return netPrice(amount, taxRate.getAmount());
         }
+    }
+
+    /**
+     * Gets the gross price for the given net price and tax rate amount applied.
+     * @param netAmount the net amount to be converted.
+     * @param taxRate the tax rate to be applied, e.g. 0.19 for a tax rate of 19%.
+     * @return the calculated gross price.
+     */
+    public static Money grossPrice(Money netAmount, double taxRate) {
+        return netAmount.plus(netAmount.multiply(taxRate));
     }
 
     /**
