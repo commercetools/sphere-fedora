@@ -103,6 +103,10 @@ public class ShopProduct {
         return Optional.absent();
     }
 
+    public boolean hasMoreAttributeValues(String attributeName) {
+        return product.getVariants().getAvailableAttributes(attributeName).size() > 1;
+    }
+
     /**
      * Gets all selectable variants for the selected variant and attribute.
      * @param selectedAttribute the selected attribute.

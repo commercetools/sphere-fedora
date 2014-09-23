@@ -10,6 +10,7 @@
     </div>
     <div class="size_info">
         @for(selectedAttributeName <- data.selectableAttributeNames){
+        @if(product.hasMoreAttributeValues(selectedAttributeName)){
         <div class="variant-selector">
             <label>@selectedAttributeName :</label>
             <select class="browse-url-selector">
@@ -24,6 +25,7 @@
                 }
             </select>
         </div>
+        }
         }
     </div>
     <div class="qty_info">
