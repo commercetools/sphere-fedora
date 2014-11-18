@@ -7,6 +7,9 @@ Have fun!
 
 Build status [![Build Status](https://travis-ci.org/commercetools/sphere-fedora.png?branch=master)](https://travis-ci.org/commercetools/sphere-fedora)
 
+## Live demo
+Visit a live demo of SPHERE.io fedora store at [fedora.sphere.io](http://fedora.sphere.io/).
+
 ## Run me
 
 just execute `./sbt run` and open your browser at [http://localhost:9000](http://localhost:9000)
