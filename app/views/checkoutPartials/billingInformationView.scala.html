@@ -42,6 +42,12 @@
                             <input type="text" name="postalCode" id="billing-postalCode" class="input-text" placeholder="Postal code" value="@address.getPostalCode" required>
                         </div>
                     </li>
+                    <li>
+                        <label class="required" for="billing-country">Country</label>
+                        <div class="input-box">
+                            <input type="hidden" name="country" id="billing-country" value="@address.getCountry().getAlpha2()">@address.getCountry().getName()
+                        </div>
+                    </li>
                 </ul>
                 <br/>
                 <br/>

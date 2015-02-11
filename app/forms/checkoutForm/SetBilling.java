@@ -36,7 +36,6 @@ public class SetBilling {
     public String city;
 
     @Constraints.Required(message = "Country required")
-    @Constraints.Pattern(value = "DE|CN|RU", message = "Invalid value for country")
     public String country;
 
     public SetBilling() {

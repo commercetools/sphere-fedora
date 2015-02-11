@@ -30,12 +30,11 @@ import static models.RequestParameters.QUERY_PARAM_LANG;
  * The common functionality for all the shop controllers.
  */
 public class BaseController extends ShopController {
+    private static final String COUNTRY_SESSION = "country_session";
     private final CategoryService categoryService;
     private final ProductService productService;
     private final CartService cartService;
     private final CustomerService customerService;
-
-    private CountryCode country;
 
     protected BaseController(final CategoryService categoryService, final ProductService productService,
                              final CartService cartService, final CustomerService customerService) {
@@ -43,9 +42,21 @@ public class BaseController extends ShopController {
         this.productService = productService;
         this.cartService = cartService;
         this.customerService = customerService;
-        // TODO Move this calls out of the constructor
-        changeCountryOnRequest();
-        changeLanguageOnRequest();
+    }
+
+    public final void changeCountryOnRequest(final Http.Request request, final Http.Context context) {
+        String country = request.getQueryString(QUERY_PARAM_COUNTRY);
+        if (country != null) {
+            changeCountry(country, context);
+        }
+    }
+
+    public final void changeLanguageOnRequest(final Http.Request request) {
+        String lang = request.getQueryString(QUERY_PARAM_LANG);
+        Optional<String> languageCode = getValidLanguageCode(lang);
+        if (languageCode.isPresent()) {
+            changeLang(languageCode.get());
+        }
     }
 
     protected Functions f() {
@@ -100,22 +111,7 @@ public class BaseController extends ShopController {
     }
 
     protected final CountryCode country() {
-        return country(request(), Play.application().configuration());
-    }
-
-    protected final void changeCountryOnRequest() {
-        String country = request().getQueryString(QUERY_PARAM_COUNTRY);
-        if (country != null) {
-            changeCountry(country);
-        }
-    }
-
-    protected final void changeLanguageOnRequest() {
-        String lang = request().getQueryString(QUERY_PARAM_LANG);
-        Optional<String> languageCode = getValidLanguageCode(lang);
-        if (languageCode.isPresent()) {
-            changeLang(languageCode.get());
-        }
+        return country(request(), session(), Play.application().configuration());
     }
 
     private Optional<String> getValidLanguageCode(String lang) {
@@ -129,38 +125,40 @@ public class BaseController extends ShopController {
         return Optional.absent();
     }
 
-    protected final void changeCountry(String country) {
+    protected final void changeCountry(String country, Http.Context context) {
         Optional<CountryCode> countryCode = parseCountryCode(country);
         if (countryCode.isPresent()) {
-            changeCountry(countryCode.get(), response(), Play.application().configuration());
+            changeCountry(countryCode.get(), context, Play.application().configuration());
         }
     }
 
     /**
      * Sets the country associated with the user.
      * @param country the desired country for the user.
-     * @param response the HTTP response to the user.
+     * @param context the HTTP context of the user.
      * @param config the configuration of this shop.
      */
-    protected void changeCountry(CountryCode country, Http.Response response, Configuration config) {
+    protected void changeCountry(CountryCode country, Http.Context context, Configuration config) {
         if (availableCountries(config).contains(country)) {
-            this.country = country;
-            response.setCookie(countryCookieName(config), country.getAlpha2());
+            context.session().put(COUNTRY_SESSION, country.getAlpha2());
+            context.response().setCookie(countryCookieName(config), country.getAlpha2());
             cartService.setCountry(cart(), country);
         }
     }
 
     /**
      * Gets the country associated with the user.
-     * @param request the incoming HTTP request.
+     * @param request the HTTP request from the user.
+     * @param session the user session.
      * @param config the configuration of this shop.
      * @return the current country if any, or the country stored in the user's cookie, or the default country of the shop if none stored.
      */
-    protected CountryCode country(Http.Request request, Configuration config) {
-        if (this.country == null) {
-            this.country = countryInCookie(request, config).or(defaultCountry(config));
+    protected CountryCode country(Http.Request request, Http.Session session, Configuration config) {
+        if (!session.containsKey(COUNTRY_SESSION)) {
+            final CountryCode country = countryInCookie(request, config).or(defaultCountry(config));
+            session.put(COUNTRY_SESSION, country.getAlpha2());
         }
-        return this.country;
+        return parseCountryCode(session.get(COUNTRY_SESSION)).or(defaultCountry(config));
     }
 
     /**

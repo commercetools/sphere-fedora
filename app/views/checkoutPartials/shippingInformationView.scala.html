@@ -2,7 +2,6 @@
 
 
 <form action="@routes.CheckoutController.handleShippingAddress" method="post" id="shipping-form">
-    <input type="hidden" name="country" value="DE">
     <div class="col2-set">
         <div class="col-1">
             <h3>Choose shipping method</h3>
@@ -56,6 +55,12 @@
                         <label class="required" for="shipping-email"><em>*</em>E-mail</label>
                         <div class="input-box">
                             <input type="email" name="email" id="shipping-email" class="input-text" placeholder="Email address" value="@address.getEmail" required>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required" for="shipping-country">Country</label>
+                        <div class="input-box">
+                            <input type="hidden" name="country" id="shipping-country" value="@address.getCountry().getAlpha2()">@address.getCountry().getName()
                         </div>
                     </li>
                 </ul>
