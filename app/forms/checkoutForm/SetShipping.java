@@ -77,9 +77,7 @@ public class SetShipping {
         address.setStreetName(street);
         address.setStreetNumber(street2);
         address.setPostalCode(postalCode);
-        if (!state.isEmpty()) {
-            address.setState(state);
-        }
+        address.setState(state);
         address.setCity(city);
         return address;
     }

@@ -80,9 +80,7 @@ public class SetBilling {
         address.setStreetNumber(street2);
         address.setPostalCode(postalCode);
         address.setCity(city);
-        if (!state.isEmpty()) {
-            address.setState(state);
-        }
+        address.setState(state);
         return address;
     }
 
