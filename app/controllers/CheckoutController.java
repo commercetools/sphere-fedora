@@ -12,8 +12,7 @@ import forms.customerForm.SignUp;
 import io.sphere.client.model.CustomObject;
 import io.sphere.client.model.Money;
 import io.sphere.client.model.VersionedId;
-import io.sphere.client.shop.model.CustomerName;
-import io.sphere.client.shop.model.ShippingMethod;
+import io.sphere.client.shop.model.*;
 import models.PaymentMethods;
 import models.ShopCart;
 import models.ShopCustomer;
@@ -154,8 +153,11 @@ public class CheckoutController extends BaseController {
         return zip(shopCartPromise, shippingMethodsPromise, paymentMethodPromise, new F.Function3<ShopCart, List<ShippingMethod>, String, Content>() {
             @Override
             public Content apply(final ShopCart cart, final List<ShippingMethod> shippingMethods, final String paymentMethod) throws Throwable {
+                final Optional<ShopCustomer> customer = customer();
                 final String cartSnapshot = cartService().createSnapshot();
-                return checkoutView.render(data().build(), cart.get(), cartSnapshot, shippingMethods, paymentMethod, paymillPublicKey(), page);
+                final Address shippingAddress = getShippingAddress(cart, customer);
+                final Address billingAddress = getBillingAddress(cart, customer);
+                return checkoutView.render(data().build(), cart.get(), cartSnapshot, shippingAddress, billingAddress, shippingMethods, paymentMethod, paymillPublicKey(), page);
             }
         });
     }
@@ -347,6 +349,25 @@ public class CheckoutController extends BaseController {
                 }
             }
         });
+    }
+
+    private Address getShippingAddress(final ShopCart cart, final Optional<ShopCustomer> customer) {
+        return cart.getShippingAddress().or(getDefaultAddress(customer));
+    }
+
+    private Address getBillingAddress(final ShopCart cart, final Optional<ShopCustomer> customer) {
+        return cart.getBillingAddress().or(cart.getShippingAddress().or(getDefaultAddress(customer)));
+    }
+
+    private Address getDefaultAddress(Optional<ShopCustomer> customer) {
+        Address address = new Address(country());
+        if (customer.isPresent()) {
+            address.setEmail(customer.get().getEmail());
+            address.setFirstName(customer.get().getName().getFirstName());
+            address.setLastName(customer.get().getName().getLastName());
+            address.setTitle(customer.get().getName().getTitle());
+        }
+        return address;
     }
 
     private F.Promise<Result> badRequest(F.Promise<Content> contentPromise) {

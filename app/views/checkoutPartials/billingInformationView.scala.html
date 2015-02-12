@@ -1,4 +1,4 @@
-@(cart: Cart, paymentMethod: String)
+@(cart: Cart, paymentMethod: String, address: Address)
 
 <form action="@routes.CheckoutController.handleBillingSettings" method="post" id="billing-form">
     <input type="hidden" name="country" value="DE">
@@ -10,7 +10,6 @@
         <div class="col-2">
             <h3>Provide billing address</h3>
             <fieldset>
-            @defining(getBillingAddress(cart)) { address =>
                 <ul class="form-list">
                     <li>
                         <label class="required" for="billing-firstName"><em>*</em>Name</label>
@@ -51,7 +50,6 @@
                 </ul>
                 <br/>
                 <br/>
-            }
             </fieldset>
         </div>
     </div>

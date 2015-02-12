@@ -1,5 +1,4 @@
-@(cart: Cart, shippingMethods: List[ShippingMethod])
-
+@(cart: Cart, shippingMethods: List[ShippingMethod], address: Address)
 
 <form action="@routes.CheckoutController.handleShippingAddress" method="post" id="shipping-form">
     <div class="col2-set">
@@ -19,7 +18,6 @@
         <div class="col-2">
             <h3>Provide shipping address</h3>
             <fieldset>
-            @defining(getShippingAddress(cart)) { address =>
                 <ul class="form-list">
                     <li>
                         <label class="required" for="shipping-firstName"><em>*</em>Name</label>
@@ -64,7 +62,6 @@
                         </div>
                     </li>
                 </ul>
-            }
             </fieldset>
         </div>
     </div>
