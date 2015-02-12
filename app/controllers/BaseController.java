@@ -23,6 +23,7 @@ import java.util.*;
 
 import utils.AsyncUtils;
 
+import static java.util.Arrays.asList;
 import static models.RequestParameters.QUERY_PARAM_COUNTRY;
 import static models.RequestParameters.QUERY_PARAM_LANG;
 
@@ -167,8 +168,8 @@ public class BaseController extends ShopController {
      * @return the list of available countries.
      */
     protected List<CountryCode> availableCountries(Configuration config) {
-        List<String> configCountries = config.getStringList("sphere.countries");
-        List<CountryCode> countries = new ArrayList<CountryCode>();
+        List<String> configCountries = configurationValueAsList(config, "sphere.countries", Collections.<String>emptyList());
+        List<CountryCode> countries = new ArrayList<>();
         for (String configCountry : configCountries) {
             Optional<CountryCode> country = parseCountryCode(configCountry);
             if (country.isPresent()) {
@@ -213,7 +214,7 @@ public class BaseController extends ShopController {
      * @return the name of the cookie as defined in the configuration file, or the default name if none defined.
      */
     protected String countryCookieName(Configuration config) {
-        return config.getString("shop.country.cookie", "SHOP_COUNTRY");
+        return configurationValueAsString(config, "shop.country.cookie", "SHOP_COUNTRY");
     }
 
     // TODO move to a utils class
@@ -236,19 +237,41 @@ public class BaseController extends ShopController {
     }
 
     static List<String> selectableAttributeNames() {
-        return Play.application().configuration().getStringList("attributes.selectable", Collections.<String>emptyList());
+        return configurationValueAsList(Play.application().configuration(), "attributes.selectable", Collections.<String>emptyList());
     }
 
     static String paymillPublicKey() {
-        return Play.application().configuration().getString("paymill.key.public");
+        return configurationValueAsString(Play.application().configuration(), "paymill.key.public", "");
     }
 
     static String paymillPrivateKey() {
-        return Play.application().configuration().getString("paymill.key.private");
+        return configurationValueAsString(Play.application().configuration(), "paymill.key.private", "");
     }
 
     protected Result redirectToReturnUrl() {
         return redirect(session("returnUrl"));
+    }
+
+    /**
+     * Gets the value in the configuration for the given parameter key, using the defaultList if it cannot be found.
+     * The string must be of the form "a,b,c" for the list ["a","b","c"].
+     * @param key that identifies the parameter in the configuration.
+     * @param defaultList the default list when the parameter is not defined in the configuration.
+     * @return the list of values of the requested configuration parameter, or defaultList if not defined.
+     */
+    private static List<String> configurationValueAsList(final Configuration configuration, final String key, final List<String> defaultList) {
+        final List<String> list = asList(configurationValueAsString(configuration, key, "").split(","));
+        return list.isEmpty() ? defaultList : list;
+    }
+
+    /**
+     * Gets the value in the configuration for the given parameter key, using the defaultString if it cannot be found.
+     * @param key that identifies the parameter in the configuration.
+     * @param defaultString the default string when the parameter is not defined in the configuration.
+     * @return the value of the requested configuration parameter, or defaultString if not defined.
+     */
+    private static String configurationValueAsString(final Configuration configuration, final String key, final String defaultString) {
+        return configuration.getString(key, defaultString);
     }
 
     protected static final class Functions {
