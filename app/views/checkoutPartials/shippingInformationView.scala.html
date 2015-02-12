@@ -50,7 +50,7 @@
                                 <select name="state" id="shipping-state">
                                     <option value="">Other</option>
                                     @for(state <- states) {
-                                        <option value="@state">@state</option>
+                                        <option value="@state" @if(state == address.getState){selected}>@state</option>
                                     }
                                 </select>
                             </div>
