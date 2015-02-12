@@ -32,6 +32,8 @@ public class SetBilling {
     @Constraints.Required(message = "Postal code required")
     public String postalCode;
 
+    public String state;
+
     @Constraints.Required(message = "City required")
     public String city;
 
@@ -64,6 +66,7 @@ public class SetBilling {
             this.street2 = address.getStreetNumber();
             this.postalCode = address.getPostalCode();
             this.city = address.getCity();
+            this.state = address.getState();
             this.country = address.getCountry().getAlpha2();
         }
     }
@@ -77,6 +80,9 @@ public class SetBilling {
         address.setStreetNumber(street2);
         address.setPostalCode(postalCode);
         address.setCity(city);
+        if (!state.isEmpty()) {
+            address.setState(state);
+        }
         return address;
     }
 

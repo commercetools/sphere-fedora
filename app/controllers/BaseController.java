@@ -180,6 +180,15 @@ public class BaseController extends ShopController {
     }
 
     /**
+     * Gets the list of available states for this shop, as defined in the configuration file.
+     * @return the list of available states.
+     */
+    protected List<String> availableStates() {
+        final Configuration config = Play.application().configuration();
+        return configurationValueAsList(config, "sphere.states", Collections.<String>emptyList());
+    }
+
+    /**
      * Gets the country stored in the user's cookie.
      * @param request the incoming HTTP request.
      * @param config the configuration of this shop.
@@ -260,8 +269,12 @@ public class BaseController extends ShopController {
      * @return the list of values of the requested configuration parameter, or defaultList if not defined.
      */
     private static List<String> configurationValueAsList(final Configuration configuration, final String key, final List<String> defaultList) {
-        final List<String> list = asList(configurationValueAsString(configuration, key, "").split(","));
-        return list.isEmpty() ? defaultList : list;
+        final String valueAsString = configurationValueAsString(configuration, key, "");
+        if (valueAsString.isEmpty()) {
+            return defaultList;
+        } else {
+            return asList(valueAsString.split(","));
+        }
     }
 
     /**

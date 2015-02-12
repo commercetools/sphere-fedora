@@ -1,4 +1,4 @@
-@(cart: Cart, shippingMethods: List[ShippingMethod], address: Address)
+@(cart: Cart, shippingMethods: List[ShippingMethod], address: Address, states: List[String])
 
 <form action="@routes.CheckoutController.handleShippingAddress" method="post" id="shipping-form">
     <div class="col2-set">
@@ -43,6 +43,19 @@
                             <input type="text" name="city" id="shipping-city" class="input-text" placeholder="City" value="@address.getCity" required>
                         </div>
                     </li>
+                    @if(!states.isEmpty) {
+                        <li class="clearfix">
+                            <label class="required" for="shipping-state"><em>*</em>State</label>
+                            <div class="input-box">
+                                <select name="state" id="shipping-state">
+                                    <option value="">Other</option>
+                                    @for(state <- states) {
+                                        <option value="@state">@state</option>
+                                    }
+                                </select>
+                            </div>
+                        </li>
+                    }
                     <li>
                         <label class="required" for="shipping-postalCode"><em>*</em>Postal code</label>
                         <div class="input-box">
