@@ -21,7 +21,7 @@
             <button class="price_add" title="" type="submit">
                 <span class="pr_price">@printMoney(data.context, finalPrice(price.get))</span>
                 @if(originalPrice(price.get).isPresent) {
-                    <!--small>printMoney(data.context, originalPrice(price.get).get)</small-->
+                    <!--small class="discount">printMoney(data.context, originalPrice(price.get).get)</small-->
                 }
                 <span class="pr_add">@Messages("button.cart")</span>
             </button>

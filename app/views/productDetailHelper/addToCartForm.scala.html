@@ -8,7 +8,7 @@
     <div class="pr_price">
         <big>@printMoney(data.context, finalPrice(price.get))</big>
         @if(originalPrice(price.get).isPresent) {
-            <small>@printMoney(data.context, originalPrice(price.get).get)</small>
+            <small class="discount">@printMoney(data.context, originalPrice(price.get).get)</small>
         }
     </div>
 

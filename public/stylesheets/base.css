@@ -470,4 +470,4 @@ ul.primary_nav > li > a, .minicart span, h1, h2, h3, h4, h5, .product_info, .pri
 .product_leftcol{ width:360px; float:left;}
 .action_buttonbar form {display:inline-block;}
 .action_buttonbar form:last-child {float:right;}
-small {text-decoration:line-through;color:#a29b95;display:block;}
+small.discount {text-decoration:line-through;color:#a29b95;display:block;}
