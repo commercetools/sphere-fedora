@@ -60,6 +60,21 @@ public class ShopVariant {
         }
     }
 
+    public Optional<Money> getDiscountedPrice(UserContext context) {
+        final Optional<Price> price = getPrice(context);
+        if (price.isPresent()) {
+            final Optional<DiscountedPrice> discounted = price.get().getDiscounted();
+            if (discounted.isPresent()) {
+                return Optional.of(discounted.get().getValue());
+            }
+        }
+        return Optional.absent();
+    }
+
+    public boolean isDiscounted(UserContext context) {
+        return getDiscountedPrice(context).isPresent();
+    }
+
     public Optional<TaxRate> getTaxRate(CountryCode country) {
         if (taxCategory.isExpanded()) {
             for (TaxRate rate : taxCategory.get().getRates()) {

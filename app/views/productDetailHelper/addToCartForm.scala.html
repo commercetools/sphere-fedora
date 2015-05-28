@@ -6,7 +6,12 @@
     <input type="hidden" name="productId" value="@product.getId"/>
     <input type="hidden" name="variantId" value="@product.getSelectedVariant.getId"/>
     <div class="pr_price">
-        <big>@printMoney(data.context, priceAmount.get)</big> <small></small>
+        @if(product.getSelectedVariant.isDiscounted(data.context)) {
+            <big>@printMoney(data.context, product.getSelectedVariant.getDiscountedPrice(data.context).get)</big>
+            <small>@printMoney(data.context, priceAmount.get)</small>
+        } else {
+            <big>@printMoney(data.context, priceAmount.get)</big>
+        }
     </div>
 
     @productDetailHelper.attributeSelectorsBlock(data, product)
