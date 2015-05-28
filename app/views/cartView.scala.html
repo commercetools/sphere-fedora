@@ -41,7 +41,12 @@
                   }
               </td>
               <td class="align_center"></td>
-              <td class="align_center vline"><span class="price">@printMoney(data.context, item.getPrice.getValue)</span></td>
+              <td class="align_center vline">
+                  @if(originalPrice(item.getPrice).isPresent) {
+                      <small>@printMoney(data.context, originalPrice(item.getPrice).get)</small>
+                  }
+                  <span class="price">@printMoney(data.context, finalPrice(item.getPrice))</span>
+              </td>
               <td class="align_center vline">
                   <form action="@routes.CartController.update" method="post">
                     <input type="hidden" name="lineItemId" value="@item.getId"/>
@@ -49,7 +54,9 @@
                     <button type="submit">change</button>
                   </form>
               </td>
-              <td class="align_center vline"><span class="price">@printMoney(data.context, item.getTotalPrice)</span></td>
+              <td class="align_center vline">
+                <span class="price">@printMoney(data.context, item.getTotalPrice)</span>
+              </td>
               <td class="align_center vline"><a href="@routes.CartController.remove(item.getId)" class="remove"></a></td>
             </tr>
             }

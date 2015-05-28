@@ -2,12 +2,39 @@ package utils;
 
 import com.google.common.base.Optional;
 import io.sphere.client.model.Money;
+import io.sphere.client.shop.model.Price;
 import io.sphere.client.shop.model.TaxRate;
 import models.ShopCustomer;
 
 public final class PriceUtils {
 
     private PriceUtils() {
+    }
+
+    /**
+     * Gets the original price amount in case it is discounted.
+     * @param price the price to get the money amount from.
+     * @return the original price, or absent if the price is not discounted.
+     */
+    public static Optional<Money> originalPrice(Price price) {
+        if (price.getDiscounted().isPresent()) {
+            return Optional.of(price.getValue());
+        } else {
+            return Optional.absent();
+        }
+    }
+
+    /**
+     * Gets the final price amount, with the discount applied, if any.
+     * @param price the price to get the money amount from.
+     * @return the discounted price, or the regular amount if it is not discounted.
+     */
+    public static Money finalPrice(Price price) {
+        if (price.getDiscounted().isPresent()) {
+            return price.getDiscounted().get().getValue();
+        } else {
+            return price.getValue();
+        }
     }
 
     /**

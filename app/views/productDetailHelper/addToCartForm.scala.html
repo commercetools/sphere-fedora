@@ -1,16 +1,14 @@
 @(data: CommonData, product: ShopProduct)
 
-@defining(product.getSelectedVariant.getPriceAmount(data.context)){ priceAmount =>
-@if(priceAmount.isPresent){
+@defining(product.getSelectedVariant.getPrice(data.context)){ price =>
+@if(price.isPresent){
 <form action="@routes.CartController.add" method="post">
     <input type="hidden" name="productId" value="@product.getId"/>
     <input type="hidden" name="variantId" value="@product.getSelectedVariant.getId"/>
     <div class="pr_price">
-        @if(product.getSelectedVariant.isDiscounted(data.context)) {
-            <big>@printMoney(data.context, product.getSelectedVariant.getDiscountedPrice(data.context).get)</big>
-            <small>@printMoney(data.context, priceAmount.get)</small>
-        } else {
-            <big>@printMoney(data.context, priceAmount.get)</big>
+        <big>@printMoney(data.context, finalPrice(price.get))</big>
+        @if(originalPrice(price.get).isPresent) {
+            <small>@printMoney(data.context, originalPrice(price.get).get)</small>
         }
     </div>
 

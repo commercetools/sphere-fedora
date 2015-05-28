@@ -10,8 +10,8 @@
         <h3><a href="@data.productRoute(product, data.currentCategory)">@product.getName(data.context.locale)</a></h3>
         <small class="description">@Html(product.getDescription(data.context.locale))</small>
     </div>
-    @defining(product.getSelectedVariant.getPriceAmount(data.context)){ priceAmount =>
-    @if(priceAmount.isPresent){
+    @defining(product.getSelectedVariant.getPrice(data.context)){ price =>
+    @if(price.isPresent){
     <div class="price_info">
         <!--a href="#">+ @Messages("button.wishlist")</a-->
         <form action="@routes.CartController.add" method="post">
@@ -19,11 +19,9 @@
             <input type="hidden" name="variantId" value="@product.getSelectedVariant.getId"/>
             <input type="hidden" name="quantity" value="1"/>
             <button class="price_add" title="" type="submit">
-                @if(product.getSelectedVariant.isDiscounted(data.context)) {
-                    <span class="pr_price">@printMoney(data.context, product.getSelectedVariant.getDiscountedPrice(data.context).get)</span>
-                    <!--small>printMoney(data.context, priceAmount.get)</small-->
-                } else {
-                    <span class="pr_price">@printMoney(data.context, priceAmount.get)</span>
+                <span class="pr_price">@printMoney(data.context, finalPrice(price.get))</span>
+                @if(originalPrice(price.get).isPresent) {
+                    <!--small>printMoney(data.context, originalPrice(price.get).get)</small-->
                 }
                 <span class="pr_add">@Messages("button.cart")</span>
             </button>

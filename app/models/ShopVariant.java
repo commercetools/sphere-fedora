@@ -44,37 +44,6 @@ public class ShopVariant {
         return Optional.fromNullable(price);
     }
 
-    public Optional<Money> getPriceAmount(UserContext context) {
-        Optional<Price> price = getPrice(context);
-        if (price.isPresent()) {
-            Optional<TaxRate> taxRate = getTaxRate(context.country());
-            Money money;
-            if (taxRate.isPresent()) {
-                money = customerPrice(price.get().getValue(), taxRate.get(), context.customer());
-            } else {
-                money = price.get().getValue();
-            }
-            return Optional.of(money);
-        } else {
-            return Optional.absent();
-        }
-    }
-
-    public Optional<Money> getDiscountedPrice(UserContext context) {
-        final Optional<Price> price = getPrice(context);
-        if (price.isPresent()) {
-            final Optional<DiscountedPrice> discounted = price.get().getDiscounted();
-            if (discounted.isPresent()) {
-                return Optional.of(discounted.get().getValue());
-            }
-        }
-        return Optional.absent();
-    }
-
-    public boolean isDiscounted(UserContext context) {
-        return getDiscountedPrice(context).isPresent();
-    }
-
     public Optional<TaxRate> getTaxRate(CountryCode country) {
         if (taxCategory.isExpanded()) {
             for (TaxRate rate : taxCategory.get().getRates()) {

@@ -24,6 +24,7 @@ lessEntryPoints := baseDirectory.value / "app" / "assets" / "stylesheets" * "*.l
 templatesImport ++= Seq(
   "utils.ViewHelper._",
   "utils.PrintUtils._",
+  "utils.PriceUtils._",
   "forms._",
   "io.sphere.client.model._",
   "io.sphere.client.filters._",
