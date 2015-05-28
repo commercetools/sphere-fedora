@@ -19,7 +19,12 @@
             <input type="hidden" name="variantId" value="@product.getSelectedVariant.getId"/>
             <input type="hidden" name="quantity" value="1"/>
             <button class="price_add" title="" type="submit">
-                <span class="pr_price">@printMoney(data.context, priceAmount.get)</span>
+                @if(product.getSelectedVariant.isDiscounted(data.context)) {
+                    <span class="pr_price">@printMoney(data.context, product.getSelectedVariant.getDiscountedPrice(data.context).get)</span>
+                    <!--small>printMoney(data.context, priceAmount.get)</small-->
+                } else {
+                    <span class="pr_price">@printMoney(data.context, priceAmount.get)</span>
+                }
                 <span class="pr_add">@Messages("button.cart")</span>
             </button>
         </form>
