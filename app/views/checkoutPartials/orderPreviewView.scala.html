@@ -1,4 +1,4 @@
-@(cart: Cart, cartSnapshot: String)
+@(data: CommonData, cart: ShopCart, cartSnapshot: String)
 
 <form action="@routes.CheckoutController.submit" method="post" id="checkout-form">
     <input type="hidden" name="cartSnapshot" value="@cartSnapshot">
@@ -24,9 +24,21 @@
                         }
                     </td>
                     <td class="align_center"></td>
-                    <td class="align_center vline"><span class="price">@item.getPrice.getValue</span></td>
+                    <td class="align_center vline">
+                        @if(item.getPrice.getDiscounted.isPresent) {
+                            <small class="discount">@printMoney(data.context, item.getUnitPriceBeforeDiscount)</small>
+                        }
+                        <span class="price">@printMoney(data.context, item.getUnitPrice)</span>
+                    </td>
                     <td class="align_center vline">@item.getQuantity</td>
-                    <td class="align_center vline"><span class="price">@item.getTotalPrice</span></td>
+                    <td class="align_center vline">
+                        @if(item.getDiscountedPrice.isPresent) {
+                            <small class="discount">@printMoney(data.context, item.getTotalPrice)</small>
+                            <span class="price">@printMoney(data.context, item.getDiscountedPrice.get.getValue)</span>
+                        }else {
+                            <span class="price">@printMoney(data.context, item.getTotalPrice)</span>
+                        }
+                    </td>
                 </tr>
             }
         </table>
@@ -37,19 +49,19 @@
         <div class="col-1">
             <h3>Shipping information</h3>
             <fieldset>
-                @if(isSet(cart.getShippingInfo)) {
-                    <b>@cart.getShippingInfo.getShippingMethodName</b>
+                @if(cart.getShippingInfo.isPresent) {
+                    <b>@cart.getShippingMethodName</b>
                 }
                 @defining(cart.getShippingAddress){ address =>
-                    @if(isSet(address)) {
+                    @if(address.isPresent) {
                         <ul class="form-list">
                             <li class="control">
-                                @address.getFirstName @address.getLastName<br>
-                            @address.getEmail
+                                @address.get.getFirstName @address.get.getLastName<br>
+                            @address.get.getEmail
                             </li>
                             <li class="control">
-                                @address.getStreetName @address.getStreetNumber<br>
-                                @address.getPostalCode (@address.getCity)
+                                @address.get.getStreetName @address.get.getStreetNumber<br>
+                                @address.get.getPostalCode (@address.get.getCity)
                             </li>
                         </ul>
                     }
@@ -60,14 +72,14 @@
             <h3>Billing information</h3>
             <fieldset>
             @defining(cart.getBillingAddress){ address =>
-                @if(isSet(address)) {
+                @if(address.isPresent) {
                     <ul class="form-list">
                         <li class="control">
-                            @address.getFirstName @address.getLastName<br>
+                            @address.get.getFirstName @address.get.getLastName<br>
                         </li>
                         <li class="control">
-                            @address.getStreetName @address.getStreetNumber<br>
-                            @address.getPostalCode (@address.getCity)
+                            @address.get.getStreetName @address.get.getStreetNumber<br>
+                            @address.get.getPostalCode (@address.get.getCity)
                         </li>
                     </ul>
                 }
@@ -80,25 +92,25 @@
             <table id="totals-table">
                 <tr>
                     <td width="60%" colspan="1" class="align_left" ><strong>Subtotal</strong></td>
-                    <td class="align_right" style=""><strong><span class="price">@cart.getTotalPrice</span></strong></td>
+                    <td class="align_right" style=""><strong><span class="price">@printMoney(data.context, cart.getTotalPrice)</span></strong></td>
                 </tr>
-                @if(isSet(cart.getTaxedPrice)){
+                @if(cart.getTaxedPrice.isPresent){
                     <tr>
-                    @for(taxPortion <- cart.getTaxedPrice.getTaxPortions) {
+                    @for(taxPortion <- cart.getTaxedPrice.get.getTaxPortions) {
                         <td width="60%" colspan="1" class="align_left">Tax @percentage(taxPortion.getRate)%</td>
                         <td class="align_right" style=""><span class="">@taxPortion.getAmount</span></td>
                     }
                     </tr>
                 }
-                @if(isSet(cart.getShippingInfo)) {
+                @if(cart.getShippingInfo.isPresent) {
                     <tr>
                         <td width="60%" colspan="1" class="align_left" >Shipping cost</td>
-                        <td class="align_right" style=""><span class="price">@cart.getShippingInfo.getPrice</span></td>
+                        <td class="align_right" style=""><span class="price">@printMoney(data.context, cart.getShippingInfo.get.getPrice)</span></td>
                     </tr>
                 }
                 <tr>
                     <td width="60%" colspan="1" class="align_left total" >Grand Total</td>
-                    <td class="align_right" style=""><span class="total">@getTotalPrice(cart)</span></td>
+                    <td class="align_right" style=""><span class="total">@printMoney(data.context, cart.getTotalPrice)</span></td>
                 </tr>
             </table>
         </div>

@@ -1,4 +1,4 @@
-@(data: CommonData, cart: Cart, cartSnapshot: String, shippingAddress: Address, billingAddress: Address, states: List[String], shippingMethods: List[ShippingMethod], paymentMethod: String, paymillPublicKey: String, step: Int = 1)
+@(data: CommonData, cart: ShopCart, cartSnapshot: String, shippingAddress: Address, billingAddress: Address, states: List[String], shippingMethods: List[ShippingMethod], paymentMethod: String, paymillPublicKey: String, step: Int = 1)
 
 @import checkoutPartials._
 
@@ -35,7 +35,7 @@
 
                         <div class="step-body" id="checkout-step-shipping">
                         @if(step == 2){
-                            @shippingInformationView(cart, shippingMethods, shippingAddress, states)
+                            @shippingInformationView(cart.get, shippingMethods, shippingAddress, states)
                         }
                         </div>
                     </li>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="step-body" id="checkout-step-billing">
                         @if(step == 3){
-                            @billingInformationView(cart, paymentMethod, billingAddress, states)
+                            @billingInformationView(cart.get, paymentMethod, billingAddress, states)
                         }
                         </div>
                     </li>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="step-body" id="checkout-step-submit">
                         @if(step == 4){
-                            @orderPreviewView(cart, cartSnapshot)
+                            @orderPreviewView(data, cart, cartSnapshot)
                         }
                         </div>
                     </li>

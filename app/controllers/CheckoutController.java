@@ -157,7 +157,7 @@ public class CheckoutController extends BaseController {
                 final String cartSnapshot = cartService().createSnapshot();
                 final Address shippingAddress = getShippingAddress(cart, customer);
                 final Address billingAddress = getBillingAddress(cart, customer);
-                return checkoutView.render(data().build(), cart.get(), cartSnapshot, shippingAddress, billingAddress, availableStates(), shippingMethods, paymentMethod, paymillPublicKey(), page);
+                return checkoutView.render(data().build(), cart, cartSnapshot, shippingAddress, billingAddress, availableStates(), shippingMethods, paymentMethod, paymillPublicKey(), page);
             }
         });
     }
