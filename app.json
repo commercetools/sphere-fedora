@@ -19,6 +19,46 @@
       "description": "The clientSecret of your SPHERE.IO project.",
       "value": "AO_nEVb77TSSI_95rpgLv6a1TXRY5Zpm",
       "required": true
+    },
+    "PAYMILL_PRIVATE_KEY": {
+      "description": "The privateKey of your PayMill account.",
+      "value": "",
+      "required": false
+    },
+    "PAYMILL_PUBLIC_KEY": {
+      "description": "The publicKey of your PayMill account.",
+      "value": "",
+      "required": false
+    },
+    "PROJECT_LANGS": {
+      "description": "The languages you want to support in your frontend.",
+      "value": "en-US,de-DE,zh-CN",
+      "required": true
+    },
+    "PROJECT_DEFAULT_LOCALE": {
+      "description": "The language which is by default selected in your frontend.",
+      "value": "en",
+      "required": true
+    },
+    "PROJECT_COUNTRIES": {
+      "description": "The countries you want to support in your frontend.",
+      "value": "DE,CN,US",
+      "required": true
+    },
+    "PROJECT_CURRENCIES": {
+      "description": "The currencies you want to support in your frontend.",
+      "value": "EUR,USD",
+      "required": true
+    },
+    "PROJECT_CURRENCY_DEFAULT": {
+      "description": "The currency which is by default selected in your frontend.",
+      "value": "EUR",
+      "required": true
+    },
+    "PROJECT_SELECTABLE_ATTRIBUTES": {
+      "description": "The attributes you want to use to distinguish variants.",
+      "value": "color,size",
+      "required": false
     }
   }
 }
