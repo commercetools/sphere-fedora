@@ -6,7 +6,7 @@ SPHERE.IO - Fedora
 This is a fully functional example web store for the [SPHERE.IO](http://sphere.io) PaaS.
 
 :warning: This template is built based on the [SPHERE Play SDK](https://github.com/commercetools/sphere-play-sdk) that is now DEPRECATED! :warning:   
-If you are looking for a template built using the new [SPHERE JVM SDK](https://github.com/sphereio/sphere-jvm-sdk) please have a look at [Sunrise](https://github.com/spherio/sphere-sunrise) instead.
+If you are looking for a template built using the new [SPHERE JVM SDK](https://github.com/sphereio/sphere-jvm-sdk) please have a look at [Sunrise](https://github.com/sphereio/sphere-sunrise) instead.
 
 ## Live demo
 Visit a live demo of SPHERE.io fedora store at [fedora.sphere.io](http://fedora.sphere.io/).
