@@ -1,6 +1,7 @@
 @(data: CommonData, product: ShopProduct)
 
 @import utils.PrintUtils.printMoney
+@import utils.PrintUtils.stripHtml
 
 <li class="product-item">
     <a href="@data.productRoute(product, data.currentCategory)" class="product_image">
@@ -8,7 +9,7 @@
     </a>
     <div class="product_info">
         <h3><a href="@data.productRoute(product, data.currentCategory)">@product.getName(data.context.locale)</a></h3>
-        <small class="description">@Html(product.getDescription(data.context.locale))</small>
+        <small class="description">@stripHtml(product.getDescription(data.context.locale))</small>
     </div>
     @defining(product.getSelectedVariant.getPrice(data.context)){ price =>
     @if(price.isPresent){

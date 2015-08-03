@@ -3,6 +3,7 @@ package utils;
 import io.sphere.client.model.Money;
 import models.UserContext;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
 import play.i18n.Messages;
 
 import java.math.BigDecimal;
@@ -53,6 +54,11 @@ public final class PrintUtils {
     public static String abbreviate(String text, int maxWidth) {
         if (text == null) return "";
         return StringUtils.abbreviate(text, maxWidth);
+    }
+
+    public static String stripHtml(final String text) {
+        if (text == null) return "";
+        return Jsoup.parse(text).text();
     }
 
     public static BigDecimal percentage(double amount) {
