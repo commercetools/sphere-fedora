@@ -3,10 +3,11 @@ SPHERE.IO - Fedora
 
 [![Build Status](https://travis-ci.org/commercetools/sphere-fedora.png)](https://travis-ci.org/commercetools/sphere-fedora)
 
-This is a fully functional example web store for the [SPHERE.IO](http://sphere.io) PaaS.
+:no_entry_sign: _**This shop template is deprecated!**_
 
-:warning: This template is built based on the [SPHERE Play SDK](https://github.com/commercetools/sphere-play-sdk) that is now DEPRECATED! :warning:   
-If you are looking for a template built using the new [SPHERE JVM SDK](https://github.com/sphereio/sphere-jvm-sdk) please have a look at [Sunrise](https://github.com/sphereio/sphere-sunrise) instead.
+_This shop template is no longer maintained nor up to date, built on the deprecated  [SPHERE Play SDK](https://github.com/commercetools/sphere-play-sdk). Please use [Sunrise](https://github.com/sphereio/sphere-sunrise) instead, the shop template for the new [SPHERE JVM SDK](https://github.com/sphereio/sphere-jvm-sdk).
+
+This is a fully functional example web store for the [SPHERE.IO](http://sphere.io) PaaS.
 
 ## Live demo
 Visit a live demo of SPHERE.io fedora store at [fedora.sphere.io](http://fedora.sphere.io/).
