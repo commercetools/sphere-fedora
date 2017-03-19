@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
   javaCore,
   javaJdbc,
   "com.google.inject" % "guice" % "3.0",
-  "io.sphere" %% "sphere-play-sdk" % "0.71.0" withSources(),
+  "io.sphere" %% "sphere-play-sdk" % "0.72.1" withSources(),
   "javax.mail" % "mail" % "1.4.7",
   "org.jsoup" % "jsoup" % "1.7.1",
   "de.paymill" % "paymill-java" % "2.6",
