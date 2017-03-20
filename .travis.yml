@@ -9,7 +9,5 @@ notifications:
 deploy:
   provider: heroku
   api_key:
-    secure: DSWUE9ZOssHgmUZmzD4fJOgmNaGOs9TB1zEP4q3PgnsO5e8QUqzvq5vOonBFwSNe87nRnv/n/I/1UWsJ/naDTiWuxY1GYiObX2Z9t540pXpx4jVvtJRza3JESt0mUUZ4XGASz4ChA3m+DkaF2UpPW30kRkccCUFf7gK1rW+hGZ4=
+    secure: G02Jwa/WUam1GPla98bmPyCFM35wM5sISkukn+3IE0TxOJu00+SmyubN/rOrIsHCbQR+7NrPhofgNrz9fsxqOfxJafiVmpvbMG4zp4L7ud0utc2R/Od/bzWWGFv7BplHHKBDsCp3matRPJ1Egc5wdPrkOQzp4E2kzJvR6zeCzRY=
   app: sphere-fedora-new
-  on:
-    repo: commercetools/sphere-fedora
