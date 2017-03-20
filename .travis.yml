@@ -1,7 +1,7 @@
 language: scala
 scala:
 - 2.10.0
-script: "sbt test"
+script: sbt test
 notifications:
   email:
     on_success: never
@@ -9,7 +9,7 @@ notifications:
 deploy:
   provider: heroku
   api_key:
-    secure: HgnvPUHPq7CdXBZBgKtWVsuoMlG9uZs5RzPjzQcHHDBIhNqhqebFpjrG269mv14zGcCWjIsyAOWEgxeNZSq66BvDpPi92HyKySCUqZjZlVf9cVimKRA/7vW1QzfCPNInJVkV+VeGuQSjPKJs6F8I+5pOTz46EiibT9NRH418Vbo=
+    secure: DSWUE9ZOssHgmUZmzD4fJOgmNaGOs9TB1zEP4q3PgnsO5e8QUqzvq5vOonBFwSNe87nRnv/n/I/1UWsJ/naDTiWuxY1GYiObX2Z9t540pXpx4jVvtJRza3JESt0mUUZ4XGASz4ChA3m+DkaF2UpPW30kRkccCUFf7gK1rW+hGZ4=
   app: sphere-fedora-new
   on:
     repo: commercetools/sphere-fedora
