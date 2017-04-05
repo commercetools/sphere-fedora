@@ -2,7 +2,7 @@ SPHERE.IO - Fedora
 =====================
 
 [![Build Status](https://travis-ci.org/commercetools/sphere-fedora.svg?branch=master)](https://travis-ci.org/commercetools/sphere-fedora)
-[![Heroku](http://heroku-badge.herokuapp.com/?app=ct-fedora-prod&style=flat&svg=1)](https://ct-fedora-prod.herokuapp.com/)
+[![Heroku](http://heroku-badge.herokuapp.com/?app=ct-fedora-prod&style=flat&svg=1)](http://ct-fedora-prod.herokuapp.com/)
 
 :no_entry_sign: _**This shop template is deprecated!**_
 
