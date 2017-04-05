@@ -61,3 +61,4 @@ To run this SPHERE.IO example web shop on [heroku](https://www.heroku.com) just 
 ### Special info: Eclipse
 
 [Eclipse](https://www.eclipse.org/) has no native support of Scala/Play applications. If you plan to use Eclipse, please use this prepackaged version which include Scala support: [Scala-IDE](http://scala-ide.org)
+
