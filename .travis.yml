@@ -6,8 +6,3 @@ notifications:
   email:
     on_success: never
     on_failure: change
-deploy:
-  provider: heroku
-  api_key:
-    secure: G02Jwa/WUam1GPla98bmPyCFM35wM5sISkukn+3IE0TxOJu00+SmyubN/rOrIsHCbQR+7NrPhofgNrz9fsxqOfxJafiVmpvbMG4zp4L7ud0utc2R/Od/bzWWGFv7BplHHKBDsCp3matRPJ1Egc5wdPrkOQzp4E2kzJvR6zeCzRY=
-  app: sphere-fedora-new
